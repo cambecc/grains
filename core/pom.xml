@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~~ grains core
+  ~~
+  ~~ @author Cameron Beccario
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.nullschool</groupId>
+        <artifactId>master</artifactId>
+        <version>0.9.0-SNAPSHOT</version>
+        <relativePath>../master/pom.xml</relativePath>
+    </parent>
+
+    <groupId>net.nullschool</groupId>
+    <artifactId>grains-core</artifactId>
+    <version>0.9.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>core</name>
+    <description>Grains Core</description>
+    <url>https://github.com/cambecc/grains</url>
+
+    <licenses>
+        <license>
+            <name/>
+            <url/>
+            <distribution/>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>cambecc</id>
+            <name>Cameron Beccario</name>
+            <email>cambecc@nullschool.net</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:cambecc/grains.git</connection>
+        <developerConnection>scm:git:git@github.com:cambecc/grains.git</developerConnection>
+        <url>https://github.com/cambecc/grains.git</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
