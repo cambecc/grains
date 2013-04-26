@@ -10,7 +10,7 @@ import java.util.*;
  * <a href="http://en.wikipedia.org/wiki/Persistent_data_structures">Wikipedia</a>.<p/> A ConstMap instance
  * is guaranteed to never visibly change. New associations can be created or removed using the {@link #with},
  * {@link #without}, and related methods, which allocate a new instance if necessary while leaving the original
- * instance unchanged.
+ * instance unchanged.<p/>
  *
  * Because a ConstMap is effectively immutable, the {@link #put}, {@link #putAll}, {@link #remove}, and
  * {@link #clear} methods inherited from {@link Map} always throw {@link UnsupportedOperationException}. They
@@ -28,7 +28,7 @@ public interface ConstMap<K, V> extends IterableMap<K, V> {
 
     /**
      * Returns a ConstMap containing the associations of this map plus the specified key-value association.
-     * No visible change to this map occurs. In this way, the <i>with</i> method may be considered a factory
+     * No visible change to this map occurs. In this way, the {@code with} method may be considered a factory
      * method for creating new instances of ConstMap.<p/>
      *
      * If this map already contains the desired association, i.e., if the resulting map R would otherwise
@@ -46,7 +46,7 @@ public interface ConstMap<K, V> extends IterableMap<K, V> {
 
     /**
      * Returns a ConstMap containing the associations of this map plus all the associations of the specified
-     * map. No visible change in this map occurs. In this way, the <i>withAll</i> method may be considered a
+     * map. No visible change in this map occurs. In this way, the {@code withAll} method may be considered a
      * factory method for creating new instances of ConstMap.<p/>
      *
      * The effect of this call is equivalent to invoking {@link #with} for each entry in the specified map. If
@@ -66,7 +66,7 @@ public interface ConstMap<K, V> extends IterableMap<K, V> {
 
     /**
      * Returns a ConstMap containing the associations of this map minus the mapping for the specified key.
-     * No visible change to this map occurs. In this way, the <i>without</i> method may be considered a factory
+     * No visible change to this map occurs. In this way, the {@code without} method may be considered a factory
      * method for creating new instances of ConstMap.<p/>
      *
      * If this map does not contain the specified key, i.e., if the resulting map R would otherwise
@@ -81,7 +81,7 @@ public interface ConstMap<K, V> extends IterableMap<K, V> {
 
     /**
      * Returns a ConstMap containing the associations of this map minus all the mappings for the specified
-     * keys. No visible change in this map occurs. In this way, the <i>withoutAll</i> method may be considered a
+     * keys. No visible change in this map occurs. In this way, the {@code withoutAll} method may be considered a
      * factory method for creating new instances of ConstMap.<p/>
      *
      * The effect of this call is equivalent to invoking {@link #without} for each key in the specified
@@ -104,7 +104,7 @@ public interface ConstMap<K, V> extends IterableMap<K, V> {
      *
      * @return this map's keys as a persistent set.
      */
-    ConstSet<K> keySet();
+    @Override ConstSet<K> keySet();
 
     /**
      * Returns a {@link ConstCollection} containing this map's values. Because it is persistent, the value
@@ -114,7 +114,7 @@ public interface ConstMap<K, V> extends IterableMap<K, V> {
      *
      * @return this map's values as a persistent collection.
      */
-    ConstCollection<V> values();
+    @Override ConstCollection<V> values();
 
     /**
      * Returns a {@link ConstSet} containing this map's entries. Because it is persistent, the entry set should
@@ -123,7 +123,7 @@ public interface ConstMap<K, V> extends IterableMap<K, V> {
      *
      * @return this map's entries as a persistent set.
      */
-    ConstSet<Entry<K, V>> entrySet();
+    @Override ConstSet<Entry<K, V>> entrySet();
 
     // =================================================================================================================
     // Mutation methods marked @Deprecated to signify they should not be invoked.
