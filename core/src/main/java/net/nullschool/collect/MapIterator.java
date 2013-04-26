@@ -6,10 +6,16 @@ import java.util.*;
 /**
  * 2013-02-12<p/>
  *
- * An iterator that iterates over the key-value associations of an {@link IterableMap} without requiring each
- * mapping to be represented as a {@link Map.Entry} object. This is suitable for {@link Map} implementations
- * which cannot efficiently represent their key-value associations as a set of {@link Map.Entry} instances (see
- * {@link Map#entrySet}).
+ * An iterator that iterates over the entries of a map while providing direct access to each entry's key and value.
+ * This iterator is suitable for maps that do not use {@link Map.Entry} objects as part of their internal
+ * representation. By providing direct access to the keys and values, developers can use this iterator to avoid
+ * unnecessary creation of {@link Map.Entry} objects that would otherwise conventionally occur when iterating over
+ * those maps' {@link Map#entrySet entrySets}.<p/>
+ *
+ * Native support for this iterator is provided by maps that implement {@link IterableMap}. For convenience,
+ * MapIterator instances can be adapted on top of standard maps using {@link IteratorTools#newMapIterator}. Although
+ * they provide no performance benefit, these MapIterator adapters can simplify code that needs to operate generally
+ * on both standard maps and IterableMap instances.
  *
  * @param <K> the key type
  * @param <V> the value type

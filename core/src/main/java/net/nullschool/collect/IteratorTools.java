@@ -1,146 +1,163 @@
 package net.nullschool.collect;
 
 import java.util.*;
-
+import java.util.Map.Entry;
 
 /**
  * 2013-02-14<p/>
+ *
+ * A set of utilities for working with iterators.
  *
  * @author Cameron Beccario
  */
 public enum IteratorTools {;
 
+    /**
+     * A MapIterator that has no iterations.
+     */
     private static final class EmptyMapIterator<K, V> implements MapIterator<K, V> {
         private static final EmptyMapIterator INSTANCE = new EmptyMapIterator();
 
-        public boolean hasNext() { return false; }
-        public K next() { throw new NoSuchElementException(); }
-        public V value() { throw new IllegalStateException(); }
-        public Map.Entry<K, V> entry() { throw new IllegalStateException(); }
-        public void remove() { throw new IllegalStateException(); }
+        @Override public boolean hasNext() { return false; }
+        @Override public K next() { throw new NoSuchElementException(); }
+        @Override public V value() { throw new IllegalStateException(); }
+        @Override public Entry<K, V> entry() { throw new IllegalStateException(); }
+        @Override public void remove() { throw new IllegalStateException(); }
     }
 
+    /**
+     * Returns a MapIterator that has no elements.
+     *
+     * @param <K> the key type.
+     * @param <V> the value type.
+     * @return an empty MapIterator.
+     */
     @SuppressWarnings("unchecked")
     public static <K, V> MapIterator<K, V> emptyMapIterator() {
-        return EmptyMapIterator.INSTANCE;
+        // Immutable singleton instance can be safely casted to any desired type arguments.
+        return (MapIterator<K, V>)EmptyMapIterator.INSTANCE;
     }
 
-    public static <K, V> MapIterator<K, V> mapIterator(Map<K, V> map) {
+    /**
+     * Converts an iterator of map entries (such as those from the {@link Map#entrySet() entrySet} of a map)
+     * into an iterator having MapIterator behavior.
+     */
+    private static final class MapIteratorAdapter<K, V> implements MapIterator<K, V> {
+
+        private final Iterator<Entry<K, V>> inner;
+        private volatile Entry<K, V> current;
+
+        private MapIteratorAdapter(Iterator<Entry<K, V>> inner) {
+            this.inner = inner;
+        }
+
+        private Entry<K, V> getCurrent() {
+            if (current != null) {
+                return current;
+            }
+            throw new IllegalStateException();
+        }
+
+        @Override public boolean hasNext() { return inner.hasNext(); }
+        @Override public K next() { return (current = inner.next()).getKey(); }
+        @Override public V value() { return getCurrent().getValue(); }
+        @Override public Entry<K, V> entry() { return getCurrent(); }
+        @Override public void remove() {
+            inner.remove();
+            current = null;
+        }
+    }
+
+    /**
+     * Returns a new iterator over the specified map as a {@link MapIterator}. If the map is an {@link IterableMap},
+     * then this method invokes {@link IterableMap#iterator()}, otherwise an adaptor on top of an iterator from the
+     * map's {@link Map#entrySet() entrySet} is returned. If the map is empty, {@link #emptyMapIterator()} is returned.
+     *
+     * @param map the map for which to construct a new MapIterator.
+     * @param <K> the key type.
+     * @param <V> the value type.
+     * @return a new MapIterator for the map.
+     * @throws NullPointerException if map is null.
+     */
+    public static <K, V> MapIterator<K, V> newMapIterator(Map<K, V> map) {
         if (map.isEmpty()) {
             return emptyMapIterator();
         }
         return map instanceof IterableMap ?
             ((IterableMap<K, V>)map).iterator() :
-            asMapIterator(map.entrySet().iterator());
+            new MapIteratorAdapter<>(map.entrySet().iterator());
     }
 
-    public static <K, V, E extends Map.Entry<K, V>> MapIterator<K, V> asMapIterator(final Iterator<E> iterator) {
-        // UNDONE: null propagation?
-        return new MapIterator<K, V>() {
-            private E current;
-
-            @Override
-            public boolean hasNext() {
-                return iterator.hasNext();
-            }
-
-            @Override
-            public K next() {
-                return (current = iterator.next()).getKey();
-            }
-
-            @Override
-            public V value() {
-                if (current == null) {
-                    throw new IllegalStateException();
-                }
-                return current.getValue();  // UNDONE: should the result of value() be undefined if called before next()?
-            }
-
-            @Override
-            public E entry() {
-                if (current == null) {
-                    throw new IllegalStateException();
-                }
-                return current;  // UNDONE: wrap??
-                                 // UNDONE: should the result of value() be undefined if called before next()?
-            }
-
-            @Override
-            public void remove() {
-                if (current == null) {
-                    throw new IllegalStateException();
-                }
-                iterator.remove();
-                current = null;
-            }
-        };
-    }
-
+    /**
+     * Chains two MapIterator instances into one iteration.
+     */
     private static final class DualMapIterator<K, V> implements MapIterator<K, V> {
 
-        private MapIterator<K, V> current;
-        private MapIterator<K, V> next;
+        // The iterator currently being used.
+        private MapIterator<K, V> currentIterator;
+        // The next iterator in the chain, or null if the end of the chain is reached.
+        private MapIterator<K, V> nextIterator;
 
-        private DualMapIterator(MapIterator<K, V> i0, MapIterator<K, V> i1) {
-            this.current = i0;
-            this.next = i1;
+        private DualMapIterator(MapIterator<K, V> first, MapIterator<K, V> second) {
+            this.currentIterator = first;
+            this.nextIterator = second;
         }
 
-        public boolean hasNext() {
+        @Override public boolean hasNext() {
             do {
-                if (current.hasNext()) {
+                if (currentIterator.hasNext()) {
                     return true;
                 }
-                if (next == null) {
-                    return false;
+                // Current iterator is done. Advance to the next iterator and try again.
+                if (nextIterator == null) {
+                    return false;  // End of the chain reached.
                 }
-                // Advance to the next iterator and try again.
-                current = next;
-                next = null;
+                currentIterator = nextIterator;
+                nextIterator = null;
             } while (true);
         }
 
-        public K next() {
+        @Override public K next() {
             do {
                 try {
-                    return current.next();
+                    return currentIterator.next();
                 }
                 catch (NoSuchElementException e) {
-                    if (next == null) {
-                        throw e;
+                    // Someone called next() without calling hasNext(). Not best practice usage, but need to handle it.
+                    // Current iterator is done. Advance to the next iterator and try again.
+                    if (nextIterator == null) {
+                        throw e;  // End of the chain reached. Rethrow the exception thrown by the current iterator.
                     }
+                    currentIterator = nextIterator;
+                    nextIterator = null;
                 }
-                // Advance to the next iterator and try again.
-                current = next;
-                next = null;
             } while (true);
         }
 
-        public V value() {
-            return current.value();
-        }
-
-        public Map.Entry<K, V> entry() {
-            return current.entry();
-        }
-
-        public void remove() {
-            current.remove();
-        }
+        @Override public V value() { return currentIterator.value(); }
+        @Override public Map.Entry<K, V> entry() { return currentIterator.entry(); }
+        @Override public void remove() { currentIterator.remove(); }
     }
 
-    private static <K, V> MapIterator<K, V> chainMapIterator(MapIterator<K, V> i0, MapIterator<K, V> i1) {
-        if (i1 == EmptyMapIterator.INSTANCE && i0 != null) {
-            return i0;
+    /**
+     * Chains two MapIterator instances into one iteration. The resulting iterator iterates over all elements
+     * from the first iterator, then successively iterates over all elements from the second iterator.
+     *
+     * @param first the first iterator.
+     * @param second the second iterator.
+     * @param <K> the key type.
+     * @param <V> the value type.
+     * @return an iterator that combines two separate iterators into one.
+     * @throws NullPointerException if either argument is null.
+     */
+    public static <K, V> MapIterator<K, V> chainMapIterators(MapIterator<K, V> first, MapIterator<K, V> second) {
+        if (first == null || second == null) {
+            throw new NullPointerException();
         }
-        if (i0 == EmptyMapIterator.INSTANCE && i1 != null) {
-            return i1;
-        }
-        return new DualMapIterator<>(i0, i1);
-    }
-
-    public static <K, V> MapIterator<K, V> chainMapIterator(MapIterator<K, V> i0, Map<K, V> map) {
-        return chainMapIterator(i0, mapIterator(map));
+        return second == EmptyMapIterator.INSTANCE ?
+            first :
+            first == EmptyMapIterator.INSTANCE ?
+                second :
+                new DualMapIterator<>(first, second);
     }
 }

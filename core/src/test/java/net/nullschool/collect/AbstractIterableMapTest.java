@@ -26,7 +26,7 @@ public class AbstractIterableMapTest {
 
         @Override public int size() { return inner.size(); }
         @Override public V put(K key, V value) { return inner.put(key, value); }
-        @Override public MapIterator<K, V> iterator() { return asMapIterator(inner.entrySet().iterator()); }
+        @Override public MapIterator<K, V> iterator() { return newMapIterator(inner); }
     }
 
     // =================================================================================================================

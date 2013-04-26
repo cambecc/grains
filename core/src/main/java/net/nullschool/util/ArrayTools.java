@@ -107,6 +107,7 @@ public enum ArrayTools {;
      */
     public static <T> int indexOf(T element, T[] array, Comparator<? super T> comparator) {
         if (comparator == null) {
+            // Cast to Comparable<T> is safe because compareTo method will do type checking.
             @SuppressWarnings("unchecked") Comparable<T> comparableElement = (Comparable<T>)element;
             for (int i = 0; i < array.length; i++) {
                 if (comparableElement.compareTo(array[i]) == 0) {
@@ -147,6 +148,7 @@ public enum ArrayTools {;
     public static <T> int indexOf(T element, T[] array, int fromIndex, int toIndex, Comparator<? super T> comparator) {
         checkRange(fromIndex, toIndex, array.length);
         if (comparator == null) {
+            // Cast to Comparable<T> is safe because compareTo method will do type checking.
             @SuppressWarnings("unchecked") Comparable<T> comparableElement = (Comparable<T>)element;
             for (int i = fromIndex; i < toIndex; i++) {
                 if (comparableElement.compareTo(array[i]) == 0) {

@@ -34,6 +34,7 @@ public enum ObjectTools {;
      */
     public static <T> int compare(T left, T right, Comparator<? super T> comparator) {
         if (comparator == null) {
+            // Cast to Comparable<T> is safe because compareTo method will do type checking.
             @SuppressWarnings("unchecked") Comparable<T> leftComparable = (Comparable<T>)left;
             return leftComparable.compareTo(right);
         }

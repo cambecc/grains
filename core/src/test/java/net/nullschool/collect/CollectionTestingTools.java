@@ -2,7 +2,6 @@ package net.nullschool.collect;
 
 import java.util.*;
 
-import static net.nullschool.collect.MapTools.linkedHashMapOf;
 import static org.junit.Assert.*;
 
 
@@ -520,7 +519,7 @@ public enum CollectionTestingTools {;
     }
 
     public static <K, V> void putAll(Map<K, V> expected, Map<K, V> actual, K k0, V v0, K k1, V v1) {
-        Map<K, V> map = Collections.unmodifiableMap(linkedHashMapOf(k0, v0, k1, v1));
+        Map<K, V> map = Collections.unmodifiableMap(CollectionTestingTools.<K, V>asMap(k0, v0, k1, v1));
         expected.putAll(map);
         actual.putAll(map);
     }
