@@ -13,6 +13,7 @@ import static java.lang.Math.*;
 public enum MapTools {;
 
     private static int goodInitialCapacity(int size) {
+        // Just like what the HashMap(Map) constructor does...
         return max((int)(size / 0.75d) + 1, 16);
     }
 
