@@ -37,6 +37,17 @@ public class BasicList1Test {
     }
 
     @Test
+    public void test_with_index() {
+        compare_lists(Arrays.asList(2, 1), new BasicList1<>(1).with(0, 2));
+        compare_lists(Arrays.asList(1, 2), new BasicList1<>(1).with(1, 2));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_with_index_out_of_bounds() {
+        new BasicList1<>(1).with(2, 1);
+    }
+
+    @Test
     public void test_withAll() {
         ConstList<Integer> list = new BasicList1<>(1);
         compare_lists(Arrays.asList(1, 1, 2, 3), list.withAll(Arrays.asList(1, 2, 3)));
@@ -49,11 +60,49 @@ public class BasicList1Test {
     }
 
     @Test
+    public void test_withAll_index() {
+        ConstList<Integer> list = new BasicList1<>(0);
+        compare_lists(Arrays.asList(1, 2, 3, 0), list.withAll(0, Arrays.asList(1, 2, 3)));
+        compare_lists(Arrays.asList(0, 1, 2, 3), list.withAll(1, Arrays.asList(1, 2, 3)));
+        assertSame(list, list.withAll(0, Collections.<Integer>emptyList()));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_withAll_index_out_of_bounds() {
+        new BasicList1<>(1).withAll(2, Collections.<Integer>emptyList());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void test_withAll_index_throws() {
+        new BasicList1<>(1).withAll(0, null);
+    }
+
+    @Test
+    public void test_replace() {
+        compare_lists(Collections.singletonList(9), new BasicList1<>(1).replace(0, 9));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_replace_out_of_bounds() {
+        new BasicList1<>(1).replace(1, 1);
+    }
+
+    @Test
     public void test_without() {
         ConstList<Integer> list = new BasicList1<>(1);
         assertSame(BasicList0.instance(), list.without(1));
         assertSame(list, list.without(2));
         assertSame(list, list.without(null));
+    }
+
+    @Test
+    public void test_delete() {
+        compare_lists(Collections.emptyList(), new BasicList1<>(1).delete(0));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_delete_out_of_bounds() {
+        new BasicList1<>(1).delete(1);
     }
 
     @Test

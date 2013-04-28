@@ -18,11 +18,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
-public final class BasicConstMap {
-
-    private BasicConstMap() {
-        throw new AssertionError();
-    }
+public enum BasicConstMap {;
 
     public static <K, V> ConstMap<K, V> of() {
         return BasicMap0.instance();

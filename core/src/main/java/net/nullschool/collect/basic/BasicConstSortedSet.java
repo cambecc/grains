@@ -16,11 +16,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
-public final class BasicConstSortedSet {
-
-    private BasicConstSortedSet() {
-        throw new AssertionError();
-    }
+public enum BasicConstSortedSet {;
 
     public static <E> ConstSortedSet<E> of(Comparator<? super E> comparator) {
         return BasicSortedSet0.instance(comparator);

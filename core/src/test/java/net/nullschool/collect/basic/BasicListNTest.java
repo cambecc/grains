@@ -43,6 +43,24 @@ public class BasicListNTest {
     }
 
     @Test
+    public void test_with_index() {
+        compare_lists(
+            Arrays.asList(7, 1, 2, 3, 4, 5, 6),
+            new BasicListN<Integer>(new Object[] {1, 2, 3, 4, 5, 6}).with(0, 7));
+        compare_lists(
+            Arrays.asList(1, 2, 3, 7, 4, 5, 6),
+            new BasicListN<Integer>(new Object[] {1, 2, 3, 4, 5, 6}).with(3, 7));
+        compare_lists(
+            Arrays.asList(1, 2, 3, 4, 5, 6, 7),
+            new BasicListN<Integer>(new Object[] {1, 2, 3, 4, 5, 6}).with(6, 7));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_with_index_out_of_bounds() {
+        new BasicListN<Integer>(new Object[] {1, 2, 3, 4, 5, 6}).with(7, 7);
+    }
+
+    @Test
     public void test_withAll() {
         ConstList<Integer> list = new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6});
         compare_lists(Arrays.asList(1, 2, 3, 4, 5, 6, 1, 2, 3), list.withAll(Arrays.asList(1, 2, 3)));
@@ -55,12 +73,57 @@ public class BasicListNTest {
     }
 
     @Test
+    public void test_withAll_index() {
+        ConstList<Integer> list = new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6});
+        compare_lists(Arrays.asList(1, 2, 3, 1, 2, 3, 4, 5, 6), list.withAll(0, Arrays.asList(1, 2, 3)));
+        compare_lists(Arrays.asList(1, 2, 3, 4, 1, 2, 3, 5, 6), list.withAll(4, Arrays.asList(1, 2, 3)));
+        compare_lists(Arrays.asList(1, 2, 3, 4, 5, 6, 1, 2, 3), list.withAll(6, Arrays.asList(1, 2, 3)));
+        assertSame(list, list.withAll(0, Collections.<Integer>emptyList()));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_withAll_index_out_of_bounds() {
+        new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6}).withAll(7, Collections.<Integer>emptyList());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void test_withAll_index_throws() {
+        new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6}).withAll(0, null);
+    }
+
+    @Test
+    public void test_replace() {
+        ConstList<Integer> list = new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6});
+        compare_lists(Arrays.asList(9, 2, 3, 4, 5, 6), list.replace(0, 9));
+        compare_lists(Arrays.asList(1, 2, 3, 9, 5, 6), list.replace(3, 9));
+        compare_lists(Arrays.asList(1, 2, 3, 4, 5, 9), list.replace(5, 9));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_replace_out_of_bounds() {
+        new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6}).replace(6, 9);
+    }
+
+    @Test
     public void test_without() {
         ConstList<Integer> list = new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6, 1});
         compare_lists(Arrays.asList(2, 3, 4, 5, 6, 1), list.without(1));
         compare_lists(Arrays.asList(1, 3, 4, 5, 6, 1), list.without(2));
         assertSame(list, list.without(7));
         assertSame(list, list.without(null));
+    }
+
+    @Test
+    public void test_delete() {
+        ConstList<Integer> list = new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6});
+        compare_lists(Arrays.asList(2, 3, 4, 5, 6), list.delete(0));
+        compare_lists(Arrays.asList(1, 2, 3, 5, 6), list.delete(3));
+        compare_lists(Arrays.asList(1, 2, 3, 4, 5), list.delete(5));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_delete_out_of_bounds() {
+        new BasicListN<>(new Object[] {1, 2, 3, 4, 5, 6}).delete(6);
     }
 
     @Test

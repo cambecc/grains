@@ -35,6 +35,16 @@ public class BasicList0Test {
     }
 
     @Test
+    public void test_with_index() {
+        compare_lists(Collections.singletonList(1), BasicList0.instance().with(0, 1));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_with_index_out_of_bounds() {
+        BasicList0.instance().with(1, 1);
+    }
+
+    @Test
     public void test_withAll() {
         ConstList<Integer> empty = BasicList0.instance();
         compare_lists(Arrays.asList(1, 2, 3), empty.withAll(Arrays.asList(1, 2, 3)));
@@ -47,9 +57,36 @@ public class BasicList0Test {
     }
 
     @Test
+    public void test_withAll_index() {
+        ConstList<Integer> empty = BasicList0.instance();
+        compare_lists(Arrays.asList(1, 2, 3), empty.withAll(0, Arrays.asList(1, 2, 3)));
+        assertSame(empty, empty.withAll(0, Collections.<Integer>emptyList()));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_withAll_index_out_of_bounds() {
+        BasicList0.instance().withAll(1, Collections.<Integer>emptyList());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void test_withAll_index_throws() {
+        BasicList0.instance().withAll(0, null);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_replace_out_of_bounds() {
+        BasicList0.instance().replace(0, 1);
+    }
+
+    @Test
     public void test_without() {
         assertSame(BasicList0.instance(), BasicList0.instance().without(1));
         assertSame(BasicList0.instance(), BasicList0.instance().without(null));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_delete_out_of_bounds() {
+        BasicList0.instance().delete(0);
     }
 
     @Test

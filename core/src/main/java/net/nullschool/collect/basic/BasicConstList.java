@@ -14,11 +14,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
-public final class BasicConstList {
-
-    private BasicConstList() {
-        throw new AssertionError();
-    }
+public enum BasicConstList {;
 
     public static <E> ConstList<E> of() {
         return BasicList0.instance();

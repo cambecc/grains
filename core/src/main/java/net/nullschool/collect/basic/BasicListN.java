@@ -75,7 +75,10 @@ final class BasicListN<E> extends AbstractBasicConstList<E> {
     }
 
     @Override public ConstList<E> withAll(int index, Collection<? extends E> c) {
-        return c.isEmpty() ? this : new BasicListN<E>(insertAll(elements, index, c));
+        if (0 <= index && index <= elements.length) {
+            return c.isEmpty() ? this : new BasicListN<E>(insertAll(elements, index, c));
+        }
+        throw new IndexOutOfBoundsException();
     }
 
     @Override public ConstList<E> replace(int index, E e) {

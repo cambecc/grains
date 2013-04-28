@@ -70,7 +70,10 @@ final class BasicList1<E> extends AbstractBasicConstList<E> {
     }
 
     @Override public ConstList<E> withAll(int index, Collection<? extends E> c) {
-        return c.isEmpty() ? this : BasicConstList.<E>condense(insertAll(new Object[] {e0}, index, c));
+        if (0 <= index && index <= 1) {
+            return c.isEmpty() ? this : BasicConstList.<E>condense(insertAll(new Object[] {e0}, index, c));
+        }
+        throw new IndexOutOfBoundsException();
     }
 
     @Override public ConstList<E> replace(int index, E e) {
