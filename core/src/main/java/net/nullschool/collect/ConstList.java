@@ -107,7 +107,7 @@ public interface ConstList<E> extends List<E>, ConstCollection<E> {
      * @throws NullPointerException if the element is null and either this or the resulting list does not allow null
      *                              elements.
      * @throws IllegalArgumentException if some property of the element is not suitable for this or the resulting list.
-     * @throws IndexOutOfBoundsException if index is less than zero or greater than the size of this list.
+     * @throws IndexOutOfBoundsException if index is less than zero or greater than or equal to the size of this list.
      */
     ConstList<E> replace(int index, E e);
 
@@ -136,7 +136,7 @@ public interface ConstList<E> extends List<E>, ConstCollection<E> {
      * @throws NullPointerException if the element is null and this list does not allow null elements.
      * @throws IndexOutOfBoundsException if index is less than zero or greater than or equal to the size of this list.
      */
-    ConstList<E> without(int index);
+    ConstList<E> delete(int index);
 
     /**
      * Returns a ConstList containing the elements of this list minus all the elements of the specified collection.
@@ -210,7 +210,7 @@ public interface ConstList<E> extends List<E>, ConstCollection<E> {
 
     /**
      * This method throws {@link UnsupportedOperationException}.
-     * @deprecated see {@link #without(int)}
+     * @deprecated see {@link #delete(int)}
      */
     @Deprecated @Override E remove(int index);
 

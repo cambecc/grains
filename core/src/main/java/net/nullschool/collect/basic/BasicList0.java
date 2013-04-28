@@ -1,0 +1,135 @@
+package net.nullschool.collect.basic;
+
+import net.nullschool.collect.ConstList;
+import net.nullschool.util.ArrayTools;
+
+import java.util.*;
+
+
+/**
+ * 2013-03-15<p/>
+ *
+ * @author Cameron Beccario
+ */
+final class BasicList0<E> extends AbstractBasicConstList<E> {
+
+    private static final BasicList0 INSTANCE = new BasicList0();
+
+    @SuppressWarnings("unchecked")
+    static <E> BasicList0<E> instance() {
+        return INSTANCE;
+    }
+
+    private BasicList0() {
+    }
+
+    @Override public int size() {
+        return 0;
+    }
+
+    @Override public boolean isEmpty() {
+        return true;
+    }
+
+    @Override public Iterator<E> iterator() {
+        return Collections.emptyIterator();
+    }
+
+    @Override public ListIterator<E> listIterator() {
+        return Collections.emptyListIterator();
+    }
+
+    @Override public ListIterator<E> listIterator(int index) {
+        if (index != 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        return Collections.emptyListIterator();
+    }
+
+    @Override public boolean contains(Object o) {
+        return false;
+    }
+
+    @Override public boolean containsAll(Collection<?> c) {
+        return c.isEmpty();
+    }
+
+    @Override public int indexOf(Object o) {
+        return -1;
+    }
+
+    @Override public int lastIndexOf(Object o) {
+        return -1;
+    }
+
+    @Override public E get(int index) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override public Object[] toArray() {
+        return ArrayTools.EMPTY_OBJECT_ARRAY;
+    }
+
+    @Override public <T> T[] toArray(T[] a) {
+        if (a.length > 0) {
+            a[0] = null;
+        }
+        return a;
+    }
+
+    @Override public ConstList<E> with(E e) {
+        return BasicConstList.of(e);
+    }
+
+    @Override public ConstList<E> with(int index, E e) {
+        if (index == 0) {
+            return with(e);
+        }
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override public ConstList<E> withAll(Collection<? extends E> c) {
+        return BasicConstList.build(c);
+    }
+
+    @Override public ConstList<E> withAll(int index, Collection<? extends E> c) {
+        if (index == 0) {
+            return withAll(c);
+        }
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override public ConstList<E> replace(int index, E e) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override public ConstList<E> without(Object o) {
+        return this;
+    }
+
+    @Override public ConstList<E> delete(int index) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override public ConstList<E> withoutAll(Collection<?> c) {
+        Objects.requireNonNull(c);
+        return this;
+    }
+
+    @Override public ConstList<E> subList(int fromIndex, int toIndex) {
+        ArrayTools.checkRange(fromIndex, toIndex, 0);
+        return this;
+    }
+
+    @Override public boolean equals(Object that) {
+        return this == that || that instanceof List && ((List<?>)that).isEmpty();
+    }
+
+    @Override public int hashCode() {
+        return 1;
+    }
+
+    @Override public String toString() {
+        return "[]";
+    }
+}

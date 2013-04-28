@@ -1,0 +1,105 @@
+package net.nullschool.collect.basic;
+
+import net.nullschool.collect.*;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
+
+import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicConstMap.*;
+
+/**
+ * 2013-03-17<p/>
+ *
+ * @author Cameron Beccario
+ */
+final class BasicMap1<K, V> extends AbstractBasicConstMap<K, V> {
+
+    private final K k0;
+    private final V v0;
+
+    @SuppressWarnings("unchecked")
+    BasicMap1(Object k0, Object v0) {
+        this.k0 = (K)k0;
+        this.v0 = (V)v0;
+    }
+
+    @Override public int size() {
+        return 1;
+    }
+
+    @Override public boolean isEmpty() {
+        return false;
+    }
+
+    @Override public boolean containsKey(Object key) {
+        return Objects.equals(key, k0);
+    }
+
+    @Override public boolean containsValue(Object value) {
+        return Objects.equals(value, v0);
+    }
+
+    @Override K getKey(int index) {
+        if (index == 0) {
+            return k0;
+        }
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override V getValue(int index) {
+        if (index == 0) {
+            return v0;
+        }
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override public V get(Object key) {
+        return Objects.equals(key, k0) ? v0 : null;
+    }
+
+    @Override public ConstSet<K> keySet() {
+        return BasicConstSet.of(k0);
+    }
+
+    @Override public ConstCollection<V> values() {
+        return BasicConstList.of(v0);
+    }
+
+    @Override public ConstSet<Entry<K, V>> entrySet() {
+        MapIterator<K, V> iter = iterator();
+        iter.next();
+        return BasicConstSet.of(iter.entry());
+    }
+
+    @Override public ConstMap<K, V> with(K key, V value) {
+        if (Objects.equals(key, k0)) {
+            if (Objects.equals(value, v0)) {
+                return this;
+            }
+            return new BasicMap1<>(k0, value);
+        }
+        return new BasicMapN<>(new Object[] {k0, key}, new Object[] {v0, value});
+    }
+
+    @Override public ConstMap<K, V> withAll(Map<? extends K, ? extends V> map) {
+        if (map.isEmpty()) {
+            return this;
+        }
+        MapColumns mc = copy(map);
+        return condense(unionInto(new Object[] {k0}, new Object[] {v0}, mc.keys, mc.values));
+    }
+
+    @Override public ConstMap<K, V> without(Object key) {
+        return !containsKey(key) ? this : BasicConstMap.<K, V>of();
+    }
+
+    @Override public ConstMap<K, V> withoutAll(Collection<?> keys) {
+        return !keys.contains(k0) ? this : BasicConstMap.<K, V>of();
+    }
+
+    @Override public int hashCode() {
+        return AbstractEntry.hashCode(k0, v0);
+    }
+}
