@@ -78,7 +78,7 @@ final class BasicList0<E> extends AbstractBasicConstList<E> {
     }
 
     @Override public ConstList<E> with(E e) {
-        return BasicConstList.of(e);
+        return BasicConstList.listOf(e);
     }
 
     @Override public ConstList<E> with(int index, E e) {
@@ -89,7 +89,7 @@ final class BasicList0<E> extends AbstractBasicConstList<E> {
     }
 
     @Override public ConstList<E> withAll(Collection<? extends E> c) {
-        return BasicConstList.build(c);
+        return BasicConstList.asList(c);
     }
 
     @Override public ConstList<E> withAll(int index, Collection<? extends E> c) {

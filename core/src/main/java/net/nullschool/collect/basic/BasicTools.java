@@ -73,6 +73,21 @@ enum BasicTools {;
     }
 
     /**
+     * Copies the elements of the specified iterator into a new array having component type Object.
+     *
+     * @param original the iterator to iterate.
+     * @return all the elements of the specified iterator in a new Object[] instance.
+     * @throws NullPointerException if the iterator is null.
+     */
+    static Object[] copy(Iterator<?> original) {
+        List<Object> elements = new ArrayList<>();
+        while (original.hasNext()) {
+            elements.add(original.next());
+        }
+        return elements.toArray();
+    }
+
+    /**
      * Copies the specified map into an array of keys and an array of values, represented as a MapColumns
      * object. The ith index of the arrays represents entry {@code {ki, vi}} from the original map, and the
      * array component types are both Object.
@@ -102,8 +117,8 @@ enum BasicTools {;
         }
 
         // The iterator has more iterations than expected. Just dump everything into lists and call toArray.
-        List<Object> allKeys = new ArrayList<>(expectedSize + 10);
-        List<Object> allValues = new ArrayList<>(expectedSize + 10);
+        List<Object> allKeys = new ArrayList<>(expectedSize + 8);
+        List<Object> allValues = new ArrayList<>(expectedSize + 8);
         Collections.addAll(allKeys, keys);
         Collections.addAll(allValues, values);
         do {

@@ -54,13 +54,13 @@ final class BasicList1<E> extends AbstractBasicConstList<E> {
     }
 
     @Override public ConstList<E> with(E e) {
-        return BasicConstList.of(e0, e);
+        return BasicConstList.listOf(e0, e);
     }
 
     @Override public ConstList<E> with(int index, E e) {
         switch (index) {
-            case 0: return BasicConstList.of(e, e0);
-            case 1: return BasicConstList.of(e0, e);
+            case 0: return BasicConstList.listOf(e, e0);
+            case 1: return BasicConstList.listOf(e0, e);
         }
         throw new IndexOutOfBoundsException();
     }
@@ -78,30 +78,30 @@ final class BasicList1<E> extends AbstractBasicConstList<E> {
 
     @Override public ConstList<E> replace(int index, E e) {
         if (index == 0) {
-            return BasicConstList.of(e);
+            return BasicConstList.listOf(e);
         }
         throw new IndexOutOfBoundsException();
     }
 
     @Override public ConstList<E> without(Object o) {
-        return !contains(o) ? this : BasicConstList.<E>of();
+        return !contains(o) ? this : BasicConstList.<E>emptyList();
     }
 
     @Override public ConstList<E> delete(int index) {
         if (index == 0) {
-            return BasicConstList.of();
+            return BasicConstList.emptyList();
         }
         throw new IndexOutOfBoundsException();
     }
 
     @Override public ConstList<E> withoutAll(Collection<?> c) {
-        return !c.contains(e0) ? this : BasicConstList.<E>of();
+        return !c.contains(e0) ? this : BasicConstList.<E>emptyList();
     }
 
     @Override public ConstList<E> subList(int fromIndex, int toIndex) {
         ArrayTools.checkRange(fromIndex, toIndex, 1);
         // three possibilities: [0, 0), [0, 1), [1, 1)
-        return fromIndex != toIndex ? this : BasicConstList.<E>of();
+        return fromIndex != toIndex ? this : BasicConstList.<E>emptyList();
     }
 
     private boolean equals(List<?> that) {

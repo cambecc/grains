@@ -80,6 +80,25 @@ public class BasicToolsTest {
     }
 
     @Test
+    public void test_copy_iterator() {
+        final int[] items = new int[] {1, 2, 3};
+        Iterator<Integer> iter = new Iterator<Integer>() {
+            int i = 0;
+            @Override public boolean hasNext() { return i < items.length; }
+            @Override public Integer next() { return items[i++]; }
+            @Override public void remove() { throw new UnsupportedOperationException(); }
+        };
+        Object[] result = copy(iter);
+        assertArrayEquals(new Object[] {1, 2, 3}, result);
+        assertEquals(Object[].class, result.getClass());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void test_copy_iterator_null() {
+        copy((Iterator<?>)null);
+    }
+
+    @Test
     public void test_copy_map() {
         Map<?, ?> map = asMap("a", 1, "b", 2, "c", 3);
         MapColumns mc;

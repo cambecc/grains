@@ -59,7 +59,7 @@ final class BasicMap0<K, V> extends AbstractBasicConstMap<K, V> {
     }
 
     @Override public ConstCollection<V> values() {
-        return BasicConstList.of();
+        return BasicConstList.emptyList();
     }
 
     @Override public ConstSet<Entry<K, V>> entrySet() {

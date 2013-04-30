@@ -76,7 +76,7 @@ final class BasicSortedMap1<K, V> extends AbstractBasicConstSortedMap<K, V> {
     }
 
     @Override public ConstCollection<V> values() {
-        return BasicConstList.of(v0);
+        return BasicConstList.listOf(v0);
     }
 
     @Override public ConstSet<Entry<K, V>> entrySet() {
