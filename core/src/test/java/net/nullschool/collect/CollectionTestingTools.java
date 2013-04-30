@@ -27,6 +27,15 @@ public enum CollectionTestingTools {;
         return iter.next();
     }
 
+    private static <K> K nth(Map<K, ?> m, int n) {
+        MapIterator<K, ?> iter = IteratorTools.newMapIterator(m);
+        int i = 0;
+        while (i++ < n) {
+            iter.next();
+        }
+        return iter.next();
+    }
+
     @SafeVarargs
     public static <T> Set<T> asSet(T... a) {
         return new LinkedHashSet<>(Arrays.asList(a));
@@ -46,6 +55,16 @@ public enum CollectionTestingTools {;
             map.put((K)keysAndValues[i], (V)keysAndValues[i + 1]);
         }
         return map;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <K, V> SortedMap<K, V> asSortedMap(Comparator<? super K> comparator, Object... keysAndValues) {
+        TreeMap<K, V> map = new TreeMap<>(comparator);
+        for (int i = 0; i < keysAndValues.length; i += 2) {
+            map.put((K)keysAndValues[i], (V)keysAndValues[i + 1]);
+        }
+        return map;
+
     }
 
     public static <K, V> Map.Entry<K, V> asEntry(K key, V value) {
@@ -141,6 +160,18 @@ public enum CollectionTestingTools {;
             assert_collection_immutable(values);
         }
         assert_set_immutable(m.entrySet());
+    }
+
+    public static <K, V> void assert_sorted_map_immutable(SortedMap<K, V> m) {
+        assert_map_immutable(m);
+        if (!m.isEmpty()) {
+            assert_sorted_map_immutable(m.headMap(m.lastKey()));
+        }
+        if (m.size() > 1) {
+            K from = nth(m, 1);
+            assert_sorted_map_immutable(m.tailMap(from));
+            assert_sorted_map_immutable(m.subMap(from, m.lastKey()));
+        }
     }
 
     // =================================================================================================================
@@ -438,6 +469,84 @@ public enum CollectionTestingTools {;
         Map.Entry entry = asEntry(new Object(), new Object());
         try { assertFalse(expected.entrySet().contains(entry)); } catch (ClassCastException ignored) {}
         try { assertFalse(actual.entrySet().contains(entry));   } catch (ClassCastException ignored) {}
+    }
+
+    @SafeVarargs
+    private static <K, V> void compare_ranges(SortedMap<K, V> expected, SortedMap<K, V> actual, K... rangePoints) {
+        // Iterate over points [P0, ..., Pn]. Compare all sub maps described by each pair [Pi-1, Pi].
+        // For good measure, also compare head and tail maps for each point Pi.
+
+        for (int i = 0; i < rangePoints.length; i++) {
+            K point = rangePoints[i];
+            compare_sorted_maps(expected.headMap(point), actual.headMap(point));
+            compare_sorted_maps(expected.tailMap(point), actual.tailMap(point));
+
+            if (i > 0) {
+                K previous = rangePoints[i - 1];
+
+                SortedMap<K, V> expectedSubMap = null;
+                SortedMap<K, V> actualSubMap = null;
+                Exception expectedException = null;
+                Exception actualException = null;
+
+                // Construct sub maps from the current point and the previous point. These points might be
+                // inverted as part of the test. In this case, we expect construction of the sub maps to both
+                // throw the same exception.
+
+                try {
+                    expectedSubMap = expected.subMap(previous, point);
+                }
+                catch (IllegalArgumentException e) {
+                    expectedException = e;
+                }
+                try {
+                    actualSubMap = actual.subMap(previous, point);
+                }
+                catch (IllegalArgumentException e) {
+                    actualException = e;
+                }
+
+                if (expectedException != null) {
+                    assertNotNull(actualException);
+                }
+                else {
+                    compare_sorted_maps(expectedSubMap, actualSubMap);
+                }
+            }
+        }
+    }
+
+    @SafeVarargs
+    public static <XK, XV, K, V> void compare_sorted_maps(
+        SortedMap<XK, XV> expectedMap,
+        SortedMap<K, V> actual,
+        K... rangePoints) {
+
+        @SuppressWarnings("unchecked") SortedMap<K, V> expected = (SortedMap<K, V>)expectedMap;
+        compare_maps(expected, actual);
+        assertEquals(expected.comparator(), actual.comparator());
+
+        if (expected.isEmpty()) {
+            try { expected.firstKey(); fail(); } catch (NoSuchElementException ignored) {}
+            try { actual.firstKey();   fail(); } catch (NoSuchElementException ignored) {}
+            try { expected.lastKey();  fail(); } catch (NoSuchElementException ignored) {}
+            try { actual.lastKey();    fail(); } catch (NoSuchElementException ignored) {}
+        }
+        else {
+            assertEquals(expected.firstKey(), actual.firstKey());
+            assertEquals(expected.lastKey(), actual.lastKey());
+
+            // Compare the head maps of everything up to but not including the last item.
+            compare_sorted_maps(expected.headMap(expected.lastKey()), actual.headMap(actual.lastKey()));
+
+            if (expected.size() > 1) {
+                // Compare the tail maps of everything from the second item onwards.
+                K from = nth(expected, 1);
+                compare_sorted_maps(expected.tailMap(from), actual.tailMap(from));
+            }
+        }
+
+        compare_ranges(expected, actual, rangePoints);
     }
 
     // =================================================================================================================

@@ -131,14 +131,13 @@ public interface ConstSortedMap<K, V> extends SortedMap<K, V>, ConstMap<K, V> {
     @Override ConstCollection<V> values();
 
     /**
-     * Returns a {@link ConstSortedSet} containing this map's entries. Because it is persistent, the entry set should
-     * not be considered a "view" of this map. For example, invocations of this set's {@link ConstSortedSet#with}
-     * method have no effect on this map and result in a {@link ConstSortedSet} instance that is effectively
-     * independent.
+     * Returns a {@link ConstSet} containing this map's entries. Because it is persistent, the entry set should
+     * not be considered a "view" of this map. For example, invocations of this set's {@link ConstSet#with}
+     * method have no effect on this map and result in a {@link ConstSet} instance that is effectively independent.
      *
-     * @return this map's entries as a persistent sorted set.
+     * @return this map's entries as a persistent set.
      */
-    @Override ConstSortedSet<Entry<K, V>> entrySet();
+    @Override ConstSet<Entry<K, V>> entrySet();
 
     // =================================================================================================================
     // Mutation methods marked @Deprecated to signify they should not be invoked.

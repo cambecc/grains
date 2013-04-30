@@ -136,15 +136,15 @@ public class BasicMapNTest {
     public void test_non_equality() {
         assertFalse(
             new BasicMapN<>(new Object[] {"a", "b", "c"}, new Object[] {1, 2, 3})
-                .equals(asMap("a", "b", "c", 1, 2, 4)));
+                .equals(asMap("a", 1, "b", 2, "c", 4)));
         assertFalse(
             new BasicMapN<>(new Object[] {"a", "b", "x"}, new Object[] {1, 2, 3})
-                .equals(asMap("a", "b", "c", 1, 2, 3)));
+                .equals(asMap("a", 1, "b", 2, "c", 3)));
         assertFalse(
-            asMap("a", "b", "c", 1, 2, 4)
+            asMap("a", 1, "b", 2, "c", 4)
                 .equals(new BasicMapN<>(new Object[] {"a", "b", "c"}, new Object[] {1, 2, 3})));
         assertFalse(
-            asMap("a", "b", "c", 1, 2, 3)
+            asMap("a", 1, "b", 2, "c", 3)
                 .equals(new BasicMapN<>(new Object[] {"a", "b", "x"}, new Object[] {1, 2, 3})));
     }
 
