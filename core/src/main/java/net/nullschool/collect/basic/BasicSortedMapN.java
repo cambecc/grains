@@ -4,8 +4,9 @@ import net.nullschool.collect.*;
 import net.nullschool.util.ArrayTools;
 
 import java.util.*;
+
+import static net.nullschool.collect.basic.BasicConstSortedMap.condense;
 import static net.nullschool.collect.basic.BasicTools.*;
-import static net.nullschool.collect.basic.BasicConstSortedMap.*;
 
 
 /**

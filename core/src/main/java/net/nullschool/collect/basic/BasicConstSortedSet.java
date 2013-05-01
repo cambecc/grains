@@ -6,7 +6,7 @@ import net.nullschool.util.ObjectTools;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
-import static net.nullschool.util.ArrayTools.*;
+import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
 
 /**
  * 2013-03-18<p/>
@@ -154,7 +154,7 @@ public enum BasicConstSortedSet {;
     }
 
     /**
-     * Converts the specified sorted set into a ConstSortedSet having the same ordering as the specified set.
+     * Converts the specified sorted set into a ConstSortedSet with the same elements and ordering.
      *
      * @param set the sorted set.
      * @return a persistent sorted set containing the exact elements and ordering of the specified set.
@@ -225,19 +225,5 @@ public enum BasicConstSortedSet {;
             case 1: return new BasicSortedSet1<>(comparator, trustedElements[0]);
             default: return new BasicSortedSetN<>(comparator, trustedElements);
         }
-    }
-
-    /**
-     * Ensures the specified element is of a type compatible with the provided comparator.
-     *
-     * @param comparator the comparator.
-     * @param element the element to check.
-     * @return the element.
-     * @throws NullPointerException if element is null and the comparator is null or does not support null values.
-     * @throws ClassCastException if the element is of a type not compatible for comparison.
-     */
-    static <E> E checkType(Comparator<? super E> comparator, E element) {
-        ObjectTools.compare(element, element, comparator);
-        return element;
     }
 }

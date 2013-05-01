@@ -4,11 +4,12 @@ package net.nullschool.collect.basic;
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.util.ArrayTools;
+import net.nullschool.util.ObjectTools;
 
 import java.util.*;
 
 import static java.lang.Math.min;
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 /**
  * 2013-03-15<p/>
@@ -453,5 +454,19 @@ enum BasicTools {;
      */
     static int flip(int i) {
         return -1 - i;
+    }
+
+    /**
+     * Ensures the specified object is of a type compatible with the provided comparator.
+     *
+     * @param comparator the comparator.
+     * @param item the item to check.
+     * @return the item.
+     * @throws NullPointerException if item is null and the comparator is null or does not support null values.
+     * @throws ClassCastException if the item is of a type not compatible for comparison.
+     */
+    static <T> T checkType(Comparator<? super T> comparator, T item) {
+        ObjectTools.compare(item, item, comparator);
+        return item;
     }
 }

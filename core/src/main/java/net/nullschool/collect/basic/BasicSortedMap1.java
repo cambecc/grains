@@ -2,13 +2,10 @@ package net.nullschool.collect.basic;
 
 import net.nullschool.collect.*;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
+import static net.nullschool.collect.basic.BasicConstSortedMap.condense;
 import static net.nullschool.collect.basic.BasicTools.*;
-import static net.nullschool.collect.basic.BasicConstSortedMap.*;
 
 /**
  * 2013-04-29<p/>
@@ -107,21 +104,21 @@ final class BasicSortedMap1<K, V> extends AbstractBasicConstSortedMap<K, V> {
     }
 
     @Override public ConstSortedMap<K, V> without(Object key) {
-        return !containsKey(key) ? this : BasicConstSortedMap.<K, V>of(comparator);
+        return !containsKey(key) ? this : BasicConstSortedMap.<K, V>emptySortedMap(comparator);
     }
 
     @Override public ConstSortedMap<K, V> withoutAll(Collection<?> keys) {
         // Just like AbstractCollection.removeAll, use the specified collection's "contains" method
         // to test for equality rather than this map's comparator.
-        return !keys.contains(k0) ? this : BasicConstSortedMap.<K, V>of(comparator);
+        return !keys.contains(k0) ? this : BasicConstSortedMap.<K, V>emptySortedMap(comparator);
     }
 
     @Override public ConstSortedMap<K, V> headMap(K toKey) {
-        return compare(k0, toKey) < 0 ? this : BasicConstSortedMap.<K, V>of(comparator);
+        return compare(k0, toKey) < 0 ? this : BasicConstSortedMap.<K, V>emptySortedMap(comparator);
     }
 
     @Override public ConstSortedMap<K, V> tailMap(K fromKey) {
-        return compare(fromKey, k0) <= 0 ? this : BasicConstSortedMap.<K, V>of(comparator);
+        return compare(fromKey, k0) <= 0 ? this : BasicConstSortedMap.<K, V>emptySortedMap(comparator);
     }
 
     @Override public ConstSortedMap<K, V> subMap(K fromKey, K toKey) {
@@ -130,7 +127,7 @@ final class BasicSortedMap1<K, V> extends AbstractBasicConstSortedMap<K, V> {
         }
         int from = compare(fromKey, k0);
         int to = compare(k0, toKey);
-        return from <= 0 && to < 0 ? this : BasicConstSortedMap.<K, V>of(comparator);
+        return from <= 0 && to < 0 ? this : BasicConstSortedMap.<K, V>emptySortedMap(comparator);
     }
 
     @Override public int hashCode() {

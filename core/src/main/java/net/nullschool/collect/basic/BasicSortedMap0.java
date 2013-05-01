@@ -76,11 +76,11 @@ final class BasicSortedMap0<K, V> extends AbstractBasicConstSortedMap<K, V> {
     }
 
     @Override public ConstSortedMap<K, V> with(K key, V value) {
-        return BasicConstSortedMap.of(comparator, key, value);
+        return BasicConstSortedMap.sortedMapOf(comparator, key, value);
     }
 
     @Override public ConstSortedMap<K, V> withAll(Map<? extends K, ? extends V> map) {
-        return map.isEmpty() ? this : BasicConstSortedMap.build(comparator, map);
+        return map.isEmpty() ? this : BasicConstSortedMap.asSortedMap(comparator, map);
     }
 
     @Override public ConstSortedMap<K, V> without(Object key) {

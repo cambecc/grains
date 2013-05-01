@@ -4,7 +4,8 @@ import net.nullschool.collect.ConstList;
 import net.nullschool.util.ArrayTools;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
 
 import static net.nullschool.collect.basic.BasicTools.*;
 

@@ -3,13 +3,8 @@ package net.nullschool.collect.basic;
 
 import net.nullschool.collect.*;
 
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.util.AbstractMap;
-import java.util.Collection;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.io.*;
+import java.util.*;
 
 
 /**

@@ -2,10 +2,11 @@ package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstMap;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
 
 import static net.nullschool.collect.basic.BasicTools.*;
-import static net.nullschool.util.ArrayTools.*;
+import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
 
 /**
  * 2013-03-17<p/>
@@ -123,12 +124,12 @@ public enum BasicConstMap {;
     }
 
     /**
-     * Converts the specified collection into a ConstMap containing the unique entries encountered while iterating
+     * Converts the specified map into a ConstMap containing the unique entries encountered while iterating
      * over the specified map. {@link Object#equals} and {@link Object#hashCode} are used to test for uniqueness.
      *
      * @param map the map.
-     * @return a persistent set containing the unique elements from the collection in the order they appear.
-     * @throws NullPointerException if {@code collection} is null.
+     * @return a persistent map containing the unique entries from the map in the order they appear.
+     * @throws NullPointerException if {@code map} is null.
      */
     public static <K, V> ConstMap<K, V> asMap(Map<? extends K, ? extends V> map) {
         if (map instanceof AbstractBasicConstMap && !(map instanceof AbstractBasicConstSortedMap)) {
@@ -163,6 +164,7 @@ public enum BasicConstMap {;
      *     <li>the arrays were defensively copied or are guaranteed to be invisible to external clients</li>
      *     <li>the component type is Object instead of a narrower type such as String or Integer</li>
      *     <li><i>the keys array contains only unique keys</i></li>
+     *     <li><i>the arrays are the same length</i></li>
      * </ol>
      *
      * @param trustedKeys the Object array of keys.

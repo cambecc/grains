@@ -2,10 +2,7 @@ package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSortedSet;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Objects;
+import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
 

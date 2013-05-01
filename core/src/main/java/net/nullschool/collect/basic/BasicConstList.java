@@ -5,7 +5,7 @@ import net.nullschool.collect.ConstList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicTools.copy;
 
 /**
  * 2013-03-15<p/>

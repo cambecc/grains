@@ -2,12 +2,10 @@ package net.nullschool.collect.basic;
 
 import net.nullschool.collect.*;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
+import static net.nullschool.collect.basic.BasicConstMap.condense;
 import static net.nullschool.collect.basic.BasicTools.*;
-import static net.nullschool.collect.basic.BasicConstMap.*;
 
 /**
  * 2013-03-17<p/>

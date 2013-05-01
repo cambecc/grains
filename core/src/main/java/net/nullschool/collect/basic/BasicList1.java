@@ -5,7 +5,8 @@ import net.nullschool.util.ArrayTools;
 
 import java.util.*;
 
-import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicTools.insert;
+import static net.nullschool.collect.basic.BasicTools.insertAll;
 
 
 /**

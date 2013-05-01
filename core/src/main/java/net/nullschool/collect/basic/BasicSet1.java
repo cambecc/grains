@@ -5,7 +5,7 @@ import net.nullschool.collect.ConstSet;
 import java.util.Collection;
 import java.util.Objects;
 
-import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicTools.unionInto;
 
 /**
  * 2013-03-16<p/>

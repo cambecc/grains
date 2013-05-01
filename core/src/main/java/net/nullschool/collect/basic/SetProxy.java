@@ -1,9 +1,6 @@
 package net.nullschool.collect.basic;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 import static net.nullschool.collect.basic.BasicTools.unionInto;
 import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;

@@ -1,9 +1,6 @@
 package net.nullschool.collect.basic;
 
-import net.nullschool.collect.ConstCollection;
-import net.nullschool.collect.ConstSet;
-import net.nullschool.collect.ConstSortedMap;
-import net.nullschool.collect.ConstSortedSet;
+import net.nullschool.collect.*;
 import net.nullschool.util.ObjectTools;
 
 import java.io.InvalidObjectException;

@@ -19,17 +19,6 @@ import static java.util.Arrays.asList;
  */
 public class BasicConstSortedSetTest {
 
-    private static final class NullSafeReverseComparator<T> implements Comparator<T> {
-        @Override public int compare(T left, T right) {
-            if (left == null) {
-                return right == null ? 0 : 1;
-            }
-            return right == null ? -1 : reverseOrder().compare(left, right);
-        }
-        @Override public boolean equals(Object obj) { return obj instanceof NullSafeReverseComparator; }
-        @Override public int hashCode() { return 1; }
-    }
-
     private static void compare_order(Set<?> expected, Set<?> actual) {
         assertArrayEquals(expected.toArray(), actual.toArray());
     }
@@ -61,11 +50,13 @@ public class BasicConstSortedSetTest {
 
                                 // sortedSetOf
                                 compare_order(expected, sortedSetOf(null, a, b, c, d, e, f));
-                                // asSortedSet(array)
+                                // asSortedSet(comparator, array)
                                 compare_order(expected, asSortedSet(null, elements));
-                                // asSortedSet(collection)
+                                // asSortedSet(sortedSet)
+                                compare_order(expected, asSortedSet(expected));
+                                // asSortedSet(comparator, collection)
                                 compare_order(expected, asSortedSet(null, collection));
-                                // asSortedSet(iterator)
+                                // asSortedSet(comparator, iterator)
                                 compare_order(expected, asSortedSet(null, collection.iterator()));
                             }
                         }

@@ -85,12 +85,12 @@ final class BasicSortedSet0<E> extends AbstractBasicConstSortedSet<E> {
     }
 
     @Override public ConstSortedSet<E> headSet(E toElement) {
-        BasicConstSortedSet.checkType(comparator, toElement);
+        BasicTools.checkType(comparator, toElement);
         return this;
     }
 
     @Override public ConstSortedSet<E> tailSet(E fromElement) {
-        BasicConstSortedSet.checkType(comparator, fromElement);
+        BasicTools.checkType(comparator, fromElement);
         return this;
     }
 

@@ -2,6 +2,7 @@ package net.nullschool.collect;
 
 import java.util.*;
 
+import static java.util.Collections.reverseOrder;
 import static org.junit.Assert.*;
 
 
@@ -17,6 +18,17 @@ import static org.junit.Assert.*;
  * @author Cameron Beccario
  */
 public enum CollectionTestingTools {;
+
+    public static final class NullSafeReverseComparator<T> implements Comparator<T> {
+        @Override public int compare(T left, T right) {
+            if (left == null) {
+                return right == null ? 0 : 1;
+            }
+            return right == null ? -1 : reverseOrder().compare(left, right);
+        }
+        @Override public boolean equals(Object obj) { return obj instanceof NullSafeReverseComparator; }
+        @Override public int hashCode() { return 1; }
+    }
 
     private static <E> E nth(Collection<E> c, int n) {
         Iterator<E> iter = c.iterator();

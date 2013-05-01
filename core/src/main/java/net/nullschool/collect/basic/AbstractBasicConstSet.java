@@ -3,13 +3,8 @@ package net.nullschool.collect.basic;
 import net.nullschool.collect.AbstractUnmodifiableIterator;
 import net.nullschool.collect.ConstSet;
 
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.io.*;
+import java.util.*;
 
 
 /**

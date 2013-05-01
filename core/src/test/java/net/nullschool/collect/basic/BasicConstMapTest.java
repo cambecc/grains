@@ -28,7 +28,7 @@ public class BasicConstMapTest {
     @Test
     public void test_construction_permutations() {
         for (int a = 0; a < 6; a++) {
-            compare(newMap(a, a), mapOf(a, a));
+            compare(newMap(a, a+1), mapOf(a, a+1));
             for (int b = 0; b < 6; b++) {
                 compare(newMap(a, a, b, b), mapOf(a, a, b, b));
                 for (int c = 0; c < 6; c++) {
@@ -136,11 +136,11 @@ public class BasicConstMapTest {
         assertSame(map, asMap(map));
         map = mapOf(1, 1, 2, 2, 3, 3);
         assertSame(map, asMap(map));
-        map = mapOf(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8}, new Integer[] {1, 2, 3, 4, 5, 6, 7, 8});
+        map = asMap(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8}, new Integer[] {1, 2, 3, 4, 5, 6, 7, 8});
         assertSame(map, asMap(map));
 
         // However, ConstSortedMap should be converted to a regular ConstMap.
-        map = BasicConstSortedMap.of(null, 1, 1);
+        map = BasicConstSortedMap.sortedMapOf(null, 1, 1);
         assertNotSame(map, asMap(map));
     }
 

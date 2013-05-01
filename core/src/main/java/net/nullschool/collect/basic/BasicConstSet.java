@@ -2,12 +2,11 @@ package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSet;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
-import static net.nullschool.collect.basic.BasicTools.*;
-import static net.nullschool.util.ArrayTools.*;
+import static net.nullschool.collect.basic.BasicTools.copy;
+import static net.nullschool.collect.basic.BasicTools.unionInto;
+import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
 
 /**
  * 2013-03-16<p/>
