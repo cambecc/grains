@@ -11,6 +11,7 @@ import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.util.Collections.reverseOrder;
 import static net.nullschool.collect.CollectionTestingTools.*;
 import static net.nullschool.collect.basic.BasicConstSortedMap.*;
+import static net.nullschool.collect.basic.BasicConstSortedMap.sortedMapOf;
 import static org.junit.Assert.*;
 
 
@@ -333,5 +334,61 @@ public class BasicConstSortedMapTest {
         assertEquals(BasicSortedMapN.class, condense(null, a = new Object[] {1, 2, 3, 4}, a).getClass());
         assertEquals(BasicSortedMapN.class, condense(null, a = new Object[] {1, 2, 3, 4, 5}, a).getClass());
         assertEquals(BasicSortedMapN.class, condense(null, a = new Object[] {1, 2, 3, 4, 5, 6}, a).getClass());
+    }
+
+    @Test
+    public void test_sortedMapOf_bad_elements() {
+        @SuppressWarnings("unchecked") Comparator<Object> comparator = (Comparator)String.CASE_INSENSITIVE_ORDER;
+
+        // Comparator and key types don't match.
+        try { sortedMapOf(comparator, 1, 1);                         fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, 1, 1, 2, 2);                   fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, 1, 1, 2, 2, 3, 3);             fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, 1, 1, 2, 2, 3, 3, 4, 4);       fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5); fail(); } catch (ClassCastException ignored) {}
+
+        try { sortedMapOf(comparator, null, null);                                                 fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, null, null, null, null);                                     fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, null, null, null, null, null, null);                         fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, null, null, null, null, null, null, null, null);             fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, null, null, null, null, null, null, null, null, null, null); fail(); } catch (NullPointerException ignored) {}
+
+        // With method passed key having mismatched type.
+        try { emptySortedMap(comparator).with(1, 1);                              fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", 1).with(1, 1);                 fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", 1, "b", 2).with(1, 1);         fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", 1, "b", 2, "c", 3).with(1, 1); fail(); } catch (ClassCastException ignored) {}
+
+        try { emptySortedMap(comparator).with(null, 1);                              fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", 1).with(null, 1);                 fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", 1, "b", 2).with(null, 1);         fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", 1, "b", 2, "c", 3).with(null, 1); fail(); } catch (NullPointerException ignored) {}
+
+        // WithAll method passed keys having mismatched type.
+        try { emptySortedMap(comparator).withAll(newMap(1, 1));                                      fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", (Object)1).withAll(newMap(1, 1));                 fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", (Object)1, "b", 2).withAll(newMap(1, 1));         fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", (Object)1, "b", 2, "c", 3).withAll(newMap(1, 1)); fail(); } catch (ClassCastException ignored) {}
+
+        Map<Object, Object> aNull = newMap(null, null);
+        try { emptySortedMap(comparator).withAll(aNull);                                      fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", (Object)1).withAll(aNull);                 fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", (Object)1, "b", 2).withAll(aNull);         fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(comparator, (Object)"a", (Object)1, "b", 2, "c", 3).withAll(aNull); fail(); } catch (NullPointerException ignored) {}
+
+        // Natural ordering but element types are not Comparable
+        Object o = new Object();
+        try { sortedMapOf(null, o, o);                         fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(null, o, o, o, o);                   fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(null, o, o, o, o, o, o);             fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(null, o, o, o, o, o, o, o, o);       fail(); } catch (ClassCastException ignored) {}
+        try { sortedMapOf(null, o, o, o, o, o, o, o, o, o, o); fail(); } catch (ClassCastException ignored) {}
+
+        // Natural ordering does not allow nulls.
+        try { sortedMapOf(null, null, null);                                                 fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(null, null, null, null, null);                                     fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(null, null, null, null, null, null, null);                         fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(null, null, null, null, null, null, null, null, null);             fail(); } catch (NullPointerException ignored) {}
+        try { sortedMapOf(null, null, null, null, null, null, null, null, null, null, null); fail(); } catch (NullPointerException ignored) {}
     }
 }

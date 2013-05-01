@@ -2,7 +2,7 @@ package net.nullschool.util;
 
 import org.junit.Test;
 
-import java.util.Collections;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static net.nullschool.util.ArrayTools.*;
@@ -184,5 +184,39 @@ public class ArrayToolsTest {
     public void test_sort_comparator_nulls() {
         String[] a = new String[] {null, null};
         sort(a, String.CASE_INSENSITIVE_ORDER);
+    }
+
+    @Test
+    public void test_indexOf_bad_types() {
+        final Object[] EMPTY = new Object[0];
+        final Object notComparable = new Object();
+        @SuppressWarnings("unchecked") Comparator<Object> comparator = (Comparator)String.CASE_INSENSITIVE_ORDER;
+
+        assertEquals(-1, indexOf(notComparable, EMPTY, null));
+        assertEquals(-1, indexOf(null, EMPTY, null));
+        assertEquals(-1, indexOf(notComparable, EMPTY, comparator));
+        assertEquals(-1, indexOf(null, EMPTY, comparator));
+
+        try { indexOf(notComparable, new Object[] {"a"}, null);       fail(); } catch (ClassCastException ignored) {}
+        try { indexOf(null, new Object[] {"a"}, null);                fail(); } catch (NullPointerException ignored) {}
+        try { indexOf(notComparable, new Object[] {"a"}, comparator); fail(); } catch (ClassCastException ignored) {}
+        try { indexOf(null, new Object[] {"a"}, comparator);          fail(); } catch (NullPointerException ignored) {}
+    }
+
+    @Test
+    public void test_indexOf_range_bad_types() {
+        final Object[] items = new Object[] {"a", "b", "c"};
+        final Object notComparable = new Object();
+        @SuppressWarnings("unchecked") Comparator<Object> comparator = (Comparator)String.CASE_INSENSITIVE_ORDER;
+
+        assertEquals(-1, indexOf(notComparable, items, 1, 1, null));
+        assertEquals(-1, indexOf(null, items, 1, 1, null));
+        assertEquals(-1, indexOf(notComparable, items, 1, 1, comparator));
+        assertEquals(-1, indexOf(null, items, 1, 1, comparator));
+
+        try { indexOf(notComparable, items, 1, 2, null);       fail(); } catch (ClassCastException ignored) {}
+        try { indexOf(null, items, 1, 2, null);                fail(); } catch (NullPointerException ignored) {}
+        try { indexOf(notComparable, items, 1, 2, comparator); fail(); } catch (ClassCastException ignored) {}
+        try { indexOf(null, items, 1, 2, comparator);          fail(); } catch (NullPointerException ignored) {}
     }
 }

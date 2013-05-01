@@ -350,36 +350,55 @@ public class BasicConstSortedSetTest {
 
     @Test
     public void test_sortedSetOf_bad_elements() {
-        // Comparator and element types don't match.
         @SuppressWarnings("unchecked") Comparator<Object> comparator = (Comparator)String.CASE_INSENSITIVE_ORDER;
-        try {  sortedSetOf(comparator, 1);          fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, 1, 2);       fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, 1, 2, 3);    fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, 1, 2, 3, 4); fail(); } catch (ClassCastException ignored) {}
+
+        // Comparator and element types don't match.
+        try { sortedSetOf(comparator, 1);             fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, 1, 2);          fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, 1, 2, 3);       fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, 1, 2, 3, 4);    fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, 1, 2, 3, 4, 5); fail(); } catch (ClassCastException ignored) {}
+
+        try { sortedSetOf(comparator, null);                         fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, null, null);                   fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, null, null, null);             fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, null, null, null, null);       fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, null, null, null, null, null); fail(); } catch (NullPointerException ignored) {}
 
         // With method passed element having mismatched type.
-        try {  emptySortedSet(comparator).with(1);                     fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, (Object)"a").with(1);           fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, (Object)"a", "b").with(1);      fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, (Object)"a", "b", "c").with(1); fail(); } catch (ClassCastException ignored) {}
+        try { emptySortedSet(comparator).with(1);                     fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a").with(1);           fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a", "b").with(1);      fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a", "b", "c").with(1); fail(); } catch (ClassCastException ignored) {}
+
+        try { emptySortedSet(comparator).with(null);                     fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a").with(null);           fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a", "b").with(null);      fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a", "b", "c").with(null); fail(); } catch (NullPointerException ignored) {}
 
         // WithAll method passed elements having mismatched type.
-        try {  emptySortedSet(comparator).withAll(asList(1, 2));                     fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, (Object)"a").withAll(asList(1, 2));           fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, (Object)"a", "b").withAll(asList(1, 2));      fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(comparator, (Object)"a", "b", "c").withAll(asList(1, 2)); fail(); } catch (ClassCastException ignored) {}
+        try { emptySortedSet(comparator).withAll(asList(1));                     fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a").withAll(asList(1));           fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a", "b").withAll(asList(1));      fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a", "b", "c").withAll(asList(1)); fail(); } catch (ClassCastException ignored) {}
+
+        Object[] oneNull = new Object[] {null};
+        try { emptySortedSet(comparator).withAll(asList(oneNull));                     fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a").withAll(asList(oneNull));           fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a", "b").withAll(asList(oneNull));      fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(comparator, (Object)"a", "b", "c").withAll(asList(oneNull)); fail(); } catch (NullPointerException ignored) {}
 
         // Natural ordering but element types are not Comparable
         Object o = new Object();
-        try {  sortedSetOf(null, o);          fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(null, o, o);       fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(null, o, o, o);    fail(); } catch (ClassCastException ignored) {}
-        try {  sortedSetOf(null, o, o, o, o); fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(null, o);          fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(null, o, o);       fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(null, o, o, o);    fail(); } catch (ClassCastException ignored) {}
+        try { sortedSetOf(null, o, o, o, o); fail(); } catch (ClassCastException ignored) {}
 
         // Natural ordering does not allow nulls.
-        try {  sortedSetOf(null, null);                   fail(); } catch (NullPointerException ignored) {}
-        try {  sortedSetOf(null, null, null);             fail(); } catch (NullPointerException ignored) {}
-        try {  sortedSetOf(null, null, null, null);       fail(); } catch (NullPointerException ignored) {}
-        try {  sortedSetOf(null, null, null, null, null); fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(null, null);                   fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(null, null, null);             fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(null, null, null, null);       fail(); } catch (NullPointerException ignored) {}
+        try { sortedSetOf(null, null, null, null, null); fail(); } catch (NullPointerException ignored) {}
     }
 }

@@ -536,4 +536,42 @@ public class BasicToolsTest {
         try { unionInto(null, null, new Object[0], null, c); fail(); } catch (NullPointerException ignored) {}
         try { unionInto(null, null, null, new Object[0], c); fail(); } catch (NullPointerException ignored) {}
     }
+
+    @Test
+    public void test_unionInto_bad_types() {
+        final Object[] EMPTY = new Object[0];
+        final Object[] items = new Object[] {"a"};
+        final Object[] oneObj = new Object[] {new Object()};
+        final Object[] oneNull = new Object[] {null};
+        @SuppressWarnings("unchecked") Comparator<Object> c = (Comparator)String.CASE_INSENSITIVE_ORDER;
+
+        try { unionInto(EMPTY, oneObj,  null); fail(); } catch (ClassCastException ignored) {}
+        try { unionInto(EMPTY, oneObj,  c);    fail(); } catch (ClassCastException ignored) {}
+        try { unionInto(EMPTY, oneNull, null); fail(); } catch (NullPointerException ignored) {}
+        try { unionInto(EMPTY, oneNull, c);    fail(); } catch (NullPointerException ignored) {}
+
+        try { unionInto(items, oneObj,  null); fail(); } catch (ClassCastException ignored) {}
+        try { unionInto(items, oneObj,  c);    fail(); } catch (ClassCastException ignored) {}
+        try { unionInto(items, oneNull, null); fail(); } catch (NullPointerException ignored) {}
+        try { unionInto(items, oneNull, c);    fail(); } catch (NullPointerException ignored) {}
+    }
+
+    @Test
+    public void test_unionInto_columns_bad_types() {
+        final Object[] EMPTY = new Object[0];
+        final Object[] items = new Object[] {"a"};
+        final Object[] oneObj = new Object[] {new Object()};
+        final Object[] oneNull = new Object[] {null};
+        @SuppressWarnings("unchecked") Comparator<Object> c = (Comparator)String.CASE_INSENSITIVE_ORDER;
+
+        try { unionInto(EMPTY, EMPTY, oneObj,  oneNull, null); fail(); } catch (ClassCastException ignored) {}
+        try { unionInto(EMPTY, EMPTY, oneObj,  oneNull, c);    fail(); } catch (ClassCastException ignored) {}
+        try { unionInto(EMPTY, EMPTY, oneNull, oneNull, null); fail(); } catch (NullPointerException ignored) {}
+        try { unionInto(EMPTY, EMPTY, oneNull, oneNull, c);    fail(); } catch (NullPointerException ignored) {}
+
+        try { unionInto(items, EMPTY, oneObj,  oneNull, null); fail(); } catch (ClassCastException ignored) {}
+        try { unionInto(items, EMPTY, oneObj,  oneNull, c);    fail(); } catch (ClassCastException ignored) {}
+        try { unionInto(items, EMPTY, oneNull, oneNull, null); fail(); } catch (NullPointerException ignored) {}
+        try { unionInto(items, EMPTY, oneNull, oneNull, c);    fail(); } catch (NullPointerException ignored) {}
+    }
 }

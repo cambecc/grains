@@ -325,6 +325,9 @@ enum BasicTools {;
             if (Arrays.binarySearch(result, 0, original.length, element, c) < 0) {
                 // Do a linear search of new unique elements found so far.
                 if (ArrayTools.indexOf(element, result, original.length, cursor, c) < 0) {
+                    if (cursor == 0) {
+                        checkType(c, element);  // This is the first item, so check comparability.
+                    }
                     result[cursor++] = element;
                 }
             }
@@ -425,6 +428,9 @@ enum BasicTools {;
             Object value = additionalValues[i];
             int index = Arrays.binarySearch(resultKeys, 0, cursor, key, c);
             if (index < 0) {
+                if (cursor == 0) {
+                    checkType(c, key);  // This is the first key, so check comparability.
+                }
                 // Need to insert, so shift everything down.
                 index = flip(index);
                 System.arraycopy(resultKeys, index, resultKeys, index + 1, cursor - index);
