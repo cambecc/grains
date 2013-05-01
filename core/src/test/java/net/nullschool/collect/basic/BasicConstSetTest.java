@@ -147,7 +147,7 @@ public class BasicConstSetTest {
         set = setOf(1, 2, 3, 4, 5, 6, 7, 8, 9);
         assertSame(set, asSet(set));
 
-        // ConstSortedSet should be converted to a regular ConstSet.
+        // However, ConstSortedSet should be converted to a regular ConstSet.
         set = BasicConstSortedSet.sortedSetOf(null, 1);
         assertNotSame(set, asSet(set));
     }

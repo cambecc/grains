@@ -92,11 +92,11 @@ final class BasicMap1<K, V> extends AbstractBasicConstMap<K, V> {
     }
 
     @Override public ConstMap<K, V> without(Object key) {
-        return !containsKey(key) ? this : BasicConstMap.<K, V>of();
+        return !containsKey(key) ? this : BasicConstMap.<K, V>emptyMap();
     }
 
     @Override public ConstMap<K, V> withoutAll(Collection<?> keys) {
-        return !keys.contains(k0) ? this : BasicConstMap.<K, V>of();
+        return !keys.contains(k0) ? this : BasicConstMap.<K, V>emptyMap();
     }
 
     @Override public int hashCode() {

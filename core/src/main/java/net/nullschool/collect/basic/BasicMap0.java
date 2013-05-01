@@ -67,11 +67,11 @@ final class BasicMap0<K, V> extends AbstractBasicConstMap<K, V> {
     }
 
     @Override public ConstMap<K, V> with(K key, V value) {
-        return BasicConstMap.of(key, value);
+        return BasicConstMap.mapOf(key, value);
     }
 
     @Override public ConstMap<K, V> withAll(Map<? extends K, ? extends V> map) {
-        return BasicConstMap.build(map);
+        return BasicConstMap.asMap(map);
     }
 
     @Override public ConstMap<K, V> without(Object key) {
