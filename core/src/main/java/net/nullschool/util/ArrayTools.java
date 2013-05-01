@@ -1,9 +1,7 @@
 package net.nullschool.util;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
+import java.util.*;
 
 
 /**

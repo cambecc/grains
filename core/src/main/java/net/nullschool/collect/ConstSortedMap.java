@@ -1,8 +1,6 @@
 package net.nullschool.collect;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 
 
 /**

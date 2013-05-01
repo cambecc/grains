@@ -3,7 +3,8 @@ package net.nullschool.collect;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static java.lang.Math.*;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 /**
  * 2013-02-06<p/>
