@@ -35,8 +35,8 @@ public class BasicSet1Test {
         ConstSet<Integer> set;
 
         set = new BasicSet1<>(1);
-        compare_sets(asSet(1, 2), set.with(2));
-        compare_sets(asSet(1, null), set.with(null));
+        compare_sets(newSet(1, 2), set.with(2));
+        compare_sets(newSet(1, null), set.with(null));
         assertSame(set, set.with(1));
 
         set = new BasicSet1<>(null);
@@ -46,7 +46,7 @@ public class BasicSet1Test {
     @Test
     public void test_withAll() {
         ConstSet<Integer> set = new BasicSet1<>(1);
-        compare_sets(asSet(1, 2, 3), set.withAll(Arrays.asList(1, 2, 3, 3, 2, 1)));
+        compare_sets(newSet(1, 2, 3), set.withAll(Arrays.asList(1, 2, 3, 3, 2, 1)));
 
         assertSame(set, set.withAll(Arrays.asList(1, 1, 1, 1, 1, 1)));
         assertSame(set, set.withAll(Collections.<Integer>emptyList()));
@@ -111,7 +111,7 @@ public class BasicSet1Test {
 
     @Test
     public void test_non_equality() {
-        assertFalse(new BasicSet1<>(1).equals(asSet(2)));
-        assertFalse(asSet(2).equals(new BasicSet1<>(1)));
+        assertFalse(new BasicSet1<>(1).equals(newSet(2)));
+        assertFalse(newSet(2).equals(new BasicSet1<>(1)));
     }
 }

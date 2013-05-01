@@ -23,8 +23,8 @@ public class BasicSortedSet1Test {
 
     @Test
     public void test_comparison() {
-        compare_sorted_sets(asSortedSet(null, 1), new BasicSortedSet1<>(null, 1), 0, 1, 1, 2, 0);
-        compare_sorted_sets(asSortedSet(reverseOrder(), 1), new BasicSortedSet1<>(reverseOrder(), 1), 2, 1, 1, 0, 2);
+        compare_sorted_sets(newSortedSet(null, 1), new BasicSortedSet1<>(null, 1), 0, 1, 1, 2, 0);
+        compare_sorted_sets(newSortedSet(reverseOrder(), 1), new BasicSortedSet1<>(reverseOrder(), 1), 2, 1, 1, 0, 2);
     }
 
     @Test
@@ -37,11 +37,11 @@ public class BasicSortedSet1Test {
         ConstSortedSet<Integer> set;
 
         set = new BasicSortedSet1<>(null, 1);
-        compare_sorted_sets(asSortedSet(null, 1, 2), set.with(2));
+        compare_sorted_sets(newSortedSet(null, 1, 2), set.with(2));
         assertSame(set, set.with(1));
 
         set = new BasicSortedSet1<>(reverseOrder(), 1);
-        compare_sorted_sets(asSortedSet(reverseOrder(), 2, 1), set.with(2));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 2, 1), set.with(2));
         assertSame(set, set.with(1));
     }
 
@@ -50,12 +50,12 @@ public class BasicSortedSet1Test {
         ConstSortedSet<Integer> set;
 
         set = new BasicSortedSet1<>(null, 1);
-        compare_sorted_sets(asSortedSet(null, 1, 2, 3), set.withAll(Arrays.asList(1, 2, 3, 3, 2, 1)));
+        compare_sorted_sets(newSortedSet(null, 1, 2, 3), set.withAll(Arrays.asList(1, 2, 3, 3, 2, 1)));
         assertSame(set, set.withAll(Arrays.asList(1, 1, 1, 1, 1, 1)));
         assertSame(set, set.withAll(Collections.<Integer>emptyList()));
 
         set = new BasicSortedSet1<>(reverseOrder(), 1);
-        compare_sorted_sets(asSortedSet(reverseOrder(), 3, 2, 1), set.withAll(Arrays.asList(1, 2, 3, 3, 2, 1)));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 3, 2, 1), set.withAll(Arrays.asList(1, 2, 3, 3, 2, 1)));
         assertSame(set, set.withAll(Arrays.asList(1, 1, 1, 1, 1, 1)));
         assertSame(set, set.withAll(Collections.<Integer>emptyList()));
     }
@@ -153,8 +153,8 @@ public class BasicSortedSet1Test {
 
     @Test
     public void test_non_equality() {
-        assertFalse(new BasicSortedSet1<>(null, 1).equals(asSortedSet(null, 2)));
-        assertFalse(asSortedSet(null, 2).equals(new BasicSortedSet1<>(null, 1)));
+        assertFalse(new BasicSortedSet1<>(null, 1).equals(newSortedSet(null, 2)));
+        assertFalse(newSortedSet(null, 2).equals(new BasicSortedSet1<>(null, 1)));
     }
 
     @Test

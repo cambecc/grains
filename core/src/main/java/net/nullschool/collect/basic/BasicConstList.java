@@ -11,7 +11,8 @@ import static net.nullschool.collect.basic.BasicTools.*;
  * 2013-03-15<p/>
  *
  * Utility methods for constructing instances of {@link ConstList} that use arrays to store their elements,
- * providing a memory efficient implementation of ConstList but with linear complexity for most list operations.
+ * providing a memory efficient implementation of ConstList but with O(N) complexity for most list operations. These
+ * lists allow {@code null} elements.
  *
  * @author Cameron Beccario
  */
@@ -20,7 +21,7 @@ public enum BasicConstList {;
     /**
      * Returns an empty ConstList.
      *
-     * @return an immutable empty list.
+     * @return a persistent empty list.
      */
     public static <E> ConstList<E> emptyList() {
         return BasicList0.instance();
@@ -30,7 +31,7 @@ public enum BasicConstList {;
      * Returns a ConstList with a single element.
      *
      * @param e0 the element.
-     * @return an immutable list containing the specified element.
+     * @return a persistent list containing the specified element.
      */
     public static <E> ConstList<E> listOf(E e0) {
         return new BasicList1<>(e0);
@@ -41,7 +42,7 @@ public enum BasicConstList {;
      *
      * @param e0 the first element.
      * @param e1 the second element.
-     * @return an immutable list containing the specified elements.
+     * @return a persistent list containing the specified elements.
      */
     public static <E> ConstList<E> listOf(E e0, E e1) {
         return new BasicListN<>(new Object[] {e0, e1});
@@ -53,7 +54,7 @@ public enum BasicConstList {;
      * @param e0 the first element.
      * @param e1 the second element.
      * @param e2 the third element.
-     * @return an immutable list containing the specified elements.
+     * @return a persistent list containing the specified elements.
      */
     public static <E> ConstList<E> listOf(E e0, E e1, E e2) {
         return new BasicListN<>(new Object[] {e0, e1, e2});
@@ -62,7 +63,7 @@ public enum BasicConstList {;
     /**
      * Returns a ConstList of four elements.
      *
-     * @return an immutable list containing the specified elements.
+     * @return a persistent list containing the specified elements.
      */
     public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3) {
         return new BasicListN<>(new Object[] {e0, e1, e2, e3});
@@ -71,7 +72,7 @@ public enum BasicConstList {;
     /**
      * Returns a ConstList of five elements.
      *
-     * @return an immutable list containing the specified elements.
+     * @return a persistent list containing the specified elements.
      */
     public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3, E e4) {
         return new BasicListN<>(new Object[] {e0, e1, e2, e3, e4});
@@ -81,7 +82,7 @@ public enum BasicConstList {;
      * Returns a ConstList of many elements.
      *
      * @param additional all additional elements past the sixth element.
-     * @return an immutable list containing the specified elements.
+     * @return a persistent list containing the specified elements in the order they appear.
      */
     @SafeVarargs
     public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
@@ -100,7 +101,7 @@ public enum BasicConstList {;
      * Converts the specified array of elements into a ConstList.
      *
      * @param elements the elements of the list.
-     * @return an immutable list containing the specified elements.
+     * @return a persistent list containing the specified elements in the order they appear.
      * @throws NullPointerException if {@code elements} is null.
      */
     public static <E> ConstList<E> asList(E[] elements) {
@@ -108,20 +109,17 @@ public enum BasicConstList {;
     }
 
     /**
-     * Converts the specified collection into a ConstList. The list is constructed from the sequence of elements
-     * encountered while iterating over the collection.
+     * Converts the specified collection into a ConstList. The list is constructed from the elements encountered while
+     * iterating over the collection.
      *
      * @param collection the collection.
-     * @return an immutable list containing the elements of the specified collection.
+     * @return a persistent list containing the elements of the specified collection in the order they appear.
      * @throws NullPointerException if {@code collection} is null.
      */
     public static <E> ConstList<E> asList(Collection<? extends E> collection) {
-        if (collection.isEmpty()) {
-            return emptyList();
-        }
         if (collection instanceof AbstractBasicConstList) {
             @SuppressWarnings("unchecked") ConstList<E> covariant = (ConstList<E>)collection;
-            return covariant;
+            return covariant;  // The collection is already a ConstList.
         }
         return condense(copy(collection));
     }
@@ -130,20 +128,20 @@ public enum BasicConstList {;
      * Constructs a ConstList from the sequence of elements encountered while iterating with the specified iterator.
      *
      * @param iterator the iterator.
-     * @return an immutable list containing the elements of the iteration.
+     * @return a persistent list containing the elements of the iteration in the order they appear.
      * @throws NullPointerException if {@code iterator} is null.
      */
     public static <E> ConstList<E> asList(Iterator<? extends E> iterator) {
-        if (!iterator.hasNext()) {
-            return emptyList();
-        }
         return condense(copy(iterator));
     }
 
     /**
      * Instantiates the appropriate AbstractBasicConstList implementation from the specified array of elements. The
-     * array reference must be trusted, i.e., the array was defensively copied or is guaranteed to be invisible
-     * to external clients, and the component type is Object instead of a narrower type such as String or Integer.
+     * array reference <b>must be trusted</b>:
+     * <ol>
+     *     <li>the array was defensively copied or is guaranteed to be invisible to external clients</li>
+     *     <li>the component type is Object instead of a narrower type such as String or Integer</li>
+     * </ol>
      *
      * @param trustedElements the Object array of elements.
      * @return a size-appropriate implementation of AbstractBasicConstList.

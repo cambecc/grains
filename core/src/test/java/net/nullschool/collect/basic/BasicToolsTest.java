@@ -100,7 +100,7 @@ public class BasicToolsTest {
 
     @Test
     public void test_copy_map() {
-        Map<?, ?> map = asMap("a", 1, "b", 2, "c", 3);
+        Map<?, ?> map = newMap("a", 1, "b", 2, "c", 3);
         MapColumns mc;
 
         mc = copy(map);

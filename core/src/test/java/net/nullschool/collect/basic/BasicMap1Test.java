@@ -36,10 +36,10 @@ public class BasicMap1Test {
         ConstMap<Object, Object> map;
 
         map = new BasicMap1<>("a", 1);
-        compare_maps(asMap("a", 1, "b", 2), map.with("b", 2));
-        compare_maps(asMap("a", 2), map.with("a", 2));
-        compare_maps(asMap("a", 1, null, null), map.with(null, null));
-        compare_maps(asMap("a", null), map.with("a", null));
+        compare_maps(newMap("a", 1, "b", 2), map.with("b", 2));
+        compare_maps(newMap("a", 2), map.with("a", 2));
+        compare_maps(newMap("a", 1, null, null), map.with(null, null));
+        compare_maps(newMap("a", null), map.with("a", null));
         assertSame(map, map.with("a", 1));
 
         map = new BasicMap1<>(null, null);
@@ -49,10 +49,10 @@ public class BasicMap1Test {
     @Test
     public void test_withAll() {
         ConstMap<Object, Object> map = new BasicMap1<>("a", 1);
-        compare_maps(asMap("a", 2, "b", 2, "c", 3), map.withAll(asMap("b", 2, "c", 3, "a", 2)));
+        compare_maps(newMap("a", 2, "b", 2, "c", 3), map.withAll(newMap("b", 2, "c", 3, "a", 2)));
 
-        compare_maps(map, map.withAll(asMap("a", 1)));
-        assertSame(map, map.withAll(asMap()));
+        compare_maps(map, map.withAll(newMap("a", 1)));
+        assertSame(map, map.withAll(newMap()));
     }
 
     @Test(expected = NullPointerException.class)
@@ -124,9 +124,9 @@ public class BasicMap1Test {
 
     @Test
     public void test_non_equality() {
-        assertFalse(new BasicMap1<>("a", 1).equals(asMap("a", 2)));
-        assertFalse(new BasicMap1<>("a", 1).equals(asMap("b", 1)));
-        assertFalse(asMap("a", 2).equals(new BasicMap1<>("a", 1)));
-        assertFalse(asMap("b", 1).equals(new BasicMap1<>("a", 1)));
+        assertFalse(new BasicMap1<>("a", 1).equals(newMap("a", 2)));
+        assertFalse(new BasicMap1<>("a", 1).equals(newMap("b", 1)));
+        assertFalse(newMap("a", 2).equals(new BasicMap1<>("a", 1)));
+        assertFalse(newMap("b", 1).equals(new BasicMap1<>("a", 1)));
     }
 }

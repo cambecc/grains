@@ -1,33 +1,61 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSortedSet;
-import net.nullschool.util.ArrayTools;
 import net.nullschool.util.ObjectTools;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.util.ArrayTools.*;
 
 /**
  * 2013-03-18<p/>
+ *
+ * Utility methods for constructing instances of {@link ConstSortedSet} that use arrays to store their elements,
+ * providing a memory efficient implementation of ConstSortedSet but with O(log(N)) complexity for most set query
+ * operations, and O(N) complexity for most set construction operations. Set membership is determined using
+ * {@link Comparator#compare}, or {@link Comparable natural ordering} if the comparator is {@code null}. These sets
+ * allow {@code null} elements only if the associated {@link Comparator} allows nulls.
  *
  * @author Cameron Beccario
  */
 public enum BasicConstSortedSet {;
 
-    public static <E> ConstSortedSet<E> of(Comparator<? super E> comparator) {
+    /**
+     * Returns an empty ConstSortedSet with the ordering of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @return a persistent empty sorted set.
+     */
+    public static <E> ConstSortedSet<E> emptySortedSet(Comparator<? super E> comparator) {
         return BasicSortedSet0.instance(comparator);
     }
 
-    public static <E> ConstSortedSet<E> of(Comparator<? super E> comparator, E e0) {
-        ObjectTools.compare(e0, e0, comparator);  // type check
-        return new BasicSortedSet1<>(comparator, e0);
+    /**
+     * Returns a ConstSortedSet with a single element and the ordering of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @param e0 the element.
+     * @return a persistent sorted set containing the specified element.
+     * @throws NullPointerException if the element is null and the comparator is null or does not permit nulls.
+     * @throws ClassCastException if the element is of a type not compatible for comparison.
+     */
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0) {
+        return new BasicSortedSet1<>(comparator, checkType(comparator, e0));
     }
 
-    public static <E> ConstSortedSet<E> of(Comparator<? super E> comparator, E e0, E e1) {
+    /**
+     * Returns a ConstSortedSet comprised of the unique elements from the provided arguments, having the ordering
+     * of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @param e0 the first element.
+     * @param e1 the (potential) second element.
+     * @return a persistent sorted set containing the unique elements from the provided arguments.
+     * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
+     * @throws ClassCastException if any element is of a type not compatible for comparison.
+     */
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1) {
         int cmp = ObjectTools.compare(e0, e1, comparator);
         return cmp == 0 ?
             new BasicSortedSet1<>(comparator, e0) :
@@ -36,86 +64,180 @@ public enum BasicConstSortedSet {;
                 new BasicSortedSetN<>(comparator, new Object[] {e1, e0});
     }
 
-    @SuppressWarnings("unchecked")
-    public static <E> ConstSortedSet<E> of(Comparator<? super E> comparator, E e0, E e1, E e2) {
-        return of(comparator, (E[])new Object[] {e0, e1, e2});
+    /**
+     * Returns a ConstSortedSet comprised of the unique elements from the provided arguments, having the ordering
+     * of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @param e0 the first element.
+     * @param e1 the (potential) second element.
+     * @param e2 the (potential) third element.
+     * @return a persistent sorted set containing the unique elements from the provided arguments.
+     * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
+     * @throws ClassCastException if any element is of a type not compatible for comparison.
+     */
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2) {
+        return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2}, comparator));
     }
 
+    /**
+     * Returns a ConstSortedSet comprised of the unique elements from the provided arguments, having the ordering
+     * of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @return a persistent sorted set containing the unique elements from the provided arguments.
+     * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
+     * @throws ClassCastException if any element is of a type not compatible for comparison.
+     */
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2, E e3) {
+        return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3}, comparator));
+    }
+
+    /**
+     * Returns a ConstSortedSet comprised of the unique elements from the provided arguments, having the ordering
+     * of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @return a persistent sorted set containing the unique elements from the provided arguments.
+     * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
+     * @throws ClassCastException if any element is of a type not compatible for comparison.
+     */
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2, E e3, E e4) {
+        return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3, e4}, comparator));
+    }
+
+    /**
+     * Returns a ConstSortedSet comprised of the unique elements from the provided arguments, having the ordering
+     * of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @param additional all additional elements past the sixth element.
+     * @return a persistent sorted set containing the unique elements from the provided arguments.
+     * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
+     * @throws ClassCastException if any element is of a type not compatible for comparison.
+     */
     @SafeVarargs
-    public static <E> ConstSortedSet<E> of(Comparator<? super E> comparator, E... elements) {  // untrusted array
-        // UNDONE: null propagation?
-        int length = elements.length;
-        switch (length) {
+    public static <E> ConstSortedSet<E> sortedSetOf(
+        Comparator<? super E> comparator,
+        E e0,
+        E e1,
+        E e2,
+        E e3,
+        E e4,
+        E e5,
+        E... additional) {
+
+        Object[] elements = new Object[6 + additional.length];
+        elements[0] = e0;
+        elements[1] = e1;
+        elements[2] = e2;
+        elements[3] = e3;
+        elements[4] = e4;
+        elements[5] = e5;
+        System.arraycopy(additional, 0, elements, 6, additional.length);
+        return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, elements, comparator));
+    }
+
+    /**
+     * Converts the specified array of elements into a ConstSortedSet comprised of the unique elements from the array,
+     * having the ordering of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @param elements the elements from which to build the set.
+     * @return a persistent sorted set containing the unique elements from the array in sorted order.
+     * @throws NullPointerException if any element is null and the comparator is either null or does not permit nulls,
+     *                              or the {@code elements} array itself is null.
+     * @throws ClassCastException if any element is of a type not compatible for comparison.
+     */
+    public static <E> ConstSortedSet<E> asSortedSet(Comparator<? super E> comparator, E[] elements) {
+        return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, elements, comparator));
+    }
+
+    /**
+     * Converts the specified sorted set into a ConstSortedSet having the same ordering as the specified set.
+     *
+     * @param set the sorted set.
+     * @return a persistent sorted set containing the exact elements and ordering of the specified set.
+     */
+    public static <E> ConstSortedSet<E> asSortedSet(SortedSet<E> set) {
+        if (set instanceof AbstractBasicConstSortedSet) {
+            return (ConstSortedSet<E>)set;  // The set is already a ConstSortedSet.
+        }
+        return condense(set.comparator(), set.toArray());
+    }
+
+    /**
+     * Converts the specified collection into a ConstSortedSet comprised of the unique elements from the collection,
+     * having the ordering of the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @param collection the collection.
+     * @return a persistent sorted set containing the unique elements from the collection in sorted order.
+     * @throws NullPointerException if any element is null and the comparator is either null or does not permit nulls,
+     *                              or the {@code collection} itself is null.
+     * @throws ClassCastException if any element is of a type not compatible for comparison.
+     */
+    public static <E> ConstSortedSet<E> asSortedSet(
+        Comparator<? super E> comparator,
+        Collection<? extends E> collection) {
+
+        if (collection instanceof SortedSet) {
+            @SuppressWarnings("unchecked") SortedSet<E> covariant = (SortedSet<E>)collection;
+            if (Objects.equals(comparator, covariant.comparator())) {
+                return asSortedSet(covariant);  // the set is already in the desired sorted order.
+            }
+        }
+        return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, collection.toArray(), comparator));
+    }
+
+    /**
+     * Constructs a ConstSortedSet from the unique elements encountered while iterating with the specified iterator.
+     * The resulting elements are sorted with the specified comparator.
+     *
+     * @param comparator the comparator, or null for {@link Comparable natural ordering}.
+     * @param iterator the iterator.
+     * @return a persistent sorted set containing the unique elements of the iteration in sorted order.
+     * @throws NullPointerException if any element is null and the comparator is either null or does not permit nulls,
+     *                              or the {@code iterator} itself is null.
+     * @throws ClassCastException if any element is of a type not compatible for comparison.
+     */
+    public static <E> ConstSortedSet<E> asSortedSet(Comparator<? super E> comparator, Iterator<? extends E> iterator) {
+        return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, copy(iterator), comparator));
+    }
+
+    /**
+     * Instantiates the appropriate AbstractBasicConstSortedSet implementation from the specified array of elements.
+     * The array reference <b>must be trusted</b>:
+     * <ol>
+     *     <li>the array was defensively copied or is guaranteed to be invisible to external clients</li>
+     *     <li>the component type is Object instead of a narrower type such as String or Integer</li>
+     *     <li><i>the array contains only unique elements</i></li>
+     *     <li><i>the array is already sorted using the specified comparator</i></li>
+     * </ol>
+     *
+     * @param trustedElements the Object array of elements.
+     * @return a size-appropriate implementation of AbstractBasicConstSet.
+     */
+    static <E> AbstractBasicConstSortedSet<E> condense(Comparator<? super E> comparator, Object[] trustedElements) {
+        assert trustedElements.getClass() == Object[].class;
+        switch (trustedElements.length) {
             case 0: return BasicSortedSet0.instance(comparator);
-            case 1: return of(comparator, elements[0]);
-            // UNDONE: copyUnique must use comparator for equality
-            default: return condense(comparator, unionInto(ArrayTools.EMPTY_OBJECT_ARRAY, elements, comparator));
+            case 1: return new BasicSortedSet1<>(comparator, trustedElements[0]);
+            default: return new BasicSortedSetN<>(comparator, trustedElements);
         }
     }
 
-    static <E> ConstSortedSet<E> condense(Comparator<? super E> comparator, Object[] elements) {  // trusted array
-        assert elements.getClass() == Object[].class;
-        switch (elements.length) {
-            case 0: return BasicSortedSet0.instance(comparator);
-            case 1: return new BasicSortedSet1<>(comparator, elements[0]);
-            default: return new BasicSortedSetN<>(comparator, elements);
-        }
+    /**
+     * Ensures the specified element is of a type compatible with the provided comparator.
+     *
+     * @param comparator the comparator.
+     * @param element the element to check.
+     * @return the element.
+     * @throws NullPointerException if element is null and the comparator is null or does not support null values.
+     * @throws ClassCastException if the element is of a type not compatible for comparison.
+     */
+    static <E> E checkType(Comparator<? super E> comparator, E element) {
+        ObjectTools.compare(element, element, comparator);
+        return element;
     }
-
-    // construct const sorted set from elements in c with ordering of specified comparator
-    @SuppressWarnings("unchecked")
-    public static <E> ConstSortedSet<E> build(Comparator<? super E> comparator, Collection<? extends E> c) {  // buildFrom? copy? create? convert? newInstance?
-        // UNDONE: zero size set c
-        if (c instanceof AbstractBasicConstSortedSet &&
-                Objects.equals(comparator, ((AbstractBasicConstSortedSet)c).comparator)) {
-            // Safely covariant with AbstractBasicConstSortedSet<? extends E> because immutable.
-            return (ConstSortedSet<E>)c;
-        }
-        if (c instanceof SortedSet && Objects.equals(comparator, ((SortedSet)c).comparator())) {
-            return condense(comparator, copy(c));
-        }
-        if (c instanceof Set && comparator == null) {
-            return condense(null, ArrayTools.sort(copy(c)));
-        }
-        return of(comparator, (E[])c.toArray());
-    }
-
-    // construct const sorted set from elements in s with same ordering as S
-    public static <E> ConstSortedSet<E> build(SortedSet<E> s) {
-        // UNDONE: zero size set s
-        if (s instanceof AbstractBasicConstSortedSet) {
-            return (ConstSortedSet<E>)s;
-        }
-        return condense(s.comparator(), copy(s));
-    }
-
-    static void write(AbstractBasicConstSortedSet<?> set, ObjectOutputStream out) throws IOException {
-        out.writeObject(set.comparator);
-        // CONSIDER: write boxed native types as raw types to save on space ??
-        final int size = set.size();
-        out.writeInt(size);
-        for (int i = 0; i < size; i++) {
-            out.writeObject(set.get(i));
-        }
-    }
-
-    static AbstractBasicConstSortedSet<?> read(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        @SuppressWarnings("unchecked") Comparator<Object> comparator = (Comparator<Object>)in.readObject();
-        final int size = in.readInt();
-        switch (size) {
-            case 0: return BasicSortedSet0.instance(comparator);
-            case 1: return new BasicSortedSet1<>(comparator, in.readObject());  // UNDONE: element may no longer be compatible with comparator
-            default:
-                Object[] elements = new Object[size];
-                for (int i = 0; i < size; i++) {
-                    elements[i] = in.readObject();
-                }
-                // UNDONE: what if this re-sort means we now have duplicate elements?
-                // I guess the same could be said of ConstSet, if element.equals() method
-                // changed between serialization and deserialization.
-                Arrays.sort(elements, comparator);
-                return new BasicSortedSetN<>(comparator, elements); // UNDONE: check how TreeSet verifies all elements are unique
-        }
-    }
-
 }

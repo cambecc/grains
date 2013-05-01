@@ -68,11 +68,11 @@ final class BasicSortedSet0<E> extends AbstractBasicConstSortedSet<E> {
     }
 
     @Override public ConstSortedSet<E> with(E e) {
-        return BasicConstSortedSet.of(comparator, e);
+        return BasicConstSortedSet.sortedSetOf(comparator, e);
     }
 
     @Override public ConstSortedSet<E> withAll(Collection<? extends E> c) {
-        return c.isEmpty() ? this : BasicConstSortedSet.build(comparator, c);
+        return c.isEmpty() ? this : BasicConstSortedSet.asSortedSet(comparator, c);
     }
 
     @Override public ConstSortedSet<E> without(Object o) {
@@ -85,12 +85,12 @@ final class BasicSortedSet0<E> extends AbstractBasicConstSortedSet<E> {
     }
 
     @Override public ConstSortedSet<E> headSet(E toElement) {
-        compare(toElement, toElement);  // type check
+        BasicConstSortedSet.checkType(comparator, toElement);
         return this;
     }
 
     @Override public ConstSortedSet<E> tailSet(E fromElement) {
-        compare(fromElement, fromElement);  // type check
+        BasicConstSortedSet.checkType(comparator, fromElement);
         return this;
     }
 

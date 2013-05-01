@@ -23,8 +23,8 @@ public class BasicSortedSet0Test {
 
     @Test
     public void test_comparison() {
-        compare_sorted_sets(asSortedSet(null), BasicSortedSet0.instance(null), -1, 0, 1, 0);
-        compare_sorted_sets(asSortedSet(reverseOrder()), BasicSortedSet0.instance(reverseOrder()), 1, 0, -1, 0);
+        compare_sorted_sets(newSortedSet(null), BasicSortedSet0.instance(null), -1, 0, 1, 0);
+        compare_sorted_sets(newSortedSet(reverseOrder()), BasicSortedSet0.instance(reverseOrder()), 1, 0, -1, 0);
     }
 
     @Test
@@ -34,18 +34,18 @@ public class BasicSortedSet0Test {
 
     @Test
     public void test_with() {
-        compare_sorted_sets(asSortedSet(null, 1), BasicSortedSet0.instance(null).with(1));
-        compare_sorted_sets(asSortedSet(reverseOrder(), 1), BasicSortedSet0.instance(reverseOrder()).with(1));
+        compare_sorted_sets(newSortedSet(null, 1), BasicSortedSet0.instance(null).with(1));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 1), BasicSortedSet0.instance(reverseOrder()).with(1));
     }
 
     @Test
     public void test_withAll() {
         ConstSortedSet<Integer> empty = BasicSortedSet0.instance(null);
-        compare_sorted_sets(asSortedSet(null, 1, 2, 3), empty.withAll(Arrays.asList(1, 2, 3)));
+        compare_sorted_sets(newSortedSet(null, 1, 2, 3), empty.withAll(Arrays.asList(1, 2, 3)));
         assertSame(empty, empty.withAll(Collections.<Integer>emptySet()));
 
         ConstSortedSet<Integer> reverseEmpty = BasicSortedSet0.instance(reverseOrder());
-        compare_sorted_sets(asSortedSet(reverseOrder(), 1, 2, 3), reverseEmpty.withAll(Arrays.asList(1, 2, 3)));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 1, 2, 3), reverseEmpty.withAll(Arrays.asList(1, 2, 3)));
         assertSame(reverseEmpty, reverseEmpty.withAll(Collections.<Integer>emptySet()));
     }
 
@@ -124,8 +124,8 @@ public class BasicSortedSet0Test {
 
     @Test
     public void test_non_equality() {
-        assertFalse(BasicSortedSet0.instance(null).equals(asSortedSet(null, 1)));
-        assertFalse(asSortedSet(null, 1).equals(BasicSortedSet0.instance(null)));
+        assertFalse(BasicSortedSet0.instance(null).equals(newSortedSet(null, 1)));
+        assertFalse(newSortedSet(null, 1).equals(BasicSortedSet0.instance(null)));
     }
 
     @Test

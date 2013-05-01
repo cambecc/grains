@@ -24,8 +24,8 @@ public class BasicSortedMap0Test {
 
     @Test
     public void test_comparison() {
-        compare_sorted_maps(asSortedMap(null), BasicSortedMap0.instance(null), "a", "b");
-        compare_sorted_maps(asSortedMap(reverseOrder()), BasicSortedMap0.instance(reverseOrder()), "a", "b");
+        compare_sorted_maps(newSortedMap(null), BasicSortedMap0.instance(null), "a", "b");
+        compare_sorted_maps(newSortedMap(reverseOrder()), BasicSortedMap0.instance(reverseOrder()), "a", "b");
     }
 
     @Test
@@ -35,18 +35,18 @@ public class BasicSortedMap0Test {
 
     @Test
     public void test_with() {
-        compare_maps(asSortedMap(null, "a", 1), BasicSortedMap0.instance(null).with("a", 1));
-        compare_maps(asSortedMap(reverseOrder(), "a", 1), BasicSortedMap0.instance(reverseOrder()).with("a", 1));
+        compare_maps(newSortedMap(null, "a", 1), BasicSortedMap0.instance(null).with("a", 1));
+        compare_maps(newSortedMap(reverseOrder(), "a", 1), BasicSortedMap0.instance(reverseOrder()).with("a", 1));
     }
 
     @Test
     public void test_withAll() {
         ConstSortedMap<Object, Object> empty = BasicSortedMap0.instance(null);
-        compare_sorted_maps(asSortedMap(null, "a", 1, "b", 2), empty.withAll(asMap("a", 1, "b", 2)));
+        compare_sorted_maps(newSortedMap(null, "a", 1, "b", 2), empty.withAll(newMap("a", 1, "b", 2)));
         assertSame(empty, empty.withAll(Collections.emptyMap()));
 
         ConstSortedMap<Object, Object> reverseEmpty = BasicSortedMap0.instance(reverseOrder());
-        compare_sorted_maps(asSortedMap(reverseOrder(), "b", 2, "a", 1), reverseEmpty.withAll(asMap("a", 1, "b", 2)));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "b", 2, "a", 1), reverseEmpty.withAll(newMap("a", 1, "b", 2)));
         assertSame(reverseEmpty, reverseEmpty.withAll(Collections.emptyMap()));
     }
 
@@ -135,8 +135,8 @@ public class BasicSortedMap0Test {
 
     @Test
     public void test_non_equality() {
-        assertFalse(BasicSortedMap0.instance(null).equals(asSortedMap(null, "a", 1)));
-        assertFalse(asSortedMap(null, "a", 1).equals(BasicSortedMap0.instance(null)));
+        assertFalse(BasicSortedMap0.instance(null).equals(newSortedMap(null, "a", 1)));
+        assertFalse(newSortedMap(null, "a", 1).equals(BasicSortedMap0.instance(null)));
     }
 
     @Test

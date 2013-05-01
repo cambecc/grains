@@ -40,7 +40,7 @@ public class BasicMap0Test {
     @Test
     public void test_withAll() {
         ConstMap<Object, Object> empty = BasicMap0.instance();
-        compare_maps(asMap("a", 1, "b", 2), empty.withAll(asMap("a", 1, "b", 2)));
+        compare_maps(newMap("a", 1, "b", 2), empty.withAll(newMap("a", 1, "b", 2)));
         assertSame(empty, empty.withAll(Collections.emptyMap()));
     }
 
@@ -98,7 +98,7 @@ public class BasicMap0Test {
 
     @Test
     public void test_non_equality() {
-        assertFalse(BasicMap0.instance().equals(asMap("a", 1)));
-        assertFalse(asMap("a", 1).equals(BasicMap0.instance()));
+        assertFalse(BasicMap0.instance().equals(newMap("a", 1)));
+        assertFalse(newMap("a", 1).equals(BasicMap0.instance()));
     }
 }

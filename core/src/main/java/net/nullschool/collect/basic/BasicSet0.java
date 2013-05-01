@@ -59,11 +59,11 @@ final class BasicSet0<E> extends AbstractBasicConstSet<E> {
     }
 
     @Override public ConstSet<E> with(E e) {
-        return BasicConstSet.of(e);
+        return BasicConstSet.setOf(e);
     }
 
     @Override public ConstSet<E> withAll(Collection<? extends E> c) {
-        return BasicConstSet.build(c);
+        return BasicConstSet.asSet(c);
     }
 
     @Override public ConstSet<E> without(Object o) {

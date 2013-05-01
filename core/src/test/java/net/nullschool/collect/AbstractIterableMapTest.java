@@ -45,7 +45,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_with_several_values() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", 4, "e", 5);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", 4, "e", 5);
         compare_maps(expected, new MockIterableMap<>(expected));
     }
 
@@ -53,13 +53,13 @@ public class AbstractIterableMapTest {
     public void test_map_with_nulls() {
         Map<String, Integer> expected;
 
-        expected = asMap("a", null);
+        expected = newMap("a", null);
         compare_maps(expected, new MockIterableMap<>(expected));
 
-        expected = asMap(null, 5);
+        expected = newMap(null, 5);
         compare_maps(expected, new MockIterableMap<>(expected));
 
-        expected = asMap(null, null);
+        expected = newMap(null, null);
         compare_maps(expected, new MockIterableMap<>(expected));
     }
 
@@ -69,7 +69,7 @@ public class AbstractIterableMapTest {
         IterableMap<String, Integer> b;
 
         // differ by size
-        a = asMap("a", 1, "b", 2);
+        a = newMap("a", 1, "b", 2);
         b = new MockIterableMap<>(singletonMap("a", 1));
         assertNotEquals(a, b);
         assertNotEquals(b, a);
@@ -115,7 +115,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_put() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3);
         Map<String, Integer> actual = new MockIterableMap<>(expected);
 
         // put new
@@ -145,7 +145,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_put_null_entry() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3);
         Map<String, Integer> actual = new MockIterableMap<>(expected);
 
         // put null entry
@@ -155,7 +155,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_putAll() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3);
         Map<String, Integer> actual = new MockIterableMap<>(expected);
 
         // put existing and new
@@ -174,7 +174,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_putAll_iterableMap() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3);
         Map<String, Integer> actual = new MockIterableMap<>(expected);
 
         // invoke putAll with an IterableMap argument
@@ -191,7 +191,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_remove() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, null, 4);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, null, 4);
         Map<String, Integer> actual = new MockIterableMap<>(expected);
 
         // remove existing
@@ -209,7 +209,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_clear() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3);
         Map<String, Integer> actual = new MockIterableMap<>(expected);
 
         expected.clear();
@@ -219,7 +219,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_iterator_remove() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, null, 4);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, null, 4);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         // remove existing
@@ -237,7 +237,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_iterator_remove_multiple() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         remove_by_map_iterator(expected, actual, "c", "b");
@@ -246,7 +246,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_map_iterator_remove_all() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         remove_by_map_iterator(expected, actual, "c", "a", "b");
@@ -275,7 +275,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_keySet_remove() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, null, 4);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, null, 4);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         remove(expected.keySet(), actual.keySet(), "a", "c", null, "d");
@@ -284,7 +284,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_keySet_removeAll() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, null, 4);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, null, 4);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         removeAll(expected.keySet(), actual.keySet(), "a", "c", null, "d");
@@ -302,7 +302,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_keySet_retainAll() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, null, 4);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, null, 4);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
         retainAll(expected.keySet(), actual.keySet(), "a", "c", null, "d");
         compare_maps(expected, actual);
@@ -315,7 +315,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_keySet_clear() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, null, 4);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, null, 4);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
         expected.keySet().clear();
         actual.keySet().clear();
@@ -337,7 +337,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_values_remove() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", null, "x", 1);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", null, "x", 1);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         remove(expected.values(), actual.values(), 1, 3, null, 5);
@@ -346,7 +346,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_values_removeAll() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", null, "x", 1);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", null, "x", 1);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         removeAll(expected.values(), actual.values(), 1, 3, null, 5);
@@ -365,7 +365,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_values_retainAll() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", null, "x", 1);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", null, "x", 1);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
         retainAll(expected.values(), actual.values(), 1, 3, null, 5);
         compare_maps(expected, actual);
@@ -379,7 +379,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_values_clear() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", null, "x", 1);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", null, "x", 1);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
         expected.values().clear();
         actual.values().clear();
@@ -401,35 +401,35 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_entrySet_remove() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", null, null, 5);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", null, null, 5);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         remove(
             expected.entrySet(),
             actual.entrySet(),
-            asEntry("a", 1),
-            asEntry("d", (Integer)null),
-            asEntry((String)null, 5),
-            asEntry("c", 4),
-            asEntry("x", 2),
-            asEntry("z", 9));
+            newEntry("a", 1),
+            newEntry("d", (Integer)null),
+            newEntry((String)null, 5),
+            newEntry("c", 4),
+            newEntry("x", 2),
+            newEntry("z", 9));
         compare_maps(expected, actual);
     }
 
     @Test
     public void test_entrySet_removeAll() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", null, null, 5);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", null, null, 5);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
 
         removeAll(
             expected.entrySet(),
             actual.entrySet(),
-            asEntry("a", 1),
-            asEntry("d", (Integer)null),
-            asEntry((String)null, 5),
-            asEntry("c", 4),
-            asEntry("x", 2),
-            asEntry("z", 9));
+            newEntry("a", 1),
+            newEntry("d", (Integer)null),
+            newEntry((String)null, 5),
+            newEntry("c", 4),
+            newEntry("x", 2),
+            newEntry("z", 9));
         compare_maps(expected, actual);
 
         removeAll(expected.entrySet(), actual.entrySet());
@@ -444,17 +444,17 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_entrySet_retainAll() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", null, null, 5);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", null, null, 5);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
         retainAll(
             expected.entrySet(),
             actual.entrySet(),
-            asEntry("a", 1),
-            asEntry("d", (Integer)null),
-            asEntry((String)null, 5),
-            asEntry("c", 4),
-            asEntry("x", 2),
-            asEntry("z", 9));
+            newEntry("a", 1),
+            newEntry("d", (Integer)null),
+            newEntry((String)null, 5),
+            newEntry("c", 4),
+            newEntry("x", 2),
+            newEntry("z", 9));
         compare_maps(expected, actual);
     }
 
@@ -466,7 +466,7 @@ public class AbstractIterableMapTest {
 
     @Test
     public void test_entrySet_clear() {
-        Map<String, Integer> expected = asMap("a", 1, "b", 2, "c", 3, "d", null, null, 5);
+        Map<String, Integer> expected = newMap("a", 1, "b", 2, "c", 3, "d", null, null, 5);
         IterableMap<String, Integer> actual = new MockIterableMap<>(expected);
         expected.entrySet().clear();
         actual.entrySet().clear();
@@ -475,11 +475,11 @@ public class AbstractIterableMapTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void test_entrySet_add_throws() {
-        new MockIterableMap<String, Integer>().entrySet().add(asEntry("a", 1));
+        new MockIterableMap<String, Integer>().entrySet().add(newEntry("a", 1));
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void test_entrySet_addAll_throws() {
-        new MockIterableMap<String, Integer>().entrySet().addAll(Arrays.asList(asEntry("a", 1)));
+        new MockIterableMap<String, Integer>().entrySet().addAll(Arrays.asList(newEntry("a", 1)));
     }
 }

@@ -24,7 +24,7 @@ public class BasicMapNTest {
     @Test
     public void test_comparison() {
         compare_maps(
-            asMap("a", 1, "b", 2, "c", 3, "d", 4),
+            newMap("a", 1, "b", 2, "c", 3, "d", 4),
             new BasicMapN<>(new Object[] {"a", "b", "c", "d"}, new Object[] {1, 2, 3, 4}));
     }
 
@@ -38,10 +38,10 @@ public class BasicMapNTest {
         ConstMap<Object, Object> map;
 
         map = new BasicMapN<>(new Object[] {"a", "b", "c", "d"}, new Object[] {1, 2, 3, 4});
-        compare_maps(asMap("a", 1, "b", 2, "c", 3, "d", 4, "e", 5), map.with("e", 5));
-        compare_maps(asMap("a", 1, "b", 9, "c", 3, "d", 4), map.with("b", 9));
-        compare_maps(asMap("a", 1, "b", 2, "c", 3, "d", 4, "e", null), map.with("e", null));
-        compare_maps(asMap("a", 1, "b", 2, "c", 3, "d", 4, null, 5), map.with(null, 5));
+        compare_maps(newMap("a", 1, "b", 2, "c", 3, "d", 4, "e", 5), map.with("e", 5));
+        compare_maps(newMap("a", 1, "b", 9, "c", 3, "d", 4), map.with("b", 9));
+        compare_maps(newMap("a", 1, "b", 2, "c", 3, "d", 4, "e", null), map.with("e", null));
+        compare_maps(newMap("a", 1, "b", 2, "c", 3, "d", 4, null, 5), map.with(null, 5));
         assertSame(map, map.with("b", 2));
 
         map = new BasicMapN<>(new Object[] {"a", "b", "c", null}, new Object[] {1, 2, 3, null});
@@ -53,11 +53,11 @@ public class BasicMapNTest {
         ConstMap<Object, Object> map =
             new BasicMapN<>(new Object[] {"a", "b", "c", "d"}, new Object[] {1, 2, 3, 4});
         compare_maps(
-            asMap("a", 1, "b", 9, "c", 3, "d", 4, "e", 5, "f", 6),
-            map.withAll(asMap("e", 5, "f", 6, "b", 9)));
+            newMap("a", 1, "b", 9, "c", 3, "d", 4, "e", 5, "f", 6),
+            map.withAll(newMap("e", 5, "f", 6, "b", 9)));
 
-        compare_maps(map, map.withAll(asMap("a", 1, "b", 2)));
-        assertSame(map, map.withAll(asMap()));
+        compare_maps(map, map.withAll(newMap("a", 1, "b", 2)));
+        assertSame(map, map.withAll(newMap()));
     }
 
     @Test(expected = NullPointerException.class)
@@ -69,7 +69,7 @@ public class BasicMapNTest {
     public void test_without() {
         ConstMap<Object, Object> map =
             new BasicMapN<>(new Object[] {"a", "b", "c", "d"}, new Object[] {1, 2, 3, 4});
-        compare_maps(asMap("a", 1, "b", 2, "c", 3), map.without("d"));
+        compare_maps(newMap("a", 1, "b", 2, "c", 3), map.without("d"));
         assertSame(map, map.without("e"));
         assertSame(map, map.without(null));
     }
@@ -79,8 +79,8 @@ public class BasicMapNTest {
         ConstMap<Object, Object> map =
             new BasicMapN<>(new Object[] {"a", "b", "c", "d"}, new Object[] {1, 2, 3, 4});
 
-        compare_maps(asMap("c", 3, "d", 4), map.withoutAll(Arrays.asList("a", "b", "a")));
-        compare_maps(asMap("c", 3, "d", 4), map.withoutAll(Arrays.asList("a", "b", "x")));
+        compare_maps(newMap("c", 3, "d", 4), map.withoutAll(Arrays.asList("a", "b", "a")));
+        compare_maps(newMap("c", 3, "d", 4), map.withoutAll(Arrays.asList("a", "b", "x")));
         compare_maps(map, map.withoutAll(Arrays.asList("x")));
         assertSame(map, map.withoutAll(Arrays.asList()));
         assertSame(BasicMap0.instance(), map.withoutAll(map.keySet()));
@@ -136,15 +136,15 @@ public class BasicMapNTest {
     public void test_non_equality() {
         assertFalse(
             new BasicMapN<>(new Object[] {"a", "b", "c"}, new Object[] {1, 2, 3})
-                .equals(asMap("a", 1, "b", 2, "c", 4)));
+                .equals(newMap("a", 1, "b", 2, "c", 4)));
         assertFalse(
             new BasicMapN<>(new Object[] {"a", "b", "x"}, new Object[] {1, 2, 3})
-                .equals(asMap("a", 1, "b", 2, "c", 3)));
+                .equals(newMap("a", 1, "b", 2, "c", 3)));
         assertFalse(
-            asMap("a", 1, "b", 2, "c", 4)
+            newMap("a", 1, "b", 2, "c", 4)
                 .equals(new BasicMapN<>(new Object[] {"a", "b", "c"}, new Object[] {1, 2, 3})));
         assertFalse(
-            asMap("a", 1, "b", 2, "c", 3)
+            newMap("a", 1, "b", 2, "c", 3)
                 .equals(new BasicMapN<>(new Object[] {"a", "b", "x"}, new Object[] {1, 2, 3})));
     }
 
@@ -153,9 +153,9 @@ public class BasicMapNTest {
         ConstMap<String, Integer> map = new BasicMapN<>(new Object[] {"a", "b"}, new Object[] {1, 2});
         ConstSet<Map.Entry<String, Integer>> entrySet = map.entrySet();
 
-        compare_sets(asSet(asEntry("a", 1), asEntry("b", 2), asEntry("a", 0)), entrySet.with(asEntry("a", 0)));
-        compare_sets(asSet(asEntry("a", 1), asEntry("b", 2), asEntry("c", 3)), entrySet.with(asEntry("c", 3)));
-        assertSame(entrySet, entrySet.with(asEntry("a", 1)));
+        compare_sets(newSet(newEntry("a", 1), newEntry("b", 2), newEntry("a", 0)), entrySet.with(newEntry("a", 0)));
+        compare_sets(newSet(newEntry("a", 1), newEntry("b", 2), newEntry("c", 3)), entrySet.with(newEntry("c", 3)));
+        assertSame(entrySet, entrySet.with(newEntry("a", 1)));
     }
 
     @Test
@@ -164,9 +164,9 @@ public class BasicMapNTest {
         ConstSet<Map.Entry<String, Integer>> entrySet = map.entrySet();
 
         compare_sets(
-            asSet(asEntry("a", 1), asEntry("b", 2), asEntry("c", 3)),
-            entrySet.withAll(Arrays.asList(asEntry("a", 1), asEntry("c", 3))));
-        compare_sets(entrySet, entrySet.withAll(Arrays.asList(asEntry("a", 1), asEntry("b", 2))));
+            newSet(newEntry("a", 1), newEntry("b", 2), newEntry("c", 3)),
+            entrySet.withAll(Arrays.asList(newEntry("a", 1), newEntry("c", 3))));
+        compare_sets(entrySet, entrySet.withAll(Arrays.asList(newEntry("a", 1), newEntry("b", 2))));
         assertSame(entrySet, entrySet.withAll(Arrays.<Map.Entry<String, Integer>>asList()));
     }
 
@@ -175,8 +175,8 @@ public class BasicMapNTest {
         ConstMap<String, Integer> map = new BasicMapN<>(new Object[] {"a", "b"}, new Object[] {1, 2});
         ConstSet<Map.Entry<String, Integer>> entrySet = map.entrySet();
 
-        compare_sets(asSet(asEntry("a", 1)), entrySet.without(asEntry("b", 2)));
-        assertSame(entrySet, entrySet.without(asEntry("a", 0)));
+        compare_sets(newSet(newEntry("a", 1)), entrySet.without(newEntry("b", 2)));
+        assertSame(entrySet, entrySet.without(newEntry("a", 0)));
     }
 
     @Test
@@ -184,7 +184,7 @@ public class BasicMapNTest {
         ConstMap<String, Integer> map = new BasicMapN<>(new Object[] {"a", "b"}, new Object[] {1, 2});
         ConstSet<Map.Entry<String, Integer>> entrySet = map.entrySet();
 
-        compare_sets(asSet(asEntry("a", 1)), entrySet.withoutAll(Arrays.asList(asEntry("b", 2), asEntry("c", 3))));
+        compare_sets(newSet(newEntry("a", 1)), entrySet.withoutAll(Arrays.asList(newEntry("b", 2), newEntry("c", 3))));
         assertSame(entrySet, entrySet.withoutAll(Arrays.asList()));
     }
 }

@@ -74,21 +74,21 @@ final class BasicSortedSet1<E> extends AbstractBasicConstSortedSet<E> {
     }
 
     @Override public ConstSortedSet<E> without(Object o) {
-        return !contains(o) ? this : BasicConstSortedSet.of(comparator);
+        return !contains(o) ? this : BasicConstSortedSet.emptySortedSet(comparator);
     }
 
     @Override public ConstSortedSet<E> withoutAll(Collection<?> c) {
         // Just like AbstractCollection.removeAll, use the specified collection's "contains" method
         // to test for equality rather than this set's comparator.
-        return !c.contains(e0) ? this : BasicConstSortedSet.of(comparator);
+        return !c.contains(e0) ? this : BasicConstSortedSet.emptySortedSet(comparator);
     }
 
     @Override public ConstSortedSet<E> headSet(E toElement) {
-        return compare(e0, toElement) < 0 ? this : BasicConstSortedSet.of(comparator);
+        return compare(e0, toElement) < 0 ? this : BasicConstSortedSet.emptySortedSet(comparator);
     }
 
     @Override public ConstSortedSet<E> tailSet(E fromElement) {
-        return compare(fromElement, e0) <= 0 ? this : BasicConstSortedSet.of(comparator);
+        return compare(fromElement, e0) <= 0 ? this : BasicConstSortedSet.emptySortedSet(comparator);
     }
 
     @Override public ConstSortedSet<E> subSet(E fromElement, E toElement) {
@@ -97,7 +97,7 @@ final class BasicSortedSet1<E> extends AbstractBasicConstSortedSet<E> {
         }
         int from = compare(fromElement, e0);
         int to = compare(e0, toElement);
-        return from <= 0 && to < 0 ? this : BasicConstSortedSet.of(comparator);
+        return from <= 0 && to < 0 ? this : BasicConstSortedSet.emptySortedSet(comparator);
     }
 
     @Override public int hashCode() {

@@ -38,7 +38,7 @@ public class BasicSet0Test {
     @Test
     public void test_withAll() {
         ConstSet<Integer> empty = BasicSet0.instance();
-        compare_sets(asSet(1, 2, 3), empty.withAll(Arrays.asList(1, 2, 3)));
+        compare_sets(newSet(1, 2, 3), empty.withAll(Arrays.asList(1, 2, 3)));
         assertSame(empty, empty.withAll(Collections.<Integer>emptySet()));
     }
 
@@ -86,7 +86,7 @@ public class BasicSet0Test {
 
     @Test
     public void test_non_equality() {
-        assertFalse(BasicSet0.instance().equals(asSet(1)));
-        assertFalse(asSet(1).equals(BasicSet0.instance()));
+        assertFalse(BasicSet0.instance().equals(newSet(1)));
+        assertFalse(newSet(1).equals(BasicSet0.instance()));
     }
 }

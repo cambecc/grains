@@ -72,7 +72,7 @@ final class BasicSortedMap1<K, V> extends AbstractBasicConstSortedMap<K, V> {
     }
 
     @Override public ConstSortedSet<K> keySet() {
-        return BasicConstSortedSet.of(comparator, k0);
+        return BasicConstSortedSet.sortedSetOf(comparator, k0);
     }
 
     @Override public ConstCollection<V> values() {
@@ -82,7 +82,7 @@ final class BasicSortedMap1<K, V> extends AbstractBasicConstSortedMap<K, V> {
     @Override public ConstSet<Entry<K, V>> entrySet() {
         MapIterator<K, V> iter = iterator();
         iter.next();
-        return BasicConstSet.of(iter.entry());
+        return BasicConstSet.setOf(iter.entry());
     }
 
     @Override public ConstSortedMap<K, V> with(K key, V value) {

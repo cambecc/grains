@@ -25,11 +25,11 @@ public class BasicSortedSetNTest {
     @Test
     public void test_comparison() {
         compare_sorted_sets(
-            asSortedSet(null, 1, 2, 3, 5, 6, 7),
+            newSortedSet(null, 1, 2, 3, 5, 6, 7),
             new BasicSortedSetN<>(null, new Object[] {1, 2, 3, 5, 6, 7}),
             0, 2, 4, 6, 8, 1, 7);
         compare_sorted_sets(
-            asSortedSet(reverseOrder(), 7, 6, 5, 3, 2, 1),
+            newSortedSet(reverseOrder(), 7, 6, 5, 3, 2, 1),
             new BasicSortedSetN<>(reverseOrder(), new Object[] {7, 6, 5, 3, 2, 1}),
             8, 6, 4, 2, 0, 7, 1);
     }
@@ -44,15 +44,15 @@ public class BasicSortedSetNTest {
         ConstSortedSet<Integer> set;
 
         set = new BasicSortedSetN<>(null, new Object[] {1, 2, 3, 4, 5, 6});
-        compare_sorted_sets(asSortedSet(null, 1, 2, 3, 4, 5, 6, 7), set.with(7));
-        compare_sorted_sets(asSortedSet(null, 0, 1, 2, 3, 4, 5, 6), set.with(0));
-        compare_sorted_sets(asSortedSet(null, 1, 2, 3, 4, 5, 6, 7, 8), set.with(8).with(7));
+        compare_sorted_sets(newSortedSet(null, 1, 2, 3, 4, 5, 6, 7), set.with(7));
+        compare_sorted_sets(newSortedSet(null, 0, 1, 2, 3, 4, 5, 6), set.with(0));
+        compare_sorted_sets(newSortedSet(null, 1, 2, 3, 4, 5, 6, 7, 8), set.with(8).with(7));
         assertSame(set, set.with(6));
 
         set = new BasicSortedSetN<>(reverseOrder(), new Object[] {6, 5, 4, 3, 2, 1});
-        compare_sorted_sets(asSortedSet(reverseOrder(), 7, 6, 5, 4, 3, 2, 1), set.with(7));
-        compare_sorted_sets(asSortedSet(reverseOrder(), 6, 5, 4, 3, 2, 1, 0), set.with(0));
-        compare_sorted_sets(asSortedSet(reverseOrder(), 8, 7, 6, 5, 4, 3, 2, 1), set.with(8).with(7));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 7, 6, 5, 4, 3, 2, 1), set.with(7));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 6, 5, 4, 3, 2, 1, 0), set.with(0));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 8, 7, 6, 5, 4, 3, 2, 1), set.with(8).with(7));
         assertSame(set, set.with(6));
     }
 
@@ -62,14 +62,14 @@ public class BasicSortedSetNTest {
 
         set = new BasicSortedSetN<>(null, new Object[] {1, 2, 3, 4, 5, 7});
         compare_sorted_sets(
-            asSortedSet(null, 0, 1, 2, 3, 4, 5, 6, 7, 8),
+            newSortedSet(null, 0, 1, 2, 3, 4, 5, 6, 7, 8),
             set.withAll(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 0)));
         assertSame(set, set.withAll(Arrays.asList(1, 1, 1, 2, 2, 3, 3)));
         assertSame(set, set.withAll(Collections.<Integer>emptyList()));
 
         set = new BasicSortedSetN<>(reverseOrder(), new Object[] {7, 5, 4, 3, 2, 1});
         compare_sorted_sets(
-            asSortedSet(reverseOrder(), 8, 7, 6, 5, 4, 3, 2, 1, 0),
+            newSortedSet(reverseOrder(), 8, 7, 6, 5, 4, 3, 2, 1, 0),
             set.withAll(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1, 0)));
         assertSame(set, set.withAll(Arrays.asList(1, 1, 1, 2, 2, 3, 3)));
         assertSame(set, set.withAll(Collections.<Integer>emptyList()));
@@ -85,16 +85,16 @@ public class BasicSortedSetNTest {
         ConstSortedSet<Integer> set;
 
         set = new BasicSortedSetN<>(null, new Object[] {1, 2, 3, 4, 5, 6});
-        compare_sorted_sets(asSortedSet(null, 2, 3, 4, 5, 6), set.without(1));
-        compare_sorted_sets(asSortedSet(null, 1, 3, 4, 5, 6), set.without(2));
-        compare_sorted_sets(asSortedSet(null, 1, 2, 3, 4, 5), set.without(6));
+        compare_sorted_sets(newSortedSet(null, 2, 3, 4, 5, 6), set.without(1));
+        compare_sorted_sets(newSortedSet(null, 1, 3, 4, 5, 6), set.without(2));
+        compare_sorted_sets(newSortedSet(null, 1, 2, 3, 4, 5), set.without(6));
         assertSame(set, set.without(-1));
         assertSame(set, set.without(7));
 
         set = new BasicSortedSetN<>(reverseOrder(), new Object[] {6, 5, 4, 3, 2, 1});
-        compare_sorted_sets(asSortedSet(reverseOrder(), 6, 5, 4, 3, 2), set.without(1));
-        compare_sorted_sets(asSortedSet(reverseOrder(), 6, 5, 4, 3, 1), set.without(2));
-        compare_sorted_sets(asSortedSet(reverseOrder(), 5, 4, 3, 2, 1), set.without(6));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 6, 5, 4, 3, 2), set.without(1));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 6, 5, 4, 3, 1), set.without(2));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 5, 4, 3, 2, 1), set.without(6));
         assertSame(set, set.without(-1));
         assertSame(set, set.without(7));
     }
@@ -104,15 +104,15 @@ public class BasicSortedSetNTest {
         ConstSortedSet<Integer> set;
 
         set = new BasicSortedSetN<>(null, new Object[] {1, 2, 3, 4, 5, 6});
-        compare_sorted_sets(asSortedSet(null, 2, 4, 5), set.withoutAll(Arrays.asList(1, 3, 6)));
-        compare_sorted_sets(asSortedSet(null, 2, 4, 5), set.withoutAll(Arrays.asList(1, 3, 9, -1, 6)));
+        compare_sorted_sets(newSortedSet(null, 2, 4, 5), set.withoutAll(Arrays.asList(1, 3, 6)));
+        compare_sorted_sets(newSortedSet(null, 2, 4, 5), set.withoutAll(Arrays.asList(1, 3, 9, -1, 6)));
         assertSame(set, set.withoutAll(Arrays.asList(7)));
         assertSame(set, set.withoutAll(Arrays.asList()));
         assertEquals(BasicSortedSet0.<Integer>instance(null), set.withoutAll(set));
 
         set = new BasicSortedSetN<>(reverseOrder(), new Object[] {6, 5, 4, 3, 2, 1});
-        compare_sorted_sets(asSortedSet(reverseOrder(), 5, 4, 2), set.withoutAll(Arrays.asList(1, 3, 6)));
-        compare_sorted_sets(asSortedSet(reverseOrder(), 5, 4, 2), set.withoutAll(Arrays.asList(1, 3, 9, -1, 6)));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 5, 4, 2), set.withoutAll(Arrays.asList(1, 3, 6)));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 5, 4, 2), set.withoutAll(Arrays.asList(1, 3, 9, -1, 6)));
         assertSame(set, set.withoutAll(Arrays.asList(7)));
         assertSame(set, set.withoutAll(Arrays.asList()));
         assertEquals(BasicSortedSet0.<Integer>instance(reverseOrder()), set.withoutAll(set));
@@ -179,8 +179,8 @@ public class BasicSortedSetNTest {
 
     @Test
     public void test_non_equality() {
-        assertFalse(new BasicSortedSetN<>(null, new Object[] {1, 2, 3}).equals(asSortedSet(null, 1, 2, 4)));
-        assertFalse(asSortedSet(null, 1, 2, 4).equals(new BasicSortedSetN<>(null, new Object[] {1, 2, 3})));
+        assertFalse(new BasicSortedSetN<>(null, new Object[] {1, 2, 3}).equals(newSortedSet(null, 1, 2, 4)));
+        assertFalse(newSortedSet(null, 1, 2, 4).equals(new BasicSortedSetN<>(null, new Object[] {1, 2, 3})));
     }
 
     @Test

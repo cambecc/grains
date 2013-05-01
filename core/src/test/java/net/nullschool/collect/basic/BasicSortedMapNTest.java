@@ -26,14 +26,14 @@ public class BasicSortedMapNTest {
     public void test_comparison() {
 
         compare_sorted_maps(
-            asSortedMap(null, "a", 1, "b", 2, "c", 3, "e", 5, "f", 6, "g", 7),
+            newSortedMap(null, "a", 1, "b", 2, "c", 3, "e", 5, "f", 6, "g", 7),
             new BasicSortedMapN<>(
                 null,
                 new Object[] {"a", "b", "c", "e", "f", "g"},
                 new Object[] {1,   2,   3,   5,   6,   7}),
             "+", "b", "d", "f", "h", "a", "g");
         compare_sorted_maps(
-            asSortedMap(reverseOrder(), "g", 7, "f", 6, "e", 5, "c", 3, "b", 2, "a", 1),
+            newSortedMap(reverseOrder(), "g", 7, "f", 6, "e", 5, "c", 3, "b", 2, "a", 1),
             new BasicSortedMapN<>(
                 reverseOrder(),
                 new Object[] {"g", "f", "e", "c", "b", "a"},
@@ -52,17 +52,17 @@ public class BasicSortedMapNTest {
         ConstSortedMap<Object, Object> map;
 
         map = new BasicSortedMapN<>(null, new Object[] {"a", "b", "c", "e"}, new Object[] {1, 2, 3, 5});
-        compare_sorted_maps(asSortedMap(null, "a", 1, "b", 2, "c", 3, "d", 4, "e", 5), map.with("d", 4));
-        compare_sorted_maps(asSortedMap(null, "+", 0, "a", 1, "b", 2, "c", 3, "e", 5), map.with("+", 0));
-        compare_sorted_maps(asSortedMap(null, "a", 1, "b", 2, "c", 3, "e", 5, "f", 6), map.with("f", 6));
-        compare_sorted_maps(asSortedMap(null, "a", 1, "b", 9, "c", 3, "e", 5), map.with("b", 9));
+        compare_sorted_maps(newSortedMap(null, "a", 1, "b", 2, "c", 3, "d", 4, "e", 5), map.with("d", 4));
+        compare_sorted_maps(newSortedMap(null, "+", 0, "a", 1, "b", 2, "c", 3, "e", 5), map.with("+", 0));
+        compare_sorted_maps(newSortedMap(null, "a", 1, "b", 2, "c", 3, "e", 5, "f", 6), map.with("f", 6));
+        compare_sorted_maps(newSortedMap(null, "a", 1, "b", 9, "c", 3, "e", 5), map.with("b", 9));
         assertSame(map, map.with("b", 2));
 
         map = new BasicSortedMapN<>(reverseOrder(), new Object[] {"e", "c", "b", "a"}, new Object[] {5, 3, 2, 1});
-        compare_sorted_maps(asSortedMap(reverseOrder(), "e", 5, "d", 4, "c", 3, "b", 2, "a", 1), map.with("d", 4));
-        compare_sorted_maps(asSortedMap(reverseOrder(), "e", 5, "c", 3, "b", 2, "a", 1, "+", 0), map.with("+", 0));
-        compare_sorted_maps(asSortedMap(reverseOrder(), "f", 6, "e", 5, "c", 3, "b", 2, "a", 1), map.with("f", 6));
-        compare_sorted_maps(asSortedMap(reverseOrder(), "e", 5, "c", 3, "b", 9, "a", 1), map.with("b", 9));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "e", 5, "d", 4, "c", 3, "b", 2, "a", 1), map.with("d", 4));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "e", 5, "c", 3, "b", 2, "a", 1, "+", 0), map.with("+", 0));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "f", 6, "e", 5, "c", 3, "b", 2, "a", 1), map.with("f", 6));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "e", 5, "c", 3, "b", 9, "a", 1), map.with("b", 9));
         assertSame(map, map.with("b", 2));
     }
 
@@ -72,17 +72,17 @@ public class BasicSortedMapNTest {
 
         map = new BasicSortedMapN<>(null, new Object[] {"a", "b", "c", "e"}, new Object[] {1, 2, 3, 5});
         compare_sorted_maps(
-            asSortedMap(null, "+", 0, "a", 1, "b", 9, "c", 3, "d", 4, "e", 5, "f", 6),
-            map.withAll(asMap("+", 0, "f", 6, "b", 9, "d", 4)));
-        compare_sorted_maps(map, map.withAll(asMap("a", 1, "b", 2)));
-        assertSame(map, map.withAll(asMap()));
+            newSortedMap(null, "+", 0, "a", 1, "b", 9, "c", 3, "d", 4, "e", 5, "f", 6),
+            map.withAll(newMap("+", 0, "f", 6, "b", 9, "d", 4)));
+        compare_sorted_maps(map, map.withAll(newMap("a", 1, "b", 2)));
+        assertSame(map, map.withAll(newMap()));
 
         map = new BasicSortedMapN<>(reverseOrder(), new Object[] {"e", "c", "b", "a"}, new Object[] {5, 3, 2, 1});
         compare_sorted_maps(
-            asSortedMap(reverseOrder(), "f", 6, "e", 5, "d", 4, "c", 3, "b", 9, "a", 1, "+", 0),
-            map.withAll(asMap("+", 0, "f", 6, "b", 9, "d", 4)));
-        compare_sorted_maps(map, map.withAll(asMap("a", 1, "b", 2)));
-        assertSame(map, map.withAll(asMap()));
+            newSortedMap(reverseOrder(), "f", 6, "e", 5, "d", 4, "c", 3, "b", 9, "a", 1, "+", 0),
+            map.withAll(newMap("+", 0, "f", 6, "b", 9, "d", 4)));
+        compare_sorted_maps(map, map.withAll(newMap("a", 1, "b", 2)));
+        assertSame(map, map.withAll(newMap()));
     }
 
     @Test(expected = NullPointerException.class)
@@ -95,17 +95,17 @@ public class BasicSortedMapNTest {
         ConstSortedMap<Object, Object> map;
 
         map = new BasicSortedMapN<>(null, new Object[] {"a", "b", "c", "e"}, new Object[] {1, 2, 3, 5});
-        compare_sorted_maps(asSortedMap(null, "b", 2, "c", 3, "e", 5), map.without("a"));
-        compare_sorted_maps(asSortedMap(null, "a", 1, "b", 2, "e", 5), map.without("c"));
-        compare_sorted_maps(asSortedMap(null, "a", 1, "b", 2, "c", 3), map.without("e"));
+        compare_sorted_maps(newSortedMap(null, "b", 2, "c", 3, "e", 5), map.without("a"));
+        compare_sorted_maps(newSortedMap(null, "a", 1, "b", 2, "e", 5), map.without("c"));
+        compare_sorted_maps(newSortedMap(null, "a", 1, "b", 2, "c", 3), map.without("e"));
         assertSame(map, map.without("+"));
         assertSame(map, map.without("d"));
         assertSame(map, map.without("f"));
 
         map = new BasicSortedMapN<>(reverseOrder(), new Object[] {"e", "c", "b", "a"}, new Object[] {5, 3, 2, 1});
-        compare_sorted_maps(asSortedMap(reverseOrder(), "e", 5, "c", 3, "b", 2), map.without("a"));
-        compare_sorted_maps(asSortedMap(reverseOrder(), "e", 5, "b", 2, "a", 1), map.without("c"));
-        compare_sorted_maps(asSortedMap(reverseOrder(), "c", 3, "b", 2, "a", 1), map.without("e"));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "e", 5, "c", 3, "b", 2), map.without("a"));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "e", 5, "b", 2, "a", 1), map.without("c"));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "c", 3, "b", 2, "a", 1), map.without("e"));
         assertSame(map, map.without("+"));
         assertSame(map, map.without("d"));
         assertSame(map, map.without("f"));
@@ -116,15 +116,15 @@ public class BasicSortedMapNTest {
         ConstSortedMap<Object, Object> map;
 
         map = new BasicSortedMapN<>(null, new Object[] {"a", "b", "c", "e"}, new Object[] {1, 2, 3, 5});
-        compare_sorted_maps(asSortedMap(null, "b", 2), map.withoutAll(Arrays.asList("a", "e", "c")));
-        compare_sorted_maps(asSortedMap(null, "b", 2), map.withoutAll(Arrays.asList("a", "+", "f", "e", "c", "a")));
+        compare_sorted_maps(newSortedMap(null, "b", 2), map.withoutAll(Arrays.asList("a", "e", "c")));
+        compare_sorted_maps(newSortedMap(null, "b", 2), map.withoutAll(Arrays.asList("a", "+", "f", "e", "c", "a")));
         compare_sorted_maps(map, map.withoutAll(Arrays.asList("+")));
         assertSame(map, map.withoutAll(Arrays.asList()));
         assertEquals(BasicSortedMap0.<Object, Object>instance(null), map.withoutAll(map.keySet()));
 
         map = new BasicSortedMapN<>(reverseOrder(), new Object[] {"e", "c", "b", "a"}, new Object[] {5, 3, 2, 1});
-        compare_sorted_maps(asSortedMap(reverseOrder(), "b", 2), map.withoutAll(Arrays.asList("a", "e", "c")));
-        compare_sorted_maps(asSortedMap(reverseOrder(), "b", 2), map.withoutAll(Arrays.asList("a", "+", "f", "e", "c", "a")));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "b", 2), map.withoutAll(Arrays.asList("a", "e", "c")));
+        compare_sorted_maps(newSortedMap(reverseOrder(), "b", 2), map.withoutAll(Arrays.asList("a", "+", "f", "e", "c", "a")));
         compare_sorted_maps(map, map.withoutAll(Arrays.asList("+")));
         assertSame(map, map.withoutAll(Arrays.asList()));
         assertEquals(BasicSortedMap0.<Object, Object>instance(reverseOrder()), map.withoutAll(map.keySet()));
@@ -202,15 +202,15 @@ public class BasicSortedMapNTest {
     public void test_non_equality() {
         assertFalse(
             new BasicSortedMapN<>(null, new Object[] {"a", "b", "c"}, new Object[] {1, 2, 3})
-                .equals(asSortedMap(null, "a", 1, "b", 2, "c", 4)));
+                .equals(newSortedMap(null, "a", 1, "b", 2, "c", 4)));
         assertFalse(
             new BasicSortedMapN<>(null, new Object[] {"a", "b", "x"}, new Object[] {1, 2, 3})
-                .equals(asSortedMap(null, "a", 1, "b", 2, "c", 3)));
+                .equals(newSortedMap(null, "a", 1, "b", 2, "c", 3)));
         assertFalse(
-            asSortedMap(null, "a", 1, "b", 2, "c", 4)
+            newSortedMap(null, "a", 1, "b", 2, "c", 4)
                 .equals(new BasicSortedMapN<>(null, new Object[] {"a", "b", "c"}, new Object[] {1, 2, 3})));
         assertFalse(
-            asSortedMap(null, "a", 1, "b", 2, "c", 3)
+            newSortedMap(null, "a", 1, "b", 2, "c", 3)
                 .equals(new BasicSortedMapN<>(null, new Object[] {"a", "b", "x"}, new Object[] {1, 2, 3})));
     }
 
@@ -226,9 +226,9 @@ public class BasicSortedMapNTest {
         ConstSortedMap<String, Integer> map = new BasicSortedMapN<>(null, new Object[] {"a", "b"}, new Object[] {1, 2});
         ConstSet<Map.Entry<String, Integer>> entrySet = map.entrySet();
 
-        compare_sets(asSet(asEntry("a", 1), asEntry("b", 2), asEntry("a", 0)), entrySet.with(asEntry("a", 0)));
-        compare_sets(asSet(asEntry("a", 1), asEntry("b", 2), asEntry("c", 3)), entrySet.with(asEntry("c", 3)));
-        assertSame(entrySet, entrySet.with(asEntry("a", 1)));
+        compare_sets(newSet(newEntry("a", 1), newEntry("b", 2), newEntry("a", 0)), entrySet.with(newEntry("a", 0)));
+        compare_sets(newSet(newEntry("a", 1), newEntry("b", 2), newEntry("c", 3)), entrySet.with(newEntry("c", 3)));
+        assertSame(entrySet, entrySet.with(newEntry("a", 1)));
     }
 
     @Test
@@ -237,9 +237,9 @@ public class BasicSortedMapNTest {
         ConstSet<Map.Entry<String, Integer>> entrySet = map.entrySet();
 
         compare_sets(
-            asSet(asEntry("a", 1), asEntry("b", 2), asEntry("c", 3)),
-            entrySet.withAll(Arrays.asList(asEntry("a", 1), asEntry("c", 3))));
-        compare_sets(entrySet, entrySet.withAll(Arrays.asList(asEntry("a", 1), asEntry("b", 2))));
+            newSet(newEntry("a", 1), newEntry("b", 2), newEntry("c", 3)),
+            entrySet.withAll(Arrays.asList(newEntry("a", 1), newEntry("c", 3))));
+        compare_sets(entrySet, entrySet.withAll(Arrays.asList(newEntry("a", 1), newEntry("b", 2))));
         assertSame(entrySet, entrySet.withAll(Arrays.<Map.Entry<String, Integer>>asList()));
     }
 
@@ -248,8 +248,8 @@ public class BasicSortedMapNTest {
         ConstSortedMap<String, Integer> map = new BasicSortedMapN<>(null, new Object[] {"a", "b"}, new Object[] {1, 2});
         ConstSet<Map.Entry<String, Integer>> entrySet = map.entrySet();
 
-        compare_sets(asSet(asEntry("a", 1)), entrySet.without(asEntry("b", 2)));
-        assertSame(entrySet, entrySet.without(asEntry("a", 0)));
+        compare_sets(newSet(newEntry("a", 1)), entrySet.without(newEntry("b", 2)));
+        assertSame(entrySet, entrySet.without(newEntry("a", 0)));
     }
 
     @Test
@@ -257,7 +257,7 @@ public class BasicSortedMapNTest {
         ConstSortedMap<String, Integer> map = new BasicSortedMapN<>(null, new Object[] {"a", "b"}, new Object[] {1, 2});
         ConstSet<Map.Entry<String, Integer>> entrySet = map.entrySet();
 
-        compare_sets(asSet(asEntry("a", 1)), entrySet.withoutAll(Arrays.asList(asEntry("b", 2), asEntry("c", 3))));
+        compare_sets(newSet(newEntry("a", 1)), entrySet.withoutAll(Arrays.asList(newEntry("b", 2), newEntry("c", 3))));
         assertSame(entrySet, entrySet.withoutAll(Arrays.asList()));
     }
 

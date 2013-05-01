@@ -37,7 +37,7 @@ public class BasicConstListTest {
         // noinspection RedundantArrayCreation
         compare_lists(Arrays.asList(9, 3, 2, 1, 1, 3, 2, 3, 2), listOf(9, 3, 2, 1, 1, 3, new Integer[] {2, 3, 2}));
 
-        compare_lists(Arrays.asList(new Object[] {null}), listOf(null));
+        compare_lists(Arrays.asList((Object)null), listOf(null));
         compare_lists(Arrays.asList(null, null), listOf(null, null));
         compare_lists(Arrays.asList(null, null, null), listOf(null, null, null));
         compare_lists(Arrays.asList(null, null, null, null), listOf(null, null, null, null));
@@ -45,7 +45,7 @@ public class BasicConstListTest {
         compare_lists(Arrays.asList(null, null, null, null, null, null), listOf(null, null, null, null, null, null));
         compare_lists(
             Arrays.asList(null, null, null, null, null, null, null),
-            listOf(null, null, null, null, null, null, new Object[] {null}));
+            listOf(null, null, null, null, null, null, (Object)null));
         compare_lists(
             Arrays.asList(null, null, null, null, null, null, null, null),
             listOf(null, null, null, null, null, null, null, null));

@@ -37,19 +37,19 @@ public enum CollectionTestingTools {;
     }
 
     @SafeVarargs
-    public static <T> Set<T> asSet(T... a) {
+    public static <T> Set<T> newSet(T... a) {
         return new LinkedHashSet<>(Arrays.asList(a));
     }
 
     @SafeVarargs
-    public static <T> SortedSet<T> asSortedSet(Comparator<? super T> comparator, T... a) {
+    public static <T> SortedSet<T> newSortedSet(Comparator<? super T> comparator, T... a) {
         TreeSet<T> set = new TreeSet<>(comparator);
         Collections.addAll(set, a);
         return set;
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> Map<K, V> asMap(Object... keysAndValues) {
+    public static <K, V> Map<K, V> newMap(Object... keysAndValues) {
         Map<K, V> map = new LinkedHashMap<>();
         for (int i = 0; i < keysAndValues.length; i += 2) {
             map.put((K)keysAndValues[i], (V)keysAndValues[i + 1]);
@@ -58,7 +58,7 @@ public enum CollectionTestingTools {;
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> SortedMap<K, V> asSortedMap(Comparator<? super K> comparator, Object... keysAndValues) {
+    public static <K, V> SortedMap<K, V> newSortedMap(Comparator<? super K> comparator, Object... keysAndValues) {
         TreeMap<K, V> map = new TreeMap<>(comparator);
         for (int i = 0; i < keysAndValues.length; i += 2) {
             map.put((K)keysAndValues[i], (V)keysAndValues[i + 1]);
@@ -67,7 +67,7 @@ public enum CollectionTestingTools {;
 
     }
 
-    public static <K, V> Map.Entry<K, V> asEntry(K key, V value) {
+    public static <K, V> Map.Entry<K, V> newEntry(K key, V value) {
         return new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 
@@ -466,7 +466,7 @@ public enum CollectionTestingTools {;
         compare_collections(expected.values(), actual.values());
         compare_sets(expected.entrySet(), actual.entrySet());
 
-        Map.Entry entry = asEntry(new Object(), new Object());
+        Map.Entry entry = newEntry(new Object(), new Object());
         try { assertFalse(expected.entrySet().contains(entry)); } catch (ClassCastException ignored) {}
         try { assertFalse(actual.entrySet().contains(entry));   } catch (ClassCastException ignored) {}
     }
@@ -628,7 +628,7 @@ public enum CollectionTestingTools {;
     }
 
     public static <K, V> void putAll(Map<K, V> expected, Map<K, V> actual, K k0, V v0, K k1, V v1) {
-        Map<K, V> map = Collections.unmodifiableMap(CollectionTestingTools.<K, V>asMap(k0, v0, k1, v1));
+        Map<K, V> map = Collections.unmodifiableMap(CollectionTestingTools.<K, V>newMap(k0, v0, k1, v1));
         expected.putAll(map);
         actual.putAll(map);
     }

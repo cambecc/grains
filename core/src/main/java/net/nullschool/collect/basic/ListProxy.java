@@ -9,6 +9,9 @@ import java.io.Serializable;
 /**
  * 2013-03-16<p/>
  *
+ * A serialization proxy for AbstractBasicConstList. This class handles serialization and deserialization for all
+ * AbstractBasicConstList implementations using the Java Serialization Proxy pattern.
+ *
  * @author Cameron Beccario
  */
 final class ListProxy implements Serializable {

@@ -23,7 +23,7 @@ public class BasicSetNTest {
     @Test
     public void test_comparison() {
         compare_sets(
-            asSet(1, 2, 3, 4, 5, 6),
+            newSet(1, 2, 3, 4, 5, 6),
             new BasicSetN<>(new Object[] {1, 2, 3, 4, 5, 6}));
     }
 
@@ -37,8 +37,8 @@ public class BasicSetNTest {
         ConstSet<Integer> set;
 
         set = new BasicSetN<>(new Object[] {1, 2, 3, 4, 5, 6});
-        compare_sets(asSet(1, 2, 3, 4, 5, 6, 7), set.with(7));
-        compare_sets(asSet(1, 2, 3, 4, 5, 6, null), set.with(null));
+        compare_sets(newSet(1, 2, 3, 4, 5, 6, 7), set.with(7));
+        compare_sets(newSet(1, 2, 3, 4, 5, 6, null), set.with(null));
         assertSame(set, set.with(6));
 
         set = new BasicSetN<>(new Object[] {1, 2, 3, 4, 5, null});
@@ -48,7 +48,7 @@ public class BasicSetNTest {
     @Test
     public void test_withAll() {
         ConstSet<Integer> set = new BasicSetN<>(new Object[] {1, 2, 3, 4, 5, 6});
-        compare_sets(asSet(1, 2, 3, 4, 5, 6, 7), set.withAll(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 7, 6, 5, 4, 3, 2, 1)));
+        compare_sets(newSet(1, 2, 3, 4, 5, 6, 7), set.withAll(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 7, 6, 5, 4, 3, 2, 1)));
 
         assertSame(set, set.withAll(Arrays.asList(1, 1, 1, 2, 2, 2, 3, 3)));
         assertSame(set, set.withAll(Collections.<Integer>emptyList()));
@@ -62,9 +62,9 @@ public class BasicSetNTest {
     @Test
     public void test_without() {
         ConstSet<Integer> set = new BasicSetN<>(new Object[] {1, 2, 3, 4, 5, 6});
-        compare_sets(asSet(2, 3, 4, 5, 6), set.without(1));
-        compare_sets(asSet(1, 3, 4, 5, 6), set.without(2));
-        compare_sets(asSet(1, 2, 3, 4, 5), set.without(6));
+        compare_sets(newSet(2, 3, 4, 5, 6), set.without(1));
+        compare_sets(newSet(1, 3, 4, 5, 6), set.without(2));
+        compare_sets(newSet(1, 2, 3, 4, 5), set.without(6));
         assertSame(set, set.without(7));
         assertSame(set, set.without(null));
     }
@@ -72,8 +72,8 @@ public class BasicSetNTest {
     @Test
     public void test_withoutAll() {
         ConstSet<Integer> set = new BasicSetN<>(new Object[] {1, 2, 3, 4, 5, 6});
-        compare_sets(asSet(3, 4, 5, 6), set.withoutAll(Arrays.asList(1, 2)));
-        compare_sets(asSet(3, 4, 5, 6), set.withoutAll(Arrays.asList(1, 2, 9)));
+        compare_sets(newSet(3, 4, 5, 6), set.withoutAll(Arrays.asList(1, 2)));
+        compare_sets(newSet(3, 4, 5, 6), set.withoutAll(Arrays.asList(1, 2, 9)));
         assertSame(set, set.withoutAll(Arrays.asList(7)));
         assertSame(set, set.withoutAll(Arrays.asList()));
         assertSame(BasicSet0.instance(), set.withoutAll(set));
@@ -119,7 +119,7 @@ public class BasicSetNTest {
 
     @Test
     public void test_non_equality() {
-        assertFalse(new BasicSetN<>(new Object[] {1, 2, 3}).equals(asSet(1, 2, 4)));
-        assertFalse(asSet(1, 2, 4).equals(new BasicSetN<>(new Object[] {1, 2, 3})));
+        assertFalse(new BasicSetN<>(new Object[] {1, 2, 3}).equals(newSet(1, 2, 4)));
+        assertFalse(newSet(1, 2, 4).equals(new BasicSetN<>(new Object[] {1, 2, 3})));
     }
 }

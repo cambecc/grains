@@ -60,7 +60,7 @@ final class BasicMap1<K, V> extends AbstractBasicConstMap<K, V> {
     }
 
     @Override public ConstSet<K> keySet() {
-        return BasicConstSet.of(k0);
+        return BasicConstSet.setOf(k0);
     }
 
     @Override public ConstCollection<V> values() {
@@ -70,7 +70,7 @@ final class BasicMap1<K, V> extends AbstractBasicConstMap<K, V> {
     @Override public ConstSet<Entry<K, V>> entrySet() {
         MapIterator<K, V> iter = iterator();
         iter.next();
-        return BasicConstSet.of(iter.entry());
+        return BasicConstSet.setOf(iter.entry());
     }
 
     @Override public ConstMap<K, V> with(K key, V value) {

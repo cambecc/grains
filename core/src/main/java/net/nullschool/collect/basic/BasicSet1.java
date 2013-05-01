@@ -57,11 +57,11 @@ final class BasicSet1<E> extends AbstractBasicConstSet<E> {
     }
 
     @Override public ConstSet<E> without(Object o) {
-        return !contains(o) ? this : BasicConstSet.<E>of();
+        return !contains(o) ? this : BasicConstSet.<E>emptySet();
     }
 
     @Override public ConstSet<E> withoutAll(Collection<?> c) {
-        return !c.contains(e0) ? this : BasicConstSet.<E>of();
+        return !c.contains(e0) ? this : BasicConstSet.<E>emptySet();
     }
 
     @Override public int hashCode() {

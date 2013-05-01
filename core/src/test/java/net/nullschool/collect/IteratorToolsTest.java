@@ -106,10 +106,10 @@ public class IteratorToolsTest {
         // Create two mock iterators that both have two entries.
         MapIterator first = mock(MapIterator.class);
         MapIterator second = mock(MapIterator.class);
-        Map.Entry entry1 = asEntry("a", 1);
-        Map.Entry entry2 = asEntry("b", 2);
-        Map.Entry entry3 = asEntry("c", 3);
-        Map.Entry entry4 = asEntry("d", 4);
+        Map.Entry entry1 = newEntry("a", 1);
+        Map.Entry entry2 = newEntry("b", 2);
+        Map.Entry entry3 = newEntry("c", 3);
+        Map.Entry entry4 = newEntry("d", 4);
         when(first.hasNext()).thenReturn(true, true, false);
         when(first.next()).thenReturn(entry1.getKey(), entry2.getKey());
         when(first.value()).thenReturn(entry1.getValue(), entry2.getValue());
@@ -167,8 +167,8 @@ public class IteratorToolsTest {
         // Create two mock iterators that both have one entry.
         MapIterator first = mock(MapIterator.class);
         MapIterator second = mock(MapIterator.class);
-        Map.Entry entry1 = asEntry("a", 1);
-        Map.Entry entry2 = asEntry("b", 2);
+        Map.Entry entry1 = newEntry("a", 1);
+        Map.Entry entry2 = newEntry("b", 2);
         when(first.next()).thenReturn(entry1.getKey()).thenThrow(NoSuchElementException.class);
         when(first.value()).thenReturn(entry1.getValue());
         when(first.entry()).thenReturn(entry1);
