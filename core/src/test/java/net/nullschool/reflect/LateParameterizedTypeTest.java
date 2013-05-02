@@ -40,13 +40,13 @@ public final class LateParameterizedTypeTest {
     @Test
     public void test_trivial_comparison_with_standard_reflection() {
         compare(
-            new TypeToken<List<Object>>(){}.asParameterizedType(),
+            new JavaToken<List<Object>>(){}.asParameterizedType(),
             new LateParameterizedType(List.class, null, Object.class));
         compare(
-            new TypeToken<List<List<Object>>>(){}.asParameterizedType(),
+            new JavaToken<List<List<Object>>>(){}.asParameterizedType(),
             new LateParameterizedType(List.class, null, new LateParameterizedType(List.class, null, Object.class)));
         compare(
-            new TypeToken<Map<String, Object>>(){}.asParameterizedType(),
+            new JavaToken<Map<String, Object>>(){}.asParameterizedType(),
             new LateParameterizedType(Map.class, null, String.class, Object.class));
     }
 
@@ -55,7 +55,7 @@ public final class LateParameterizedTypeTest {
         // Java BUG: Oracle's implementation returns the wrong toString value in this scenario:
         //     java.util.Map.java.util.Map$Entry<java.lang.Long, java.lang.Byte>
         compare(
-            new TypeToken<Map.Entry<Long, Byte>>(){}.asParameterizedType(),
+            new JavaToken<Map.Entry<Long, Byte>>(){}.asParameterizedType(),
             new LateParameterizedType(Map.Entry.class, Map.class, Long.class, Byte.class),
             IgnoreFlag.ToString);
     }
@@ -64,13 +64,13 @@ public final class LateParameterizedTypeTest {
     public void test_inner_class_comparison_with_standard_reflection() {
 
         compare(
-            new TypeToken<Outer<Byte>.Inner0>(){}.asParameterizedType(),
+            new JavaToken<Outer<Byte>.Inner0>(){}.asParameterizedType(),
             new LateParameterizedType(
                 Outer.Inner0.class,
                 new LateParameterizedType(Outer.class, null, Byte.class)));
 
         compare(
-            new TypeToken<Outer<Byte>.Inner1<Long>>(){}.asParameterizedType(),
+            new JavaToken<Outer<Byte>.Inner1<Long>>(){}.asParameterizedType(),
             new LateParameterizedType(
                 Outer.Inner1.class,
                 new LateParameterizedType(Outer.class, null, Byte.class),
@@ -83,7 +83,7 @@ public final class LateParameterizedTypeTest {
         class Local<T> {
         }
         compare(
-            new TypeToken<Local<Byte>>(){}.asParameterizedType(),
+            new JavaToken<Local<Byte>>(){}.asParameterizedType(),
             new LateParameterizedType(Local.class, null, Byte.class));
     }
 
@@ -128,19 +128,19 @@ public final class LateParameterizedTypeTest {
 //        assertEquals(
 //            "net.nullschool.reflect.Outer<java.lang.Short>.Inner1<java.lang.Integer>.Inner2<java.lang.Long>",
 //            TypeTools.asLateType(
-//                new TypeToken<Outer<Short>.Inner1<Integer>.Inner2<Long>>() {
+//                new JavaToken<Outer<Short>.Inner1<Integer>.Inner2<Long>>() {
 //                }.asType()).toString());
 //
 //        assertEquals(
 //            "net.nullschool.reflect.Outer.$Inner3<java.lang.Integer>",
 //            TypeTools.asLateType(
-//                new TypeToken<Outer.$Inner3<Integer>>() {
+//                new JavaToken<Outer.$Inner3<Integer>>() {
 //                }.asType()).toString());
 //
 //        assertEquals(
 //            "net.nullschool.reflect.Outer.$Inner3<java.lang.Integer>.$Inner4<java.lang.Long>",
 //            TypeTools.asLateType(
-//                new TypeToken<Outer.$Inner3<Integer>.$Inner4<Long>>() {
+//                new JavaToken<Outer.$Inner3<Integer>.$Inner4<Long>>() {
 //                }.asType()).toString());
 //    }
 
@@ -222,10 +222,10 @@ public final class LateParameterizedTypeTest {
     public void test_superclass() {
         LateParameterizedType lpc = new LateParameterizedType(ArrayList.class, null, Long.class);
         compare(
-            new TypeToken<AbstractList<Long>>(){}.asParameterizedType(),
+            new JavaToken<AbstractList<Long>>(){}.asParameterizedType(),
             lpc = (LateParameterizedType)lpc.getSuperclass());
         compare(
-            new TypeToken<AbstractCollection<Long>>(){}.asParameterizedType(),
+            new JavaToken<AbstractCollection<Long>>(){}.asParameterizedType(),
             lpc = (LateParameterizedType)lpc.getSuperclass());
         assertSame(Object.class, lpc.getSuperclass());
 
@@ -238,18 +238,18 @@ public final class LateParameterizedTypeTest {
         LateParameterizedType lpc = new LateParameterizedType(ArrayList.class, null, Long.class);
         Type[] result = lpc.getInterfaces();
         assertEquals(4, result.length);
-        compare(new TypeToken<List<Long>>(){}.asParameterizedType(), lpc = (LateParameterizedType)result[0]);
+        compare(new JavaToken<List<Long>>(){}.asParameterizedType(), lpc = (LateParameterizedType)result[0]);
         assertSame(RandomAccess.class, result[1]);
         assertSame(Cloneable.class, result[2]);
         assertSame(Serializable.class, result[3]);
 
         result = lpc.getInterfaces();
         assertEquals(1, result.length);
-        compare(new TypeToken<Collection<Long>>(){}.asParameterizedType(), lpc = (LateParameterizedType)result[0]);
+        compare(new JavaToken<Collection<Long>>(){}.asParameterizedType(), lpc = (LateParameterizedType)result[0]);
 
         result = lpc.getInterfaces();
         assertEquals(1, result.length);
-        compare(new TypeToken<Iterable<Long>>(){}.asParameterizedType(), lpc = (LateParameterizedType)result[0]);
+        compare(new JavaToken<Iterable<Long>>(){}.asParameterizedType(), lpc = (LateParameterizedType)result[0]);
 
         result = lpc.getInterfaces();
         assertEquals(0, result.length);

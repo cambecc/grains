@@ -35,15 +35,15 @@ public final class LateWildcardTypeTest {
     public void test_trivial_comparison_with_java_reflection() {
 
         compare(
-            new TypeToken<Class<?>>(){}.asWildcardType(),
+            new JavaToken<Class<?>>(){}.asWildcardType(),
             new LateWildcardType("?"));
 
         compare(
-            new TypeToken<Class<?>>(){}.asWildcardType(),
+            new JavaToken<Class<?>>(){}.asWildcardType(),
             new LateWildcardType("? extends", Object.class));
 
         compare(
-            new TypeToken<Class<? super Object>>(){}.asWildcardType(),
+            new JavaToken<Class<? super Object>>(){}.asWildcardType(),
             new LateWildcardType("? super", Object.class));
     }
 
@@ -51,32 +51,32 @@ public final class LateWildcardTypeTest {
     public void test_upper_bounds_comparison_with_java_reflection() {
 
         compare(
-            new TypeToken<Class<? extends Number>>(){}.asWildcardType(),
+            new JavaToken<Class<? extends Number>>(){}.asWildcardType(),
             new LateWildcardType("? extends", Number.class));
 
         compare(
-            new TypeToken<Class<? extends Set>>(){}.asWildcardType(),
+            new JavaToken<Class<? extends Set>>(){}.asWildcardType(),
             new LateWildcardType("? extends", Set.class));
 
         compare(
-            new TypeToken<Class<? extends Set<?>>>(){}.asWildcardType(),
-            new LateWildcardType("? extends", new TypeToken<Set<?>>(){}.asParameterizedType()));
+            new JavaToken<Class<? extends Set<?>>>(){}.asWildcardType(),
+            new LateWildcardType("? extends", new JavaToken<Set<?>>(){}.asParameterizedType()));
     }
 
     @Test
     public void test_lower_bounds_comparison_with_java_reflection() {
 
         compare(
-            new TypeToken<Class<? super Number>>(){}.asWildcardType(),
+            new JavaToken<Class<? super Number>>(){}.asWildcardType(),
             new LateWildcardType("? super", Number.class));
 
         compare(
-            new TypeToken<Class<? super Set>>(){}.asWildcardType(),
+            new JavaToken<Class<? super Set>>(){}.asWildcardType(),
             new LateWildcardType("? super", Set.class));
 
         compare(
-            new TypeToken<Class<? super Set<?>>>(){}.asWildcardType(),
-            new LateWildcardType("? super", new TypeToken<Set<?>>(){}.asParameterizedType()));
+            new JavaToken<Class<? super Set<?>>>(){}.asWildcardType(),
+            new LateWildcardType("? super", new JavaToken<Set<?>>(){}.asParameterizedType()));
     }
 
     @Test

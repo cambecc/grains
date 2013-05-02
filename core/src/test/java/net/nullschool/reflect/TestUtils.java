@@ -12,7 +12,7 @@ final class TestUtils {
     private static class Item<E> {
 
         private TypeVariable<?> theE() {
-            return new TypeToken<E>(){}.asTypeVariable();
+            return new JavaToken<E>(){}.asTypeVariable();
         }
     }
 

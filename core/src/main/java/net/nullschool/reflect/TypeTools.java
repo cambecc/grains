@@ -1,7 +1,6 @@
 package net.nullschool.reflect;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 
 
 /**
@@ -119,5 +118,24 @@ public enum TypeTools {;
             result[i] = operator.invoke(types[i]);
         }
         return result;
+    }
+
+    private static final class LateTypeConverter extends AbstractTypeOperator<Type> {
+        private static final LateTypeConverter INSTANCE = new LateTypeConverter();
+
+        @Override public Type invoke(Class<?> clazz) { return clazz; }
+        @Override public Type invoke(ParameterizedType pt) { return LateParameterizedType.copyOf(pt); }
+        @Override public Type invoke(GenericArrayType gat) { return LateGenericArrayType.copyOf(gat); }
+        @Override public Type invoke(WildcardType wt) { return LateWildcardType.copyOf(wt); }
+        @Override public Type invoke(TypeVariable<?> tv) { return LateTypeVariable.copyOf(tv); }
+    }
+
+    /**
+     * Transforms the provided Type instance into a late type implementation (i.e., one of LateParameterizedType,
+     * LateGenericArrayType, LateWildcardType, or LateTypeVariable), except for instances of Class, which remain
+     * unchanged.
+     */
+    static Type copyOf(Type type) {
+        return LateTypeConverter.INSTANCE.invoke(type);
     }
 }

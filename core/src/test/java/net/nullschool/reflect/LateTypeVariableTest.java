@@ -20,19 +20,19 @@ public final class LateTypeVariableTest {
     private static class Item<T, U extends Number & Comparable> {
 
         public TypeVariable<?> getT() {
-            return new TypeToken<T>(){}.asTypeVariable();
+            return new JavaToken<T>(){}.asTypeVariable();
         }
 
         public TypeVariable<?> getU() {
-            return new TypeToken<U>(){}.asTypeVariable();
+            return new JavaToken<U>(){}.asTypeVariable();
         }
 
         public <V> TypeVariable<?> getV() {
-            return new TypeToken<V>(){}.asTypeVariable();
+            return new JavaToken<V>(){}.asTypeVariable();
         }
 
         public <W extends Number & Comparable> TypeVariable<?> getW() {
-            return new TypeToken<W>(){}.asTypeVariable();
+            return new JavaToken<W>(){}.asTypeVariable();
         }
     }
 
@@ -41,7 +41,7 @@ public final class LateTypeVariableTest {
     private static class MyEnum<E extends MyEnum<E>> {
 
         public TypeVariable<?> getE() {
-            return new TypeToken<E>(){}.asTypeVariable();
+            return new JavaToken<E>(){}.asTypeVariable();
         }
     }
 

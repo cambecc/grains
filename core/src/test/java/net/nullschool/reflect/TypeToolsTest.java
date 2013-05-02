@@ -51,17 +51,17 @@ public class TypeToolsTest {
         assertSame(Object[].class, erase(Object[].class));
 
         // generic arrays
-        assertSame(Set[].class, erase(new TypeToken<Set<?>[]>(){}.asGenericArrayType()));
+        assertSame(Set[].class, erase(new JavaToken<Set<?>[]>(){}.asGenericArrayType()));
 
         // wildcards
-        assertSame(Object.class, erase(new TypeToken<Set<?>>(){}.asWildcardType()));
-        assertSame(Object.class, erase(new TypeToken<Set<? super Comparable>>(){}.asWildcardType()));
-        assertSame(Comparable.class, erase(new TypeToken<Set<? extends Comparable>>(){}.asWildcardType()));
+        assertSame(Object.class, erase(new JavaToken<Set<?>>(){}.asWildcardType()));
+        assertSame(Object.class, erase(new JavaToken<Set<? super Comparable>>(){}.asWildcardType()));
+        assertSame(Comparable.class, erase(new JavaToken<Set<? extends Comparable>>(){}.asWildcardType()));
         assertSame(Map.class, erase(new LateWildcardType("? extends", Map.class, HashMap.class)));
 
         // parameterized types
-        assertSame(Set.class, erase(new TypeToken<Set<Integer>>(){}.asParameterizedType()));
-        assertSame(Set.class, erase(new TypeToken<Set<?>>(){}.asParameterizedType()));
+        assertSame(Set.class, erase(new JavaToken<Set<Integer>>(){}.asParameterizedType()));
+        assertSame(Set.class, erase(new JavaToken<Set<?>>(){}.asParameterizedType()));
 
         // type variables
         assertSame(Object.class, erase(new LateTypeVariable<Class>("E", Set.class)));
@@ -79,10 +79,10 @@ public class TypeToolsTest {
         assertEquals("java.util.List[]", print(List[].class));
         assertEquals(
             "java.util.List<? extends java.lang.Integer>",
-            print(new TypeToken<List<? extends Integer>>(){}.asType()));
+            print(new JavaToken<List<? extends Integer>>(){}.asType()));
         assertEquals(
             "java.util.List<? extends java.lang.Integer>[][]",
-            print(new TypeToken<List<? extends Integer>[][]>(){}.asType()));
+            print(new JavaToken<List<? extends Integer>[][]>(){}.asType()));
         assertEquals("java.util.Map.Entry", print(Map.Entry.class));
         assertEquals("int", print(int.class));
         assertEquals("int[]", print(int[].class));
@@ -102,10 +102,10 @@ public class TypeToolsTest {
         assertEquals("List[]", print(List[].class, new SimpleNamePrinter()));
         assertEquals(
             "List<? extends Integer>",
-            print(new TypeToken<List<? extends Integer>>(){}.asType(), new SimpleNamePrinter()));
+            print(new JavaToken<List<? extends Integer>>(){}.asType(), new SimpleNamePrinter()));
         assertEquals(
             "List<? extends Integer>[][]",
-            print(new TypeToken<List<? extends Integer>[][]>(){}.asType(), new SimpleNamePrinter()));
+            print(new JavaToken<List<? extends Integer>[][]>(){}.asType(), new SimpleNamePrinter()));
         assertEquals("Map.Entry", print(Map.Entry.class, new SimpleNamePrinter()));
         assertEquals("int", print(int.class, new SimpleNamePrinter()));
         assertEquals("int[]", print(int[].class, new SimpleNamePrinter()));

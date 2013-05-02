@@ -23,24 +23,24 @@ public class EraserTest {
 
         assertSame(Object.class, eraser.invoke(Object.class));
         assertSame(Object[].class, eraser.invoke(Object[].class));
-        assertSame(Set[].class, eraser.invoke(new TypeToken<Set<?>[]>(){}.asGenericArrayType()));
+        assertSame(Set[].class, eraser.invoke(new JavaToken<Set<?>[]>(){}.asGenericArrayType()));
         assertSame(Object.class, eraser.invoke(new LateWildcardType("?")));
         assertSame(Object.class, eraser.invoke(new LateWildcardType("? super", Comparable.class)));
         assertSame(Comparable.class, eraser.invoke(new LateWildcardType("? extends", Comparable.class)));
         assertSame(Map.class, eraser.invoke(new LateWildcardType("? extends", Map.class, HashMap.class)));
-        assertSame(Set.class, eraser.invoke(new TypeToken<Set<Integer>>(){}.asParameterizedType()));
+        assertSame(Set.class, eraser.invoke(new JavaToken<Set<Integer>>(){}.asParameterizedType()));
         assertSame(Object.class, eraser.invoke(new LateTypeVariable<Class>("E", Set.class)));
         assertSame(Map.class, eraser.invoke(new LateTypeVariable<Class>("E", Set.class, Map.class)));
         assertSame(Map.class, eraser.invoke(new LateTypeVariable<Class>("E", Set.class, Map.class, HashMap.class)));
 
         assertSame(Object.class, eraser.invoke((Type)Object.class));
         assertSame(Object[].class, eraser.invoke((Type)Object[].class));
-        assertSame(Set[].class, eraser.invoke(new TypeToken<Set<?>[]>(){}.asType()));
+        assertSame(Set[].class, eraser.invoke(new JavaToken<Set<?>[]>(){}.asType()));
         assertSame(Object.class, eraser.invoke((Type)new LateWildcardType("?")));
         assertSame(Object.class, eraser.invoke((Type)new LateWildcardType("? super", Comparable.class)));
         assertSame(Comparable.class, eraser.invoke((Type)new LateWildcardType("? extends", Comparable.class)));
         assertSame(Map.class, eraser.invoke((Type)new LateWildcardType("? extends", Map.class, HashMap.class)));
-        assertSame(Set.class, eraser.invoke(new TypeToken<Set<Integer>>(){}.asType()));
+        assertSame(Set.class, eraser.invoke(new JavaToken<Set<Integer>>(){}.asType()));
         assertSame(Object.class, eraser.invoke((Type)new LateTypeVariable<Class>("E", Set.class)));
         assertSame(Map.class, eraser.invoke((Type)new LateTypeVariable<Class>("E", Set.class, Map.class)));
         assertSame(Map.class, eraser.invoke((Type)new LateTypeVariable<Class>("E", Set.class, Map.class, HashMap.class)));

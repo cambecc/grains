@@ -29,23 +29,23 @@ public final class LateGenericArrayTypeTest {
 
     @Test
     public void test_concrete_array_comparison_with_java_7_reflection() {
-        assertSame(Object[].class, new TypeToken<Object[]>(){}.asType());
-        assertSame(Object[][].class, new TypeToken<Object[][]>(){}.asType());
-        assertSame(int[].class, new TypeToken<int[]>(){}.asType());
-        assertSame(int[][].class, new TypeToken<int[][]>(){}.asType());
+        assertSame(Object[].class, new JavaToken<Object[]>(){}.asType());
+        assertSame(Object[][].class, new JavaToken<Object[][]>(){}.asType());
+        assertSame(int[].class, new JavaToken<int[]>(){}.asType());
+        assertSame(int[][].class, new JavaToken<int[][]>(){}.asType());
     }
 
     @Test
     public void test_comparison_with_java_reflection() {
         compare(
-            new TypeToken<List<Byte>[]>(){}.asGenericArrayType(),
-            new LateGenericArrayType(new TypeToken<List<Byte>>(){}.asParameterizedType()));
+            new JavaToken<List<Byte>[]>(){}.asGenericArrayType(),
+            new LateGenericArrayType(new JavaToken<List<Byte>>(){}.asParameterizedType()));
         compare(
-            new TypeToken<List<Byte>[][]>(){}.asGenericArrayType(),
-            new LateGenericArrayType(new TypeToken<List<Byte>[]>(){}.asGenericArrayType()));
+            new JavaToken<List<Byte>[][]>(){}.asGenericArrayType(),
+            new LateGenericArrayType(new JavaToken<List<Byte>[]>(){}.asGenericArrayType()));
         compare(
-            new TypeToken<List<Byte>[][]>(){}.asGenericArrayType(),
-            new LateGenericArrayType(new TypeToken<List<Byte>[]>(){}.asGenericArrayType()));
+            new JavaToken<List<Byte>[][]>(){}.asGenericArrayType(),
+            new LateGenericArrayType(new JavaToken<List<Byte>[]>(){}.asGenericArrayType()));
     }
 
     @Test(expected = NullPointerException.class)
@@ -60,6 +60,6 @@ public final class LateGenericArrayTypeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void test_bad_wildcard_component() {
-        new LateGenericArrayType(new TypeToken<Class<? extends Number>>(){}.asWildcardType());
+        new LateGenericArrayType(new JavaToken<Class<? extends Number>>(){}.asWildcardType());
     }
 }

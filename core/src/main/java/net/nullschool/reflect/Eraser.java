@@ -2,6 +2,8 @@ package net.nullschool.reflect;
 
 import java.lang.reflect.*;
 
+import static net.nullschool.reflect.TypeTools.*;
+
 /**
  * 2013-04-03<p/>
  *
@@ -38,7 +40,7 @@ final class Eraser extends AbstractTypeOperator<Class<?>> {
      * @throws NullPointerException if the argument is null.
      */
     @Override public Class<?> invoke(GenericArrayType gat) {
-        return TypeTools.buildArrayType(invoke(gat.getGenericComponentType()));
+        return buildArrayType(invoke(gat.getGenericComponentType()));
     }
 
     /**
@@ -53,9 +55,7 @@ final class Eraser extends AbstractTypeOperator<Class<?>> {
      * @throws NullPointerException if the argument is null.
      */
     @Override public Class<?> invoke(WildcardType wt) {
-        return wt.getLowerBounds().length != 0 ?
-            Object.class :
-            invoke(wt.getUpperBounds()[0]);
+        return wt.getLowerBounds().length != 0 ? Object.class : invoke(wt.getUpperBounds()[0]);
     }
 
     /**

@@ -11,6 +11,8 @@ import static net.nullschool.util.ObjectTools.coalesce;
 /**
  * 2013-03-29<p/>
  *
+ * A type operator that resolves type variables. See {@link LateParameterizedType#resolve(Type)}.
+ *
  * @author Cameron Beccario
  */
 final class Resolver extends AbstractTypeOperator<Type> {
