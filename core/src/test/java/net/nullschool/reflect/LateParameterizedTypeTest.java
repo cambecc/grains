@@ -102,47 +102,18 @@ public final class LateParameterizedTypeTest {
         new LateParameterizedType(List.class, null, Integer.class, String.class);
     }
 
-//    @Test
-//    public void test_convert() {
-//        TypeConverter converter = mock(TypeConverter.class);
-//        when(converter.convert(eq(List.class))).thenReturn(ArrayList.class);
-//        when(converter.convert(isNull(Type.class))).thenReturn(Object.class);
-//        when(converter.convert(eq(Number.class))).thenReturn(Integer.class);
-//
-//        LateParameterizedType actual = new LateParameterizedType(List.class, null, Number.class).convert(converter);
-//        LateParameterizedType expected = new LateParameterizedType(ArrayList.class, Object.class, Integer.class);
-//
-//        compare(expected, actual);
-//    }
-
-//    @Test
-//    public void test_erasure() {
-//        LateParameterizedType lpc;
-//
-//        lpc = new LateParameterizedType(List.class, null, Integer.class);
-//        assertSame(List.class, lpc.erase());
-//    }
-//
-//    @Test
-//    public void test_nested_print() {
-//        assertEquals(
-//            "net.nullschool.reflect.Outer<java.lang.Short>.Inner1<java.lang.Integer>.Inner2<java.lang.Long>",
-//            TypeTools.asLateType(
-//                new JavaToken<Outer<Short>.Inner1<Integer>.Inner2<Long>>() {
-//                }.asType()).toString());
-//
-//        assertEquals(
-//            "net.nullschool.reflect.Outer.$Inner3<java.lang.Integer>",
-//            TypeTools.asLateType(
-//                new JavaToken<Outer.$Inner3<Integer>>() {
-//                }.asType()).toString());
-//
-//        assertEquals(
-//            "net.nullschool.reflect.Outer.$Inner3<java.lang.Integer>.$Inner4<java.lang.Long>",
-//            TypeTools.asLateType(
-//                new JavaToken<Outer.$Inner3<Integer>.$Inner4<Long>>() {
-//                }.asType()).toString());
-//    }
+    @Test
+    public void test_nested_print() {
+        assertEquals(
+            "net.nullschool.reflect.Outer<java.lang.Short>.Inner1<java.lang.Integer>.Inner2<java.lang.Long>",
+            new TypeToken<Outer<Short>.Inner1<Integer>.Inner2<Long>>(){}.asType().toString());
+        assertEquals(
+            "net.nullschool.reflect.Outer.$Inner3<java.lang.Integer>",
+            new TypeToken<Outer.$Inner3<Integer>>(){}.asType().toString());
+        assertEquals(
+            "net.nullschool.reflect.Outer.$Inner3<java.lang.Integer>.$Inner4<java.lang.Long>",
+            new TypeToken<Outer.$Inner3<Integer>.$Inner4<Long>>(){}.asType().toString());
+    }
 
     @Test
     public void test_resolve() throws Exception {
@@ -263,5 +234,10 @@ public final class LateParameterizedTypeTest {
         assertEquals(
             new LateParameterizedType(Class.class, null, FileVisitResult.class),
             lpc.resolve(m.getGenericReturnType()));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void test_null_type_argument() {
+        new LateParameterizedType(Map.class, null, String.class, null);
     }
 }

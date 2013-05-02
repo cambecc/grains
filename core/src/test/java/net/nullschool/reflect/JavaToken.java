@@ -7,7 +7,7 @@ import java.lang.reflect.*;
  *
  * Utility class used for testing. Allows access to type parameter T as a Type instance as produced by Java
  * reflection rather than the late type implementations LateGenericArrayType, LateParameterizedType, LateTypeVariable,
- * or LateWildcardType as would be produced by {@link LateToken}. Use this class by inheriting it with an anonymous
+ * or LateWildcardType as would be produced by {@link TypeToken}. Use this class by inheriting it with an anonymous
  * class, providing for T the desired type.
  *
  * @author Cameron Beccario

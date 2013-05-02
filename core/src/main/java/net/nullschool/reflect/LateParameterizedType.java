@@ -59,7 +59,7 @@ public final class LateParameterizedType implements ParameterizedType {
         TypeVariable<?>[] typeParameters = this.rawType.getTypeParameters();
         if (typeArguments.length != typeParameters.length) {
             throw new IllegalArgumentException(String.format(
-                "Supplied type arguments %s do not match type paramters %s of %s",
+                "Supplied type arguments %s do not match type parameters %s of %s",
                 Arrays.toString(typeArguments),
                 Arrays.toString(typeParameters),
                 rawType));

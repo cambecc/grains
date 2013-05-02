@@ -3,6 +3,8 @@ package net.nullschool.reflect;
 /**
  * 2013-03-24<p/>
  *
+ * Some classes used for testing scenarios.
+ *
  * @author Cameron Beccario
  */
 @SuppressWarnings("UnusedDeclaration")

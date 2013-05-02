@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -122,5 +123,10 @@ public final class LateTypeVariableTest {
         e = new LateTypeVariable<Class>("E", Enum.class, (Type[])null);
         e.assignBounds();
         assertArrayEquals(new Type[] {Object.class}, e.getBounds());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void test_null_type_argument() {
+        new LateTypeVariable<>("E", Set.class, (Type)null);
     }
 }

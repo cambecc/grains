@@ -1,5 +1,7 @@
 package net.nullschool.reflect;
 
+import net.nullschool.util.ArrayTools;
+
 import java.lang.reflect.*;
 
 import static java.util.Objects.requireNonNull;
@@ -36,7 +38,8 @@ public final class LateTypeVariable<D extends GenericDeclaration> implements Typ
      * @param name the name of the type variable.
      * @param genericDeclaration the entity that declared this type variable.
      * @param bounds the upper bounds of the type variable, or {@code null} if bounds assignment is deferred.
-     * @throws NullPointerException when {@code name} or {@code genericDeclaration} is {@code null}.
+     * @throws NullPointerException when {@code name} or {@code genericDeclaration} is {@code null}, or {@code bounds}
+     *                              contains null.
      */
     public LateTypeVariable(String name, D genericDeclaration, Type... bounds) {
         this.name = requireNonNull(name, "null name");
@@ -85,6 +88,10 @@ public final class LateTypeVariable<D extends GenericDeclaration> implements Typ
     }
 
     private void setBounds(Type... bounds) {
+        int i;
+        if ((i = ArrayTools.indexOf(null, bounds)) >= 0) {
+            throw new NullPointerException("null bound at index " + i);
+        }
         this.bounds = bounds.length != 0 ? bounds.clone() : OBJECT_TYPE_ARRAY;
     }
 
@@ -94,7 +101,7 @@ public final class LateTypeVariable<D extends GenericDeclaration> implements Typ
      *
      * @param bounds the bounds to assign.
      * @throws IllegalArgumentException if bounds have already been assigned for this type variable.
-     * @throws NullPointerException if {@code bounds} is null.
+     * @throws NullPointerException if {@code bounds} is null or contains null.
      */
     public synchronized void assignBounds(Type... bounds) {
         if (this.bounds != null) {
