@@ -2,6 +2,7 @@ package net.nullschool.reflect;
 
 import org.junit.Test;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 import static net.nullschool.reflect.TypeTools.*;
@@ -44,13 +45,32 @@ public class TypeToolsTest {
 
     @Test
     public void test_erasure() {
+        // classes
         assertSame(int.class, erase(int.class));
-        assertSame(Integer.class, erase(Integer.class));
-        assertSame(List.class, erase(new TypeToken<List<?>>(){}.asType()));
-        assertSame(List.class, erase(new TypeToken<List<? extends Integer>>(){}.asType()));
-        assertSame(Integer.class, erase(new TypeToken<List<? extends Integer>>(){}.asWildcardType()));
-        assertSame(Object.class, erase(new TypeToken<List<? super Number>>(){}.asWildcardType()));
+        assertSame(Object.class, erase(Object.class));
+        assertSame(Object[].class, erase(Object[].class));
+
+        // generic arrays
+        assertSame(Set[].class, erase(new TypeToken<Set<?>[]>(){}.asGenericArrayType()));
+
+        // wildcards
+        assertSame(Object.class, erase(new TypeToken<Set<?>>(){}.asWildcardType()));
+        assertSame(Object.class, erase(new TypeToken<Set<? super Comparable>>(){}.asWildcardType()));
+        assertSame(Comparable.class, erase(new TypeToken<Set<? extends Comparable>>(){}.asWildcardType()));
+        assertSame(Map.class, erase(new LateWildcardType("? extends", Map.class, HashMap.class)));
+
+        // parameterized types
+        assertSame(Set.class, erase(new TypeToken<Set<Integer>>(){}.asParameterizedType()));
+        assertSame(Set.class, erase(new TypeToken<Set<?>>(){}.asParameterizedType()));
+
+        // type variables
+        assertSame(Object.class, erase(new LateTypeVariable<Class>("E", Set.class)));
+        assertSame(Map.class, erase(new LateTypeVariable<Class>("E", Set.class, Map.class)));
+        assertSame(Map.class, erase(new LateTypeVariable<Class>("E", Set.class, Map.class, HashMap.class)));
+
+        // other
         assertNull(erase(null));
+        try { erase(new Type(){}); fail(); } catch (IllegalArgumentException expected) {}
     }
 
     @Test
