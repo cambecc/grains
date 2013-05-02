@@ -6,10 +6,23 @@ import java.lang.reflect.*;
 /**
  * 2013-04-03<p/>
  *
+ * A partial implementation of TypeOperator that dispatches invocation of {@link #invoke(Type)} to the appropriate
+ * narrower overload.
+ *
  * @author Cameron Beccario
  */
 public abstract class AbstractTypeOperator<T> implements TypeOperator<T> {
 
+    /**
+     * Invokes this operator on the specified type.<p/>
+     *
+     * This implementation inspects the runtime type of the specified type and invokes the appropriate narrower
+     * overload. If type is null, the null is returned.
+     *
+     * @param type the type.
+     * @return the result.
+     * @throws IllegalArgumentException if type is an instance of an unknown implementation of {@link Type}.
+     */
     @Override public T invoke(Type type) {
         if (type instanceof Class) {
             return invoke((Class<?>)type);
@@ -29,6 +42,6 @@ public abstract class AbstractTypeOperator<T> implements TypeOperator<T> {
         else if (type == null) {
             return null;
         }
-        throw new IllegalArgumentException("Unsupported type: " + type);
+        throw new IllegalArgumentException("Unsupported Type implementation: " + type.getClass());
     }
 }

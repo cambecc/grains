@@ -11,9 +11,9 @@ import java.lang.reflect.*;
  * decomposing {@link Type}s into their constituent parts to perform an operation, such as erasure or
  * immutification.<p/>
  *
- * Implementers should provide a type-specific (i.e., Class, ParameterizedType, WildcardType, etc.) behavior of
- * the desired operation. The most generalized method, {@link #invoke(Type)}, then dispatches to the appropriate
- * type-specific implementation. The {@link AbstractTypeOperator} class provides a suitable implementation of
+ * Implementers should provide type-specific (i.e., Class, ParameterizedType, WildcardType, etc.) behaviors of
+ * the desired operation. The most generalized method, {@link #invoke(Type)}, should then dispatch to the appropriate
+ * type-specific method. The {@link AbstractTypeOperator} class provides a suitable implementation of
  * {@link #invoke(Type)}.
  *
  * @param <T> the result type of the operation. Operations that have no result can use {@link Void}.
