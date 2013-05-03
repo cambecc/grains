@@ -7,7 +7,7 @@ import java.util.*;
 
 import static net.nullschool.reflect.TypeTools.*;
 import static org.junit.Assert.*;
-
+import static org.mockito.Mockito.*;
 
 /**
  * 2013-03-24<p/>
@@ -75,17 +75,17 @@ public class TypeToolsTest {
 
     @Test
     public void test_print() {
-        assertEquals("java.util.List", print(List.class));
-        assertEquals("java.util.List[]", print(List[].class));
+        assertEquals("java.util.List", TypeTools.toString(List.class));
+        assertEquals("java.util.List[]", TypeTools.toString(List[].class));
         assertEquals(
             "java.util.List<? extends java.lang.Integer>",
-            print(new JavaToken<List<? extends Integer>>(){}.asType()));
+            TypeTools.toString(new JavaToken<List<? extends Integer>>(){}.asType()));
         assertEquals(
             "java.util.List<? extends java.lang.Integer>[][]",
-            print(new JavaToken<List<? extends Integer>[][]>(){}.asType()));
-        assertEquals("java.util.Map.Entry", print(Map.Entry.class));
-        assertEquals("int", print(int.class));
-        assertEquals("int[]", print(int[].class));
+            TypeTools.toString(new JavaToken<List<? extends Integer>[][]>(){}.asType()));
+        assertEquals("java.util.Map.Entry", TypeTools.toString(Map.Entry.class));
+        assertEquals("int", TypeTools.toString(int.class));
+        assertEquals("int[]", TypeTools.toString(int[].class));
     }
 
     private static class SimpleNamePrinter implements TypePrinter {
@@ -98,16 +98,34 @@ public class TypeToolsTest {
 
     @Test
     public void test_print_with_custom_printer() {
-        assertEquals("List", print(List.class, new SimpleNamePrinter()));
-        assertEquals("List[]", print(List[].class, new SimpleNamePrinter()));
+        assertEquals("List", TypeTools.toString(List.class, new SimpleNamePrinter()));
+        assertEquals("List[]", TypeTools.toString(List[].class, new SimpleNamePrinter()));
         assertEquals(
             "List<? extends Integer>",
-            print(new JavaToken<List<? extends Integer>>(){}.asType(), new SimpleNamePrinter()));
+            TypeTools.toString(new JavaToken<List<? extends Integer>>(){}.asType(), new SimpleNamePrinter()));
         assertEquals(
             "List<? extends Integer>[][]",
-            print(new JavaToken<List<? extends Integer>[][]>(){}.asType(), new SimpleNamePrinter()));
-        assertEquals("Map.Entry", print(Map.Entry.class, new SimpleNamePrinter()));
-        assertEquals("int", print(int.class, new SimpleNamePrinter()));
-        assertEquals("int[]", print(int[].class, new SimpleNamePrinter()));
+            TypeTools.toString(new JavaToken<List<? extends Integer>[][]>(){}.asType(), new SimpleNamePrinter()));
+        assertEquals("Map.Entry", TypeTools.toString(Map.Entry.class, new SimpleNamePrinter()));
+        assertEquals("int", TypeTools.toString(int.class, new SimpleNamePrinter()));
+        assertEquals("int[]", TypeTools.toString(int[].class, new SimpleNamePrinter()));
+    }
+
+    @Test
+    public void test_apply() {
+        @SuppressWarnings("unchecked") TypeOperator<Type> operator = (TypeOperator<Type>)mock(TypeOperator.class);
+        when(operator.invoke((Type)String.class)).thenReturn(Character.class);
+        when(operator.invoke((Type)Integer.class)).thenReturn(Byte.class);
+
+        Type[] result = apply(operator, new Type[] {String.class, Integer.class});
+        assertArrayEquals(new Type[] {Character.class, Byte.class}, result);
+    }
+
+    @Test
+    public void test_copyOf() {
+        assertEquals(Class.class, copyOf(Object.class).getClass());
+        assertEquals(LateParameterizedType.class, copyOf(new JavaToken<Set<Byte>>(){}.asParameterizedType()).getClass());
+        assertEquals(LateGenericArrayType.class, copyOf(new JavaToken<Set<Byte>[]>(){}.asGenericArrayType()).getClass());
+        assertEquals(LateWildcardType.class, copyOf(new JavaToken<Set<?>>(){}.asWildcardType()).getClass());
     }
 }

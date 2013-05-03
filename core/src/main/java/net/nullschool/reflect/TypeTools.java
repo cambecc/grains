@@ -84,8 +84,8 @@ public enum TypeTools {;
      * @return the String representation.
      * @throws NullPointerException if type is null.
      */
-    public static String print(Type type) {
-        return print(type, new StringTypePrinter());
+    public static String toString(Type type) {
+        return toString(type, new FullyQualifiedNamePrinter());
     }
 
     /**
@@ -100,7 +100,7 @@ public enum TypeTools {;
      * @return the String representation.
      * @throws NullPointerException if type is null.
      */
-    public static String print(Type type, TypePrinter printer) {
+    public static String toString(Type type, TypePrinter printer) {
         return new TypeWriter(printer).invoke(type).toString();
     }
 

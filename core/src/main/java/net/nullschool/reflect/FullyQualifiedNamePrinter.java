@@ -3,9 +3,11 @@ package net.nullschool.reflect;
 /**
  * 2013-04-03<p/>
  *
+ * A type printer that print classes as their fully qualified names.
+ *
  * @author Cameron Beccario
  */
-public class StringTypePrinter implements TypePrinter {
+class FullyQualifiedNamePrinter implements TypePrinter {
 
     private final StringBuilder sb = new StringBuilder();
 

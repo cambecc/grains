@@ -86,6 +86,6 @@ public final class LateGenericArrayType implements GenericArrayType {
      * component type.
      */
     @Override public String toString() {
-        return TypeTools.print(this);
+        return TypeTools.toString(this);
     }
 }

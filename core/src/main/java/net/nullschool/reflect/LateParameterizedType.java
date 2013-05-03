@@ -10,7 +10,6 @@ import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 import static net.nullschool.reflect.TypeTools.erase;
-import static net.nullschool.reflect.TypeTools.print;
 
 /**
  * 2013-03-24<p/>
@@ -141,7 +140,7 @@ public final class LateParameterizedType implements ParameterizedType {
      * @return the resolved superclass of this type instance.
      */
     public Type getSuperclass() {
-        return resolver.invoke(rawType.getGenericSuperclass());
+        return resolve(rawType.getGenericSuperclass());
     }
 
     /**
@@ -155,7 +154,7 @@ public final class LateParameterizedType implements ParameterizedType {
      * @return the resolved interfaces of this type.
      */
     public Type[] getInterfaces() {
-        return TypeTools.apply(resolver, rawType.getGenericInterfaces());
+        return resolve(rawType.getGenericInterfaces());
     }
 
     private boolean equals(ParameterizedType that) {
@@ -182,9 +181,9 @@ public final class LateParameterizedType implements ParameterizedType {
     }
 
     /**
-     * Returns a string representation of this type in the form described by {@link TypeTools#print(Type)}.
+     * Returns a string representation of this type in the form described by {@link TypeTools#toString(Type)}.
      */
     @Override public String toString() {
-        return print(this);
+        return TypeTools.toString(this);
     }
 }

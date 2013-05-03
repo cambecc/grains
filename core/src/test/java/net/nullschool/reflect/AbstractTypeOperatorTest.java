@@ -5,8 +5,8 @@ import org.junit.Test;
 import java.lang.reflect.*;
 import java.util.Set;
 
-import static org.mockito.BDDMockito.*;
 import static org.junit.Assert.assertNull;
+import static org.mockito.BDDMockito.*;
 
 
 /**

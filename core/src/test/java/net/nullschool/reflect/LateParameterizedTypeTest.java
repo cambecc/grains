@@ -118,11 +118,20 @@ public final class LateParameterizedTypeTest {
     @Test
     public void test_resolve() throws Exception {
         LateParameterizedType lpc = new LateParameterizedType(Map.class, null, String.class, Integer.class);
-        Method m = Map.class.getMethod("put", Object.class, Object.class);
-        assertEquals(Integer.class, lpc.resolve(m.getGenericReturnType()));
-        assertArrayEquals(new Type[] {String.class, Integer.class}, lpc.resolve(m.getGenericParameterTypes()));
+
+        Method putMethod = Map.class.getMethod("put", Object.class, Object.class);
+        assertEquals(Integer.class, lpc.resolve(putMethod.getGenericReturnType()));
+        assertArrayEquals(new Type[] {String.class, Integer.class}, lpc.resolve(putMethod.getGenericParameterTypes()));
         assertArrayEquals(new Type[] {String.class, Integer.class}, lpc.resolve(Map.class.getTypeParameters()));
         assertEquals(Long.class, lpc.resolve(Long.class));
+
+        Method putAllMethod = Map.class.getMethod("putAll", Map.class);
+        Type mapParam = putAllMethod.getGenericParameterTypes()[0];
+        assertEquals(new TypeToken<Map<? extends String, ? extends Integer>>(){}.asType(), lpc.resolve(mapParam));
+
+        assertEquals(
+            new LateWildcardType("? super", String.class),
+            lpc.resolve(new LateWildcardType("? super", new LateTypeVariable<Class>("K", Map.class))));
     }
 
     @Test

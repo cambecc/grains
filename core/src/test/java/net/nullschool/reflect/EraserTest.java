@@ -3,9 +3,7 @@ package net.nullschool.reflect;
 import org.junit.Test;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 

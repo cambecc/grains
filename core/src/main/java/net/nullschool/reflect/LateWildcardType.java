@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import static net.nullschool.util.ArrayTools.EMPTY_TYPE_ARRAY;
 
+
 /**
  * 2013-03-24<p/>
  *
@@ -146,6 +147,6 @@ public final class LateWildcardType implements WildcardType {
      * "? super" + lower bounds, or "?" as appropriate.
      */
     @Override public String toString() {
-        return TypeTools.print(this);
+        return TypeTools.toString(this);
     }
 }

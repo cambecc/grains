@@ -3,7 +3,7 @@ package net.nullschool.reflect;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import static net.nullschool.reflect.TypeTools.*;
+import static net.nullschool.reflect.TypeTools.copyOf;
 
 /**
  * 2013-02-19<p/>
@@ -28,6 +28,12 @@ public abstract class TypeToken<T> {
 
     private final Type type;
 
+    /**
+     * Constructs this type token by extracting the type T from the generic superclass of the {@code this}
+     * reference's Class.
+     * @throws IllegalArgumentException if no type argument was provided for T, or if the {@code this}
+     *                                  reference's Class does not directly inherit TypeToken.
+     */
     protected TypeToken() {
         Class<?> clazz = this.getClass();
         Type genericSuperclass = clazz.getGenericSuperclass();
@@ -75,6 +81,6 @@ public abstract class TypeToken<T> {
      * String representation of this token and the type it represents.
      */
     @Override public final String toString() {
-        return "TypeToken<" + print(type) + '>';
+        return "TypeToken<" + TypeTools.toString(type) + '>';
     }
 }
