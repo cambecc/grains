@@ -149,7 +149,7 @@ public enum CollectionTestingTools {;
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     public static void assert_map_immutable(Map m) {
 
-        try { m.put(1, 1);                      fail(); } catch (UnsupportedOperationException ignored) {}
+        try { m.put("a", 1);                    fail(); } catch (UnsupportedOperationException ignored) {}
         try { m.put(null, null);                fail(); } catch (UnsupportedOperationException ignored) {}
         try { m.putAll(Collections.emptyMap()); fail(); } catch (UnsupportedOperationException ignored) {}
         try { m.putAll(null);                   fail(); } catch (UnsupportedOperationException ignored) {}

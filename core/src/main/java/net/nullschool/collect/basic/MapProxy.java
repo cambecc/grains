@@ -34,9 +34,16 @@ final class MapProxy implements Serializable {
         out.defaultWriteObject();
         final int size = map.size();
         out.writeInt(size);
+
+        int i = 0;
         for (MapIterator<?, ?> iter = map.iterator(); iter.hasNext();) {
             out.writeObject(iter.next());
             out.writeObject(iter.value());
+            i++;
+        }
+
+        if (i != size) {
+            throw new IOException(String.format("Expected %s entries, but found %s: %s", size, i, map));
         }
     }
 

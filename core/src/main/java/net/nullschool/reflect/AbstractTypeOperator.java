@@ -21,7 +21,7 @@ public abstract class AbstractTypeOperator<T> implements TypeOperator<T> {
      *
      * @param type the type.
      * @return the result.
-     * @throws IllegalArgumentException if type is an instance of an unknown implementation of {@link Type}.
+     * @throws IllegalArgumentException if type refers to an unknown and unsupported implementation of {@link Type}.
      */
     @Override public T invoke(Type type) {
         if (type instanceof Class) {

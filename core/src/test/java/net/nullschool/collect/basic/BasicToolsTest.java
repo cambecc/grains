@@ -16,7 +16,7 @@ import static net.nullschool.collect.CollectionTestingTools.*;
  */
 public class BasicToolsTest {
 
-    static String asReadableString(byte[] data) {
+    public static String asReadableString(byte[] data) {
         StringBuilder sb = new StringBuilder(data.length);
         for (byte b : data) {
             if (b < 32) {

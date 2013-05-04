@@ -59,6 +59,7 @@ public enum TypeTools {;
      *
      * @param type the type to erase
      * @return the type's erasure, or null if {@code type} is null.
+     * @throws IllegalArgumentException if type refers to an instance of an unknown implementation of {@link Type}.
      */
     public static Class<?> erase(Type type) {
         return Eraser.INSTANCE.invoke(type);

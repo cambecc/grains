@@ -68,6 +68,7 @@ public interface TypeOperator<T> {
      *
      * @param type the type.
      * @return the operation result.
+     * @throws IllegalArgumentException if type refers to an unknown and unsupported implementation of {@link Type}.
      */
     T invoke(Type type);
 }

@@ -14,7 +14,7 @@ import java.util.*;
  *
  * Native support for this iterator is provided by maps that implement {@link IterableMap}. For convenience,
  * MapIterator instances can be adapted on top of standard maps using {@link IteratorTools#newMapIterator}. Although
- * they provide no performance benefit, these MapIterator adapters can simplify code that needs to operate generally
+ * they provide no performance benefit, these MapIterator adapters can simplify code that needs to operate commonly
  * on both standard maps and IterableMap instances.
  *
  * @param <K> the key type
