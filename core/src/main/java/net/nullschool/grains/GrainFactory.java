@@ -1,7 +1,6 @@
 package net.nullschool.grains;
 
-import net.nullschool.collect.ConstMap;
-import net.nullschool.reflect.Property;
+import java.util.Map;
 
 
 /**
@@ -11,11 +10,9 @@ import net.nullschool.reflect.Property;
  */
 public interface GrainFactory {
 
-    ConstMap<String, Property> getProperties();  // Should be GrainProperty?? Only fits. Perhaps GrainProperty
-                                                 // should be the interface and in this package, and then have
-                                                 // a simple implementation.
-
-    Grain getBasis();
+    Grain getDefault();
 
     GrainBuilder newBuilder();
+
+    Map<String, GrainProperty> getBasisProperties();
 }

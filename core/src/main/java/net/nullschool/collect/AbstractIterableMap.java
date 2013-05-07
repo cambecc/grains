@@ -108,7 +108,7 @@ public abstract class AbstractIterableMap<K, V> implements IterableMap<K, V> {
      *
      * This implementation does a linear search over the keys returned by {@link MapIterator#next} and
      * returns the result of {@link MapIterator#value} if a match is found. Most programmers will override
-     * this method for maps whose implementations can provide sub-linear performance.
+     * this method for maps whose implementations can provide better-than-linear performance.
      *
      * @throws ClassCastException {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}

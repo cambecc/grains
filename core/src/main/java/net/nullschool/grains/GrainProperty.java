@@ -1,43 +1,40 @@
 package net.nullschool.grains;
 
-import net.nullschool.collect.basic.BasicConstSet;
-import net.nullschool.reflect.Property;
-
 import java.lang.reflect.Type;
-import java.util.Objects;
 import java.util.Set;
 
 
 /**
- * 2013-04-10<p/>
+ * 2013-05-07<p/>
+ *
+ * Descriptor for a Grain property.
  *
  * @author Cameron Beccario
  */
-public class GrainProperty implements Property {
+public interface GrainProperty {
 
-    private final String name;
-    private final Type type;
-    private final Set<Flag> flags;
-
-    public GrainProperty(String name, Type type, Set<Flag> flags) {
-        this.name = Objects.requireNonNull(name);
-        this.type = Objects.requireNonNull(type);
-        this.flags = BasicConstSet.asSet(flags);
+    public enum Flag {
+        /**
+         * Signifies the name of this property's get accessor, if one exists, starts with "is" rather than "get".
+         */
+        IS_PROPERTY
     }
 
-    public GrainProperty(String name, Type type, Flag... flags) {
-        this(name, type, BasicConstSet.asSet(flags));
-    }
+    /**
+     * This property's name.
+     */
+    String getName();
 
-    @Override public String getName() {
-        return name;
-    }
+    /**
+     * This property's generic type.
+     */
+    Type getType();
 
-    @Override public Type getType() {
-        return type;
-    }
+    /**
+     * The set of flags that describe this property, or an empty set if no flags are set.
+     */
+    Set<Flag> getFlags();
 
-    @Override public Set<Flag> getFlags() {
-        return flags;
-    }
+    // UNDONE: define equals? hashCode? would doing so require an "owner" property? would equal properties require
+    //         consistency when calling setValue with potentially different owner types?
 }

@@ -15,6 +15,7 @@ import static net.nullschool.collect.basic.BasicConstSortedMap.*;
  * @author Cameron Beccario
  */
 @SuppressWarnings("SuspiciousMethodCalls")
+@GrainFactoryRef(MockGrainFactory.class)
 final class MockGrain extends AbstractGrain implements Serializable {
 
     private final ConstSortedMap<String, Object> basis;
@@ -87,6 +88,6 @@ final class MockGrain extends AbstractGrain implements Serializable {
 
     private static final class Proxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
-        @Override protected GrainFactory getFactory() { return MockGrainFactory.INSTANCE; }
+        @Override protected GrainBuilder newBuilder() { return MockGrainFactory.INSTANCE.newBuilder(); }
     }
 }

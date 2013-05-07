@@ -1,7 +1,6 @@
 package net.nullschool.grains;
 
-import net.nullschool.collect.ConstMap;
-import net.nullschool.reflect.Property;
+import java.util.Map;
 
 
 /**
@@ -12,11 +11,11 @@ import net.nullschool.reflect.Property;
 enum MockGrainFactory implements GrainFactory {
     INSTANCE;
 
-    @Override public ConstMap<String, Property> getProperties() {
+    @Override public Map<String, GrainProperty> getBasisProperties() {
         throw new UnsupportedOperationException("NYI");
     }
 
-    @Override public Grain getBasis() {
+    @Override public Grain getDefault() {
         return new MockGrain("a", "x");
     }
 
