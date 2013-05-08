@@ -12,12 +12,12 @@ final class TypeTokenDecl {
 
     private final String name;
     private final TypeSymbol type;
-    private final Checker checker;
+    private final CastFunctionSymbol castFunction;
 
-    TypeTokenDecl(String name, Type type, Checker checker, TypePrinterFactory factory) {
+    TypeTokenDecl(String name, Type type, CastFunctionSymbol castFunction, TypePrinterFactory factory) {
         this.name = name;
         this.type = new TypeSymbol(type, factory);
-        this.checker = checker;
+        this.castFunction = castFunction;
     }
 
     public String getName() {
@@ -28,7 +28,7 @@ final class TypeTokenDecl {
         return type;
     }
 
-    public Checker getChecker() {
-        return checker;
+    public CastFunctionSymbol getCastFunction() {
+        return castFunction;
     }
 }

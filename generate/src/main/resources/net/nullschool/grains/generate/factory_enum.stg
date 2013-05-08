@@ -7,8 +7,8 @@ private static final <type.typeToken>\<<typeToken.type>\> <typeToken.name> =
 >>
 
 checker_decl(typeToken, type) ::= <<
-private static final <type.cast>\<<typeToken.checker.type>\> <typeToken.checker.name> =
-    <type.casts>.buildChecker(<typeToken.name>);
+private static final <type.castFunction>\<<typeToken.castFunction.type>\> <typeToken.castFunction.name> =
+    $STRATEGY.newCastFunction(<typeToken.name>);
 
 >>
 
@@ -23,6 +23,8 @@ factory_enum(grain, decl, type) ::= <<
 // @<type.generated>("<type.grainGenerator.fullyQualified>")
 public enum <decl.targetFactory> implements <type.grainFactory> {
     INSTANCE;
+
+    private static final <type.immutabilityStrategy> $STRATEGY = <type.strategy>;
 
     <grain.typeTokens:typeToken_decl(type)>
     private static final <type.basisPropertyMap> $PROPERTIES = <type.grainTools>.propertyMap(

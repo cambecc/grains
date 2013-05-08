@@ -16,7 +16,7 @@ case "<prop.name>": return <prop.getterName>();
 grain_with_case(prop) ::= <<
 case "<prop.name>": return <prop.witherName>(<\\>
     <if(prop.default)>$value == null ? <prop.default> : <endif><\\>
-    <if(prop.typeToken)><prop.typeToken.checker.name>.cast($value)<else>(<prop.type>)$value<endif>);
+    <if(prop.typeToken)><prop.typeToken.castFunction.name>.apply($value)<else>(<prop.type>)$value<endif>);
 >>
 
 grain_impl(grain, decl, type) ::= <<

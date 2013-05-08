@@ -6,23 +6,23 @@ import java.lang.reflect.Type;
 
 
 /**
- * 2013-04-13<p/>
+ * 2013-05-08<p/>
  *
  * @author Cameron Beccario
  */
-final class FieldSymbol implements Symbol {
+final class MethodSymbol implements Symbol {
 
     private final Type type;
     private final String name;
     private final TypePrinterFactory factory;
 
-    FieldSymbol(Type type, String name, TypePrinterFactory factory) {
+    MethodSymbol(Type type, String name, TypePrinterFactory factory) {
         this.type = type;
         this.name = name;
         this.factory = factory;
     }
 
     @Override public String toString() {
-        return TypeTools.toString(type, factory.newPrinter()) + '.' + name;
+        return TypeTools.toString(type, factory.newPrinter()) + '.' + name + "()";
     }
 }

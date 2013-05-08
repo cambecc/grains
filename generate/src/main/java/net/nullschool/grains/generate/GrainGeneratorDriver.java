@@ -88,7 +88,7 @@ final class GrainGeneratorDriver {
                         typeTokenDecl = new TypeTokenDecl(
                             name,
                             immutableType,
-                            new Checker(name + "Checker", immutableType, factory), factory));
+                            new CastFunctionSymbol(name + "Cast", immutableType, factory), factory));
                 }
             }
             symbols.add(new PropertySymbol(immutableProp, factory, typeTokenDecl));

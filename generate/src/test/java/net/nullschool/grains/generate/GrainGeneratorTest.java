@@ -52,7 +52,7 @@ public class GrainGeneratorTest {
     public void test_generator_driver() throws Exception {
         GrainGenerator.main(
             new String[] {
-                System.getProperty("user.home") + "/code/grains/generator/src/test/java",  // output
+                System.getProperty("user.home") + "/code/grains/generate/src/test/java",  // output
                 "net.nullschool.grains.generate.model"});                                 // search packages
     }
 

@@ -39,7 +39,7 @@ final class Reflector {
     private final String packageName;
 
     Reflector(String packageName) {
-        this.packageName = packageName;
+        this.packageName = Objects.requireNonNull(packageName);
     }
 
     interface Action<T> {

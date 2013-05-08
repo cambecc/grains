@@ -8,12 +8,12 @@ import java.lang.reflect.Type;
  *
  * @author Cameron Beccario
  */
-final class Checker {
+final class CastFunctionSymbol {
 
     private final String name;
     private final TypeSymbol type;
 
-    Checker(String name, Type type, TypePrinterFactory factory) {
+    CastFunctionSymbol(String name, Type type, TypePrinterFactory factory) {
         this.name = name;
         this.type = new TypeSymbol(type, factory);
     }

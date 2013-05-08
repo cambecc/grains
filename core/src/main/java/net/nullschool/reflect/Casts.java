@@ -20,10 +20,10 @@ public final class Casts {
         throw new AssertionError();
     }
 
-    private static boolean iterate(Collection<?> c, Cast<?> elementCast) {
+    private static boolean iterate(Collection<?> c, CastFunction<?> elementCast) {
         for (Object o : c) {
             try {
-                elementCast.cast(o);
+                elementCast.apply(o);
             }
             catch (Exception e) {
                 throw new AssertionError("iteration failed: " + o, e);
@@ -32,27 +32,27 @@ public final class Casts {
         return true;
     }
 
-    private static boolean iterate(Map<?, ?> m, Cast<?> keyCast, Cast<?> valueCast) {
+    private static boolean iterate(Map<?, ?> m, CastFunction<?> keyCast, CastFunction<?> valueCast) {
         if (m instanceof IterableMap) {
             for (MapIterator iter = ((IterableMap)m).iterator(); iter.hasNext();) {
-                keyCast.cast(iter.next());
-                valueCast.cast(iter.value());
+                keyCast.apply(iter.next());
+                valueCast.apply(iter.value());
             }
         }
         else {
             for (Map.Entry entry : m.entrySet()) {
-                keyCast.cast(entry.getKey());
-                valueCast.cast(entry.getValue());
+                keyCast.apply(entry.getKey());
+                valueCast.apply(entry.getValue());
             }
         }
         return true;
     }
 
-    private static <T> Cast<T> checkType(final Class<T> clazz) {
+    private static <T> CastFunction<T> checkType(final Class<T> clazz) {
         Objects.requireNonNull(clazz);
-        return new Cast<T>() {
+        return new CastFunction<T>() {
             @Override
-            public T cast(Object o) {
+            public T apply(Object o) {
                 return clazz.cast(o);
             }
 
@@ -65,17 +65,17 @@ public final class Casts {
 
     // UNDONE: reduce check* to just checkCollection
 
-    private static <C> Cast<C> checkCollection(
+    private static <C> CastFunction<C> checkCollection(
         final Class<? extends Collection> collectionClass,
-        final Cast<?> elementCheck) {
+        final CastFunction<?> elementCheck) {
 
         Objects.requireNonNull(collectionClass);
         Objects.requireNonNull(elementCheck);
 
-        return new Cast<C>() {
+        return new CastFunction<C>() {
             @Override
             @SuppressWarnings("unchecked")
-            public C cast(Object o) {
+            public C apply(Object o) {
                 Collection c = collectionClass.cast(o);
                 assert c == null || iterate(c, elementCheck);
                 return (C)c;
@@ -88,17 +88,17 @@ public final class Casts {
         };
     }
 
-    private static <S> Cast<S> checkSet(
+    private static <S> CastFunction<S> checkSet(
         final Class<? extends Set> setClass,
-        final Cast<?> elementCheck) {
+        final CastFunction<?> elementCheck) {
 
         Objects.requireNonNull(setClass);
         Objects.requireNonNull(elementCheck);
 
-        return new Cast<S>() {
+        return new CastFunction<S>() {
             @Override
             @SuppressWarnings("unchecked")
-            public S cast(Object o) {
+            public S apply(Object o) {
                 Set set = setClass.cast(o);
                 assert set == null || iterate(set, elementCheck);
                 return (S)set;
@@ -111,17 +111,17 @@ public final class Casts {
         };
     }
 
-    private static <L> Cast<L> checkList(
+    private static <L> CastFunction<L> checkList(
         final Class<? extends List> listClass,
-        final Cast<?> elementCheck) {
+        final CastFunction<?> elementCheck) {
 
         Objects.requireNonNull(listClass);
         Objects.requireNonNull(elementCheck);
 
-        return new Cast<L>() {
+        return new CastFunction<L>() {
             @Override
             @SuppressWarnings("unchecked")
-            public L cast(Object o) {
+            public L apply(Object o) {
                 List list = listClass.cast(o);
                 assert o == null || iterate(list, elementCheck);
                 return (L)list;
@@ -134,19 +134,19 @@ public final class Casts {
         };
     }
 
-    private static <M> Cast<M> checkMap(
+    private static <M> CastFunction<M> checkMap(
         final Class<? extends Map> mapClass,
-        final Cast<?> keyCheck,
-        final Cast<?> valueCheck) {
+        final CastFunction<?> keyCheck,
+        final CastFunction<?> valueCheck) {
 
         Objects.requireNonNull(mapClass);
         Objects.requireNonNull(keyCheck);
         Objects.requireNonNull(valueCheck);
 
-        return new Cast<M>() {
+        return new CastFunction<M>() {
             @Override
             @SuppressWarnings("unchecked")
-            public M cast(Object o) {
+            public M apply(Object o) {
                 Map map = mapClass.cast(o);
                 assert o == null || iterate(map, keyCheck, valueCheck);
                 return (M)map;
@@ -159,7 +159,7 @@ public final class Casts {
         };
     }
 
-    private static Cast<?> buildChecker(Type type) {
+    private static CastFunction<?> buildChecker(Type type) {
         if (type instanceof Class) {
             return checkType(TypeTools.erase(type));
         }
@@ -206,7 +206,7 @@ public final class Casts {
 
     // UNDONE: rename "checker". should be "caster" or something like that.
     @SuppressWarnings("unchecked")
-    public static <T> Cast<T> buildChecker(TypeToken<T> token) {
-        return (Cast<T>)buildChecker(token.asType());
+    public static <T> CastFunction<T> buildChecker(TypeToken<T> token) {
+        return (CastFunction<T>)buildChecker(token.asType());
     }
 }

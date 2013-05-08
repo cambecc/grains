@@ -88,11 +88,10 @@ public class GrainGenerator implements Callable<Void> {
     }
 
     public GrainGenerator(Configuration configuration) {
-        this.config = configuration;
+        this.config = Objects.requireNonNull(configuration);
     }
 
-    @Override
-    public Void call() throws Exception {
+    @Override public Void call() throws Exception {
         long start = System.currentTimeMillis();
 
         ExecutorService executor =

@@ -12,7 +12,7 @@ import static java.util.Objects.*;
  *
  * @author Cameron Beccario
  */
-final class TypeSymbol {
+final class TypeSymbol implements Symbol {
 
     private final Type type;
     private final TypePrinterFactory factory;

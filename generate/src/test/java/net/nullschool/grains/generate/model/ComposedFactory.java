@@ -21,14 +21,17 @@ import net.nullschool.grains.GrainFactory;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
-import net.nullschool.reflect.Cast;
-import net.nullschool.reflect.Casts;
+import net.nullschool.reflect.CastFunction;
+import net.nullschool.reflect.DefaultImmutabilityStrategy;
+import net.nullschool.reflect.ImmutabilityStrategy;
 import net.nullschool.reflect.TypeToken;
 import net.nullschool.util.MemoizedHashCode;
 
 // @Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum ComposedFactory implements GrainFactory {
     INSTANCE;
+
+    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.instance();
 
     private static final TypeToken<ConstList<UUID>> $0 =
         new TypeToken<ConstList<UUID>>(){};
@@ -52,8 +55,8 @@ public enum ComposedFactory implements GrainFactory {
     public ComposedBuilder newBuilder() { return builder(); }
     public String toString() { return getClass().getName(); }
 
-    private static final Cast<ConstList<UUID>> $0Checker =
-        Casts.buildChecker($0);
+    private static final CastFunction<ConstList<UUID>> $0Cast =
+        $STRATEGY.newCastFunction($0);
 
     private static final class ComposedGrainImpl
         extends AbstractGrain
@@ -157,10 +160,10 @@ public enum ComposedFactory implements GrainFactory {
             switch ($key) {
                 case "id": return withId((UUID)$value);
                 case "left": return withLeft((String)$value);
-                case "leftIds": return withLeftIds($0Checker.cast($value));
+                case "leftIds": return withLeftIds($0Cast.apply($value));
                 case "name": return withName((String)$value);
                 case "right": return withRight((String)$value);
-                case "rightIds": return withRightIds($0Checker.cast($value));
+                case "rightIds": return withRightIds($0Cast.apply($value));
                 case "top": return withTop((String)$value);
             }
             ConstMap<String, Object> $newExtensions =
@@ -309,7 +312,7 @@ public enum ComposedFactory implements GrainFactory {
                     return $original;
                 case "leftIds":
                     $original = getLeftIds();
-                    setLeftIds($0Checker.cast($value));
+                    setLeftIds($0Cast.apply($value));
                     return $original;
                 case "name":
                     $original = getName();
@@ -321,7 +324,7 @@ public enum ComposedFactory implements GrainFactory {
                     return $original;
                 case "rightIds":
                     $original = getRightIds();
-                    setRightIds($0Checker.cast($value));
+                    setRightIds($0Cast.apply($value));
                     return $original;
                 case "top":
                     $original = getTop();

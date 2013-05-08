@@ -17,10 +17,8 @@ public final class Configuration {
     public static final String DEFAULT_ENCODING = "UTF-8";
     public static final String DEFAULT_LINE_WIDTH = "100";
     public static final String DEFAULT_LINE_SEPARATOR = "\n";
-    public static final String DEFAULT_COLLECTION_CLASS = "net.nullschool.collect.ConstCollection";
-    public static final String DEFAULT_SET_CLASS = "net.nullschool.collect.ConstSet";
-    public static final String DEFAULT_LIST_CLASS = "net.nullschool.collect.ConstList";
-    public static final String DEFAULT_MAP_CLASS = "net.nullschool.collect.ConstMap";
+    public static final String DEFAULT_IMMUTABILITY_STRATEGY =
+        "net.nullschool.reflect.DefaultImmutabilityStrategy.instance";
 
 
     private Charset charset = Charset.forName(DEFAULT_ENCODING);
@@ -29,88 +27,67 @@ public final class Configuration {
     private Path output;
     private ConstSet<String> searchPackages = BasicConstSet.emptySet();
     private ClassLoader searchLoader;
-    private String collectionClass = DEFAULT_COLLECTION_CLASS;
-    private String setClass = DEFAULT_SET_CLASS;
-    private String listClass = DEFAULT_LIST_CLASS;
-    private String mapClass = DEFAULT_MAP_CLASS;
+    private String immutabilityStrategy = DEFAULT_IMMUTABILITY_STRATEGY;
 
     public Charset getCharset() {
         return charset;
     }
 
-    public void setCharset(Charset charset) {
+    public Configuration setCharset(Charset charset) {
         this.charset = charset;
+        return this;
     }
 
     public int getLineWidth() {
         return lineWidth;
     }
 
-    public void setLineWidth(int lineWidth) {
+    public Configuration setLineWidth(int lineWidth) {
         this.lineWidth = lineWidth;
+        return this;
     }
 
     public String getLineSeparator() {
         return lineSeparator;
     }
 
-    public void setLineSeparator(String lineSeparator) {
+    public Configuration setLineSeparator(String lineSeparator) {
         this.lineSeparator = lineSeparator;
+        return this;
     }
 
     public Path getOutput() {
         return output;
     }
 
-    public void setOutput(Path output) {
+    public Configuration setOutput(Path output) {
         this.output = output;
+        return this;
     }
 
     public ConstSet<String> getSearchPackages() {
         return searchPackages;
     }
 
-    public void setSearchPackages(ConstSet<String> searchPackages) {
+    public Configuration setSearchPackages(ConstSet<String> searchPackages) {
         this.searchPackages = searchPackages;
+        return this;
     }
 
     public ClassLoader getSearchLoader() {
         return searchLoader;
     }
 
-    public void setSearchLoader(ClassLoader searchLoader) {
+    public Configuration setSearchLoader(ClassLoader searchLoader) {
         this.searchLoader = searchLoader;
+        return this;
     }
 
-    public String getCollectionClass() {
-        return collectionClass;
+    public String getImmutabilityStrategy() {
+        return immutabilityStrategy;
     }
 
-    public void setCollectionClass(String collectionClass) {
-        this.collectionClass = collectionClass;
-    }
-
-    public String getSetClass() {
-        return setClass;
-    }
-
-    public void setSetClass(String setClass) {
-        this.setClass = setClass;
-    }
-
-    public String getListClass() {
-        return listClass;
-    }
-
-    public void setListClass(String listClass) {
-        this.listClass = listClass;
-    }
-
-    public String getMapClass() {
-        return mapClass;
-    }
-
-    public void setMapClass(String mapClass) {
-        this.mapClass = mapClass;
+    public void setImmutabilityStrategy(String immutabilityStrategy) {
+        this.immutabilityStrategy = immutabilityStrategy;
     }
 }

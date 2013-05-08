@@ -1,9 +1,6 @@
 package net.nullschool.grains.generate;
 
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.NotFoundException;
+import javassist.*;
 import javassist.bytecode.BadBytecode;
 import javassist.bytecode.SignatureAttribute;
 import net.nullschool.collect.*;
@@ -18,11 +15,9 @@ import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.*;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.URI;
 import java.util.*;
 
 import static javassist.bytecode.SignatureAttribute.*;
@@ -36,10 +31,52 @@ import static net.nullschool.reflect.TypeTools.*;
  */
 final class Types {
 
-    private final Configuration config;
+    private final ClassPool classPool;
+    private final ImmutabilityStrategy strategy;
+    private Member strategyMember;
 
     Types(Configuration config) {
-        this.config = config;
+        this.classPool = new ClassPool();
+        classPool.appendClassPath(new LoaderClassPath(Thread.currentThread().getContextClassLoader()));
+        this.strategy = loadStrategy(config.getImmutabilityStrategy());
+    }
+
+    private ImmutabilityStrategy loadStrategy(String accessString) {
+        int lastDot = accessString.lastIndexOf('.');
+        String className = accessString.substring(0, lastDot);
+        try {
+            Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
+            String memberName = accessString.substring(lastDot + 1);
+            try {
+                // Try finding it as a field.
+                Field field = clazz.getField(memberName);
+                if (field != null && Modifier.isStatic(field.getModifiers())) {
+                    ImmutabilityStrategy result = (ImmutabilityStrategy)field.get(null);
+                    strategyMember = field;
+                    return result;
+                }
+            }
+            catch (NoSuchFieldException e) {
+                // Doesn't exist as a field.
+            }
+            try {
+                // Try finding it as a method.
+                Method method = clazz.getMethod(memberName);
+                if (method != null && Modifier.isStatic(method.getModifiers())) {
+                    ImmutabilityStrategy result = (ImmutabilityStrategy)method.invoke(null);
+                    strategyMember = method;
+                    return result;
+                }
+            }
+            catch (NoSuchMethodException e) {
+                // Doesn't exist as a method either.
+            }
+            throw new ReflectiveOperationException(
+                String.format("Cannot find public static field or method with name '%s'", memberName));
+        }
+        catch (ReflectiveOperationException e) {
+            throw new IllegalArgumentException(String.format("Failed to get instance of '%s'", className), e);
+        }
     }
 
     private enum WellKnownType {
@@ -66,7 +103,7 @@ final class Types {
         grainFactoryRef             (GrainFactoryRef.class),
         abstractGrainProxy          (AbstractGrainProxy.class),
         grainGenerator              (GrainGenerator.class),
-        cast                        (Cast.class),
+        castFunction                (CastFunction.class),
         casts                       (Casts.class),
         iteratorTools               (IteratorTools.class),
         mapTools                    (MapTools.class),
@@ -77,6 +114,7 @@ final class Types {
         grainTools                  (GrainTools.class),
         grainProperty               (GrainProperty.class),
         simpleGrainProperty         (SimpleGrainProperty.class),
+        immutabilityStrategy        (ImmutabilityStrategy.class),
 
         iterableMap                 (new TypeToken<IterableMap<String, Object>>(){}.asType()),
         abstractIterableMap         (new TypeToken<AbstractIterableMap<String, Object>>(){}.asType()),
@@ -134,22 +172,8 @@ final class Types {
         return null;
     }
 
-    private static CtClass createClass(String name) throws CannotCompileException {
-        ClassPool pool = ClassPool.getDefault();
-        return pool.makeClass(name);
-    }
-
-    private synchronized Class<?> findOrCreateClass(String name) {
-        Class<?> result = findClass(name);
-        if (result == null) {
-            try {
-                result = createClass(name).toClass();
-            }
-            catch (CannotCompileException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return result;
+    private CtClass createClass(String name) throws CannotCompileException {
+        return classPool.makeClass(name);
     }
 
     private synchronized Class<?> findOrCreateClass(String name, Class<?> inherits) {
@@ -157,22 +181,30 @@ final class Types {
         if (result == null) {
             try {
                 CtClass newClass = createClass(name);
-                CtClass inheritsClass = ClassPool.getDefault().get(inherits.getName());
+                CtClass inheritsClass = classPool.get(inherits.getName());
                 if (inheritsClass.getGenericSignature() != null) {
                     ClassSignature inheritSig =
                         toClassSignature(inheritsClass.getGenericSignature());
                     TypeParameter[] params = inheritSig.getParameters();
-                    TypeArgument[] args = new TypeArgument[params.length];
-                    for (int i = 0; i < params.length; i++) {
-                        TypeParameter tp = params[i];
-                        args[i] = new TypeArgument(new SignatureAttribute.TypeVariable(tp.getName()));
+                    if (params.length > 0) {
+                        TypeArgument[] args = new TypeArgument[params.length];
+                        for (int i = 0; i < params.length; i++) {
+                            TypeParameter tp = params[i];
+                            args[i] = new TypeArgument(new SignatureAttribute.TypeVariable(tp.getName()));
+                        }
+                        ClassSignature cs =
+                            new ClassSignature(
+                                inheritSig.getParameters(),
+                                new ClassType(inherits.getName(), args),
+                                null);
+                        newClass.setGenericSignature(cs.encode());
                     }
-                    ClassSignature cs =
-                        new ClassSignature(
-                            inheritSig.getParameters(),
-                            new ClassType(inherits.getName(), args),
-                            null);
-                    newClass.setGenericSignature(cs.encode());
+                    else {
+                        newClass.setSuperclass(inheritsClass);
+                    }
+                }
+                else {
+                    newClass.setSuperclass(inheritsClass);
                 }
                 return newClass.toClass();
             }
@@ -193,10 +225,10 @@ final class Types {
         String schemaName = schema.getSimpleName();
         String prefix = targetPackage(schema) + '.' + schemaName;
 
-        Class<?> targetGrain = findOrCreateClass(prefix + "Grain");
+        Class<?> targetGrain = findOrCreateClass(prefix + "Grain", AbstractGrain.class);
         map.put("targetGrain", new TypeSymbol(targetGrain, factory));
 
-        Class<?> targetBuilder = findOrCreateClass(prefix + "Builder");
+        Class<?> targetBuilder = findOrCreateClass(prefix + "Builder", AbstractGrainBuilder.class);
         map.put("targetBuilder", new TypeSymbol(targetBuilder, factory));
 
         Class<?> targetFactory = findClass(prefix + "Factory");
@@ -229,8 +261,8 @@ final class Types {
         return map;
     }
 
-    public synchronized Map<String, TypeSymbol> types(Class<?> schema, TypePrinterFactory factory) {
-        Map<String, TypeSymbol> map = new HashMap<>();
+    public synchronized Map<String, Symbol> types(Class<?> schema, TypePrinterFactory factory) {
+        Map<String, Symbol> map = new HashMap<>();
         map.putAll(wellKnownTypes(factory));
         try {
             map.putAll(targetTypes(schema, factory));
@@ -238,6 +270,11 @@ final class Types {
         catch (CannotCompileException e) {
             throw new RuntimeException(e);
         }
+        map.put(
+            "strategy",
+            strategyMember instanceof Method ?
+                new MethodSymbol(strategyMember.getDeclaringClass(), strategyMember.getName(), factory) :
+                new FieldSymbol(strategyMember.getDeclaringClass(), strategyMember.getName(), factory));
         return map;
     }
 
@@ -252,90 +289,26 @@ final class Types {
         return map;
     }
 
-    interface Transform {
-        Class<?> invoke(Class<?> clazz);
-    }
-
-    static class Identity implements Transform {
-        @Override
-        public Class<?> invoke(Class<?> clazz) {
-            if (clazz.isPrimitive()) {
-                return clazz;
-            }
-            for (Class<?> base : immutableTypes) {
-                if (base.isAssignableFrom(clazz)) {
-                    return clazz;
-                }
-            }
-            return null;
+    private Class<?> schemaToGrain(Class<?> clazz) {
+        if (clazz.getAnnotation(GrainSchema.class) != null) {
+            return findOrCreateClass(targetPackage(clazz) + '.' + clazz.getSimpleName() + "Grain", AbstractGrain.class);
         }
+        return null;
     }
-
-    class AsGrain implements Transform {
-        @Override
-        public Class<?> invoke(Class<?> clazz) {
-            if (clazz.getAnnotation(GrainSchema.class) != null) {
-                // UNDONE: figure out why Sample build needs to create classes here on clean build.
-                return findOrCreateClass(targetPackage(clazz) + '.' + clazz.getSimpleName() + "Grain");
-            }
-            return null;
-        }
-    }
-
-    class CollectionsTransforms implements Transform {
-        @Override
-        public Class<?> invoke(Class<?> clazz) {
-            if (clazz == Map.class) {
-                return findOrCreateClass(config.getMapClass(), Map.class);
-            }
-            if (clazz == Collection.class) {
-                return findOrCreateClass(config.getCollectionClass(), Collection.class);
-            }
-            if (clazz == Set.class) {
-                return findOrCreateClass(config.getSetClass(), Set.class);
-            }
-            if (clazz == List.class) {
-                return findOrCreateClass(config.getListClass(), List.class);
-            }
-            return null;
-        }
-    }
-
-    private final List<Transform> transforms = Arrays.asList(
-        new Identity(),
-        new AsGrain(),
-        new CollectionsTransforms());
-
-    private static final Set<Class<?>> immutableTypes = new HashSet<>(Arrays.asList(
-        Boolean.class,
-        Byte.class,
-        Short.class,
-        Integer.class,
-        Long.class,
-        BigInteger.class,
-        BigDecimal.class,
-        Float.class,
-        Double.class,
-        Character.class,
-        String.class,
-        Void.class,
-        UUID.class,
-        URI.class,
-        Currency.class,
-        Enum.class,             // UNDONE: should Enum itself be considered immutable?
-        ConstCollection.class,
-        ConstMap.class));
 
     private class Immutify extends AbstractTypeOperator<Type> {
 
         @Override public Class<?> invoke(Class<?> clazz) {
-            for (Transform t : transforms) {
-                Class<?> result = t.invoke(clazz);
-                if (result != null) {
-                    return result;
-                }
+            // First translate the type, if applicable.
+            Class<?> result = ObjectTools.coalesce(strategy.translate(clazz), clazz);
+            // Now translate grain schemas, if applicable.
+            result = ObjectTools.coalesce(schemaToGrain(result), result);
+            // Now check immutability
+            if (!strategy.test(result)) {
+                throw new IllegalArgumentException(
+                    "do not know how to immutify: " + clazz + " translated as " + result);
             }
-            throw new IllegalArgumentException("do not know how to immutify: " + clazz);
+            return result;
         }
 
         @Override public Type invoke(ParameterizedType pt) {
@@ -361,7 +334,7 @@ final class Types {
         }
     }
 
-    public Type immutify(Type type) {
+    public synchronized Type immutify(Type type) {
         Type instantiated = new Cook().invoke(new DeWildcard().invoke(type));
         try {
             return new Immutify().invoke(instantiated);

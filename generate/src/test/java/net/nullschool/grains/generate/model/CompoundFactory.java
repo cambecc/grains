@@ -21,14 +21,17 @@ import net.nullschool.grains.GrainFactory;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
-import net.nullschool.reflect.Cast;
-import net.nullschool.reflect.Casts;
+import net.nullschool.reflect.CastFunction;
+import net.nullschool.reflect.DefaultImmutabilityStrategy;
+import net.nullschool.reflect.ImmutabilityStrategy;
 import net.nullschool.reflect.TypeToken;
 import net.nullschool.util.MemoizedHashCode;
 
 // @Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum CompoundFactory implements GrainFactory {
     INSTANCE;
+
+    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.instance();
 
     private static final TypeToken<ConstMap<String, ConstSet<PartGrain>>> $0 =
         new TypeToken<ConstMap<String, ConstSet<PartGrain>>>(){};
@@ -55,12 +58,12 @@ public enum CompoundFactory implements GrainFactory {
     public CompoundBuilder newBuilder() { return builder(); }
     public String toString() { return getClass().getName(); }
 
-    private static final Cast<ConstMap<String, ConstSet<PartGrain>>> $0Checker =
-        Casts.buildChecker($0);
-    private static final Cast<ConstList<PartGrain>> $1Checker =
-        Casts.buildChecker($1);
-    private static final Cast<ConstSet<PartGrain>> $2Checker =
-        Casts.buildChecker($2);
+    private static final CastFunction<ConstMap<String, ConstSet<PartGrain>>> $0Cast =
+        $STRATEGY.newCastFunction($0);
+    private static final CastFunction<ConstList<PartGrain>> $1Cast =
+        $STRATEGY.newCastFunction($1);
+    private static final CastFunction<ConstSet<PartGrain>> $2Cast =
+        $STRATEGY.newCastFunction($2);
 
     private static final class CompoundGrainImpl
         extends AbstractGrain
@@ -153,11 +156,11 @@ public enum CompoundFactory implements GrainFactory {
         private CompoundGrain with(String $key, Object $value, boolean $dissoc) {
             switch ($key) {
                 case "firstPart": return withFirstPart((PartGrain)$value);
-                case "partGroups": return withPartGroups($0Checker.cast($value));
-                case "remainingParts": return withRemainingParts($1Checker.cast($value));
+                case "partGroups": return withPartGroups($0Cast.apply($value));
+                case "remainingParts": return withRemainingParts($1Cast.apply($value));
                 case "secondPart": return withSecondPart((PartGrain)$value);
-                case "uniqueParts": return withUniqueParts($2Checker.cast($value));
-                case "unusedParts": return withUnusedParts($1Checker.cast($value));
+                case "uniqueParts": return withUniqueParts($2Cast.apply($value));
+                case "unusedParts": return withUnusedParts($1Cast.apply($value));
             }
             ConstMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
@@ -292,11 +295,11 @@ public enum CompoundFactory implements GrainFactory {
                     return $original;
                 case "partGroups":
                     $original = getPartGroups();
-                    setPartGroups($0Checker.cast($value));
+                    setPartGroups($0Cast.apply($value));
                     return $original;
                 case "remainingParts":
                     $original = getRemainingParts();
-                    setRemainingParts($1Checker.cast($value));
+                    setRemainingParts($1Cast.apply($value));
                     return $original;
                 case "secondPart":
                     $original = getSecondPart();
@@ -304,11 +307,11 @@ public enum CompoundFactory implements GrainFactory {
                     return $original;
                 case "uniqueParts":
                     $original = getUniqueParts();
-                    setUniqueParts($2Checker.cast($value));
+                    setUniqueParts($2Cast.apply($value));
                     return $original;
                 case "unusedParts":
                     $original = getUnusedParts();
-                    setUnusedParts($1Checker.cast($value));
+                    setUnusedParts($1Cast.apply($value));
                     return $original;
                 default:
                     return $dissoc ? $extensions.remove($key) : $extensions.put($key, $value);

@@ -5,7 +5,7 @@ package net.nullschool.reflect;
  *
  * @author Cameron Beccario
  */
-public interface Cast<T> {
+public interface CastFunction<T> {
 
-    T cast(Object o);
+    T apply(Object o);
 }

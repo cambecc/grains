@@ -19,11 +19,15 @@ import net.nullschool.grains.GrainFactory;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
+import net.nullschool.reflect.DefaultImmutabilityStrategy;
+import net.nullschool.reflect.ImmutabilityStrategy;
 import net.nullschool.util.MemoizedHashCode;
 
 // @Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum PartFactory implements GrainFactory {
     INSTANCE;
+
+    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.instance();
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.propertyMap(
         new SimpleGrainProperty("make", int.class),
