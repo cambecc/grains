@@ -26,7 +26,7 @@ public class GrainGeneratorTest {
 
     @Ignore @Test
     public void test_generate_const_interface() throws Exception {
-        GrainGenerator generator = new GrainGenerator(config);
+        GrainGeneratorDriver generator = new GrainGeneratorDriver(config);
         GenerationResult result = generator.generate(Compound.class, Templates.newGrainInterfaceTemplate(config));
         print(result.getErrors());
         System.out.println(result.getText());
@@ -34,7 +34,7 @@ public class GrainGeneratorTest {
 
     @Ignore @Test
     public void test_generate_builder_interface() throws Exception {
-        GrainGenerator generator = new GrainGenerator(config);
+        GrainGeneratorDriver generator = new GrainGeneratorDriver(config);
         GenerationResult result = generator.generate(Compound.class, Templates.newBuilderInterfaceTemplate(config));
         print(result.getErrors());
         System.out.println(result.getText());
@@ -42,7 +42,7 @@ public class GrainGeneratorTest {
 
     @Ignore @Test
     public void test_generate_factory_enum() throws Exception {
-        GrainGenerator generator = new GrainGenerator(config);
+        GrainGeneratorDriver generator = new GrainGeneratorDriver(config);
         GenerationResult result = generator.generate(Compound.class, Templates.newFactoryEnumTemplate(config));
         print(result.getErrors());
         System.out.println(result.getText());
@@ -50,9 +50,10 @@ public class GrainGeneratorTest {
 
     @Ignore @Test
     public void test_generator_driver() throws Exception {
-        GeneratorDriver.main(new String[] {
-            System.getProperty("user.home") + "/code/grain/generator/src/test/java",  // output
-            "net.nullschool.grains.generate.model"});                                 // search packages
+        GrainGenerator.main(
+            new String[] {
+                System.getProperty("user.home") + "/code/grains/generator/src/test/java",  // output
+                "net.nullschool.grains.generate.model"});                                 // search packages
     }
 
     @Ignore @Test

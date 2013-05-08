@@ -30,10 +30,10 @@ final class TemplateDecl implements Template {
     }
 
     private static STGroup newGroupFromResource(String resourceName, ErrorCollector errorCollector) {
-        URL resource = GrainGenerator.class.getResource(resourceName);
+        URL resource = GrainGeneratorDriver.class.getResource(resourceName);
         if (resource == null) {
             throw new RuntimeException(
-                String.format("Cannot find resource '%s' via %s.", resource, GrainGenerator.class));
+                String.format("Cannot find resource '%s' via %s.", resource, GrainGeneratorDriver.class));
         }
         STGroup result = new STGroupFile(resource, TEMPLATE_ENCODING, '<', '>');
         result.setListener(errorCollector);
