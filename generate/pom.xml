@@ -46,10 +46,6 @@
         <url>https://github.com/cambecc/grains.git</url>
     </scm>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>net.nullschool</groupId>
@@ -101,26 +97,7 @@
 
     <build>
         <plugins>
-            <!-- Compile the sample model when generating test sources. -->
-<!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>generate-test-sources</phase>
-                        <goals><goal>testCompile</goal></goals>
-                        <configuration>
-                            <testIncludes>
-                                <testInclude>net/nullschool/grains/generate/model/**</testInclude>
-                            </testIncludes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
--->
-
-            <!-- invoke the generator to generate test sources -->
+            <!-- Invoke the generator to generate test sources. -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

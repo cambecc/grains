@@ -43,6 +43,8 @@
         <module>master</module>
         <module>core</module>
         <module>generate</module>
+        <module>plugin</module>
+        <module>sample</module>
     </modules>
 
 </project>

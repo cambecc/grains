@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~~ grains core
+  ~~ grain plugin
   ~~
   ~~ @author Cameron Beccario
   -->
@@ -16,12 +16,12 @@
     </parent>
 
     <groupId>net.nullschool</groupId>
-    <artifactId>grains-core</artifactId>
+    <artifactId>grains-plugin</artifactId>
     <version>0.9.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>maven-plugin</packaging>
 
-    <name>core</name>
-    <description>Grains Core</description>
+    <name>plugin</name>
+    <description>Grains Generate Plugin</description>
     <url>https://github.com/cambecc/grains</url>
 
     <licenses>
@@ -48,29 +48,43 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-core</artifactId>
+            <version>3.0</version>
         </dependency>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
-            <scope>test</scope>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>3.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.nullschool</groupId>
+            <artifactId>grains-generate</artifactId>
+            <version>0.9.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Create a jar of the testing utilities so they can be used by other modules' tests. -->
+            <!-- Build the plugin. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                </configuration>
                 <executions>
                     <execution>
-                        <goals><goal>test-jar</goal></goals>
+                        <id>mojo-descriptor</id>
+                        <phase>process-classes</phase>
+                        <goals><goal>descriptor</goal></goals>
                     </execution>
                 </executions>
             </plugin>
