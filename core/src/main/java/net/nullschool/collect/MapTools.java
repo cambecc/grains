@@ -1,7 +1,6 @@
 package net.nullschool.collect;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -36,6 +35,41 @@ public enum MapTools {;
         for (int i = 0; i < length; i++) {
             map.put(keys[i], values[i]);
         }
+        return map;
+    }
+
+    /**
+     * Invokes {@link Map#putAll} on {@code dest} with the specified map and returns {@code dest} so this operation
+     * can be chained.
+     *
+     * @param dest the map on which to invoke putAll.
+     * @param map the map of entries to put into dest.
+     * @return the same reference as {@code dest}.
+     * @throws UnsupportedOperationException if {@code dest} does not support putAll.
+     * @throws ClassCastException if any key or value type in the source map is not compatible with {@code dest}.
+     * @throws NullPointerException if {@code dest} or {@code map} is null or {@code map} contains a null key or value
+     *                              and {@code dest} does not support nulls.
+     * @throws IllegalArgumentException if any key or value in the source map has some property which is not suitable
+     *                                  for the {@code dest} map.
+     */
+    public static <K, V, T extends Map<K, V>> T putAll(T dest, Map<? extends K, ? extends V> map) {
+        dest.putAll(map);
+        return dest;
+    }
+
+    /**
+     * Removes all specified keys from the map and returns the same map reference so this operation can be chained.
+     *
+     * @param map the map to remove keys from.
+     * @param keys the keys to remove.
+     * @return the same map.
+     * @throws UnsupportedOperationException if the map's entrySet does not support {@link Set#removeAll}.
+     * @throws ClassCastException if any key's type is not compatible with this map.
+     * @throws NullPointerException if {@code map} or {@code keys} is null, or {@code keys} contains null and the
+     *                              map does not support null keys.
+     */
+    public static <T extends Map<?, ?>> T removeAll(T map, Collection<?> keys) {
+        map.keySet().removeAll(keys);
         return map;
     }
 }

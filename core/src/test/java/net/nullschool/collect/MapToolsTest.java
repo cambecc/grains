@@ -2,8 +2,11 @@ package net.nullschool.collect;
 
 import org.junit.Test;
 
+import java.util.*;
+
 import static net.nullschool.collect.MapTools.*;
 import static org.junit.Assert.*;
+
 
 /**
  * 2013-02-06<p/>
@@ -36,5 +39,32 @@ public final class MapToolsTest {
     @Test(expected = NullPointerException.class)
     public void test_bad_interleave_2() {
         interleave(null, new Integer[] {});
+    }
+
+    @Test
+    public void test_putAll() {
+        Map<String, Integer> map = new HashMap<>();
+        Map<String, Integer> source = new HashMap<>();
+        source.put("a", 1);
+        source.put("b", 2);
+        assertSame(map, putAll(map, source));
+        assertEquals(source, map);
+        try { putAll(map, null);    fail(); } catch (NullPointerException ignored) {}
+        try { putAll(null, source); fail(); } catch (NullPointerException ignored) {}
+    }
+
+    @Test
+    public void test_removeAll() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("a", 1);
+        map.put("b", 2);
+        map.put("c", 3);
+        Collection<String> keys = Arrays.asList("a", "b");
+        assertSame(map, removeAll(map, keys));
+        Map<String, Integer> expected = new HashMap<>();
+        expected.put("c", 3);
+        assertEquals(expected, map);
+        try { removeAll(map, null);  fail(); } catch (NullPointerException ignored) {}
+        try { removeAll(null, keys); fail(); } catch (NullPointerException ignored) {}
     }
 }

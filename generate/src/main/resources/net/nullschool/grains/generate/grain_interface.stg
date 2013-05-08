@@ -1,0 +1,29 @@
+group GrainInterface;
+
+property_decl(prop, decl, type) ::= <<
+<prop.type> <prop.getterName>();
+
+<decl.targetGrain> <prop.witherName>(<prop.type> <prop.fieldName>);
+>>
+
+grain_interface(grain, decl, type) ::= <<
+@<type.generated>("<type.grainGenerator.fullyQualified>")
+@<type.grainFactoryRef>(<type.targetFactory>.class)
+public interface <decl.targetGrain> extends <type.schema>, <type.grain> {
+
+    <grain.properties:property_decl(decl, type); separator="\n\n">
+
+    <decl.targetGrain> with(<type.string> key, <type.object> value);
+
+    <decl.targetGrain> withAll(<type.mapStringObjectWildcards> map);
+
+    <decl.targetGrain> without(<type.object> key);
+
+    <decl.targetGrain> withoutAll(<type.collectionWildcard> keys);
+
+    <type.targetBuilder> builder();
+
+    <type.constMap> extensions();
+}
+
+>>

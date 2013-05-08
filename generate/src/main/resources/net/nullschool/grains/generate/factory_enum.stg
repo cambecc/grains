@@ -1,0 +1,49 @@
+group FactoryEnum;
+
+typeToken_decl(typeToken, type) ::= <<
+private static final <type.typeToken>\<<typeToken.type>\> <typeToken.name> =
+    new <type.typeToken>\<<typeToken.type>\>(){};
+
+>>
+
+checker_decl(typeToken, type) ::= <<
+private static final <type.cast>\<<typeToken.checker.type>\> <typeToken.checker.name> =
+    <type.casts>.buildChecker(<typeToken.name>);
+
+>>
+
+grain_prop(prop, type) ::= <<
+new <type.simpleGrainProperty>(<\\>
+    "<prop.name>", <\\>
+    <if(prop.typeToken)><prop.typeToken.name>.asType()<else><prop.type>.class<endif><\\>
+    <prop.flags:{flag|, <flag>}>)
+>>
+
+factory_enum(grain, decl, type) ::= <<
+// @<type.generated>("<type.grainGenerator.fullyQualified>")
+public enum <decl.targetFactory> implements <type.grainFactory> {
+    INSTANCE;
+
+    <grain.typeTokens:typeToken_decl(type)>
+    private static final <type.basisPropertyMap> $PROPERTIES = <type.grainTools>.propertyMap(
+        <grain.properties:grain_prop(type); separator=",\n">);
+
+    private static final <type.string>[] $KEYS = $PROPERTIES.keySet().toArray(new <type.string>[<length(grain.properties)>]);
+    private static final <type.targetGrain> $BASIS = builder().build();
+    public static <type.targetGrain> DEFAULT() { return $BASIS; }
+    public static <type.targetBuilder> builder() { return new <decl.targetBuilderImpl>(); }
+
+    public <type.basisPropertyMap> getBasisProperties() { return $PROPERTIES; }
+    public <type.targetGrain> getDefault() { return DEFAULT(); }
+    public <type.targetBuilder> newBuilder() { return builder(); }
+    public <type.string> toString() { return getClass().getName(); }
+
+    <grain.typeTokens:checker_decl(type)>
+    <grain_impl(grain, decl, type)>
+
+    <serialization_proxy_impl(grain, decl, type)>
+
+    <builder_impl(grain, decl, type)>
+}
+
+>>

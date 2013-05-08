@@ -1,0 +1,105 @@
+group ConstImpl;
+
+grain_property_impl(prop, grain, decl, type) ::= <<
+public <prop.type> <prop.getterName>() { return <prop.fieldName>; }
+public <type.targetGrain> <prop.witherName>(<prop.type> <prop.fieldName>) {
+    return new <decl.targetGrainImpl>(
+        <grain.properties:{prop|<prop.fieldName>, }; wrap>
+        $extensions);
+}
+>>
+
+grain_getter_case(prop) ::= <<
+case "<prop.name>": return <prop.getterName>();
+>>
+
+grain_with_case(prop) ::= <<
+case "<prop.name>": return <prop.witherName>(<\\>
+    <if(prop.default)>$value == null ? <prop.default> : <endif><\\>
+    <if(prop.typeToken)><prop.typeToken.checker.name>.cast($value)<else>(<prop.type>)$value<endif>);
+>>
+
+grain_impl(grain, decl, type) ::= <<
+private static final class <decl.targetGrainImpl>
+    extends <type.abstractGrain>
+    implements <type.targetGrain>, <type.memoizedHashCode>, <type.serializable> {
+
+    <grain.properties:{prop|private final <prop.type> <prop.fieldName>;}; separator="\n">
+
+    private final <type.constMap> $extensions;
+    private transient volatile int $hashCode;
+
+    private <decl.targetGrainImpl>(
+        <grain.properties:{prop|<prop.type> <prop.fieldName>, }; wrap>
+        <type.constMap> $extensions) {
+
+        <grain.properties:{prop|this.<prop.fieldName> = <prop.fieldName>;}; separator="\n">
+        this.$extensions = $extensions;
+    }
+
+    public int size() { return <length(grain.properties)> + $extensions.size(); }
+
+    public <type.mapIterator> iterator() {
+        return <type.iteratorTools>.chainMapIterators(new <type.abstractGrain>.BasisIter($KEYS), $extensions.iterator());
+    }
+
+    <grain.properties:grain_property_impl(grain, decl, type); separator="\n\n">
+
+    public <type.object> get(<type.object> $key) {
+        switch ((<type.string>)$key) {
+            <grain.properties:grain_getter_case(); separator="\n">
+            default: return $extensions.get($key);
+        }
+    }
+
+    private <type.targetGrain> with(<type.string> $key, <type.object> $value, boolean $dissoc) {
+        switch ($key) {
+            <grain.properties:grain_with_case(); separator="\n">
+        }
+        <type.constMap> $newExtensions =
+            $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
+        if ($newExtensions == $extensions) {
+            return this;
+        }
+        return new <decl.targetGrainImpl>(
+            <grain.properties:{prop|<prop.fieldName>, }; wrap>
+            $newExtensions);
+    }
+
+    public <type.targetGrain> with(<type.string> $key, <type.object> $value) {
+        return with($key, $value, false);
+    }
+
+    public <type.targetGrain> withAll(<type.mapStringObjectWildcards> $map) {
+        return $map.isEmpty() ? this : <type.mapTools>.putAll(builder(), $map).build();
+    }
+
+    public <type.targetGrain> without(<type.object> $key) {
+        return with((<type.string>)$key, null, true);
+    }
+
+    public <type.targetGrain> withoutAll(<type.collectionWildcard> $keys) {
+        return $keys.isEmpty() ? this : <type.mapTools>.removeAll(builder(), $keys).build();
+    }
+
+    public <type.targetBuilder> builder() {
+        <decl.targetBuilderImpl> $builder = new <decl.targetBuilderImpl>();
+        <grain.properties:{prop|$builder.<prop.fieldName> = this.<prop.fieldName>;}; separator="\n">
+        $builder.$extensions.putAll(this.$extensions);
+        return $builder;
+    }
+
+    public <type.constMap> extensions() {
+        return $extensions;
+    }
+
+    public int hashCode() {
+        return $hashCode != 0 ? $hashCode : ($hashCode = (super.hashCode() + $extensions.hashCode()));
+    }
+
+    private <type.object> writeReplace() { return new <decl.targetGrainProxy>().setPayload(this); }
+    private void readObject(<type.objectInputStream> in) throws <type.invalidObjectException> {
+        throw new <type.invalidObjectException>("proxy expected");
+    }
+}
+>>

@@ -1,0 +1,9 @@
+group ImportsBlock;
+
+imports_block(imports) ::= <<
+package <imports.package>;
+
+<imports.imports:{item|import <item>;}; separator="\n">
+
+
+>>

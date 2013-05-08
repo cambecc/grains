@@ -1,0 +1,71 @@
+group BuilderImpl;
+
+builder_property_impl(prop, grain, type) ::= <<
+public <prop.type> <prop.getterName>() { return <prop.fieldName>; }
+public <type.targetBuilder> <prop.setterName>(<prop.type> <prop.fieldName>) {
+    this.<prop.fieldName> = <prop.fieldName>;
+    return this;
+}
+>>
+
+builder_getter_case(prop) ::= <<
+case "<prop.name>": return <prop.getterName>();
+>>
+
+builder_put_case(prop) ::= <<
+case "<prop.name>":
+    $original = <prop.getterName>();
+    <prop.setterName>(<\\>
+        <if(prop.default)>$value == null ? <prop.default> : <endif><\\>
+        <if(prop.typeToken)><prop.typeToken.checker.name>.cast($value)<else>(<prop.type>)$value<endif>);
+    return $original;
+>>
+
+builder_impl(grain, decl, type) ::= <<
+private static final class <decl.targetBuilderImpl>
+    extends <type.abstractGrainBuilder>
+    implements <type.targetBuilder> {
+
+    <grain.properties:{prop|private <prop.type> <prop.fieldName>;}; separator="\n">
+
+    private final <type.treeMap> $extensions = new <type.treeMap.diamond>();
+
+    public int size() { return <length(grain.properties)> + $extensions.size(); }
+
+    public <type.mapIterator> iterator() {
+        return <type.iteratorTools>.chainMapIterators(new <type.abstractGrainBuilder>.BasisIter($KEYS), <type.iteratorTools>.newMapIterator($extensions));
+    }
+
+    <grain.properties:builder_property_impl(grain, type); separator="\n\n">
+
+    public <type.object> get(<type.object> $key) {
+        switch ((<type.string>)$key) {
+            <grain.properties:builder_getter_case(); separator="\n">
+            default: return $extensions.get($key);
+        }
+    }
+
+    private <type.object> put(<type.string> $key, <type.object> $value, boolean $dissoc) {
+        <type.object> $original;
+        switch ($key) {
+            <grain.properties:builder_put_case(); separator="\n">
+            default:
+                return $dissoc ? $extensions.remove($key) : $extensions.put($key, $value);
+        }
+    }
+
+    public <type.object> put(<type.string> $key, <type.object> $value) {
+        return put($key, $value, false);
+    }
+
+    public <type.object> remove(<type.object> $key) {
+        return put((<type.string>)$key, null, true);
+    }
+
+    public <type.targetGrain> build() {
+        return new <decl.targetGrainImpl>(
+            <grain.properties:{prop|<prop.fieldName>, }; wrap>
+            <type.basicConstMap>.asMap($extensions));
+    }
+}
+>>
