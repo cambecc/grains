@@ -30,7 +30,7 @@ import net.nullschool.util.MemoizedHashCode;
 public enum IntrinsicsFactory implements GrainFactory {
     INSTANCE;
 
-    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.instance();
+    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.INSTANCE;
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.propertyMap(
         new SimpleGrainProperty("id", String.class),

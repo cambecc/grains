@@ -9,6 +9,8 @@ import net.nullschool.collect.basic.BasicConstSet;
 import net.nullschool.grains.*;
 import net.nullschool.reflect.*;
 import net.nullschool.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Generated;
 import java.io.InvalidObjectException;
@@ -31,6 +33,9 @@ import static net.nullschool.reflect.TypeTools.*;
  */
 final class Types {
 
+    private static final Logger log = LoggerFactory.getLogger(GrainGeneratorDriver.class);
+
+
     private final ClassPool classPool;
     private final ImmutabilityStrategy strategy;
     private Member strategyMember;
@@ -42,6 +47,7 @@ final class Types {
     }
 
     private ImmutabilityStrategy loadStrategy(String accessString) {
+        log.debug("Loading strategy: {}", accessString);
         int lastDot = accessString.lastIndexOf('.');
         String className = accessString.substring(0, lastDot);
         try {
@@ -53,6 +59,7 @@ final class Types {
                 if (field != null && Modifier.isStatic(field.getModifiers())) {
                     ImmutabilityStrategy result = (ImmutabilityStrategy)field.get(null);
                     strategyMember = field;
+                    log.debug("Using {} found in {}.", result, field);
                     return result;
                 }
             }
@@ -65,6 +72,7 @@ final class Types {
                 if (method != null && Modifier.isStatic(method.getModifiers())) {
                     ImmutabilityStrategy result = (ImmutabilityStrategy)method.invoke(null);
                     strategyMember = method;
+                    log.debug("Using {} found in {}.", result, method);
                     return result;
                 }
             }
@@ -104,7 +112,6 @@ final class Types {
         abstractGrainProxy          (AbstractGrainProxy.class),
         grainGenerator              (GrainGenerator.class),
         castFunction                (CastFunction.class),
-        casts                       (Casts.class),
         iteratorTools               (IteratorTools.class),
         mapTools                    (MapTools.class),
         basicConstSet               (BasicConstSet.class),

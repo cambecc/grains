@@ -16,26 +16,26 @@ import java.util.*;
  */
 public class DefaultImmutabilityStrategy implements ImmutabilityStrategy {
 
-    private static final DefaultImmutabilityStrategy INSTANCE = new DefaultImmutabilityStrategy();
-    public static DefaultImmutabilityStrategy instance() { return INSTANCE; }
+    public static final DefaultImmutabilityStrategy INSTANCE = new DefaultImmutabilityStrategy();
+
 
     private final Set<Class<?>> immutableTypes = new HashSet<>();
     private final Set<Class<?>> immutableBases = new HashSet<>();
     private final Map<Class<?>, Class<?>> translations = new HashMap<>();
 
-    void registerType(Class<?> clazz) {
+    protected void registerType(Class<?> clazz) {
         immutableTypes.add(clazz);
         if (!Modifier.isFinal(clazz.getModifiers())) {
             immutableBases.add(clazz);
         }
     }
 
-    void registerTranslation(Class<?> from, Class<?> to) {
+    protected void registerTranslation(Class<?> from, Class<?> to) {
         translations.put(from, to);
         registerType(to);
     }
 
-    DefaultImmutabilityStrategy() {
+    public DefaultImmutabilityStrategy() {
         registerType(boolean.class);
         registerType(byte.class);
         registerType(short.class);

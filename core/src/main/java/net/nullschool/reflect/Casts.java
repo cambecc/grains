@@ -14,7 +14,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-public final class Casts {
+final class Casts {
 
     private Casts() {
         throw new AssertionError();
@@ -204,9 +204,8 @@ public final class Casts {
         }
     }
 
-    // UNDONE: rename "checker". should be "caster" or something like that.
     @SuppressWarnings("unchecked")
-    public static <T> CastFunction<T> buildChecker(TypeToken<T> token) {
+    static <T> CastFunction<T> buildChecker(TypeToken<T> token) {
         return (CastFunction<T>)buildChecker(token.asType());
     }
 }

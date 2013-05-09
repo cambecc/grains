@@ -142,7 +142,7 @@ final class Reflector {
         }
         List<URI> uris = new ArrayList<>();
         for (URL url : Collections.list(searchLoader.getResources(packageName.replace('.', '/')))) {
-            log.info("Searching: " + url);
+            log.debug("Searching: {}", url);
             uris.add(url.toURI());
         }
         int total = 0;
@@ -151,7 +151,7 @@ final class Reflector {
             total += classes.size();
             for (String s : classes) {
                 String name = packageName + "." + s;
-                log.debug("Inspecting: " + name);
+                log.debug("Inspecting: {}", name);
                 try {
                     Class<?> clazz = inspectLoader.loadClass(name);
                     if (clazz.getAnnotation(annotation) != null) {
@@ -160,11 +160,11 @@ final class Reflector {
                     }
                 }
                 catch (ClassNotFoundException e) {
-                    log.debug("Cannot load, skipping: " + name);
+                    log.debug("Cannot load, skipping: {}", name);
                 }
             }
         }
-        log.info("Scanned {} items in {} ms.", total, System.currentTimeMillis() - start);
+        log.debug("Scanned {} items in {} ms.", total, System.currentTimeMillis() - start);
         return results;
     }
 }

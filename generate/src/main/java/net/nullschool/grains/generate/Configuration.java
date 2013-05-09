@@ -18,7 +18,7 @@ public final class Configuration {
     public static final String DEFAULT_LINE_WIDTH = "100";
     public static final String DEFAULT_LINE_SEPARATOR = "\n";
     public static final String DEFAULT_IMMUTABILITY_STRATEGY =
-        "net.nullschool.reflect.DefaultImmutabilityStrategy.instance";
+        "net.nullschool.reflect.DefaultImmutabilityStrategy.INSTANCE";
 
 
     private Charset charset = Charset.forName(DEFAULT_ENCODING);

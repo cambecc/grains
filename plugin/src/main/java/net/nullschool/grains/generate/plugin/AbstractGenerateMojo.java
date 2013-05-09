@@ -1,6 +1,7 @@
 package net.nullschool.grains.generate.plugin;
 
 import net.nullschool.grains.generate.Configuration;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -8,6 +9,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import static net.nullschool.util.ObjectTools.coalesce;
 
@@ -38,7 +40,7 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
     /**
      * The character encoding to use for generated source files.
      */
-    String getEncoding() {
+    public String getEncoding() {
         return encoding;
     }
 
@@ -47,17 +49,17 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
     /**
      * The set of packages to search for annotated grains, e.g., ["com.foo.order.model", "com.foo.admin.model"]
      */
-    String[] getSearchPackages() {
+    public String[] getSearchPackages() {
         return searchPackages;
     }
 
-    @Parameter(property = "includeProjectDependencies")
-    private boolean includeProjectDependencies;
+    @Parameter(property = "searchProjectDependencies", defaultValue = "false")
+    private boolean searchProjectDependencies;
     /**
      * True if project dependencies are to be searched for annotated grains.
      */
-    boolean getIncludeProjectDependencies() {
-        return includeProjectDependencies;
+    public boolean getSearchProjectDependencies() {
+        return searchProjectDependencies;
     }
 
     @Parameter(property = "lineWidth", defaultValue = Configuration.DEFAULT_LINE_WIDTH)
@@ -65,7 +67,7 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
     /**
      * The (approximate) generated source's line width.
      */
-    int getLineWidth() {
+    public int getLineWidth() {
         return lineWidth;
     }
 
@@ -74,7 +76,7 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
     /**
      * The line separator to use for generated source.
      */
-    String getLineSeparator() {
+    public String getLineSeparator() {
         return lineSeparator;
     }
 
@@ -83,19 +85,24 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
     /**
      * The immutability strategy to use for the generated grains.
      */
-    String getImmutabilityStrategy() {
+    public String getImmutabilityStrategy() {
         return immutabilityStrategy;
     }
 
     /**
      * The location to save generated source files.
      */
-    abstract String getTargetDirectory();
+    public abstract String getTargetDirectory();
 
     /**
-     * The location of compiled class files for the current project.
+     * The classpath to use for invoking the grain generator, as a list of file names.
      */
-    abstract String getCompilerOutputDirectory();
+    abstract List<String> getGeneratorClasspath() throws DependencyResolutionRequiredException;
+
+    /**
+     * The classpath to use for searching for grains, as a list of file names.
+     */
+    abstract List<String> getSearchClasspath() throws DependencyResolutionRequiredException;
 
     /**
      * Add the specified path to the project as a source root appropriate for this mojo.

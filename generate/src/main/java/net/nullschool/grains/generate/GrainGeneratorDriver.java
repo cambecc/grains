@@ -104,7 +104,7 @@ final class GrainGeneratorDriver {
             TypePrinterFactory factory = new Importer(imports);
 //            TypePrinterFactory factory = new TypePrinterFactory() {
 //                @Override public TypePrinter newPrinter() {
-//                    return new StringTypePrinter();
+//                    return new FullyQualifiedNamePrinter();
 //                }
 //            };
 
@@ -120,8 +120,8 @@ final class GrainGeneratorDriver {
             body.getErrors().addAll(importsBlock.getErrors());  // :(  errors should probably be logged.
             return new GenerationResult(importsBlock.getText() + body.getText(), body.getErrors());
         }
-        catch (Exception e) {
-            throw new RuntimeException("Error building " + schema, e);
+        catch (Exception | Error e) {
+            throw new RuntimeException("Unexpected while generating schema " + schema.getName(), e);
         }
     }
 }

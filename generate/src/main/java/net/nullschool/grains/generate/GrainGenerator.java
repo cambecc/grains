@@ -32,7 +32,7 @@ public class GrainGenerator implements Callable<Void> {
 
     private final Configuration config;
 
-    private class GenerateTask implements Callable<Void> {
+    private class GenerateTask implements Callable<Boolean> {
 
         private final GrainGeneratorDriver generator;
         private final Class<?> schema;
@@ -54,24 +54,30 @@ public class GrainGenerator implements Callable<Void> {
             this.suffix = suffix;
         }
 
-        private void write(GenerationResult result, Path out) throws IOException {
+        private boolean write(GenerationResult result, Path out) throws IOException {
+            if (!result.getErrors().isEmpty()) {
+                log.error("[{}] While generating {}:", out);
+                for (String error : result.getErrors()) {
+                    log.error("[{}]    {}", Thread.currentThread().getName(), error);
+                }
+                return false;
+            }
+
             byte[] bytes = result.getText().getBytes(config.getCharset());
             if (Files.exists(out) && Files.size(out) == bytes.length && Arrays.equals(Files.readAllBytes(out), bytes)) {
-                log.info("[{}] Skipping {}", Thread.currentThread().getName(), out);
+                log.debug("[{}] Unchanged: {}", Thread.currentThread().getName(), out);
+                return false;
             }
             else {
-                log.info("[{}] +Writing {}", Thread.currentThread().getName(), out);
+                log.debug("[{}] Generating {}", Thread.currentThread().getName(), out);
                 Files.write(out, bytes);
-            }
-            for (String error : result.getErrors()) {
-                log.error("[{}]     ERROR: {}", Thread.currentThread().getName(), error);
+                return true;
             }
         }
 
-        @Override public Void call() throws Exception {
+        @Override public Boolean call() throws IOException {
             GenerationResult result = generator.generate(schema, template);
-            write(result, targetDir.resolve(schema.getSimpleName() + suffix));
-            return null;
+            return write(result, targetDir.resolve(schema.getSimpleName() + suffix));
         }
     }
 
@@ -112,11 +118,17 @@ public class GrainGenerator implements Callable<Void> {
             tasks.addAll(configureTasks(schema, generator));
         }
 
-        for (Future<Void> future : executor.invokeAll(tasks)) {
-            future.get();
+        int count = 0;
+        for (Future<Boolean> future : executor.invokeAll(tasks)) {
+            if (future.get()) {
+                count++;
+            }
         }
 
-        log.info("Generation took {} ms", System.currentTimeMillis() - start);
+        log.info(
+            "Generation took {} ms.{}",
+            System.currentTimeMillis() - start,
+            count > 0 ? " Generated " + count + " files." : " Nothing to generate - all sources up to date.");
         executor.shutdown();
         return null;
     }

@@ -31,7 +31,7 @@ import net.nullschool.util.MemoizedHashCode;
 public enum ComposedFactory implements GrainFactory {
     INSTANCE;
 
-    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.instance();
+    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.INSTANCE;
 
     private static final TypeToken<ConstList<UUID>> $0 =
         new TypeToken<ConstList<UUID>>(){};

@@ -27,7 +27,7 @@ import net.nullschool.util.MemoizedHashCode;
 public enum PartFactory implements GrainFactory {
     INSTANCE;
 
-    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.instance();
+    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.INSTANCE;
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.propertyMap(
         new SimpleGrainProperty("make", int.class),

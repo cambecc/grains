@@ -3,7 +3,7 @@ package net.nullschool.reflect;
 /**
  * 2013-04-03<p/>
  *
- * A type printer that print classes as their fully qualified names.
+ * A type printer that prints classes as their fully qualified names.
  *
  * @author Cameron Beccario
  */

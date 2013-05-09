@@ -8,12 +8,13 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 import static net.nullschool.util.ObjectTools.*;
@@ -64,7 +65,7 @@ final class GenerateAction {
         ConstSet<String> packages = BasicConstSet.asSet(coalesce(mojo.getSearchPackages(), new String[0]));
         if (packages.isEmpty()) {
             packages = BasicConstSet.setOf(mojo.getProject().getGroupId());
-            log.info("Searching project.groupId package: {}", mojo.getProject().getGroupId());
+            log.info("Searching package: {} (result of ${project.groupId})", mojo.getProject().getGroupId());
         }
         else {
             log.info("Searching packages: {}", packages);
@@ -97,38 +98,51 @@ final class GenerateAction {
         return unescape(mojo.getLineSeparator());
     }
 
-    private URL[] prepareSearchDirectories() throws MalformedURLException {
-        return new URL[] {Paths.get(mojo.getCompilerOutputDirectory()).toUri().toURL()};
+    private ClassLoader prepareGeneratorClassLoader() throws Exception {
+        log.debug("Preparing classpath for generator invocation...");
+        List<URL> result = new ArrayList<>();
+        for (String element : mojo.getGeneratorClasspath()) {
+            log.debug("adding: {}", element);
+            result.add(Paths.get(element).toUri().toURL());
+        }
+        // Use the plugin's classloader as the generator classloader's parent to pick up any plugin dependencies.
+        return new URLClassLoader(result.toArray(new URL[result.size()]), GenerateAction.class.getClassLoader());
     }
 
-    private ClassLoader prepareClassLoader() throws MalformedURLException {
-        return new URLClassLoader(prepareSearchDirectories(), Thread.currentThread().getContextClassLoader());
-    }
-
-    private ClassLoader prepareSearchLoader() throws MalformedURLException {
-        return !mojo.getIncludeProjectDependencies() ? new URLClassLoader(prepareSearchDirectories()) : null;
+    private ClassLoader prepareSearchClassLoader() throws Exception {
+        if (mojo.getSearchProjectDependencies()) {
+            log.info("Including project dependencies in search.");
+        }
+        log.debug("Preparing classpath for grain search...");
+        List<URL> result = new ArrayList<>();
+        for (String element : mojo.getSearchClasspath()) {
+            log.debug("adding: {}", element);
+            result.add(Paths.get(element).toUri().toURL());
+        }
+        // This classloader has no parent because the search path does not include plugin dependencies.
+        return new URLClassLoader(result.toArray(new URL[result.size()]));
     }
 
     void execute() throws MojoExecutionException {
         try {
             Configuration config = new Configuration();
             config.setCharset(prepareEncoding());
-            config.setOutput(prepareTargetDirectory());
-            config.setSearchPackages(prepareSearchPackages());
-            config.setSearchLoader(prepareSearchLoader());
             config.setLineWidth(prepareLineWidth());
             config.setLineSeparator(prepareLineSeparator());
+            config.setOutput(prepareTargetDirectory());
             config.setImmutabilityStrategy(mojo.getImmutabilityStrategy());
+            config.setSearchPackages(prepareSearchPackages());
+            config.setSearchLoader(prepareSearchClassLoader());
 
-            // Invoke the generator on a thread whose classloader has access to the classes the
-            // generator will process.
-            Executors.newCachedThreadPool(newContextThreadFactory(prepareClassLoader(), defaultFactory))
+            // Invoke the generator on a thread having access to all the same classes as the project would use
+            // at runtime. Wait for the task to finish.
+            Executors.newCachedThreadPool(newContextThreadFactory(prepareGeneratorClassLoader(), defaultFactory))
                 .submit(new GrainGenerator(config))
                 .get();
 
             // Modify the project to include the freshly generated sources for compilation.
             Path sourceRoot = config.getOutput().toAbsolutePath();
-            log.info("Adding source root: {}", sourceRoot);
+            log.debug("Adding source root: {}", sourceRoot);
             mojo.addSourceRoot(sourceRoot);
         }
         catch (Exception e) {
