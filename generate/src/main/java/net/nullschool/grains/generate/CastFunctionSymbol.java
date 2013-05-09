@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
  *
  * @author Cameron Beccario
  */
-final class CastFunctionSymbol {
+final class CastFunctionSymbol {  // UNDONE: can be FieldDeclaration
 
     private final String name;
     private final TypeSymbol type;

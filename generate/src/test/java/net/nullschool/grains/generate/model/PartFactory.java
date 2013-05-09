@@ -29,7 +29,7 @@ public enum PartFactory implements GrainFactory {
 
     private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.INSTANCE;
 
-    private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.propertyMap(
+    private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("make", int.class),
         new SimpleGrainProperty("model", int.class));
 

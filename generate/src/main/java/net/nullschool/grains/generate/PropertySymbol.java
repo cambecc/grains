@@ -25,7 +25,7 @@ final class PropertySymbol {
     private final String witherName;  // name of with method
     private final TypeSymbol typeSymbol;
     private final TypeTokenDecl typeToken;
-    private final ConstSet<FieldSymbol> flags;
+    private final ConstSet<StaticFieldLoadExpression> flags;
 
     PropertySymbol(GrainProperty prop, TypePrinterFactory factory, TypeTokenDecl typeToken) {
         this.prop = prop;
@@ -37,9 +37,9 @@ final class PropertySymbol {
         this.typeSymbol = new TypeSymbol(prop.getType(), factory);
         this.typeToken = typeToken;
 
-        ConstSet<FieldSymbol> flags = BasicConstSet.emptySet();
+        ConstSet<StaticFieldLoadExpression> flags = BasicConstSet.emptySet();
         for (GrainProperty.Flag flag : prop.getFlags()) {
-            flags = flags.with(new FieldSymbol(GrainProperty.Flag.class, flag.name(), factory));
+            flags = flags.with(new StaticFieldLoadExpression(GrainProperty.Flag.class, flag.name(), factory));
         }
         this.flags = flags;
     }
@@ -77,7 +77,7 @@ final class PropertySymbol {
         return typeToken;
     }
 
-    public Set<FieldSymbol> getFlags() {
+    public Set<StaticFieldLoadExpression> getFlags() {
         return flags;
     }
 }

@@ -42,18 +42,18 @@ final class Reflector {
         this.packageName = Objects.requireNonNull(packageName);
     }
 
-    interface Action<T> {
-        T invoke(Path path) throws IOException;
+    private interface Action<T> {
+        T apply(Path path) throws IOException;
     }
 
     private static <T> T process(URI uri, Action<T> action) throws IOException {
         try {
-            return action.invoke(Paths.get(uri));
+            return action.apply(Paths.get(uri));
         }
         catch (FileSystemNotFoundException e) {
             Map<String, ?> env = Collections.emptyMap();
             try (FileSystem fs = FileSystems.newFileSystem(uri, env, Thread.currentThread().getContextClassLoader())) {
-                return action.invoke(fs.provider().getPath(uri));
+                return action.apply(fs.provider().getPath(uri));
             }
         }
     }
@@ -118,7 +118,7 @@ final class Reflector {
         return process(
             uri,
             new Action<Set<String>>() {
-                public Set<String> invoke(Path path) throws IOException {
+                public Set<String> apply(Path path) throws IOException {
                     Visitor visitor = new Visitor(path);
                     Files.walkFileTree(
                         path,

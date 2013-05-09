@@ -32,7 +32,7 @@ public enum IntrinsicsFactory implements GrainFactory {
 
     private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.INSTANCE;
 
-    private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.propertyMap(
+    private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("id", String.class),
         new SimpleGrainProperty("$float", float.class),
         new SimpleGrainProperty("bigDecimal", BigDecimal.class),

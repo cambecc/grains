@@ -19,19 +19,19 @@ final class ErrorCollector implements STErrorListener {
         return errors;
     }
 
-    public @Override void compileTimeError(STMessage msg) {
+    @Override public void compileTimeError(STMessage msg) {
         errors.add("compileTimeError: " + msg);
     }
 
-    public @Override void runTimeError(STMessage msg) {
+    @Override public void runTimeError(STMessage msg) {
         errors.add("runTimeError: " + msg);
     }
 
-    public @Override void IOError(STMessage msg) {
+    @Override public void IOError(STMessage msg) {
         errors.add("IOError: " + msg);
     }
 
-    public @Override void internalError(STMessage msg) {
+    @Override public void internalError(STMessage msg) {
         errors.add("internalError: " + msg);
     }
 }

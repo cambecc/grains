@@ -2,6 +2,7 @@ package net.nullschool.grains.generate;
 
 import net.nullschool.collect.basic.BasicConstSet;
 import net.nullschool.grains.GrainSchema;
+import net.nullschool.grains.GrainTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,7 +85,7 @@ public class GrainGenerator implements Callable<Void> {
     private List<GenerateTask> configureTasks(Class<?> schema, GrainGeneratorDriver generator)
         throws ClassNotFoundException, IOException, IntrospectionException {
 
-        Path target = config.getOutput().resolve(Types.targetPackage(schema).replace('.', '/'));
+        Path target = config.getOutput().resolve(GrainTools.targetPackageOf(schema).replace('.', '/'));
         Files.createDirectories(target);
         List<GenerateTask> tasks = new ArrayList<>();
         tasks.add(new GenerateTask(generator, schema, target, Templates.newFactoryEnumTemplate(config), "Factory.java"));

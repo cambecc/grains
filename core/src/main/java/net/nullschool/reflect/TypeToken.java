@@ -2,6 +2,7 @@ package net.nullschool.reflect;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 import static net.nullschool.reflect.TypeTools.copyOf;
 
@@ -46,8 +47,15 @@ public abstract class TypeToken<T> {
             throw new IllegalArgumentException(
                 String.format("%s does not directly extend %s", clazz, TypeToken.class));
         }
-        type = copyOf(pt.getActualTypeArguments()[0]);  // Extract the T.
+        this.type = copyOf(pt.getActualTypeArguments()[0]);  // Extract the T.
     }
+
+//    /**
+//     * Constructs a TypeToken for the given Class object.
+//     */
+//    private TypeToken(Class<T> clazz) {
+//        this.type = Objects.requireNonNull(clazz);
+//    }
 
     /**
      * Returns the type this token represents.
@@ -83,4 +91,22 @@ public abstract class TypeToken<T> {
     @Override public final String toString() {
         return "TypeToken<" + TypeTools.toString(type) + '>';
     }
+
+// UNDONE: add this?
+//    private static final class ClassToken<T> extends TypeToken<T> {
+//        ClassToken(Class<T> clazz) {
+//            super(clazz);
+//        }
+//    }
+//
+//    /**
+//     * Constructs a new token representing the specified class.
+//     *
+//     * @param clazz the Class object to construct a token for.
+//     * @return the token.
+//     * @throws NullPointerException if clazz is null.
+//     */
+//    public static <T> TypeToken<T> tokenOf(Class<T> clazz) {
+//        return new ClassToken<>(clazz);
+//    }
 }

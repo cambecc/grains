@@ -36,7 +36,7 @@ public enum ComposedFactory implements GrainFactory {
     private static final TypeToken<ConstList<UUID>> $0 =
         new TypeToken<ConstList<UUID>>(){};
 
-    private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.propertyMap(
+    private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("id", UUID.class),
         new SimpleGrainProperty("left", String.class),
         new SimpleGrainProperty("leftIds", $0.asType()),

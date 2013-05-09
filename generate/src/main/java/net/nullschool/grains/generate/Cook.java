@@ -64,7 +64,7 @@ class Cook extends AbstractTypeOperator<Type> {
         }
         else {
             // Cook generic classes (i.e., any class that has type parameters). However, be careful because
-            // attempting to instantiate Enum would create Enum<Enum<Enum<...>>>, which is rather redundant.
+            // attempting to instantiate Enum would create Enum<Enum<Enum<...>>>, which is rather verbose.
             TypeVariable<?>[] typeParameters = clazz.getTypeParameters();
             if (typeParameters.length > 0 && !hasCycle(typeParameters)) {
                 return new LateParameterizedType(

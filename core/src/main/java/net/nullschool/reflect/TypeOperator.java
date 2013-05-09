@@ -20,6 +20,7 @@ import java.lang.reflect.*;
  *
  * @author Cameron Beccario
  */
+// UNDONE: rename invoke to apply for consistency.
 public interface TypeOperator<T> {
 
     /**

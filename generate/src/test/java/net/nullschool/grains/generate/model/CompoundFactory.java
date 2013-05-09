@@ -40,7 +40,7 @@ public enum CompoundFactory implements GrainFactory {
     private static final TypeToken<ConstSet<PartGrain>> $2 =
         new TypeToken<ConstSet<PartGrain>>(){};
 
-    private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.propertyMap(
+    private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("firstPart", PartGrain.class),
         new SimpleGrainProperty("partGroups", $0.asType()),
         new SimpleGrainProperty("remainingParts", $1.asType()),
