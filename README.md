@@ -6,6 +6,7 @@ model as a set of Java interfaces and the Grains framework generates all the mon
 coding of getters, setters, equals, hashCode, builders, factories, serialization, etc.
 
 Grains is built around three key principles:
+
 1. Java developers want to define their data model with Java.
 2. Java developers want generated code to be both _visible_ and _readable_.
 3. Immutability is a "best practice".
