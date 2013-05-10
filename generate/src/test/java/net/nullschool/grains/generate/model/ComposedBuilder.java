@@ -6,6 +6,9 @@ import net.nullschool.collect.ConstList;
 import net.nullschool.grains.GrainBuilder;
 import net.nullschool.grains.GrainFactoryRef;
 
+/**
+ * Composition of Composed and GrainBuilder. See {@link ComposedFactory}.
+ */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(ComposedFactory.class)
 public interface ComposedBuilder extends Composed, GrainBuilder {

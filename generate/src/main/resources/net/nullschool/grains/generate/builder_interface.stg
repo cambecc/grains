@@ -7,6 +7,9 @@ property_decl(prop, type) ::= <<
 >>
 
 builder_interface(grain, type) ::= <<
+/**
+ * Composition of <type.targetSchema.simpleName> and GrainBuilder. See {@link <type.targetFactory>}.
+ */
 @<type.generated>("<type.grainGenerator.fullName>")
 @<type.grainFactoryRef>(<type.targetFactory>.class)
 public interface <type.targetBuilder.simpleName> extends <type.targetSchema>, <type.grainBuilder> {

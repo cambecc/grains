@@ -7,6 +7,9 @@ import net.nullschool.collect.ConstMap;
 import net.nullschool.grains.Grain;
 import net.nullschool.grains.GrainFactoryRef;
 
+/**
+ * Composition of Part and Grain. See {@link PartFactory}.
+ */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(PartFactory.class)
 public interface PartGrain extends Compound.Part, Grain {

@@ -22,6 +22,9 @@ case "<prop.name>":
 >>
 
 builder_impl(grain, type) ::= <<
+/**
+ * Code generated implementation of <type.targetBuilder>.
+ */
 private static final class <type.targetBuilderImpl.simpleName>
     extends <type.abstractGrainBuilder>
     implements <type.targetBuilder> {

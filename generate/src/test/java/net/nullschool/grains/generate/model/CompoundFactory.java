@@ -27,6 +27,9 @@ import net.nullschool.reflect.ImmutabilityStrategy;
 import net.nullschool.reflect.TypeToken;
 import net.nullschool.util.MemoizedHashCode;
 
+/**
+ * Factory for constructing Grain instances of Compound.
+ */
 // @Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum CompoundFactory implements GrainFactory {
     INSTANCE;
@@ -65,6 +68,9 @@ public enum CompoundFactory implements GrainFactory {
     private static final CastFunction<ConstSet<PartGrain>> $2Cast =
         $STRATEGY.newCastFunction($2);
 
+    /**
+     * Code generated implementation of CompoundGrain.
+     */
     private static final class CompoundGrainImpl
         extends AbstractGrain
         implements CompoundGrain, MemoizedHashCode, Serializable {
@@ -214,11 +220,17 @@ public enum CompoundFactory implements GrainFactory {
         }
     }
 
+    /**
+     * Code generated serialization proxy for serializing instances of CompoundGrainImpl.
+     */
     private static final class CompoundGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
         protected CompoundBuilder newBuilder() { return CompoundFactory.INSTANCE.newBuilder(); }
     }
 
+    /**
+     * Code generated implementation of CompoundBuilder.
+     */
     private static final class CompoundBuilderImpl
         extends AbstractGrainBuilder
         implements CompoundBuilder {

@@ -10,6 +10,9 @@ import net.nullschool.collect.ConstMap;
 import net.nullschool.grains.Grain;
 import net.nullschool.grains.GrainFactoryRef;
 
+/**
+ * Composition of Intrinsics and Grain. See {@link IntrinsicsFactory}.
+ */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(IntrinsicsFactory.class)
 public interface IntrinsicsGrain extends Intrinsics, Grain {

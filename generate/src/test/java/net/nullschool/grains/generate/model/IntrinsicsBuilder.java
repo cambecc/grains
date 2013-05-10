@@ -7,6 +7,9 @@ import javax.annotation.Generated;
 import net.nullschool.grains.GrainBuilder;
 import net.nullschool.grains.GrainFactoryRef;
 
+/**
+ * Composition of Intrinsics and GrainBuilder. See {@link IntrinsicsFactory}.
+ */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(IntrinsicsFactory.class)
 public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {

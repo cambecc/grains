@@ -23,6 +23,9 @@ import net.nullschool.reflect.DefaultImmutabilityStrategy;
 import net.nullschool.reflect.ImmutabilityStrategy;
 import net.nullschool.util.MemoizedHashCode;
 
+/**
+ * Factory for constructing Grain instances of Compound.Part.
+ */
 // @Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum PartFactory implements GrainFactory {
     INSTANCE;
@@ -43,6 +46,9 @@ public enum PartFactory implements GrainFactory {
     public PartBuilder newBuilder() { return builder(); }
     public String toString() { return getClass().getName(); }
 
+    /**
+     * Code generated implementation of PartGrain.
+     */
     private static final class PartGrainImpl
         extends AbstractGrain
         implements PartGrain, MemoizedHashCode, Serializable {
@@ -143,11 +149,17 @@ public enum PartFactory implements GrainFactory {
         }
     }
 
+    /**
+     * Code generated serialization proxy for serializing instances of PartGrainImpl.
+     */
     private static final class PartGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
         protected PartBuilder newBuilder() { return PartFactory.INSTANCE.newBuilder(); }
     }
 
+    /**
+     * Code generated implementation of PartBuilder.
+     */
     private static final class PartBuilderImpl
         extends AbstractGrainBuilder
         implements PartBuilder {

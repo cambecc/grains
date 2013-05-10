@@ -20,6 +20,9 @@ case "<prop.name>": return <prop.witherName>(<\\>
 >>
 
 grain_impl(grain, type) ::= <<
+/**
+ * Code generated implementation of <type.targetGrain>.
+ */
 private static final class <type.targetGrainImpl.simpleName>
     extends <type.abstractGrain>
     implements <type.targetGrain>, <type.memoizedHashCode>, <type.serializable> {

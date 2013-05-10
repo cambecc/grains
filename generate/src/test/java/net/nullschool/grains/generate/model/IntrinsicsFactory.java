@@ -26,6 +26,9 @@ import net.nullschool.reflect.DefaultImmutabilityStrategy;
 import net.nullschool.reflect.ImmutabilityStrategy;
 import net.nullschool.util.MemoizedHashCode;
 
+/**
+ * Factory for constructing Grain instances of Intrinsics.
+ */
 // @Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum IntrinsicsFactory implements GrainFactory {
     INSTANCE;
@@ -68,6 +71,9 @@ public enum IntrinsicsFactory implements GrainFactory {
     public IntrinsicsBuilder newBuilder() { return builder(); }
     public String toString() { return getClass().getName(); }
 
+    /**
+     * Code generated implementation of IntrinsicsGrain.
+     */
     private static final class IntrinsicsGrainImpl
         extends AbstractGrain
         implements IntrinsicsGrain, MemoizedHashCode, Serializable {
@@ -486,11 +492,17 @@ public enum IntrinsicsFactory implements GrainFactory {
         }
     }
 
+    /**
+     * Code generated serialization proxy for serializing instances of IntrinsicsGrainImpl.
+     */
     private static final class IntrinsicsGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
         protected IntrinsicsBuilder newBuilder() { return IntrinsicsFactory.INSTANCE.newBuilder(); }
     }
 
+    /**
+     * Code generated implementation of IntrinsicsBuilder.
+     */
     private static final class IntrinsicsBuilderImpl
         extends AbstractGrainBuilder
         implements IntrinsicsBuilder {

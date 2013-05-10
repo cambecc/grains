@@ -9,6 +9,9 @@ import net.nullschool.collect.ConstMap;
 import net.nullschool.grains.Grain;
 import net.nullschool.grains.GrainFactoryRef;
 
+/**
+ * Composition of Composed and Grain. See {@link ComposedFactory}.
+ */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(ComposedFactory.class)
 public interface ComposedGrain extends Composed, Grain {
