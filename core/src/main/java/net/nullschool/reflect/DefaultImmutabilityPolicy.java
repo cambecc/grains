@@ -14,9 +14,9 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-public class DefaultImmutabilityStrategy implements ImmutabilityStrategy {
+public class DefaultImmutabilityPolicy implements ImmutabilityPolicy {
 
-    public static final DefaultImmutabilityStrategy INSTANCE = new DefaultImmutabilityStrategy();
+    public static final DefaultImmutabilityPolicy INSTANCE = new DefaultImmutabilityPolicy();
 
 
     private final Set<Class<?>> immutableTypes = new HashSet<>();
@@ -35,7 +35,7 @@ public class DefaultImmutabilityStrategy implements ImmutabilityStrategy {
         registerType(to);
     }
 
-    public DefaultImmutabilityStrategy() {
+    public DefaultImmutabilityPolicy() {
         registerType(boolean.class);
         registerType(byte.class);
         registerType(short.class);

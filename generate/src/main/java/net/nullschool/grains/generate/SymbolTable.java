@@ -17,13 +17,13 @@ final class SymbolTable {
     private final Class<?> schema;
     private final TypeTable typeTable;
     private final TypePrinterFactory printerFactory;
-    private final Member strategyMember;
+    private final Member policyMember;
 
-    SymbolTable(Class<?> schema, TypeTable typeTable, TypePrinterFactory printerFactory, Member strategyMember) {
+    SymbolTable(Class<?> schema, TypeTable typeTable, TypePrinterFactory printerFactory, Member policyMember) {
         this.schema = schema;
         this.typeTable = typeTable;
         this.printerFactory = printerFactory;
-        this.strategyMember = strategyMember;
+        this.policyMember = policyMember;
     }
 
     private static List<GrainProperty> resolveProperties(List<GrainProperty> properties) {
@@ -67,14 +67,14 @@ final class SymbolTable {
             symbols.add(new PropertySymbol(immutableProp, printerFactory, typeTokenDecl));
         }
 
-        Symbol strategyLoadExpression = null;
-        if (strategyMember instanceof Method) {
-            strategyLoadExpression = new StaticMethodInvocationExpression((Method)strategyMember, printerFactory);
+        Symbol policyLoadExpression = null;
+        if (policyMember instanceof Method) {
+            policyLoadExpression = new StaticMethodInvocationExpression((Method)policyMember, printerFactory);
         }
-        else if (strategyMember instanceof Field) {
-            strategyLoadExpression = new StaticFieldLoadExpression((Field)strategyMember, printerFactory);
+        else if (policyMember instanceof Field) {
+            policyLoadExpression = new StaticFieldLoadExpression((Field)policyMember, printerFactory);
         }
-        return new GrainSymbol(symbols, typeTokens.values(), strategyLoadExpression);
+        return new GrainSymbol(symbols, typeTokens.values(), policyLoadExpression);
     }
 
     public Map<String, Symbol> buildTypes() {

@@ -16,6 +16,10 @@ import net.nullschool.grains.GrainFactoryRef;
 @GrainFactoryRef(ComposedFactory.class)
 public interface ComposedGrain extends Composed, Grain {
 
+    //
+    // Composed Accessors
+    //
+
     UUID getId();
 
     ComposedGrain withId(UUID id);
@@ -43,6 +47,11 @@ public interface ComposedGrain extends Composed, Grain {
     String getTop();
 
     ComposedGrain withTop(String top);
+
+
+    //
+    // Grain Methods
+    //
 
     ComposedGrain with(String key, Object value);
 

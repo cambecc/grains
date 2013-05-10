@@ -5,7 +5,7 @@ package net.nullschool.reflect;
  *
  * @author Cameron Beccario
  */
-public interface ImmutabilityStrategy {
+public interface ImmutabilityPolicy {
 
     boolean test(Class<?> clazz);
 

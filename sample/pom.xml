@@ -95,7 +95,7 @@
                 <artifactId>grains-plugin</artifactId>
                 <version>0.9.0-SNAPSHOT</version>
                 <configuration>
-                    <immutabilityStrategy>com.acme.model.CustomImmutabilityStrategy.INSTANCE</immutabilityStrategy>
+                    <immutabilityPolicy>com.acme.model.CustomImmutabilityPolicy.INSTANCE</immutabilityPolicy>
                 </configuration>
                 <executions>
                     <execution>

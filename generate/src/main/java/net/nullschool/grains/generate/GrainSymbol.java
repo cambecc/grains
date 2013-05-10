@@ -14,16 +14,16 @@ final class GrainSymbol {
     
     private final List<? extends PropertySymbol> properties;
     private final List<? extends TypeTokenDecl> typeTokens;
-    private final Symbol loadStrategyExpression;
+    private final Symbol loadPolicyExpression;
 
     GrainSymbol(
         List<? extends PropertySymbol> properties,
         Collection<? extends TypeTokenDecl> typeTokens,
-        Symbol loadStrategyExpression) {
+        Symbol loadPolicyExpression) {
 
         this.properties = Collections.unmodifiableList(new ArrayList<>(properties));
         this.typeTokens = Collections.unmodifiableList(new ArrayList<>(typeTokens));
-        this.loadStrategyExpression = loadStrategyExpression;
+        this.loadPolicyExpression = loadPolicyExpression;
     }
 
     public List<? extends PropertySymbol> getProperties() {
@@ -34,7 +34,7 @@ final class GrainSymbol {
         return typeTokens;
     }
 
-    public Symbol getStrategy() {
-        return loadStrategyExpression;
+    public Symbol getPolicy() {
+        return loadPolicyExpression;
     }
 }

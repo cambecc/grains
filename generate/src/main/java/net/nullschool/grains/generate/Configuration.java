@@ -17,8 +17,8 @@ public final class Configuration {
     public static final String DEFAULT_ENCODING = "UTF-8";
     public static final String DEFAULT_LINE_WIDTH = "100";
     public static final String DEFAULT_LINE_SEPARATOR = "\n";
-    public static final String DEFAULT_IMMUTABILITY_STRATEGY =
-        "net.nullschool.reflect.DefaultImmutabilityStrategy.INSTANCE";
+    public static final String DEFAULT_IMMUTABILITY_POLICY =
+        "net.nullschool.reflect.DefaultImmutabilityPolicy.INSTANCE";
 
 
     private Charset charset = Charset.forName(DEFAULT_ENCODING);
@@ -27,7 +27,7 @@ public final class Configuration {
     private Path output;
     private ConstSet<String> searchPackages = BasicConstSet.emptySet();
     private ClassLoader searchLoader;
-    private String immutabilityStrategy = DEFAULT_IMMUTABILITY_STRATEGY;
+    private String immutabilityPolicy = DEFAULT_IMMUTABILITY_POLICY;
 
     public Charset getCharset() {
         return charset;
@@ -83,11 +83,11 @@ public final class Configuration {
         return this;
     }
 
-    public String getImmutabilityStrategy() {
-        return immutabilityStrategy;
+    public String getImmutabilityPolicy() {
+        return immutabilityPolicy;
     }
 
-    public void setImmutabilityStrategy(String immutabilityStrategy) {
-        this.immutabilityStrategy = immutabilityStrategy;
+    public void setImmutabilityPolicy(String immutabilityPolicy) {
+        this.immutabilityPolicy = immutabilityPolicy;
     }
 }

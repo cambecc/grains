@@ -11,6 +11,10 @@ import net.nullschool.grains.GrainFactoryRef;
 @GrainFactoryRef(PartFactory.class)
 public interface PartBuilder extends Compound.Part, GrainBuilder {
 
+    //
+    // Compound.Part Accessors
+    //
+
     int getMake();
 
     PartBuilder setMake(int make);
@@ -18,6 +22,11 @@ public interface PartBuilder extends Compound.Part, GrainBuilder {
     int getModel();
 
     PartBuilder setModel(int model);
+
+
+    //
+    // GrainBuilder Methods
+    //
 
     PartGrain build();
 }

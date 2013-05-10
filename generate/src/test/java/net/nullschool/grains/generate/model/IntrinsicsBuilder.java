@@ -14,6 +14,10 @@ import net.nullschool.grains.GrainFactoryRef;
 @GrainFactoryRef(IntrinsicsFactory.class)
 public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {
 
+    //
+    // Intrinsics Accessors
+    //
+
     String getId();
 
     IntrinsicsBuilder setId(String id);
@@ -109,6 +113,11 @@ public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {
     Byte getボックス化バイト();
 
     IntrinsicsBuilder setボックス化バイト(Byte ボックス化バイト);
+
+
+    //
+    // GrainBuilder Methods
+    //
 
     IntrinsicsGrain build();
 }

@@ -1,8 +1,8 @@
 package net.nullschool.grains.generate;
 
 import net.nullschool.grains.GrainSchema;
-import net.nullschool.grains.generate.model.Intrinsics;
-import net.nullschool.reflect.DefaultImmutabilityStrategy;
+import net.nullschool.reflect.DefaultImmutabilityPolicy;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -17,9 +17,9 @@ public class TypeTableTest {
     interface Foo {
     }
 
-    @Test
-    public void test_() {
-        TypeTable table = new TypeTable(new NamingPolicy(), DefaultImmutabilityStrategy.INSTANCE);
+    @Test @Ignore
+    public void test() {
+        TypeTable table = new TypeTable(new NamingPolicy(), DefaultImmutabilityPolicy.INSTANCE);
         System.out.println(table.schemaTypes(Foo.class));
     }
 }

@@ -7,7 +7,7 @@
 //import net.nullschool.grains.*;
 //import net.nullschool.grains.generate.model.Compound;
 //import net.nullschool.grains.generate.model.PartGrain;
-//import net.nullschool.reflect.DefaultImmutabilityStrategy;
+//import net.nullschool.reflect.DefaultImmutabilityPolicy;
 //import net.nullschool.reflect.TypeToken;
 //import org.junit.Test;
 //
@@ -26,7 +26,7 @@
 // */
 //public class TypesTest {
 //
-//    private Types t = new Types(DefaultImmutabilityStrategy.INSTANCE, null);
+//    private Types t = new Types(DefaultImmutabilityPolicy.INSTANCE, null);
 //
 //    @Test
 //    public void test_immutify_known_immutable_types() {

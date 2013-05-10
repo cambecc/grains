@@ -13,6 +13,10 @@ import net.nullschool.grains.GrainFactoryRef;
 @GrainFactoryRef(ComposedFactory.class)
 public interface ComposedBuilder extends Composed, GrainBuilder {
 
+    //
+    // Composed Accessors
+    //
+
     UUID getId();
 
     ComposedBuilder setId(UUID id);
@@ -40,6 +44,11 @@ public interface ComposedBuilder extends Composed, GrainBuilder {
     String getTop();
 
     ComposedBuilder setTop(String top);
+
+
+    //
+    // GrainBuilder Methods
+    //
 
     ComposedGrain build();
 }

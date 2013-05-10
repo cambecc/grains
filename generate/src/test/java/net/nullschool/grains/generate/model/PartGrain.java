@@ -14,6 +14,10 @@ import net.nullschool.grains.GrainFactoryRef;
 @GrainFactoryRef(PartFactory.class)
 public interface PartGrain extends Compound.Part, Grain {
 
+    //
+    // Compound.Part Accessors
+    //
+
     int getMake();
 
     PartGrain withMake(int make);
@@ -21,6 +25,11 @@ public interface PartGrain extends Compound.Part, Grain {
     int getModel();
 
     PartGrain withModel(int model);
+
+
+    //
+    // Grain Methods
+    //
 
     PartGrain with(String key, Object value);
 

@@ -22,8 +22,8 @@ import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
 import net.nullschool.reflect.CastFunction;
-import net.nullschool.reflect.DefaultImmutabilityStrategy;
-import net.nullschool.reflect.ImmutabilityStrategy;
+import net.nullschool.reflect.DefaultImmutabilityPolicy;
+import net.nullschool.reflect.ImmutabilityPolicy;
 import net.nullschool.reflect.TypeToken;
 import net.nullschool.util.MemoizedHashCode;
 
@@ -34,7 +34,7 @@ import net.nullschool.util.MemoizedHashCode;
 public enum CompoundFactory implements GrainFactory {
     INSTANCE;
 
-    private static final ImmutabilityStrategy $STRATEGY = DefaultImmutabilityStrategy.INSTANCE;
+    private static final ImmutabilityPolicy $POLICY = DefaultImmutabilityPolicy.INSTANCE;
 
     private static final TypeToken<ConstMap<String, ConstSet<PartGrain>>> $0 =
         new TypeToken<ConstMap<String, ConstSet<PartGrain>>>(){};
@@ -62,11 +62,11 @@ public enum CompoundFactory implements GrainFactory {
     public String toString() { return getClass().getName(); }
 
     private static final CastFunction<ConstMap<String, ConstSet<PartGrain>>> $0Cast =
-        $STRATEGY.newCastFunction($0);
+        $POLICY.newCastFunction($0);
     private static final CastFunction<ConstList<PartGrain>> $1Cast =
-        $STRATEGY.newCastFunction($1);
+        $POLICY.newCastFunction($1);
     private static final CastFunction<ConstSet<PartGrain>> $2Cast =
-        $STRATEGY.newCastFunction($2);
+        $POLICY.newCastFunction($2);
 
     /**
      * Code generated implementation of CompoundGrain.

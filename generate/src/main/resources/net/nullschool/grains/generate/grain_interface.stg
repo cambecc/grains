@@ -14,7 +14,16 @@ grain_interface(grain, type) ::= <<
 @<type.grainFactoryRef>(<type.targetFactory>.class)
 public interface <type.targetGrain.simpleName> extends <type.targetSchema>, <type.grain> {
 
+    //
+    // <type.targetSchema> Accessors
+    //
+
     <grain.properties:property_decl(type); separator="\n\n">
+
+
+    //
+    // <type.grain> Methods
+    //
 
     <type.targetGrain.simpleName> with(<type.string> key, <type.object> value);
 

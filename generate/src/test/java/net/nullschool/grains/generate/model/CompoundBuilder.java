@@ -14,6 +14,10 @@ import net.nullschool.grains.GrainFactoryRef;
 @GrainFactoryRef(CompoundFactory.class)
 public interface CompoundBuilder extends Compound, GrainBuilder {
 
+    //
+    // Compound Accessors
+    //
+
     PartGrain getFirstPart();
 
     CompoundBuilder setFirstPart(PartGrain firstPart);
@@ -37,6 +41,11 @@ public interface CompoundBuilder extends Compound, GrainBuilder {
     ConstList<PartGrain> getUnusedParts();
 
     CompoundBuilder setUnusedParts(ConstList<PartGrain> unusedParts);
+
+
+    //
+    // GrainBuilder Methods
+    //
 
     CompoundGrain build();
 }
