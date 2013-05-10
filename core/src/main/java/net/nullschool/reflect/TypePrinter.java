@@ -29,7 +29,7 @@ public interface TypePrinter {
     /**
      * Print a Class. If the class is null, the four characters {@code "null"} are printed. The behavior
      * of this method is implementation specific. For example, some implementations print the fully qualified
-     * class name where others may print just the {@link Class#getSimpleName() simple name}.
+     * class name where others may print just the {@link Class#getSimpleName simple name}.
      *
      * @param clazz the Class to print
      * @return this TypePrinter

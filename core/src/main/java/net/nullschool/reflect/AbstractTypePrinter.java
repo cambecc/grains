@@ -1,15 +1,15 @@
 package net.nullschool.reflect;
 
 /**
- * 2013-04-03<p/>
+ * 2013-05-10<p/>
  *
- * A type printer that prints classes as their fully qualified names.
+ * A partial implementation of TypePrinter using a {@link StringBuilder} for string construction.
  *
  * @author Cameron Beccario
  */
-class FullyQualifiedNamePrinter implements TypePrinter {
+public abstract class AbstractTypePrinter implements TypePrinter {
 
-    private final StringBuilder sb = new StringBuilder();
+    protected final StringBuilder sb = new StringBuilder();
 
     @Override public TypePrinter print(char c) {
         sb.append(c);
@@ -18,11 +18,6 @@ class FullyQualifiedNamePrinter implements TypePrinter {
 
     @Override public TypePrinter print(String s) {
         sb.append(s);
-        return this;
-    }
-
-    @Override public TypePrinter print(Class<?> clazz) {
-        sb.append(clazz != null ? clazz.getName() : null);
         return this;
     }
 

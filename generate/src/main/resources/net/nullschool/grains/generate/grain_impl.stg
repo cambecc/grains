@@ -1,9 +1,9 @@
 group ConstImpl;
 
-grain_property_impl(prop, grain, decl, type) ::= <<
+grain_property_impl(prop, grain, type) ::= <<
 public <prop.type> <prop.getterName>() { return <prop.fieldName>; }
 public <type.targetGrain> <prop.witherName>(<prop.type> <prop.fieldName>) {
-    return new <decl.targetGrainImpl>(
+    return new <type.targetGrainImpl.simpleName>(
         <grain.properties:{prop|<prop.fieldName>, }; wrap>
         $extensions);
 }
@@ -19,8 +19,8 @@ case "<prop.name>": return <prop.witherName>(<\\>
     <if(prop.typeToken)><prop.typeToken.castFunction.name>.apply($value)<else>(<prop.type>)$value<endif>);
 >>
 
-grain_impl(grain, decl, type) ::= <<
-private static final class <decl.targetGrainImpl>
+grain_impl(grain, type) ::= <<
+private static final class <type.targetGrainImpl.simpleName>
     extends <type.abstractGrain>
     implements <type.targetGrain>, <type.memoizedHashCode>, <type.serializable> {
 
@@ -29,7 +29,7 @@ private static final class <decl.targetGrainImpl>
     private final <type.constMap> $extensions;
     private transient volatile int $hashCode;
 
-    private <decl.targetGrainImpl>(
+    private <type.targetGrainImpl.simpleName>(
         <grain.properties:{prop|<prop.type> <prop.fieldName>, }; wrap>
         <type.constMap> $extensions) {
 
@@ -43,7 +43,7 @@ private static final class <decl.targetGrainImpl>
         return <type.iteratorTools>.chainMapIterators(new <type.abstractGrain>.BasisIter($KEYS), $extensions.iterator());
     }
 
-    <grain.properties:grain_property_impl(grain, decl, type); separator="\n\n">
+    <grain.properties:grain_property_impl(grain, type); separator="\n\n">
 
     public <type.object> get(<type.object> $key) {
         switch ((<type.string>)$key) {
@@ -61,7 +61,7 @@ private static final class <decl.targetGrainImpl>
         if ($newExtensions == $extensions) {
             return this;
         }
-        return new <decl.targetGrainImpl>(
+        return new <type.targetGrainImpl.simpleName>(
             <grain.properties:{prop|<prop.fieldName>, }; wrap>
             $newExtensions);
     }
@@ -83,7 +83,7 @@ private static final class <decl.targetGrainImpl>
     }
 
     public <type.targetBuilder> builder() {
-        <decl.targetBuilderImpl> $builder = new <decl.targetBuilderImpl>();
+        <type.targetBuilderImpl.simpleName> $builder = new <type.targetBuilderImpl.simpleName>();
         <grain.properties:{prop|$builder.<prop.fieldName> = this.<prop.fieldName>;}; separator="\n">
         $builder.$extensions.putAll(this.$extensions);
         return $builder;
@@ -97,7 +97,7 @@ private static final class <decl.targetGrainImpl>
         return $hashCode != 0 ? $hashCode : ($hashCode = (super.hashCode() + $extensions.hashCode()));
     }
 
-    private <type.object> writeReplace() { return new <decl.targetGrainProxy>().setPayload(this); }
+    private <type.object> writeReplace() { return new <type.targetGrainProxy.simpleName>().setPayload(this); }
     private void readObject(<type.objectInputStream> in) throws <type.invalidObjectException> {
         throw new <type.invalidObjectException>("proxy expected");
     }

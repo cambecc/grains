@@ -22,11 +22,15 @@ final class TypeSymbol implements Symbol {
         this.factory = requireNonNull(factory, "null factory");
     }
 
-    public String getFullyQualified() {
+    public String getFullName() {
         return TypeTools.toString(type);
     }
 
-    public String getDiamond() {
+    public String getSimpleName() {
+        return new SimpleNameWriter().invoke(type).toString();
+    }
+
+    public String getAsDiamond() {
         return new DiamondWriter(factory.newPrinter()).invoke(type).toString();
     }
 

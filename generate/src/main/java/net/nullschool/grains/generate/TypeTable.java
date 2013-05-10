@@ -115,18 +115,6 @@ final class TypeTable {
         }
     }
 
-    private static Class<?> loadClass(Class<?> owner, String nestedName) {
-        if (owner == null) {
-            return null;
-        }
-        for (Class<?> declared : owner.getDeclaredClasses()) {
-            if (declared.getSimpleName().equals(nestedName)) {
-                return declared;
-            }
-        }
-        return null;
-    }
-
     private Class<?> loadOrCreateClass(String name, Class<?> inherits) {
         Class<?> result = loadClass(name);
         if (result == null) {
@@ -176,9 +164,9 @@ final class TypeTable {
         map.put("targetBuilder", targetBuilder);
 
         Class<?> targetFactory = loadClass(namingPolicy.name(schema, Kind.factory));
-        Class<?> targetGrainImpl = loadClass(namingPolicy.name(schema, Kind.grainImpl)); //loadClass(targetFactory, schemaName + "GrainImpl");
-        Class<?> targetGrainProxy = loadClass(namingPolicy.name(schema, Kind.proxy)); //loadClass(targetFactory, schemaName + "GrainProxy");
-        Class<?> targetBuilderImpl = loadClass(namingPolicy.name(schema, Kind.builderImpl)); //loadClass(targetFactory, schemaName + "BuilderImpl");
+        Class<?> targetGrainImpl = loadClass(namingPolicy.name(schema, Kind.grainImpl));
+        Class<?> targetGrainProxy = loadClass(namingPolicy.name(schema, Kind.proxy));
+        Class<?> targetBuilderImpl = loadClass(namingPolicy.name(schema, Kind.builderImpl));
 
         if (targetFactory == null) {
             String schemaName = schema.getSimpleName();

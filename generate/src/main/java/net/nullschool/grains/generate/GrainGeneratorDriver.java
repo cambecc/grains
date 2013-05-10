@@ -71,10 +71,10 @@ final class GrainGeneratorDriver {
     public GenerationResult generate(Class<?> schema, Template template) {
         try {
             Imports imports = new Imports(GrainTools.targetPackageOf(schema));
-            TypePrinterFactory printerFactory = new Importer(imports);
+            TypePrinterFactory printerFactory = new ImportingPrinterFactory(imports);
 //            TypePrinterFactory printerFactory = new TypePrinterFactory() {
 //                @Override public TypePrinter newPrinter() {
-//                    return new FullyQualifiedNamePrinter();
+//                    return new FullNamePrinter();
 //                }
 //            };
             SymbolTable symbols = new SymbolTable(schema, typeTable, printerFactory, strategyMember);
@@ -82,7 +82,6 @@ final class GrainGeneratorDriver {
             GenerationResult body = template.invoke(
                 BasicConstMap.mapOf(
                     "grain", symbols.buildBean(),
-                    "decl", symbols.targetDecls(),
                     "type", symbols.types()));
 
             GenerationResult importsBlock = Templates.newImportsBlockTemplate(config).invoke(

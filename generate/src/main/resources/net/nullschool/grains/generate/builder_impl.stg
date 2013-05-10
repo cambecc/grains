@@ -21,14 +21,14 @@ case "<prop.name>":
     return $original;
 >>
 
-builder_impl(grain, decl, type) ::= <<
-private static final class <decl.targetBuilderImpl>
+builder_impl(grain, type) ::= <<
+private static final class <type.targetBuilderImpl.simpleName>
     extends <type.abstractGrainBuilder>
     implements <type.targetBuilder> {
 
     <grain.properties:{prop|private <prop.type> <prop.fieldName>;}; separator="\n">
 
-    private final <type.treeMap> $extensions = new <type.treeMap.diamond>();
+    private final <type.treeMap> $extensions = new <type.treeMap.asDiamond>();
 
     public int size() { return <length(grain.properties)> + $extensions.size(); }
 
@@ -63,7 +63,7 @@ private static final class <decl.targetBuilderImpl>
     }
 
     public <type.targetGrain> build() {
-        return new <decl.targetGrainImpl>(
+        return new <type.targetGrainImpl.simpleName>(
             <grain.properties:{prop|<prop.fieldName>, }; wrap>
             <type.basicConstMap>.asMap($extensions));
     }

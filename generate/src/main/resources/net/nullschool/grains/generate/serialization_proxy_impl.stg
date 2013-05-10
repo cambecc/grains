@@ -1,8 +1,8 @@
 group SerializationProxyImpl;
 
-serialization_proxy_impl(grain, decl, type) ::= <<
-private static final class <decl.targetGrainProxy> extends <type.abstractGrainProxy> {
+serialization_proxy_impl(grain, type) ::= <<
+private static final class <type.targetGrainProxy.simpleName> extends <type.abstractGrainProxy> {
     private static final long serialVersionUID = 1;
-    protected <decl.targetBuilder> newBuilder() { return <decl.targetFactory>.INSTANCE.newBuilder(); }
+    protected <type.targetBuilder.simpleName> newBuilder() { return <type.targetFactory.simpleName>.INSTANCE.newBuilder(); }
 }
 >>

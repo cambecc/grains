@@ -86,7 +86,7 @@ public enum TypeTools {;
      * @throws NullPointerException if type is null.
      */
     public static String toString(Type type) {
-        return toString(type, new FullyQualifiedNamePrinter());
+        return toString(type, new FullNamePrinter());
     }
 
     /**

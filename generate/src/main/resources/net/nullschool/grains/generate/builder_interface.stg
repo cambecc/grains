@@ -1,17 +1,17 @@
 group BuilderInterface;
 
-property_decl(prop, decl, type) ::= <<
+property_decl(prop, type) ::= <<
 <prop.type> <prop.getterName>();
 
-<decl.targetBuilder> <prop.setterName>(<prop.type> <prop.fieldName>);
+<type.targetBuilder.simpleName> <prop.setterName>(<prop.type> <prop.fieldName>);
 >>
 
-builder_interface(grain, decl, type) ::= <<
-@<type.generated>("<type.grainGenerator.fullyQualified>")
+builder_interface(grain, type) ::= <<
+@<type.generated>("<type.grainGenerator.fullName>")
 @<type.grainFactoryRef>(<type.targetFactory>.class)
-public interface <decl.targetBuilder> extends <type.schema>, <type.grainBuilder> {
+public interface <type.targetBuilder.simpleName> extends <type.schema>, <type.grainBuilder> {
 
-    <grain.properties:property_decl(decl, type); separator="\n\n">
+    <grain.properties:property_decl(type); separator="\n\n">
 
     <type.targetGrain> build();
 }

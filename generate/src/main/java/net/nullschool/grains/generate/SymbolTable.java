@@ -95,15 +95,4 @@ final class SymbolTable {
         }
         return map;
     }
-
-    public Map<String, TypeDecl> targetDecls() {
-        Map<String, TypeDecl> map = new HashMap<>();
-        map.put("targetGrain", new TypeDecl(schema.getSimpleName() + "Grain"));
-        map.put("targetGrainImpl", new TypeDecl(schema.getSimpleName() + "GrainImpl"));
-        map.put("targetGrainProxy", new TypeDecl(schema.getSimpleName() + "GrainProxy"));
-        map.put("targetBuilder", new TypeDecl(schema.getSimpleName() + "Builder"));
-        map.put("targetBuilderImpl", new TypeDecl(schema.getSimpleName() + "BuilderImpl"));
-        map.put("targetFactory", new TypeDecl(schema.getSimpleName() + "Factory"));
-        return map;
-    }
 }

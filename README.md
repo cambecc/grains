@@ -11,8 +11,8 @@ Grains is built around three key principles:
 2. Java developers want generated code to be both _visible_ and _readable_.
 3. Immutability is a "best practice".
 
-Instant Tutorial
-----------------
+Quick Description
+-----------------
 
 Start with an interface you write that describes your object, and annotate it as a "grain schema":
 ```java
