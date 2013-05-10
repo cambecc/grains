@@ -10,7 +10,7 @@ import net.nullschool.reflect.*;
 import net.nullschool.util.MemoizedHashCode;
 import net.nullschool.util.ObjectTools;
 import javassist.bytecode.SignatureAttribute.*;
-import net.nullschool.grains.generate.NamingPolicy.Kind;
+import net.nullschool.grains.generate.NamingPolicy.Name;
 
 import javax.annotation.Generated;
 import java.io.*;
@@ -77,14 +77,10 @@ final class TypeTable {
 
         private final Type _type;
 
-        WellKnownType(Class<?> clazz) {
-            this._type = clazz;
-        }
-
-        WellKnownType(TypeToken<?> token) {
-            this._type = token.asType();
-        }
+        WellKnownType(Class<?> clazz) { this._type = clazz; }
+        WellKnownType(TypeToken<?> token) { this._type = token.asType(); }
     }
+
 
     private final NamingPolicy namingPolicy;
     private final ImmutabilityStrategy strategy;
@@ -156,30 +152,33 @@ final class TypeTable {
 
     public synchronized Map<String, Type> schemaTypes(Class<?> schema) {
         Map<String, Type> map = new HashMap<>();
+        Map<Name, String> names = namingPolicy.getNames(schema);
+        Map<Name, String> simpleNames = namingPolicy.getSimpleNames(schema);
 
-        Class<?> targetGrain = loadOrCreateClass(namingPolicy.name(schema, Kind.grain), AbstractGrain.class);
+        map.put("targetSchema", schema);
+
+        Class<?> targetGrain = loadOrCreateClass(names.get(Name.grain), AbstractGrain.class);
         map.put("targetGrain", targetGrain);
 
-        Class<?> targetBuilder = loadOrCreateClass(namingPolicy.name(schema, Kind.builder), AbstractGrainBuilder.class);
+        Class<?> targetBuilder = loadOrCreateClass(names.get(Name.builder), AbstractGrainBuilder.class);
         map.put("targetBuilder", targetBuilder);
 
-        Class<?> targetFactory = loadClass(namingPolicy.name(schema, Kind.factory));
-        Class<?> targetGrainImpl = loadClass(namingPolicy.name(schema, Kind.grainImpl));
-        Class<?> targetGrainProxy = loadClass(namingPolicy.name(schema, Kind.proxy));
-        Class<?> targetBuilderImpl = loadClass(namingPolicy.name(schema, Kind.builderImpl));
+        Class<?> targetFactory = loadClass(names.get(Name.factory));
+        Class<?> targetGrainImpl = loadClass(names.get(Name.grainImpl));
+        Class<?> targetGrainProxy = loadClass(names.get(Name.grainProxy));
+        Class<?> targetBuilderImpl = loadClass(names.get(Name.builderImpl));
 
         if (targetFactory == null) {
-            String schemaName = schema.getSimpleName();
-            CtClass targetFactoryClass = classPool.makeClass(namingPolicy.name(schema, Kind.factory));
-            CtClass targetGrainImplClass = targetFactoryClass.makeNestedClass(schemaName + "GrainImpl", true);
-            CtClass targetGrainProxyClass = targetFactoryClass.makeNestedClass(schemaName + "GrainProxy", true);
-            CtClass targetBuilderImplClass = targetFactoryClass.makeNestedClass(schemaName + "BuilderImpl", true);
+            CtClass ctFactory = classPool.makeClass(names.get(Name.factory));
+            CtClass ctGrainImpl = ctFactory.makeNestedClass(simpleNames.get(Name.grainImpl), true);
+            CtClass ctGrainProxy = ctFactory.makeNestedClass(simpleNames.get(Name.grainProxy), true);
+            CtClass ctBuilderImpl = ctFactory.makeNestedClass(simpleNames.get(Name.builderImpl), true);
 
             try {
-                targetFactory = targetFactoryClass.toClass();
-                targetGrainImpl = targetGrainImplClass.toClass();
-                targetGrainProxy =  targetGrainProxyClass.toClass();
-                targetBuilderImpl = targetBuilderImplClass.toClass();
+                targetFactory = ctFactory.toClass();  // Must build enclosing class before enclosed classes.
+                targetGrainImpl = ctGrainImpl.toClass();
+                targetGrainProxy =  ctGrainProxy.toClass();
+                targetBuilderImpl = ctBuilderImpl.toClass();
             }
             catch (CannotCompileException e) {
                 throw new RuntimeException(e);
@@ -197,7 +196,7 @@ final class TypeTable {
     public synchronized Class<?> immutify(Class<?> clazz) {
         Class<?> result = ObjectTools.coalesce(strategy.translate(clazz), Objects.requireNonNull(clazz));
         if (result.getAnnotation(GrainSchema.class) != null) {
-            result = loadOrCreateClass(namingPolicy.name(result, Kind.grain), AbstractGrain.class);
+            result = loadOrCreateClass(namingPolicy.getName(result, Name.grain), AbstractGrain.class);
         }
         if (!strategy.test(result)) {
             throw new IllegalArgumentException("do not know how to immutify: " + clazz + " translated as: " + result);

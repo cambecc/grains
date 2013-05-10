@@ -20,10 +20,12 @@ final class GrainGeneratorDriver {
 
     private final Configuration config;
     private final TypeTable typeTable;
+    private final NamingPolicy namingPolicy;
     private Member strategyMember;
 
-    public GrainGeneratorDriver(Configuration config) {
+    GrainGeneratorDriver(Configuration config, NamingPolicy namingPolicy) {
         this.config = config;
+        this.namingPolicy = namingPolicy;
         this.typeTable = buildTypeTable(config.getImmutabilityStrategy());
     }
 
@@ -41,7 +43,7 @@ final class GrainGeneratorDriver {
                     ImmutabilityStrategy strategy = (ImmutabilityStrategy)field.get(null);
                     log.debug("Using {} found in {}.", strategy, field);
                     strategyMember = field;
-                    return new TypeTable(new NamingPolicy(), strategy);
+                    return new TypeTable(namingPolicy, strategy);
                 }
             }
             catch (NoSuchFieldException e) {
@@ -54,7 +56,7 @@ final class GrainGeneratorDriver {
                     ImmutabilityStrategy strategy = (ImmutabilityStrategy)method.invoke(null);
                     log.debug("Using {} found in {}.", strategy, method);
                     strategyMember = method;
-                    return new TypeTable(new NamingPolicy(), strategy);
+                    return new TypeTable(namingPolicy, strategy);
                 }
             }
             catch (NoSuchMethodException e) {
@@ -81,8 +83,8 @@ final class GrainGeneratorDriver {
 
             GenerationResult body = template.invoke(
                 BasicConstMap.mapOf(
-                    "grain", symbols.buildBean(),
-                    "type", symbols.types()));
+                    "grain", symbols.buildGrainSymbol(),
+                    "type", symbols.buildTypes()));
 
             GenerationResult importsBlock = Templates.newImportsBlockTemplate(config).invoke(
                 BasicConstMap.mapOf("imports", (Object)imports));

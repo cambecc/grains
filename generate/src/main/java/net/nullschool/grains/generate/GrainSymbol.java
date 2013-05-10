@@ -10,14 +10,20 @@ import java.util.List;
  *
  * @author Cameron Beccario
  */
-final class BeanSymbol {
+final class GrainSymbol {
     
     private final List<? extends PropertySymbol> properties;
     private final List<? extends TypeTokenDecl> typeTokens;
+    private final Symbol loadStrategyExpression;
 
-    BeanSymbol(List<? extends PropertySymbol> properties, Collection<? extends TypeTokenDecl> typeTokens) {
+    GrainSymbol(
+        List<? extends PropertySymbol> properties,
+        Collection<? extends TypeTokenDecl> typeTokens,
+        Symbol loadStrategyExpression) {
+
         this.properties = Collections.unmodifiableList(new ArrayList<>(properties));
         this.typeTokens = Collections.unmodifiableList(new ArrayList<>(typeTokens));
+        this.loadStrategyExpression = loadStrategyExpression;
     }
 
     public List<? extends PropertySymbol> getProperties() {
@@ -26,5 +32,9 @@ final class BeanSymbol {
 
     public List<? extends TypeTokenDecl> getTypeTokens() {
         return typeTokens;
+    }
+
+    public Symbol getStrategy() {
+        return loadStrategyExpression;
     }
 }

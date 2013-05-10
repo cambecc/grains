@@ -9,7 +9,7 @@ property_decl(prop, type) ::= <<
 grain_interface(grain, type) ::= <<
 @<type.generated>("<type.grainGenerator.fullName>")
 @<type.grainFactoryRef>(<type.targetFactory>.class)
-public interface <type.targetGrain.simpleName> extends <type.schema>, <type.grain> {
+public interface <type.targetGrain.simpleName> extends <type.targetSchema>, <type.grain> {
 
     <grain.properties:property_decl(type); separator="\n\n">
 

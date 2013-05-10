@@ -33,7 +33,7 @@ private static final class <type.targetBuilderImpl.simpleName>
     public int size() { return <length(grain.properties)> + $extensions.size(); }
 
     public <type.mapIterator> iterator() {
-        return <type.iteratorTools>.chainMapIterators(new <type.abstractGrainBuilder>.BasisIter($KEYS), <type.iteratorTools>.newMapIterator($extensions));
+        return <type.iteratorTools>.chainMapIterators(new BasisIter($KEYS), <type.iteratorTools>.newMapIterator($extensions));
     }
 
     <grain.properties:builder_property_impl(grain, type); separator="\n\n">

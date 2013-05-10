@@ -26,7 +26,7 @@ public class GrainGeneratorTest {
 
     @Ignore @Test
     public void test_generate_const_interface() throws Exception {
-        GrainGeneratorDriver generator = new GrainGeneratorDriver(config);
+        GrainGeneratorDriver generator = new GrainGeneratorDriver(config, new NamingPolicy());
         GenerationResult result = generator.generate(Compound.class, Templates.newGrainInterfaceTemplate(config));
         print(result.getErrors());
         System.out.println(result.getText());
@@ -34,7 +34,7 @@ public class GrainGeneratorTest {
 
     @Ignore @Test
     public void test_generate_builder_interface() throws Exception {
-        GrainGeneratorDriver generator = new GrainGeneratorDriver(config);
+        GrainGeneratorDriver generator = new GrainGeneratorDriver(config, new NamingPolicy());
         GenerationResult result = generator.generate(Compound.class, Templates.newBuilderInterfaceTemplate(config));
         print(result.getErrors());
         System.out.println(result.getText());
@@ -42,7 +42,7 @@ public class GrainGeneratorTest {
 
     @Ignore @Test
     public void test_generate_factory_enum() throws Exception {
-        GrainGeneratorDriver generator = new GrainGeneratorDriver(config);
+        GrainGeneratorDriver generator = new GrainGeneratorDriver(config, new NamingPolicy());
         GenerationResult result = generator.generate(Compound.class, Templates.newFactoryEnumTemplate(config));
         print(result.getErrors());
         System.out.println(result.getText());

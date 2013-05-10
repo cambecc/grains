@@ -49,8 +49,8 @@ public enum CompoundFactory implements GrainFactory {
         new SimpleGrainProperty("unusedParts", $1.asType()));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[6]);
-    private static final CompoundGrain $BASIS = builder().build();
-    public static CompoundGrain DEFAULT() { return $BASIS; }
+    private static final CompoundGrain $DEFAULT = builder().build();
+    public static CompoundGrain DEFAULT() { return $DEFAULT; }
     public static CompoundBuilder builder() { return new CompoundBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
@@ -96,7 +96,7 @@ public enum CompoundFactory implements GrainFactory {
         public int size() { return 6 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
-            return IteratorTools.chainMapIterators(new AbstractGrain.BasisIter($KEYS), $extensions.iterator());
+            return IteratorTools.chainMapIterators(new BasisIter($KEYS), $extensions.iterator());
         }
 
         public PartGrain getFirstPart() { return firstPart; }
@@ -235,7 +235,7 @@ public enum CompoundFactory implements GrainFactory {
         public int size() { return 6 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
-            return IteratorTools.chainMapIterators(new AbstractGrainBuilder.BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
+            return IteratorTools.chainMapIterators(new BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
         }
 
         public PartGrain getFirstPart() { return firstPart; }

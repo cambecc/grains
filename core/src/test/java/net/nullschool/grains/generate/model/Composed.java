@@ -8,6 +8,8 @@ import java.util.UUID;
 /**
  * 2013-03-05<p/>
  *
+ * A grain that is a composition of several interfaces.
+ *
  * @author Cameron Beccario
  */
 @GrainSchema

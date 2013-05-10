@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
 
 import static net.nullschool.util.ThreadTools.newDaemonThreadFactory;
 import static net.nullschool.util.ThreadTools.newNamingThreadFactory;
-
+import static net.nullschool.grains.generate.NamingPolicy.Name;
 
 /**
  * 2013-02-13<p/>
@@ -32,27 +32,20 @@ public class GrainGenerator implements Callable<Void> {
 
 
     private final Configuration config;
+    private final NamingPolicy namingPolicy;
 
     private class GenerateTask implements Callable<Boolean> {
 
         private final GrainGeneratorDriver generator;
         private final Class<?> schema;
-        private final Path targetDir;
         private final Template template;
-        private final String suffix;
+        private final Path out;
 
-        private GenerateTask(
-            GrainGeneratorDriver generator,
-            Class<?> schema,
-            Path targetDir,
-            Template template,
-            String suffix) {
-
+        private GenerateTask(GrainGeneratorDriver generator, Class<?> schema, Template template, Path out) {
             this.generator = generator;
             this.schema = schema;
-            this.targetDir = targetDir;
             this.template = template;
-            this.suffix = suffix;
+            this.out = out;
         }
 
         private boolean write(GenerationResult result, Path out) throws IOException {
@@ -78,8 +71,12 @@ public class GrainGenerator implements Callable<Void> {
 
         @Override public Boolean call() throws IOException {
             GenerationResult result = generator.generate(schema, template);
-            return write(result, targetDir.resolve(schema.getSimpleName() + suffix));
+            return write(result, out);
         }
+    }
+
+    private String filename(Class<?> schema, Name name) {
+        return namingPolicy.getSimpleName(schema, name) + ".java";
     }
 
     private List<GenerateTask> configureTasks(Class<?> schema, GrainGeneratorDriver generator)
@@ -88,14 +85,16 @@ public class GrainGenerator implements Callable<Void> {
         Path target = config.getOutput().resolve(GrainTools.targetPackageOf(schema).replace('.', '/'));
         Files.createDirectories(target);
         List<GenerateTask> tasks = new ArrayList<>();
-        tasks.add(new GenerateTask(generator, schema, target, Templates.newFactoryEnumTemplate(config), "Factory.java"));
-        tasks.add(new GenerateTask(generator, schema, target, Templates.newGrainInterfaceTemplate(config), "Grain.java"));
-        tasks.add(new GenerateTask(generator, schema, target, Templates.newBuilderInterfaceTemplate(config), "Builder.java"));
+
+        tasks.add(new GenerateTask(generator, schema, Templates.newFactoryEnumTemplate(config), target.resolve(filename(schema, Name.factory))));
+        tasks.add(new GenerateTask(generator, schema, Templates.newGrainInterfaceTemplate(config), target.resolve(filename(schema, Name.grain))));
+        tasks.add(new GenerateTask(generator, schema, Templates.newBuilderInterfaceTemplate(config), target.resolve(filename(schema, Name.builder))));
         return tasks;
     }
 
     public GrainGenerator(Configuration configuration) {
         this.config = Objects.requireNonNull(configuration);
+        this.namingPolicy = new NamingPolicy();
     }
 
     @Override public Void call() throws Exception {
@@ -106,7 +105,7 @@ public class GrainGenerator implements Callable<Void> {
                 Runtime.getRuntime().availableProcessors(),
                 newDaemonThreadFactory(newNamingThreadFactory("%s", Executors.defaultThreadFactory())));
 
-        GrainGeneratorDriver generator = new GrainGeneratorDriver(config);
+        GrainGeneratorDriver generator = new GrainGeneratorDriver(config, namingPolicy);
         List<GenerateTask> tasks = new ArrayList<>();
 
         Set<Class<?>> schemas = new HashSet<>();

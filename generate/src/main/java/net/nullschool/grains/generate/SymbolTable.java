@@ -38,7 +38,7 @@ final class SymbolTable {
         return results;
     }
 
-    public BeanSymbol buildBean() throws IntrospectionException {
+    public GrainSymbol buildGrainSymbol() throws IntrospectionException {
         int typeTokenIndex = 0;
 
         Map<Type, TypeTokenDecl> typeTokens = new LinkedHashMap<>();
@@ -67,31 +67,23 @@ final class SymbolTable {
             symbols.add(new PropertySymbol(immutableProp, printerFactory, typeTokenDecl));
         }
 
-        return new BeanSymbol(symbols, typeTokens.values());
-    }
-
-    private Map<String, TypeSymbol> targetTypes()  {
-        Map<String, TypeSymbol> map = new HashMap<>();
-        map.put("schema", new TypeSymbol(schema, printerFactory));
-        for (Map.Entry<String, Type> entry : typeTable.schemaTypes(schema).entrySet()) {
-            map.put(entry.getKey(), new TypeSymbol(entry.getValue(), printerFactory));
+        Symbol strategyLoadExpression = null;
+        if (strategyMember instanceof Method) {
+            strategyLoadExpression = new StaticMethodInvocationExpression((Method)strategyMember, printerFactory);
         }
-        return map;
+        else if (strategyMember instanceof Field) {
+            strategyLoadExpression = new StaticFieldLoadExpression((Field)strategyMember, printerFactory);
+        }
+        return new GrainSymbol(symbols, typeTokens.values(), strategyLoadExpression);
     }
 
-    public synchronized Map<String, Symbol> types() {
+    public Map<String, Symbol> buildTypes() {
         Map<String, Symbol> map = new HashMap<>();
         for (Map.Entry<String, Type> entry : typeTable.wellKnownTypes().entrySet()) {
             map.put(entry.getKey(), new TypeSymbol(entry.getValue(), printerFactory));
         }
-
-        map.putAll(targetTypes());
-
-        if (strategyMember instanceof Method) {
-            map.put("strategy", new StaticMethodInvocationExpression((Method)strategyMember, printerFactory));
-        }
-        else if (strategyMember instanceof Field) {
-            map.put("strategy", new StaticFieldLoadExpression((Field)strategyMember, printerFactory));
+        for (Map.Entry<String, Type> entry : typeTable.schemaTypes(schema).entrySet()) {
+            map.put(entry.getKey(), new TypeSymbol(entry.getValue(), printerFactory));
         }
         return map;
     }

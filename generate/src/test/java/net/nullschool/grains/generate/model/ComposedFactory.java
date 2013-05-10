@@ -46,8 +46,8 @@ public enum ComposedFactory implements GrainFactory {
         new SimpleGrainProperty("top", String.class));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[7]);
-    private static final ComposedGrain $BASIS = builder().build();
-    public static ComposedGrain DEFAULT() { return $BASIS; }
+    private static final ComposedGrain $DEFAULT = builder().build();
+    public static ComposedGrain DEFAULT() { return $DEFAULT; }
     public static ComposedBuilder builder() { return new ComposedBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
@@ -91,7 +91,7 @@ public enum ComposedFactory implements GrainFactory {
         public int size() { return 7 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
-            return IteratorTools.chainMapIterators(new AbstractGrain.BasisIter($KEYS), $extensions.iterator());
+            return IteratorTools.chainMapIterators(new BasisIter($KEYS), $extensions.iterator());
         }
 
         public UUID getId() { return id; }
@@ -241,7 +241,7 @@ public enum ComposedFactory implements GrainFactory {
         public int size() { return 7 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
-            return IteratorTools.chainMapIterators(new AbstractGrainBuilder.BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
+            return IteratorTools.chainMapIterators(new BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
         }
 
         public UUID getId() { return id; }

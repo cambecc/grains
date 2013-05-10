@@ -34,8 +34,8 @@ public enum PartFactory implements GrainFactory {
         new SimpleGrainProperty("model", int.class));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[2]);
-    private static final PartGrain $BASIS = builder().build();
-    public static PartGrain DEFAULT() { return $BASIS; }
+    private static final PartGrain $DEFAULT = builder().build();
+    public static PartGrain DEFAULT() { return $DEFAULT; }
     public static PartBuilder builder() { return new PartBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
@@ -65,7 +65,7 @@ public enum PartFactory implements GrainFactory {
         public int size() { return 2 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
-            return IteratorTools.chainMapIterators(new AbstractGrain.BasisIter($KEYS), $extensions.iterator());
+            return IteratorTools.chainMapIterators(new BasisIter($KEYS), $extensions.iterator());
         }
 
         public int getMake() { return make; }
@@ -160,7 +160,7 @@ public enum PartFactory implements GrainFactory {
         public int size() { return 2 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
-            return IteratorTools.chainMapIterators(new AbstractGrainBuilder.BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
+            return IteratorTools.chainMapIterators(new BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
         }
 
         public int getMake() { return make; }

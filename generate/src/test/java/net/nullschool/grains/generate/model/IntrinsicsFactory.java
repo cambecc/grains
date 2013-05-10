@@ -59,8 +59,8 @@ public enum IntrinsicsFactory implements GrainFactory {
         new SimpleGrainProperty("ボックス化バイト", Byte.class));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[24]);
-    private static final IntrinsicsGrain $BASIS = builder().build();
-    public static IntrinsicsGrain DEFAULT() { return $BASIS; }
+    private static final IntrinsicsGrain $DEFAULT = builder().build();
+    public static IntrinsicsGrain DEFAULT() { return $DEFAULT; }
     public static IntrinsicsBuilder builder() { return new IntrinsicsBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
@@ -138,7 +138,7 @@ public enum IntrinsicsFactory implements GrainFactory {
         public int size() { return 24 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
-            return IteratorTools.chainMapIterators(new AbstractGrain.BasisIter($KEYS), $extensions.iterator());
+            return IteratorTools.chainMapIterators(new BasisIter($KEYS), $extensions.iterator());
         }
 
         public String getId() { return id; }
@@ -525,7 +525,7 @@ public enum IntrinsicsFactory implements GrainFactory {
         public int size() { return 24 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
-            return IteratorTools.chainMapIterators(new AbstractGrainBuilder.BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
+            return IteratorTools.chainMapIterators(new BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
         }
 
         public String getId() { return id; }
