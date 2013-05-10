@@ -21,8 +21,8 @@ final class DiamondWriter extends TypeWriter {
         super(printer);
     }
 
-    @Override public TypePrinter invoke(ParameterizedType pt) {
-        invoke(TypeTools.erase(pt.getRawType()), pt.getOwnerType());
+    @Override public TypePrinter apply(ParameterizedType pt) {
+        apply(TypeTools.erase(pt.getRawType()), pt.getOwnerType());
         Type[] typeArguments = pt.getActualTypeArguments();
         if (typeArguments.length > 0) {
             printer.print('<').print('>');

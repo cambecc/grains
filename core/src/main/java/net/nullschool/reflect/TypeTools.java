@@ -62,7 +62,7 @@ public enum TypeTools {;
      * @throws IllegalArgumentException if type refers to an instance of an unknown implementation of {@link Type}.
      */
     public static Class<?> erase(Type type) {
-        return Eraser.INSTANCE.invoke(type);
+        return Eraser.INSTANCE.apply(type);
     }
 
     /**
@@ -102,7 +102,7 @@ public enum TypeTools {;
      * @throws NullPointerException if type is null.
      */
     public static String toString(Type type, TypePrinter printer) {
-        return new TypeWriter(printer).invoke(type).toString();
+        return new TypeWriter(printer).apply(type).toString();
     }
 
     /**
@@ -116,7 +116,7 @@ public enum TypeTools {;
     public static Type[] apply(TypeOperator<? extends Type> operator, Type[] types) {
         Type[] result = types.length > 0 ? new Type[types.length] : types;
         for (int i = 0; i < types.length; i++) {
-            result[i] = operator.invoke(types[i]);
+            result[i] = operator.apply(types[i]);
         }
         return result;
     }
@@ -124,11 +124,11 @@ public enum TypeTools {;
     private static final class LateTypeConverter extends AbstractTypeOperator<Type> {
         private static final LateTypeConverter INSTANCE = new LateTypeConverter();
 
-        @Override public Type invoke(Class<?> clazz) { return clazz; }
-        @Override public Type invoke(ParameterizedType pt) { return LateParameterizedType.copyOf(pt); }
-        @Override public Type invoke(GenericArrayType gat) { return LateGenericArrayType.copyOf(gat); }
-        @Override public Type invoke(WildcardType wt) { return LateWildcardType.copyOf(wt); }
-        @Override public Type invoke(TypeVariable<?> tv) { return LateTypeVariable.copyOf(tv); }
+        @Override public Type apply(Class<?> clazz) { return clazz; }
+        @Override public Type apply(ParameterizedType pt) { return LateParameterizedType.copyOf(pt); }
+        @Override public Type apply(GenericArrayType gat) { return LateGenericArrayType.copyOf(gat); }
+        @Override public Type apply(WildcardType wt) { return LateWildcardType.copyOf(wt); }
+        @Override public Type apply(TypeVariable<?> tv) { return LateTypeVariable.copyOf(tv); }
     }
 
     /**
@@ -137,6 +137,6 @@ public enum TypeTools {;
      * unchanged.
      */
     static Type copyOf(Type type) {
-        return LateTypeConverter.INSTANCE.invoke(type);
+        return LateTypeConverter.INSTANCE.apply(type);
     }
 }

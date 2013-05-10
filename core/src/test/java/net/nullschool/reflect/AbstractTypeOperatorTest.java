@@ -19,27 +19,27 @@ public class AbstractTypeOperatorTest {
     @Test
     public void test_invoke() {
         TypeOperator<?> operator = mock(AbstractTypeOperator.class);
-        given(operator.invoke(any(Type.class))).willCallRealMethod();
+        given(operator.apply(any(Type.class))).willCallRealMethod();
 
-        operator.invoke((Type)Object.class);
-        operator.invoke((Type)new LateParameterizedType(Set.class, null, Integer.class));
-        operator.invoke((Type)new LateGenericArrayType(new LateTypeVariable<Class>("E", Set.class)));
-        operator.invoke((Type)new LateWildcardType("?"));
-        operator.invoke((Type)new LateTypeVariable<Class>("E", Set.class));
-        assertNull(operator.invoke((Type)null));
+        operator.apply((Type)Object.class);
+        operator.apply((Type)new LateParameterizedType(Set.class, null, Integer.class));
+        operator.apply((Type)new LateGenericArrayType(new LateTypeVariable<Class>("E", Set.class)));
+        operator.apply((Type)new LateWildcardType("?"));
+        operator.apply((Type)new LateTypeVariable<Class>("E", Set.class));
+        assertNull(operator.apply((Type)null));
 
-        verify(operator, times(1)).invoke(any(Class.class));
-        verify(operator, times(1)).invoke(any(ParameterizedType.class));
-        verify(operator, times(1)).invoke(any(GenericArrayType.class));
-        verify(operator, times(1)).invoke(any(WildcardType.class));
-        verify(operator, times(1)).invoke(any(TypeVariable.class));
-        verify(operator, times(6)).invoke(any(Type.class));
+        verify(operator, times(1)).apply(any(Class.class));
+        verify(operator, times(1)).apply(any(ParameterizedType.class));
+        verify(operator, times(1)).apply(any(GenericArrayType.class));
+        verify(operator, times(1)).apply(any(WildcardType.class));
+        verify(operator, times(1)).apply(any(TypeVariable.class));
+        verify(operator, times(6)).apply(any(Type.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_invoke_unknown() {
         TypeOperator<?> operator = mock(AbstractTypeOperator.class);
-        given(operator.invoke(any(Type.class))).willCallRealMethod();
-        operator.invoke(new Type() {});
+        given(operator.apply(any(Type.class))).willCallRealMethod();
+        operator.apply(new Type(){});
     }
 }

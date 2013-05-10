@@ -20,7 +20,7 @@ final class Eraser extends AbstractTypeOperator<Class<?>> {
     /**
      * The erasure of a class object is the class object itself. Object --> Object
      */
-    @Override public Class<?> invoke(Class<?> clazz) {
+    @Override public Class<?> apply(Class<?> clazz) {
         return clazz;
     }
 
@@ -29,8 +29,8 @@ final class Eraser extends AbstractTypeOperator<Class<?>> {
      *
      * @throws NullPointerException if the argument is null.
      */
-    @Override public Class<?> invoke(ParameterizedType pt) {
-        return invoke(pt.getRawType());
+    @Override public Class<?> apply(ParameterizedType pt) {
+        return apply(pt.getRawType());
     }
 
     /**
@@ -39,8 +39,8 @@ final class Eraser extends AbstractTypeOperator<Class<?>> {
      *
      * @throws NullPointerException if the argument is null.
      */
-    @Override public Class<?> invoke(GenericArrayType gat) {
-        return buildArrayType(invoke(gat.getGenericComponentType()));
+    @Override public Class<?> apply(GenericArrayType gat) {
+        return buildArrayType(apply(gat.getGenericComponentType()));
     }
 
     /**
@@ -54,8 +54,8 @@ final class Eraser extends AbstractTypeOperator<Class<?>> {
      *
      * @throws NullPointerException if the argument is null.
      */
-    @Override public Class<?> invoke(WildcardType wt) {
-        return wt.getLowerBounds().length != 0 ? Object.class : invoke(wt.getUpperBounds()[0]);
+    @Override public Class<?> apply(WildcardType wt) {
+        return wt.getLowerBounds().length != 0 ? Object.class : apply(wt.getUpperBounds()[0]);
     }
 
     /**
@@ -68,7 +68,7 @@ final class Eraser extends AbstractTypeOperator<Class<?>> {
      *
      * @throws NullPointerException if the argument is null.
      */
-    @Override public Class<?> invoke(TypeVariable<?> tv) {
-        return invoke(tv.getBounds()[0]);
+    @Override public Class<?> apply(TypeVariable<?> tv) {
+        return apply(tv.getBounds()[0]);
     }
 }

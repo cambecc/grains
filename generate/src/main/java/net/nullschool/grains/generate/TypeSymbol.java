@@ -27,11 +27,11 @@ final class TypeSymbol implements Symbol {
     }
 
     public String getSimpleName() {
-        return new SimpleNameWriter().invoke(type).toString();
+        return new SimpleNameWriter().apply(type).toString();
     }
 
     public String getAsDiamond() {
-        return new DiamondWriter(factory.newPrinter()).invoke(type).toString();
+        return new DiamondWriter(factory.newPrinter()).apply(type).toString();
     }
 
     @Override public String toString() {

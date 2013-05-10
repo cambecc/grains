@@ -19,35 +19,35 @@ public class EraserTest {
     public void test_eraser() {
         Eraser eraser = Eraser.INSTANCE;
 
-        assertSame(Object.class, eraser.invoke(Object.class));
-        assertSame(Object[].class, eraser.invoke(Object[].class));
-        assertSame(Set[].class, eraser.invoke(new JavaToken<Set<?>[]>(){}.asGenericArrayType()));
-        assertSame(Object.class, eraser.invoke(new LateWildcardType("?")));
-        assertSame(Object.class, eraser.invoke(new LateWildcardType("? super", Comparable.class)));
-        assertSame(Comparable.class, eraser.invoke(new LateWildcardType("? extends", Comparable.class)));
-        assertSame(Map.class, eraser.invoke(new LateWildcardType("? extends", Map.class, HashMap.class)));
-        assertSame(Set.class, eraser.invoke(new JavaToken<Set<Integer>>(){}.asParameterizedType()));
-        assertSame(Object.class, eraser.invoke(new LateTypeVariable<Class>("E", Set.class)));
-        assertSame(Map.class, eraser.invoke(new LateTypeVariable<Class>("E", Set.class, Map.class)));
-        assertSame(Map.class, eraser.invoke(new LateTypeVariable<Class>("E", Set.class, Map.class, HashMap.class)));
+        assertSame(Object.class, eraser.apply(Object.class));
+        assertSame(Object[].class, eraser.apply(Object[].class));
+        assertSame(Set[].class, eraser.apply(new JavaToken<Set<?>[]>(){}.asGenericArrayType()));
+        assertSame(Object.class, eraser.apply(new LateWildcardType("?")));
+        assertSame(Object.class, eraser.apply(new LateWildcardType("? super", Comparable.class)));
+        assertSame(Comparable.class, eraser.apply(new LateWildcardType("? extends", Comparable.class)));
+        assertSame(Map.class, eraser.apply(new LateWildcardType("? extends", Map.class, HashMap.class)));
+        assertSame(Set.class, eraser.apply(new JavaToken<Set<Integer>>(){}.asParameterizedType()));
+        assertSame(Object.class, eraser.apply(new LateTypeVariable<Class>("E", Set.class)));
+        assertSame(Map.class, eraser.apply(new LateTypeVariable<Class>("E", Set.class, Map.class)));
+        assertSame(Map.class, eraser.apply(new LateTypeVariable<Class>("E", Set.class, Map.class, HashMap.class)));
 
-        assertSame(Object.class, eraser.invoke((Type)Object.class));
-        assertSame(Object[].class, eraser.invoke((Type)Object[].class));
-        assertSame(Set[].class, eraser.invoke(new JavaToken<Set<?>[]>(){}.asType()));
-        assertSame(Object.class, eraser.invoke((Type)new LateWildcardType("?")));
-        assertSame(Object.class, eraser.invoke((Type)new LateWildcardType("? super", Comparable.class)));
-        assertSame(Comparable.class, eraser.invoke((Type)new LateWildcardType("? extends", Comparable.class)));
-        assertSame(Map.class, eraser.invoke((Type)new LateWildcardType("? extends", Map.class, HashMap.class)));
-        assertSame(Set.class, eraser.invoke(new JavaToken<Set<Integer>>(){}.asType()));
-        assertSame(Object.class, eraser.invoke((Type)new LateTypeVariable<Class>("E", Set.class)));
-        assertSame(Map.class, eraser.invoke((Type)new LateTypeVariable<Class>("E", Set.class, Map.class)));
-        assertSame(Map.class, eraser.invoke((Type)new LateTypeVariable<Class>("E", Set.class, Map.class, HashMap.class)));
+        assertSame(Object.class, eraser.apply((Type)Object.class));
+        assertSame(Object[].class, eraser.apply((Type)Object[].class));
+        assertSame(Set[].class, eraser.apply(new JavaToken<Set<?>[]>(){}.asType()));
+        assertSame(Object.class, eraser.apply((Type)new LateWildcardType("?")));
+        assertSame(Object.class, eraser.apply((Type)new LateWildcardType("? super", Comparable.class)));
+        assertSame(Comparable.class, eraser.apply((Type)new LateWildcardType("? extends", Comparable.class)));
+        assertSame(Map.class, eraser.apply((Type)new LateWildcardType("? extends", Map.class, HashMap.class)));
+        assertSame(Set.class, eraser.apply(new JavaToken<Set<Integer>>(){}.asType()));
+        assertSame(Object.class, eraser.apply((Type)new LateTypeVariable<Class>("E", Set.class)));
+        assertSame(Map.class, eraser.apply((Type)new LateTypeVariable<Class>("E", Set.class, Map.class)));
+        assertSame(Map.class, eraser.apply((Type)new LateTypeVariable<Class>("E", Set.class, Map.class, HashMap.class)));
 
-        assertNull(eraser.invoke((Type)null));
+        assertNull(eraser.apply((Type)null));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_eraser_unknown() {
-        Eraser.INSTANCE.invoke(new Type(){});
+        Eraser.INSTANCE.apply(new Type(){});
     }
 }

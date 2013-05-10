@@ -115,7 +115,7 @@ public final class LateParameterizedType implements ParameterizedType {
      *         the type is null.
      */
     public Type resolve(Type type) {
-        return resolver.invoke(type);
+        return resolver.apply(type);
     }
 
     /**

@@ -35,10 +35,10 @@ public class TypeWriter extends AbstractTypeOperator<TypePrinter> {
      * @param clazz the class object.
      * @return this printer.
      */
-    @Override public TypePrinter invoke(Class<?> clazz) {
+    @Override public TypePrinter apply(Class<?> clazz) {
         return clazz.isArray() ?
-            invoke(clazz.getComponentType()).print("[]") :
-            invoke(clazz, clazz.getEnclosingClass());
+            apply(clazz.getComponentType()).print("[]") :
+            apply(clazz, clazz.getEnclosingClass());
     }
 
     /**
@@ -49,8 +49,8 @@ public class TypeWriter extends AbstractTypeOperator<TypePrinter> {
      * @param pt the parameterized type.
      * @return this printer.
      */
-    @Override public TypePrinter invoke(ParameterizedType pt) {
-        invoke(TypeTools.erase(pt.getRawType()), pt.getOwnerType());
+    @Override public TypePrinter apply(ParameterizedType pt) {
+        apply(TypeTools.erase(pt.getRawType()), pt.getOwnerType());
         Type[] typeArguments = pt.getActualTypeArguments();
         if (typeArguments.length > 0) {
             printer.print('<');
@@ -66,8 +66,8 @@ public class TypeWriter extends AbstractTypeOperator<TypePrinter> {
      * @param gat the generic array type.
      * @return this printer.
      */
-    @Override public TypePrinter invoke(GenericArrayType gat) {
-        return invoke(gat.getGenericComponentType()).print("[]");
+    @Override public TypePrinter apply(GenericArrayType gat) {
+        return apply(gat.getGenericComponentType()).print("[]");
     }
 
     /**
@@ -79,7 +79,7 @@ public class TypeWriter extends AbstractTypeOperator<TypePrinter> {
      * @param wt the wildcard type.
      * @return this printer.
      */
-    @Override public TypePrinter invoke(WildcardType wt) {
+    @Override public TypePrinter apply(WildcardType wt) {
         Type[] lowerBounds = wt.getLowerBounds();
         if (lowerBounds.length > 0) {
             printer.print("? super ");
@@ -99,7 +99,7 @@ public class TypeWriter extends AbstractTypeOperator<TypePrinter> {
      * @param tv the type variable.
      * @return this printer.
      */
-    @Override public TypePrinter invoke(TypeVariable<?> tv) {
+    @Override public TypePrinter apply(TypeVariable<?> tv) {
         return printer.print(tv.getName());
     }
 
@@ -115,9 +115,9 @@ public class TypeWriter extends AbstractTypeOperator<TypePrinter> {
      * @param enclosing the enclosing type.
      * @return this printer.
      */
-    protected TypePrinter invoke(Class<?> clazz, Type enclosing) {
+    protected TypePrinter apply(Class<?> clazz, Type enclosing) {
         return enclosing != null ?
-            invoke(enclosing).print('.').print(clazz.getSimpleName()) :
+            apply(enclosing).print('.').print(clazz.getSimpleName()) :
             printer.print(clazz);
     }
 
@@ -131,10 +131,10 @@ public class TypeWriter extends AbstractTypeOperator<TypePrinter> {
      */
     protected TypePrinter join(Type[] types, String separator) {
         if (types.length > 0) {
-            invoke(types[0]);
+            apply(types[0]);
             for (int i = 1; i < types.length; i++) {
                 printer.print(separator);
-                invoke(types[i]);
+                apply(types[i]);
             }
         }
         return printer;

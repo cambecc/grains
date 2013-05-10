@@ -5,7 +5,6 @@ import net.nullschool.collect.ConstMap;
 import java.lang.reflect.*;
 import java.util.Objects;
 
-import static net.nullschool.reflect.TypeTools.apply;
 import static net.nullschool.reflect.TypeTools.buildArrayType;
 import static net.nullschool.util.ObjectTools.coalesce;
 
@@ -34,7 +33,7 @@ final class Resolver extends AbstractTypeOperator<Type> {
     /**
      * A class resolves to itself.
      */
-    @Override public Type invoke(Class<?> clazz) {
+    @Override public Type apply(Class<?> clazz) {
         return clazz;
     }
 
@@ -42,11 +41,11 @@ final class Resolver extends AbstractTypeOperator<Type> {
      * A parameterized type may have type variables in both the owner type and type arguments, such as
      * {@code Foo&lt;T&gt;.Bar&lt;U&gt;}, so resolve them first and build a new parameterized type from the results.
      */
-    @Override public Type invoke(ParameterizedType pt) {
+    @Override public Type apply(ParameterizedType pt) {
         return new LateParameterizedType(
             pt.getRawType(),
-            invoke(pt.getOwnerType()),
-            apply(this, pt.getActualTypeArguments()));
+            apply(pt.getOwnerType()),
+            TypeTools.apply(this, pt.getActualTypeArguments()));
     }
 
     /**
@@ -54,8 +53,8 @@ final class Resolver extends AbstractTypeOperator<Type> {
      * resolves to a concrete Class object C, then we must return the concrete Class object for C[]. Once the
      * component type of an array is no longer generic, then the array itself is no longer generic.
      */
-    @Override public Type invoke(GenericArrayType gat) {
-        Type resolvedComponentType = invoke(gat.getGenericComponentType());
+    @Override public Type apply(GenericArrayType gat) {
+        Type resolvedComponentType = apply(gat.getGenericComponentType());
         return resolvedComponentType instanceof Class ?
             buildArrayType((Class<?>)resolvedComponentType) :
             new LateGenericArrayType(resolvedComponentType);
@@ -64,10 +63,10 @@ final class Resolver extends AbstractTypeOperator<Type> {
     /**
      * A wildcard simply resolves to a wildcard of its resolved bounds.
      */
-    @Override public Type invoke(WildcardType wt) {
+    @Override public Type apply(WildcardType wt) {
         return wt.getLowerBounds().length > 0 ?
-            new LateWildcardType("? super", apply(this, wt.getLowerBounds())) :
-            new LateWildcardType("? extends", apply(this, wt.getUpperBounds()));
+            new LateWildcardType("? super", TypeTools.apply(this, wt.getLowerBounds())) :
+            new LateWildcardType("? extends", TypeTools.apply(this, wt.getUpperBounds()));
     }
 
     /**
@@ -75,7 +74,7 @@ final class Resolver extends AbstractTypeOperator<Type> {
      * provided to this resolver during construction. If T is not bound to anything in this context, then T is
      * returned unchanged.
      */
-    @Override public Type invoke(TypeVariable<?> tv) {
+    @Override public Type apply(TypeVariable<?> tv) {
         return coalesce(variableBindings.get(tv), tv);
     }
 }

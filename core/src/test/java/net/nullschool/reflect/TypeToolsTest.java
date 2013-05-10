@@ -113,8 +113,8 @@ public class TypeToolsTest {
     @Test
     public void test_apply() {
         @SuppressWarnings("unchecked") TypeOperator<Type> operator = (TypeOperator<Type>)mock(TypeOperator.class);
-        when(operator.invoke((Type)String.class)).thenReturn(Character.class);
-        when(operator.invoke((Type)Integer.class)).thenReturn(Byte.class);
+        when(operator.apply((Type)String.class)).thenReturn(Character.class);
+        when(operator.apply((Type)Integer.class)).thenReturn(Byte.class);
 
         Type[] result = apply(operator, new Type[] {String.class, Integer.class});
         assertArrayEquals(new Type[] {Character.class, Byte.class}, result);

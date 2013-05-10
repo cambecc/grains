@@ -54,10 +54,10 @@ class Cook extends AbstractTypeOperator<Type> {
         return false;
     }
 
-    @Override public Type invoke(Class<?> clazz) {
+    @Override public Type apply(Class<?> clazz) {
         if (clazz.isArray()) {
             // Cook arrays that might have generic component types, like List[].
-            Type componentType = invoke(clazz.getComponentType());
+            Type componentType = apply(clazz.getComponentType());
             if (!(componentType instanceof Class)) {
                 return new LateGenericArrayType(componentType);
             }
@@ -69,32 +69,32 @@ class Cook extends AbstractTypeOperator<Type> {
             if (typeParameters.length > 0 && !hasCycle(typeParameters)) {
                 return new LateParameterizedType(
                     clazz,
-                    clazz.isMemberClass() ? invoke(clazz.getEnclosingClass()) : clazz.getEnclosingClass(),
-                    apply(this, typeParameters));
+                    clazz.isMemberClass() ? apply(clazz.getEnclosingClass()) : clazz.getEnclosingClass(),
+                    TypeTools.apply(this, typeParameters));
             }
         }
         return clazz;
     }
 
-    @Override public Type invoke(ParameterizedType pt) {
+    @Override public Type apply(ParameterizedType pt) {
         Class<?> rawType = erase(pt.getRawType());
         return new LateParameterizedType(
             rawType,
-            rawType.isMemberClass() ? invoke(pt.getOwnerType()) : pt.getOwnerType(),
-            apply(this, pt.getActualTypeArguments()));
+            rawType.isMemberClass() ? apply(pt.getOwnerType()) : pt.getOwnerType(),
+            TypeTools.apply(this, pt.getActualTypeArguments()));
     }
 
-    @Override public Type invoke(GenericArrayType gat) {
-        return new LateGenericArrayType(invoke(gat.getGenericComponentType()));
+    @Override public Type apply(GenericArrayType gat) {
+        return new LateGenericArrayType(apply(gat.getGenericComponentType()));
     }
 
-    @Override public Type invoke(WildcardType wt) {
+    @Override public Type apply(WildcardType wt) {
         return wt.getLowerBounds().length > 0 ?
-            new LateWildcardType("? super", apply(this, wt.getLowerBounds())) :
-            new LateWildcardType("? extends", apply(this, wt.getUpperBounds()));
+            new LateWildcardType("? super", TypeTools.apply(this, wt.getLowerBounds())) :
+            new LateWildcardType("? extends", TypeTools.apply(this, wt.getUpperBounds()));
     }
 
-    @Override public Type invoke(TypeVariable<?> tv) {
-        return invoke(erase(tv));
+    @Override public Type apply(TypeVariable<?> tv) {
+        return apply(erase(tv));
     }
 }

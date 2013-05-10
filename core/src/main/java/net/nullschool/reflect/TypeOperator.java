@@ -12,15 +12,14 @@ import java.lang.reflect.*;
  * immutification.<p/>
  *
  * Implementers should provide type-specific (i.e., Class, ParameterizedType, WildcardType, etc.) behaviors of
- * the desired operation. The most generalized method, {@link #invoke(Type)}, should then dispatch to the appropriate
+ * the desired operation. The most generalized method, {@link #apply(Type)}, should then dispatch to the appropriate
  * type-specific method. The {@link AbstractTypeOperator} class provides a suitable implementation of
- * {@link #invoke(Type)}.
+ * {@link #apply(Type)}.
  *
  * @param <T> the result type of the operation. Operations that have no result can use {@link Void}.
  *
  * @author Cameron Beccario
  */
-// UNDONE: rename invoke to apply for consistency.
 public interface TypeOperator<T> {
 
     /**
@@ -29,7 +28,7 @@ public interface TypeOperator<T> {
      * @param clazz the class object.
      * @return the operation result.
      */
-    T invoke(Class<?> clazz);
+    T apply(Class<?> clazz);
 
     /**
      * Invoked for a parameterized type, such as {@code List&lt;String&gt;}.
@@ -37,7 +36,7 @@ public interface TypeOperator<T> {
      * @param pt the parameterized type.
      * @return the operation result.
      */
-    T invoke(ParameterizedType pt);
+    T apply(ParameterizedType pt);
 
     /**
      * Invoked for a generic array type, such as {@code E[]} or {@code List&lt;String&gt;[]}.
@@ -45,7 +44,7 @@ public interface TypeOperator<T> {
      * @param gat the generic array type.
      * @return the operation result.
      */
-    T invoke(GenericArrayType gat);
+    T apply(GenericArrayType gat);
 
     /**
      * Invoked for a wildcard. Example: {@code ? extends String}.
@@ -53,7 +52,7 @@ public interface TypeOperator<T> {
      * @param wt the wildcard type.
      * @return the operation result.
      */
-    T invoke(WildcardType wt);
+    T apply(WildcardType wt);
 
     /**
      * Invoked for a type variable, such as {@code E} from the declaration {@code List&lt;E&gt;}.
@@ -61,7 +60,7 @@ public interface TypeOperator<T> {
      * @param tv the type variable.
      * @return the operation result.
      */
-    T invoke(TypeVariable<?> tv);
+    T apply(TypeVariable<?> tv);
 
     /**
      * Invoked on a general Type. The usual pattern is to inspect the type and then call the appropriate
@@ -71,5 +70,5 @@ public interface TypeOperator<T> {
      * @return the operation result.
      * @throws IllegalArgumentException if type refers to an unknown and unsupported implementation of {@link Type}.
      */
-    T invoke(Type type);
+    T apply(Type type);
 }

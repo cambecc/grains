@@ -34,7 +34,7 @@ final class SimpleNameWriter extends TypeWriter {
     /**
      * Prints just the simple name of the specified class. The enclosing type is ignored.
      */
-    @Override protected TypePrinter invoke(Class<?> clazz, Type enclosing) {
+    @Override protected TypePrinter apply(Class<?> clazz, Type enclosing) {
         return printer.print(clazz);
     }
 }

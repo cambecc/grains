@@ -18,36 +18,36 @@ final class Immutify extends AbstractTypeOperator<Type> {
         this.typeTable = typeTable;
     }
 
-    @Override public Class<?> invoke(Class<?> clazz) {
+    @Override public Class<?> apply(Class<?> clazz) {
         return typeTable.immutify(clazz);
     }
 
-    @Override public Type invoke(ParameterizedType pt) {
-        Class<?> immutableRawType = invoke(TypeTools.erase(pt.getRawType()));
+    @Override public Type apply(ParameterizedType pt) {
+        Class<?> immutableRawType = apply(TypeTools.erase(pt.getRawType()));
         return new LateParameterizedType(
             immutableRawType,
             immutableRawType.isMemberClass() ? apply(pt.getOwnerType(), typeTable) : pt.getOwnerType(),
             TypeTools.apply(this, pt.getActualTypeArguments()));
     }
 
-    @Override public Type invoke(GenericArrayType gat) {
-        return new LateGenericArrayType(invoke(gat.getGenericComponentType()));
+    @Override public Type apply(GenericArrayType gat) {
+        return new LateGenericArrayType(apply(gat.getGenericComponentType()));
     }
 
-    @Override public Type invoke(WildcardType wt) {
+    @Override public Type apply(WildcardType wt) {
         return wt.getLowerBounds().length > 0 ?
             new LateWildcardType("? super", TypeTools.apply(this, wt.getLowerBounds())) :
             new LateWildcardType("? extends", TypeTools.apply(this, wt.getUpperBounds()));
     }
 
-    @Override public Type invoke(TypeVariable<?> tv) {
-        return invoke(TypeTools.erase(tv));  // not sure if this makes sense
+    @Override public Type apply(TypeVariable<?> tv) {
+        return apply(TypeTools.erase(tv));  // not sure if this makes sense
     }
 
     static Type apply(Type type, TypeTable table) {
-        Type instantiated = new Cook().invoke(new DeWildcard().invoke(type));
+        Type instantiated = new Cook().apply(new DeWildcard().apply(type));
         try {
-            return new Immutify(table).invoke(instantiated);
+            return new Immutify(table).apply(instantiated);
         }
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(

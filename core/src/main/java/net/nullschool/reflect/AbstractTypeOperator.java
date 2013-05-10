@@ -6,7 +6,7 @@ import java.lang.reflect.*;
 /**
  * 2013-04-03<p/>
  *
- * A partial implementation of TypeOperator that dispatches invocation of {@link #invoke(Type)} to the appropriate
+ * A partial implementation of TypeOperator that dispatches invocation of {@link #apply(Type)} to the appropriate
  * narrower overload.
  *
  * @author Cameron Beccario
@@ -17,27 +17,27 @@ public abstract class AbstractTypeOperator<T> implements TypeOperator<T> {
      * Invokes this operator on the specified type.<p/>
      *
      * This implementation inspects the runtime type of the specified type and invokes the appropriate narrower
-     * overload. If type is null, the null is returned.
+     * overload. If type is null, then null is returned.
      *
      * @param type the type.
      * @return the result.
      * @throws IllegalArgumentException if type refers to an unknown and unsupported implementation of {@link Type}.
      */
-    @Override public T invoke(Type type) {
+    @Override public T apply(Type type) {
         if (type instanceof Class) {
-            return invoke((Class<?>)type);
+            return apply((Class<?>)type);
         }
         else if (type instanceof ParameterizedType) {
-            return invoke((ParameterizedType)type);
+            return apply((ParameterizedType)type);
         }
         else if (type instanceof WildcardType) {
-            return invoke((WildcardType)type);
+            return apply((WildcardType)type);
         }
         else if (type instanceof GenericArrayType) {
-            return invoke((GenericArrayType)type);
+            return apply((GenericArrayType)type);
         }
         else if (type instanceof TypeVariable) {
-            return invoke((TypeVariable<?>)type);
+            return apply((TypeVariable<?>)type);
         }
         else if (type == null) {
             return null;
