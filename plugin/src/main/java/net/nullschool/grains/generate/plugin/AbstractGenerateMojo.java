@@ -80,13 +80,13 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
         return lineSeparator;
     }
 
-    @Parameter(property = "immutabilityPolicy", defaultValue = Configuration.DEFAULT_IMMUTABILITY_POLICY)
-    private String immutabilityPolicy;
+    @Parameter(property = "constPolicy", defaultValue = Configuration.DEFAULT_CONST_POLICY)
+    private String constPolicy;
     /**
-     * The immutability policy to use for the generated grains.
+     * The const policy to use for the generated grains.
      */
-    public String getImmutabilityPolicy() {
-        return immutabilityPolicy;
+    public String getConstPolicy() {
+        return constPolicy;
     }
 
     /**

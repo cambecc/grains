@@ -50,11 +50,11 @@ public class GrainGenerator implements Callable<Void> {
 
         private boolean write(GenerationResult result, Path out) throws IOException {
             if (!result.getErrors().isEmpty()) {
-                log.error("[{}] While generating {}:", out);
+                log.error("[{}] While generating {}:", Thread.currentThread().getName(), out);
                 for (String error : result.getErrors()) {
                     log.error("[{}]    {}", Thread.currentThread().getName(), error);
                 }
-                return false;
+                throw new RuntimeException("Failed to write: " + out);
             }
 
             byte[] bytes = result.getText().getBytes(config.getCharset());

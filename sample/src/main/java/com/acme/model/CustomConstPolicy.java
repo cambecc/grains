@@ -1,6 +1,6 @@
 package com.acme.model;
 
-import net.nullschool.reflect.DefaultImmutabilityPolicy;
+import net.nullschool.reflect.DefaultConstPolicy;
 import org.joda.time.DateTime;
 
 
@@ -9,12 +9,12 @@ import org.joda.time.DateTime;
  *
  * @author Cameron Beccario
  */
-public class CustomImmutabilityPolicy extends DefaultImmutabilityPolicy {
+public class CustomConstPolicy extends DefaultConstPolicy {
 
-    public static final CustomImmutabilityPolicy INSTANCE = new CustomImmutabilityPolicy();
+    public static final CustomConstPolicy INSTANCE = new CustomConstPolicy();
 
 
-    public CustomImmutabilityPolicy() {
+    public CustomConstPolicy() {
         registerType(DateTime.class);
 
 //        registerTranslation(Collection.class, ImmutableCollection.class);

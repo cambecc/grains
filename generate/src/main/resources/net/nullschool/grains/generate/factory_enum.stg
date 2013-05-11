@@ -1,12 +1,17 @@
 group FactoryEnum;
 
+constPolicy_decl(grain, type) ::= <<
+<if(grain.constPolicy)>private static final <type.constPolicy> $POLICY = <grain.constPolicy>;
+<endif>
+>>
+
 typeToken_decl(typeToken, type) ::= <<
 private static final <type.typeToken>\<<typeToken.type>\> <typeToken.name> =
     new <type.typeToken>\<<typeToken.type>\>(){};
 
 >>
 
-checker_decl(typeToken, type) ::= <<
+castFunction_decl(typeToken, type) ::= <<
 private static final <type.castFunction>\<<typeToken.castFunction.type>\> <typeToken.castFunction.name> =
     $POLICY.newCastFunction(<typeToken.name>);
 
@@ -27,8 +32,7 @@ factory_enum(grain, type) ::= <<
 public enum <type.targetFactory.simpleName> implements <type.grainFactory> {
     INSTANCE;
 
-    private static final <type.immutabilityPolicy> $POLICY = <grain.policy>;
-
+    <constPolicy_decl(grain, type)>
     <grain.typeTokens:typeToken_decl(type)>
     private static final <type.basisPropertyMap> $PROPERTIES = <type.grainTools>.asPropertyMap(
         <grain.properties:grain_prop(type); separator=",\n">);
@@ -43,7 +47,7 @@ public enum <type.targetFactory.simpleName> implements <type.grainFactory> {
     public <type.targetBuilder> newBuilder() { return builder(); }
     public <type.string> toString() { return getClass().getName(); }
 
-    <grain.typeTokens:checker_decl(type)>
+    <grain.typeTokens:castFunction_decl(type)>
     <grain_impl(grain, type)>
 
     <serialization_proxy_impl(grain, type)>

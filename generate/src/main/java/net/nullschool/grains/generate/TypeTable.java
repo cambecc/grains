@@ -61,7 +61,7 @@ final class TypeTable {
         grainTools                  (GrainTools.class),
         grainProperty               (GrainProperty.class),
         simpleGrainProperty         (SimpleGrainProperty.class),
-        immutabilityPolicy          (ImmutabilityPolicy.class),
+        constPolicy                 (ConstPolicy.class),
 
         iterableMap                 (new TypeToken<IterableMap<String, Object>>(){}),
         abstractIterableMap         (new TypeToken<AbstractIterableMap<String, Object>>(){}),
@@ -83,12 +83,12 @@ final class TypeTable {
 
 
     private final NamingPolicy namingPolicy;
-    private final ImmutabilityPolicy immutabilityPolicy;
+    private final ConstPolicy constPolicy;
     private final ClassPool classPool;
 
-    TypeTable(NamingPolicy namingPolicy, ImmutabilityPolicy immutabilityPolicy) {
+    TypeTable(NamingPolicy namingPolicy, ConstPolicy constPolicy) {
         this.namingPolicy = Objects.requireNonNull(namingPolicy);
-        this.immutabilityPolicy = Objects.requireNonNull(immutabilityPolicy);
+        this.constPolicy = Objects.requireNonNull(constPolicy);
         this.classPool = new ClassPool();
         // UNDONE: use TypeTable.class.getClassLoader here? Then would be same CL as above WKT enum.
         this.classPool.appendClassPath(new LoaderClassPath(Thread.currentThread().getContextClassLoader()));
@@ -194,11 +194,11 @@ final class TypeTable {
     }
 
     public synchronized Class<?> immutify(Class<?> clazz) {
-        Class<?> result = ObjectTools.coalesce(immutabilityPolicy.translate(clazz), Objects.requireNonNull(clazz));
+        Class<?> result = ObjectTools.coalesce(constPolicy.translate(clazz), Objects.requireNonNull(clazz));
         if (result.getAnnotation(GrainSchema.class) != null) {
             result = loadOrCreateClass(namingPolicy.getName(result, Name.grain), AbstractGrain.class);
         }
-        if (!immutabilityPolicy.test(result)) {
+        if (!constPolicy.test(result)) {
             throw new IllegalArgumentException("do not know how to immutify: " + clazz + " translated as: " + result);
         }
         return result;

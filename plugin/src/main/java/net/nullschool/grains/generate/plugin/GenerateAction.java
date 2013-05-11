@@ -130,7 +130,7 @@ final class GenerateAction {
             config.setLineWidth(prepareLineWidth());
             config.setLineSeparator(prepareLineSeparator());
             config.setOutput(prepareTargetDirectory());
-            config.setImmutabilityPolicy(mojo.getImmutabilityPolicy());
+            config.setConstPolicy(mojo.getConstPolicy());
             config.setSearchPackages(prepareSearchPackages());
             config.setSearchLoader(prepareSearchClassLoader());
 

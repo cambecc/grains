@@ -22,8 +22,8 @@ import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
 import net.nullschool.reflect.CastFunction;
-import net.nullschool.reflect.DefaultImmutabilityPolicy;
-import net.nullschool.reflect.ImmutabilityPolicy;
+import net.nullschool.reflect.ConstPolicy;
+import net.nullschool.reflect.DefaultConstPolicy;
 import net.nullschool.reflect.TypeToken;
 import net.nullschool.util.MemoizedHashCode;
 
@@ -34,7 +34,7 @@ import net.nullschool.util.MemoizedHashCode;
 public enum ComposedFactory implements GrainFactory {
     INSTANCE;
 
-    private static final ImmutabilityPolicy $POLICY = DefaultImmutabilityPolicy.INSTANCE;
+    private static final ConstPolicy $POLICY = DefaultConstPolicy.INSTANCE;
 
     private static final TypeToken<ConstList<UUID>> $0 =
         new TypeToken<ConstList<UUID>>(){};

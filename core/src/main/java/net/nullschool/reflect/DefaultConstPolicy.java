@@ -14,9 +14,9 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-public class DefaultImmutabilityPolicy implements ImmutabilityPolicy {
+public class DefaultConstPolicy implements ConstPolicy {
 
-    public static final DefaultImmutabilityPolicy INSTANCE = new DefaultImmutabilityPolicy();
+    public static final DefaultConstPolicy INSTANCE = new DefaultConstPolicy();
 
 
     private final Set<Class<?>> immutableTypes = new HashSet<>();
@@ -35,7 +35,7 @@ public class DefaultImmutabilityPolicy implements ImmutabilityPolicy {
         registerType(to);
     }
 
-    public DefaultImmutabilityPolicy() {
+    public DefaultConstPolicy() {
         registerType(boolean.class);
         registerType(byte.class);
         registerType(short.class);
@@ -96,6 +96,6 @@ public class DefaultImmutabilityPolicy implements ImmutabilityPolicy {
     }
 
     @Override public <T> CastFunction<T> newCastFunction(TypeToken<T> token) {
-        return Casts.buildChecker(token);
+        return Casts.buildCastFunction(token);
     }
 }

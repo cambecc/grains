@@ -1,7 +1,7 @@
 package net.nullschool.grains.generate;
 
 import net.nullschool.grains.GrainSchema;
-import net.nullschool.reflect.DefaultImmutabilityPolicy;
+import net.nullschool.reflect.DefaultConstPolicy;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class TypeTableTest {
 
     @Test @Ignore
     public void test() {
-        TypeTable table = new TypeTable(new NamingPolicy(), DefaultImmutabilityPolicy.INSTANCE);
+        TypeTable table = new TypeTable(new NamingPolicy(), DefaultConstPolicy.INSTANCE);
         System.out.println(table.schemaTypes(Foo.class));
     }
 }

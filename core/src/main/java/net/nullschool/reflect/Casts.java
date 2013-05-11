@@ -159,7 +159,7 @@ final class Casts {
         };
     }
 
-    private static CastFunction<?> buildChecker(Type type) {
+    private static CastFunction<?> buildCastFunction(Type type) {
         if (type instanceof Class) {
             return checkType(TypeTools.erase(type));
         }
@@ -170,25 +170,25 @@ final class Casts {
                 // UNDONE: need to dig upwards to find actual type argument for Set interface
                 return checkSet(
                     rawType.asSubclass(Set.class),
-                    buildChecker(typeArguments[0]));
+                    buildCastFunction(typeArguments[0]));
             }
             else if (List.class.isAssignableFrom(rawType)) {
                 // UNDONE: need to dig upwards to find actual type argument for List interface
                 return checkList(
                     rawType.asSubclass(List.class),
-                    buildChecker(typeArguments[0]));
+                    buildCastFunction(typeArguments[0]));
             }
             else if (Map.class.isAssignableFrom(rawType)) {
                 // UNDONE: need to dig upwards to find actual type arguments for Map interface
                 return checkMap(
                     rawType.asSubclass(Map.class),
-                    buildChecker(typeArguments[0]),
-                    buildChecker(typeArguments[1]));
+                    buildCastFunction(typeArguments[0]),
+                    buildCastFunction(typeArguments[1]));
             }
             else if (Collection.class.isAssignableFrom(rawType)) {
                 return checkCollection(
                     rawType.asSubclass(Collection.class),
-                    buildChecker(typeArguments[0]));
+                    buildCastFunction(typeArguments[0]));
             }
             else {
                 // UNDONE ??? what to do here?
@@ -197,7 +197,7 @@ final class Casts {
         }
         else if (type instanceof WildcardType) {
             // UNDONE: correct bounds handling
-            return buildChecker(((WildcardType)type).getUpperBounds()[0]);
+            return buildCastFunction(((WildcardType)type).getUpperBounds()[0]);
         }
         else {
             throw new IllegalArgumentException("don't know how to handle " + type);
@@ -205,7 +205,7 @@ final class Casts {
     }
 
     @SuppressWarnings("unchecked")
-    static <T> CastFunction<T> buildChecker(TypeToken<T> token) {
-        return (CastFunction<T>)buildChecker(token.asType());
+    static <T> CastFunction<T> buildCastFunction(TypeToken<T> token) {
+        return (CastFunction<T>)buildCastFunction(token.asType());
     }
 }

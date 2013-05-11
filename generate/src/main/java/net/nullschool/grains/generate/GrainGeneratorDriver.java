@@ -2,7 +2,7 @@ package net.nullschool.grains.generate;
 
 import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.grains.*;
-import net.nullschool.reflect.ImmutabilityPolicy;
+import net.nullschool.reflect.ConstPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,16 +21,16 @@ final class GrainGeneratorDriver {
     private final Configuration config;
     private final TypeTable typeTable;
     private final NamingPolicy namingPolicy;
-    private Member policyMember;
+    private Member constPolicyMember;
 
     GrainGeneratorDriver(Configuration config, NamingPolicy namingPolicy) {
         this.config = config;
         this.namingPolicy = namingPolicy;
-        this.typeTable = buildTypeTable(config.getImmutabilityPolicy());
+        this.typeTable = buildTypeTable(config.getConstPolicy());
     }
 
     private TypeTable buildTypeTable(String accessString) {
-        log.debug("Loading immutability policy: {}", accessString);
+        log.debug("Loading const policy: {}", accessString);
         int lastDot = accessString.lastIndexOf('.');
         String className = accessString.substring(0, lastDot);
         try {
@@ -40,10 +40,10 @@ final class GrainGeneratorDriver {
                 // Try finding it as a field.
                 Field field = clazz.getField(memberName);
                 if (field != null && Modifier.isStatic(field.getModifiers())) {
-                    ImmutabilityPolicy immutabilityPolicy = (ImmutabilityPolicy)field.get(null);
-                    log.debug("Using {} found in {}.", immutabilityPolicy, field);
-                    policyMember = field;
-                    return new TypeTable(namingPolicy, immutabilityPolicy);
+                    ConstPolicy constPolicy = (ConstPolicy)field.get(null);
+                    log.debug("Using {} found in {}.", constPolicy, field);
+                    constPolicyMember = field;
+                    return new TypeTable(namingPolicy, constPolicy);
                 }
             }
             catch (NoSuchFieldException e) {
@@ -53,10 +53,10 @@ final class GrainGeneratorDriver {
                 // Try finding it as a method.
                 Method method = clazz.getMethod(memberName);
                 if (method != null && Modifier.isStatic(method.getModifiers())) {
-                    ImmutabilityPolicy immutabilityPolicy = (ImmutabilityPolicy)method.invoke(null);
-                    log.debug("Using {} found in {}.", immutabilityPolicy, method);
-                    policyMember = method;
-                    return new TypeTable(namingPolicy, immutabilityPolicy);
+                    ConstPolicy constPolicy = (ConstPolicy)method.invoke(null);
+                    log.debug("Using {} found in {}.", constPolicy, method);
+                    constPolicyMember = method;
+                    return new TypeTable(namingPolicy, constPolicy);
                 }
             }
             catch (NoSuchMethodException e) {
@@ -79,7 +79,7 @@ final class GrainGeneratorDriver {
 //                    return new FullNamePrinter();
 //                }
 //            };
-            SymbolTable symbols = new SymbolTable(schema, typeTable, printerFactory, policyMember);
+            SymbolTable symbols = new SymbolTable(schema, typeTable, printerFactory, constPolicyMember);
 
             GenerationResult body = template.invoke(
                 BasicConstMap.mapOf(

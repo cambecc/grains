@@ -22,8 +22,6 @@ import net.nullschool.grains.GrainFactory;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
-import net.nullschool.reflect.DefaultImmutabilityPolicy;
-import net.nullschool.reflect.ImmutabilityPolicy;
 import net.nullschool.util.MemoizedHashCode;
 
 /**
@@ -32,8 +30,6 @@ import net.nullschool.util.MemoizedHashCode;
 // @Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum IntrinsicsFactory implements GrainFactory {
     INSTANCE;
-
-    private static final ImmutabilityPolicy $POLICY = DefaultImmutabilityPolicy.INSTANCE;
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("id", String.class),

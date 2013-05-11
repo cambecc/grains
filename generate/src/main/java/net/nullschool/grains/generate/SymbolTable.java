@@ -17,13 +17,13 @@ final class SymbolTable {
     private final Class<?> schema;
     private final TypeTable typeTable;
     private final TypePrinterFactory printerFactory;
-    private final Member policyMember;
+    private final Member constPolicyMember;
 
-    SymbolTable(Class<?> schema, TypeTable typeTable, TypePrinterFactory printerFactory, Member policyMember) {
+    SymbolTable(Class<?> schema, TypeTable typeTable, TypePrinterFactory printerFactory, Member constPolicyMember) {
         this.schema = schema;
         this.typeTable = typeTable;
         this.printerFactory = printerFactory;
-        this.policyMember = policyMember;
+        this.constPolicyMember = constPolicyMember;
     }
 
     private static List<GrainProperty> resolveProperties(List<GrainProperty> properties) {
@@ -67,14 +67,17 @@ final class SymbolTable {
             symbols.add(new PropertySymbol(immutableProp, printerFactory, typeTokenDecl));
         }
 
-        Symbol policyLoadExpression = null;
-        if (policyMember instanceof Method) {
-            policyLoadExpression = new StaticMethodInvocationExpression((Method)policyMember, printerFactory);
+        Symbol constPolicyLoadExpression = null;
+        if (!typeTokens.isEmpty()) {
+            if (constPolicyMember instanceof Method) {
+                constPolicyLoadExpression =
+                    new StaticMethodInvocationExpression((Method)constPolicyMember, printerFactory);
+            }
+            else if (constPolicyMember instanceof Field) {
+                constPolicyLoadExpression = new StaticFieldLoadExpression((Field)constPolicyMember, printerFactory);
+            }
         }
-        else if (policyMember instanceof Field) {
-            policyLoadExpression = new StaticFieldLoadExpression((Field)policyMember, printerFactory);
-        }
-        return new GrainSymbol(symbols, typeTokens.values(), policyLoadExpression);
+        return new GrainSymbol(symbols, typeTokens.values(), constPolicyLoadExpression);
     }
 
     public Map<String, Symbol> buildTypes() {
