@@ -43,6 +43,17 @@ public enum TypeTools {;
     }
 
     /**
+     * Returns true if the specified class is an inner class (i.e., a non-static member class).
+     *
+     * @param clazz the class to test.
+     * @return true if the class is an inner class.
+     * @throws NullPointerException if clazz is null.
+     */
+    public static boolean isInnerClass(Class<?> clazz) {
+        return !Modifier.isStatic(clazz.getModifiers()) && clazz.isMemberClass();
+    }
+
+    /**
      * Returns the class object that represents an array of the specified component type. For example,
      * this method will return {@code Foo[].class} if invoked with {@code Foo.class}.
      *

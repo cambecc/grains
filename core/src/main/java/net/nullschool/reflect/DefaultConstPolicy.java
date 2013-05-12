@@ -24,6 +24,9 @@ public class DefaultConstPolicy implements ConstPolicy {
     private final Map<Class<?>, Class<?>> translations = new HashMap<>();
 
     protected void registerType(Class<?> clazz) {
+        if (clazz.isArray()) {
+            throw new IllegalArgumentException("array type " + clazz + " can never be immutable");
+        }
         immutableTypes.add(clazz);
         if (!Modifier.isFinal(clazz.getModifiers())) {
             immutableBases.add(clazz);

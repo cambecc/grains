@@ -26,6 +26,18 @@ final class SymbolTable {
         this.constPolicyMember = constPolicyMember;
     }
 
+    private static Type cook(Type type) {
+        return new Cook().apply(type);
+    }
+
+    private Type immutify(Type type) {
+        return new Immutify(typeTable).apply(type);
+    }
+
+    private static Type dewildcard(Type type) {
+        return new DeWildcard().apply(type);
+    }
+
     private static List<GrainProperty> resolveProperties(List<GrainProperty> properties) {
         Set<String> names = new HashSet<>();  // UNDONE: use a proper algorithm to handle name collisions.
         List<GrainProperty> results = new ArrayList<>();
@@ -41,30 +53,31 @@ final class SymbolTable {
     public GrainSymbol buildGrainSymbol() throws IntrospectionException {
         int typeTokenIndex = 0;
 
-        Map<Type, TypeTokenDecl> typeTokens = new LinkedHashMap<>();
+        Map<Type, TypeTokenSymbol> typeTokens = new LinkedHashMap<>();
         List<GrainProperty> properties = resolveProperties(GenerateTools.collectBeanProperties(schema));
         Collections.sort(properties, GrainPropertyComparator.INSTANCE);
 
         List<PropertySymbol> symbols = new ArrayList<>();
 
         for (GrainProperty prop : properties) {
-            Type immutableType = Immutify.apply(prop.getType(), typeTable);
+            Type immutableType = dewildcard(immutify(cook(prop.getType())));
             GrainProperty immutableProp = new SimpleGrainProperty(prop.getName(), immutableType, prop.getFlags());
+            TypeSymbol immutableTypeSymbol = new TypeSymbol(immutableType, printerFactory);
 
-            TypeTokenDecl typeTokenDecl = null;
+            TypeTokenSymbol typeTokenSymbol = null;
             if (immutableType instanceof ParameterizedType) {
-                typeTokenDecl = typeTokens.get(immutableType);
-                if (typeTokenDecl == null) {
+                typeTokenSymbol = typeTokens.get(immutableType);
+                if (typeTokenSymbol == null) {
                     String name = "$" + typeTokenIndex++;
                     typeTokens.put(
                         immutableType,
-                        typeTokenDecl = new TypeTokenDecl(
+                        typeTokenSymbol = new TypeTokenSymbol(
                             name,
-                            immutableType,
-                            new CastFunctionSymbol(name + "Cast", immutableType, printerFactory), printerFactory));
+                            immutableTypeSymbol,
+                            new FieldSymbol(name + "Cast", immutableTypeSymbol)));
                 }
             }
-            symbols.add(new PropertySymbol(immutableProp, printerFactory, typeTokenDecl));
+            symbols.add(new PropertySymbol(immutableProp, printerFactory, typeTokenSymbol));
         }
 
         Symbol constPolicyLoadExpression = null;

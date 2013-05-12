@@ -48,7 +48,7 @@ public final class LateGenericArrayTypeTest {
             new LateGenericArrayType(new JavaToken<List<Byte>[]>(){}.asGenericArrayType()));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void test_bad_construction() {
         new LateGenericArrayType(null);
     }

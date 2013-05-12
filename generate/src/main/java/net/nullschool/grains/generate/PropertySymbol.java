@@ -24,10 +24,10 @@ final class PropertySymbol {
     private final String setterName;  // name of set method
     private final String witherName;  // name of with method
     private final TypeSymbol typeSymbol;
-    private final TypeTokenDecl typeToken;
+    private final TypeTokenSymbol typeToken;
     private final ConstSet<StaticFieldLoadExpression> flags;
 
-    PropertySymbol(GrainProperty prop, TypePrinterFactory factory, TypeTokenDecl typeToken) {
+    PropertySymbol(GrainProperty prop, TypePrinterFactory factory, TypeTokenSymbol typeToken) {
         this.prop = prop;
         this.fieldName = GenerateTools.escape(prop.getName());
         String capitalized = StringTools.capitalize(prop.getName());
@@ -73,7 +73,7 @@ final class PropertySymbol {
         return clazz != null && clazz.isPrimitive() ? clazz == boolean.class ? "false" : "0" : null;
     }
 
-    public TypeTokenDecl getTypeToken() {
+    public TypeTokenSymbol getTypeToken() {
         return typeToken;
     }
 

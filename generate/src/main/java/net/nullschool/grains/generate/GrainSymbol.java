@@ -13,12 +13,12 @@ import java.util.List;
 final class GrainSymbol {
     
     private final List<? extends PropertySymbol> properties;
-    private final List<? extends TypeTokenDecl> typeTokens;
+    private final List<? extends TypeTokenSymbol> typeTokens;
     private final Symbol constPolicyLoadExpression;
 
     GrainSymbol(
         List<? extends PropertySymbol> properties,
-        Collection<? extends TypeTokenDecl> typeTokens,
+        Collection<? extends TypeTokenSymbol> typeTokens,
         Symbol constPolicyLoadExpression) {
 
         this.properties = Collections.unmodifiableList(new ArrayList<>(properties));
@@ -30,7 +30,7 @@ final class GrainSymbol {
         return properties;
     }
 
-    public List<? extends TypeTokenDecl> getTypeTokens() {
+    public List<? extends TypeTokenSymbol> getTypeTokens() {
         return typeTokens;
     }
 

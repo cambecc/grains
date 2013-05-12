@@ -1,7 +1,6 @@
 package net.nullschool.reflect;
 
 import java.lang.reflect.*;
-import java.util.Objects;
 
 
 /**
@@ -30,14 +29,16 @@ public final class LateGenericArrayType implements GenericArrayType {
      * type for another generic array type.
      *
      * @param genericComponentType the component type of the array.
-     * @throws NullPointerException if the component type is null.
-     * @throws IllegalArgumentException if the component type is either Class or a wildcard.
+     * @throws IllegalArgumentException if the component type is null, a Class, or a wildcard.
      */
     public LateGenericArrayType(Type genericComponentType) {
-        if (genericComponentType instanceof Class || genericComponentType instanceof WildcardType) {
-            throw new IllegalArgumentException("genericComponentType cannot be a Class or WildcardType");
+        if (genericComponentType == null ||
+            genericComponentType instanceof Class ||
+            genericComponentType instanceof WildcardType) {
+
+            throw new IllegalArgumentException("not suitable as generic array component: " + genericComponentType);
         }
-        this.genericComponentType = Objects.requireNonNull(genericComponentType, "null genericComponentType");
+        this.genericComponentType = genericComponentType;
     }
 
     /**

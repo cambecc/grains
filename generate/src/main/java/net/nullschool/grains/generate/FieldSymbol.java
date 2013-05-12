@@ -1,21 +1,19 @@
 package net.nullschool.grains.generate;
 
-import java.lang.reflect.Type;
-
 
 /**
- * 2013-02-26<p/>
+ * 2013-05-12<p/>
  *
  * @author Cameron Beccario
  */
-final class CastFunctionSymbol {  // UNDONE: can be FieldDeclaration
+class FieldSymbol implements Symbol {
 
     private final String name;
     private final TypeSymbol type;
 
-    CastFunctionSymbol(String name, Type type, TypePrinterFactory factory) {
+    FieldSymbol(String name, TypeSymbol type) {
         this.name = name;
-        this.type = new TypeSymbol(type, factory);
+        this.type = type;
     }
 
     public String getName() {
