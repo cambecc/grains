@@ -9,9 +9,12 @@ import java.lang.reflect.Type;
 /**
  * 2013-04-13<p/>
  *
+ * Represents the expression for loading the value of a static field.
+ *
  * @author Cameron Beccario
  */
 final class StaticFieldLoadExpression implements Symbol {
+    // CONSIDER: combine with FieldSymbol?
 
     private final Type declaringClass;
     private final String name;

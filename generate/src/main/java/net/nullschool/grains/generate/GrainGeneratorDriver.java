@@ -1,7 +1,7 @@
 package net.nullschool.grains.generate;
 
 import net.nullschool.collect.basic.BasicConstMap;
-import net.nullschool.grains.*;
+import net.nullschool.grains.GrainTools;
 import net.nullschool.reflect.ConstPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,24 +72,24 @@ final class GrainGeneratorDriver {
 
     public GenerationResult generate(Class<?> schema, Template template) {
         try {
-            Imports imports = new Imports(GrainTools.targetPackageOf(schema));
-            TypePrinterFactory printerFactory = new ImportingPrinterFactory(imports);
+            Importer importer = new Importer(GrainTools.targetPackageOf(schema));
+            TypePrinterFactory printerFactory = new ImportingPrinterFactory(importer);
 //            TypePrinterFactory printerFactory = new TypePrinterFactory() {
 //                @Override public TypePrinter newPrinter() {
 //                    return new FullNamePrinter();
 //                }
 //            };
-            SymbolTable symbols = new SymbolTable(schema, typeTable, printerFactory, constPolicyMember);
+            SymbolTable symbolTable = new SymbolTable(schema, typeTable, printerFactory, constPolicyMember);
 
             GenerationResult body = template.invoke(
                 BasicConstMap.mapOf(
-                    "grain", symbols.buildGrainSymbol(),
-                    "type", symbols.buildTypes()));
+                    "grain", symbolTable.buildGrainSymbol(),
+                    "type", symbolTable.buildTypeSymbols()));
 
             GenerationResult importsBlock = Templates.newImportsBlockTemplate(config).invoke(
-                BasicConstMap.mapOf("imports", (Object)imports));
+                BasicConstMap.mapOf("imports", (Object)importer));
 
-            body.getErrors().addAll(importsBlock.getErrors());  // :(  errors should probably be logged.
+            body.getErrors().addAll(importsBlock.getErrors());
             return new GenerationResult(importsBlock.getText() + body.getText(), body.getErrors());
         }
         catch (Exception | Error e) {

@@ -38,25 +38,31 @@ public enum GrainTools {;
             Object instance = clazz.getEnumConstants()[0];
             return (GrainFactory)instance;
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException(
+            "expected factory implementation to follow enum singleton pattern: " + clazz);
     }
 
     public static GrainFactory factoryFor(Class<?> clazz) {
-        if (GrainFactory.class.isAssignableFrom(clazz)) {
-            return factoryInstance(clazz.asSubclass(GrainFactory.class));
-        }
-//        Class<?> enclosing = clazz.getEnclosingClass();
-//        if (enclosing != null && GrainFactory.class.isAssignableFrom(enclosing)) {
-//            return factoryInstance(enclosing.asSubclass(GrainFactory.class));
-//        }
+        // CONSIDER: also possible to check if the enclosing class is a GrainFactory, like would be for *GrainImpl.
         GrainFactoryRef ref = clazz.getAnnotation(GrainFactoryRef.class);
         if (ref != null) {
             return factoryInstance(ref.value());
         }
-        // UNDONE: clazz has GrainSchema annotation. need to load class with ClassLoader as optional parameter.
+        if (GrainFactory.class.isAssignableFrom(clazz)) {
+            return factoryInstance(clazz.asSubclass(GrainFactory.class));
+        }
+        // CONSIDER: also map GrainSchemas to their factories? would need a ClassLoader as optional parameter.
         throw new IllegalArgumentException("cannot find factory for " + clazz);
     }
 
+    /**
+     * Returns a map of property names to property descriptors built from the specified array of property descriptors.
+     * Each property's name becomes its associated key in the resulting map.
+     *
+     * @param properties the properties to build the map from.
+     * @return an immutable map of names to property descriptors.
+     * @throws NullPointerException if the array is null or contains null.
+     */
     public static ConstMap<String, GrainProperty> asPropertyMap(GrainProperty... properties) {
         String[] keys = new String[properties.length];
         for (int i = 0; i < properties.length; i++) {

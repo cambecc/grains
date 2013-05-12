@@ -6,7 +6,8 @@ import java.lang.reflect.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import static net.nullschool.reflect.TypeTools.*;
+import static net.nullschool.reflect.TypeTools.erase;
+import static net.nullschool.reflect.TypeTools.isInnerClass;
 
 
 /**

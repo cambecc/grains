@@ -25,6 +25,7 @@ builder_impl(grain, type) ::= <<
 /**
  * Code generated implementation of <type.targetBuilder>.
  */
+@<type.grainFactoryRef>(<type.targetFactory>.class)
 private static final class <type.targetBuilderImpl.simpleName>
     extends <type.abstractGrainBuilder>
     implements <type.targetBuilder> {

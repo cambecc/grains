@@ -28,7 +28,7 @@ factory_enum(grain, type) ::= <<
 /**
  * Factory for constructing Grain instances of <type.targetSchema>.
  */
-// @<type.generated>("<type.grainGenerator.fullName>")
+@<type.generated>("<type.grainGenerator.fullName>")
 public enum <type.targetFactory.simpleName> implements <type.grainFactory> {
     INSTANCE;
 

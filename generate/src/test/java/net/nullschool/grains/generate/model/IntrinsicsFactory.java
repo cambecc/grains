@@ -19,6 +19,7 @@ import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
 import net.nullschool.grains.GrainFactory;
+import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
@@ -27,7 +28,7 @@ import net.nullschool.util.MemoizedHashCode;
 /**
  * Factory for constructing Grain instances of Intrinsics.
  */
-// @Generated("net.nullschool.grains.generate.GrainGenerator")
+@Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum IntrinsicsFactory implements GrainFactory {
     INSTANCE;
 
@@ -70,6 +71,7 @@ public enum IntrinsicsFactory implements GrainFactory {
     /**
      * Code generated implementation of IntrinsicsGrain.
      */
+    @GrainFactoryRef(IntrinsicsFactory.class)
     private static final class IntrinsicsGrainImpl
         extends AbstractGrain
         implements IntrinsicsGrain, MemoizedHashCode, Serializable {
@@ -499,6 +501,7 @@ public enum IntrinsicsFactory implements GrainFactory {
     /**
      * Code generated implementation of IntrinsicsBuilder.
      */
+    @GrainFactoryRef(IntrinsicsFactory.class)
     private static final class IntrinsicsBuilderImpl
         extends AbstractGrainBuilder
         implements IntrinsicsBuilder {

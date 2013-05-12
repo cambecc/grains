@@ -8,18 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
+import static net.nullschool.grains.generate.NamingPolicy.Name;
 import static net.nullschool.util.ThreadTools.newDaemonThreadFactory;
 import static net.nullschool.util.ThreadTools.newNamingThreadFactory;
-import static net.nullschool.grains.generate.NamingPolicy.Name;
 
 /**
  * 2013-02-13<p/>

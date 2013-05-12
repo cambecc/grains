@@ -23,6 +23,7 @@ grain_impl(grain, type) ::= <<
 /**
  * Code generated implementation of <type.targetGrain>.
  */
+@<type.grainFactoryRef>(<type.targetFactory>.class)
 private static final class <type.targetGrainImpl.simpleName>
     extends <type.abstractGrain>
     implements <type.targetGrain>, <type.memoizedHashCode>, <type.serializable> {

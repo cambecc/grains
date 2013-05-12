@@ -1,23 +1,15 @@
 package net.nullschool.grains.generate;
 
-import net.nullschool.collect.basic.BasicConstSet;
-import net.nullschool.grains.GrainProperty;
-import net.nullschool.grains.SimpleGrainProperty;
 import net.nullschool.reflect.LateParameterizedType;
-import net.nullschool.reflect.TypeTools;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 
-import net.nullschool.grains.GrainProperty.Flag;
-
 /**
  * 2013-02-10<p/>
+ *
+ * Utility methods for code generation.
  *
  * @author Cameron Beccario
  */
@@ -36,18 +28,23 @@ enum GenerateTools {;
                 "switch", "synchronized", "this", "throw", "throws", "transient",
                 "true", "try", "void", "volatile", "while"));
 
+    /**
+     * Any identifier starting with '$' or ending with '_' is reserved for internal use in grain implementations.
+     */
     static boolean isGrainReservedWord(String s) {
         return s.startsWith("$") || s.endsWith("_");
     }
 
-    private GenerateTools() {
-        throw new AssertionError();
-    }
-
+    /**
+     * Returns true if the string is a Java keyword.
+     */
     static boolean isJavaReserved(String s) {
         return javaReservedWords.contains(s);
     }
 
+    /**
+     * Appends '_' if the identifier is a Java keyword or a grain reserved word.
+     */
     static String escape(String identifier) {
         return javaReservedWords.contains(identifier) || isGrainReservedWord(identifier) ?
             identifier + '_' :
@@ -66,49 +63,5 @@ enum GenerateTools {;
     static Type[] genericInterfaces(Type type) {
         LateParameterizedType lpt = asLateParameterizedType(type);
         return lpt != null ? lpt.getInterfaces() : ((Class<?>)type).getGenericInterfaces();
-    }
-
-    private static Set<Flag> flagsFor(PropertyDescriptor pd) {
-        return pd.getReadMethod().getName().startsWith("is") ?
-            BasicConstSet.setOf(Flag.IS_PROPERTY) :
-            BasicConstSet.<Flag>emptySet();
-    }
-
-    private static List<GrainProperty> collectBeanPropertiesOf(Type type) throws IntrospectionException {
-        List<GrainProperty> properties = new ArrayList<>();
-        BeanInfo bi = Introspector.getBeanInfo(TypeTools.erase(type));
-        for (PropertyDescriptor pd : bi.getPropertyDescriptors()) {
-
-            Type returnType = pd.getReadMethod().getGenericReturnType();
-            LateParameterizedType lpt = asLateParameterizedType(type);
-            if (lpt != null) {
-                returnType = lpt.resolve(returnType);
-            }
-            properties.add(new SimpleGrainProperty(pd.getName(), returnType, flagsFor(pd)));
-        }
-        return properties;
-    }
-
-    static List<GrainProperty> collectBeanProperties(Type type) throws IntrospectionException {
-        List<GrainProperty> results = new ArrayList<>();
-        Set<Type> visited = new HashSet<>();
-        visited.add(null);
-        Deque<Type> workList = new LinkedList<>();
-        workList.add(type);
-
-        while (!workList.isEmpty()) {
-
-            Type current = workList.removeFirst();
-            if (visited.contains(current)) {
-                continue;
-            }
-            visited.add(current);
-
-            results.addAll(collectBeanPropertiesOf(current));
-
-            workList.add(genericSuperclass(current));
-            Collections.addAll(workList, genericInterfaces(current));
-        }
-        return results;
     }
 }

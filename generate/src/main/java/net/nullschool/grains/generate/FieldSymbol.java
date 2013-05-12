@@ -4,6 +4,8 @@ package net.nullschool.grains.generate;
 /**
  * 2013-05-12<p/>
  *
+ * Represents a field declaration.
+ *
  * @author Cameron Beccario
  */
 class FieldSymbol implements Symbol {

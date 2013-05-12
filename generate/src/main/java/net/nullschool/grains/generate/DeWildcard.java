@@ -8,6 +8,11 @@ import java.lang.reflect.*;
 /**
  * 2013-03-29<p/>
  *
+ * A type operator that removes wildcards as it deeply traverses the structure of a type. Any "?" or "? super"
+ * wildcards are replaced with {@code Object}, and "? extends" wildcards are replaced with the leftmost bound. For
+ * example, {@code List&lt;? extends Map&lt;? super Comparator, ? extends Number&gt;&gt;} after wildcards removal
+ * is {@code List&lt;Map&lt;Object, Number&gt;&gt;}.
+ *
  * @author Cameron Beccario
  */
 class DeWildcard extends AbstractTypeOperator<Type> {
@@ -24,15 +29,11 @@ class DeWildcard extends AbstractTypeOperator<Type> {
     }
 
     @Override public Type apply(GenericArrayType gat) {
-        return gat;
+        return new LateGenericArrayType(apply(gat.getGenericComponentType()));
     }
 
     @Override public Type apply(WildcardType wt) {
-        Type[] upperBounds = wt.getUpperBounds();
-        return upperBounds.length == 0 || wt.getLowerBounds().length > 0 ?
-            Object.class :
-            apply(upperBounds[0]); // UNDONE: research if this is correct
-                                   // wouldn't it be the least common type of all bounds?
+        return wt.getLowerBounds().length > 0 ? Object.class : apply(wt.getUpperBounds()[0]);
     }
 
     @Override public Type apply(TypeVariable<?> tv) {

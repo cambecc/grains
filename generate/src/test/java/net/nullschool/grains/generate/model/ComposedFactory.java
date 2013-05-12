@@ -18,6 +18,7 @@ import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
 import net.nullschool.grains.GrainFactory;
+import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
@@ -30,7 +31,7 @@ import net.nullschool.util.MemoizedHashCode;
 /**
  * Factory for constructing Grain instances of Composed.
  */
-// @Generated("net.nullschool.grains.generate.GrainGenerator")
+@Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum ComposedFactory implements GrainFactory {
     INSTANCE;
 
@@ -64,6 +65,7 @@ public enum ComposedFactory implements GrainFactory {
     /**
      * Code generated implementation of ComposedGrain.
      */
+    @GrainFactoryRef(ComposedFactory.class)
     private static final class ComposedGrainImpl
         extends AbstractGrain
         implements ComposedGrain, MemoizedHashCode, Serializable {
@@ -236,6 +238,7 @@ public enum ComposedFactory implements GrainFactory {
     /**
      * Code generated implementation of ComposedBuilder.
      */
+    @GrainFactoryRef(ComposedFactory.class)
     private static final class ComposedBuilderImpl
         extends AbstractGrainBuilder
         implements ComposedBuilder {

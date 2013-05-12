@@ -9,6 +9,8 @@ import java.lang.reflect.Type;
 /**
  * 2013-05-08<p/>
  *
+ * Represents the expression for invoking a static method.
+ *
  * @author Cameron Beccario
  */
 final class StaticMethodInvocationExpression implements Symbol {

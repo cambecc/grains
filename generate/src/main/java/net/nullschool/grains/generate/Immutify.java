@@ -4,7 +4,8 @@ import net.nullschool.reflect.*;
 
 import java.lang.reflect.*;
 
-import static net.nullschool.reflect.TypeTools.*;
+import static net.nullschool.reflect.TypeTools.erase;
+import static net.nullschool.reflect.TypeTools.isInnerClass;
 
 
 /**

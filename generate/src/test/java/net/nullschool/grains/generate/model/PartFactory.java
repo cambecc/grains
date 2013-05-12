@@ -16,6 +16,7 @@ import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
 import net.nullschool.grains.GrainFactory;
+import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
@@ -24,7 +25,7 @@ import net.nullschool.util.MemoizedHashCode;
 /**
  * Factory for constructing Grain instances of Compound.Part.
  */
-// @Generated("net.nullschool.grains.generate.GrainGenerator")
+@Generated("net.nullschool.grains.generate.GrainGenerator")
 public enum PartFactory implements GrainFactory {
     INSTANCE;
 
@@ -45,6 +46,7 @@ public enum PartFactory implements GrainFactory {
     /**
      * Code generated implementation of PartGrain.
      */
+    @GrainFactoryRef(PartFactory.class)
     private static final class PartGrainImpl
         extends AbstractGrain
         implements PartGrain, MemoizedHashCode, Serializable {
@@ -156,6 +158,7 @@ public enum PartFactory implements GrainFactory {
     /**
      * Code generated implementation of PartBuilder.
      */
+    @GrainFactoryRef(PartFactory.class)
     private static final class PartBuilderImpl
         extends AbstractGrainBuilder
         implements PartBuilder {

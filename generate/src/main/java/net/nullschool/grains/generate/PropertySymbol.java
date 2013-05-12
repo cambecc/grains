@@ -7,16 +7,18 @@ import net.nullschool.util.StringTools;
 
 import java.util.Set;
 
-import static net.nullschool.reflect.TypeTools.*;
-import static net.nullschool.grains.GrainProperty.Flag.*;
+import static net.nullschool.grains.GrainProperty.Flag.IS_PROPERTY;
+import static net.nullschool.reflect.TypeTools.erase;
 
 
 /**
  * 2013-03-24<p/>
  *
+ * A symbol that represents the details of one property.
+ *
  * @author Cameron Beccario
  */
-final class PropertySymbol {
+final class PropertySymbol implements Symbol {
 
     private final GrainProperty prop;
     private final String fieldName;   // name of private internal field (potentially escaped)
@@ -44,39 +46,73 @@ final class PropertySymbol {
         this.flags = flags;
     }
 
+    /**
+     * The property's public name. Examples: "quantity", "enabled", "string"
+     */
     public String getName() {
         return prop.getName();
     }
 
+    /**
+     * The ({@link GenerateTools#escape potentially escaped}) name of the field where the property's value is
+     * stored. Examples: "quantity", "enabled", "string_"
+     */
     public String getFieldName() {
         return fieldName;
     }
 
+    /**
+     * The name of the property's get accessor method. Examples: "getQuantity", "isEnabled", "getString"
+     */
     public String getGetterName() {
         return getterName;
     }
 
+    /**
+     * The name of the property's set accessor method. Examples: "getQuantity", "setEnabled", "setString"
+     */
     public String getSetterName() {
         return setterName;
     }
 
+    /**
+     * The name of the property's with accessor method. Examples: "withQuantity", "withEnabled", "withString"
+     */
     public String getWitherName() {
         return witherName;
     }
 
+    /**
+     * The property's type as a TypeSymbol.
+     */
     public TypeSymbol getType() {
         return typeSymbol;
     }
 
+    /**
+     * This property's default value as the string representation needed during code generation.
+     */
     public String getDefault() {
         Class<?> clazz = erase(prop.getType());
-        return clazz != null && clazz.isPrimitive() ? clazz == boolean.class ? "false" : "0" : null;
+        if (clazz == boolean.class) {
+            return "false";
+        }
+        else if (clazz.isPrimitive() && clazz != void.class) {
+            return "0";
+        }
+        return null;
     }
 
+    /**
+     * This property's associated type token, if any. TypeTokens are required for properties with a generic type.
+     */
     public TypeTokenSymbol getTypeToken() {
         return typeToken;
     }
 
+    /**
+     * The set of {@link GrainProperty.Flag flags} for this property, represented as enum constant symbols.
+     */
     public Set<StaticFieldLoadExpression> getFlags() {
         return flags;
     }

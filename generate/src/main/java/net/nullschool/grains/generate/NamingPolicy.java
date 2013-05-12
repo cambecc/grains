@@ -9,9 +9,16 @@ import java.util.Map;
 /**
  * 2013-05-09<p/>
  *
+ * A class that centralizes the naming patterns used for code generation.
+ *
  * @author Cameron Beccario
  */
 final class NamingPolicy {
+
+    /**
+     * The (case-insensitive) name a property must have to be considered a special "id" property.
+     */
+    static final String ID_PROPERTY_NAME = "id";
 
     enum Name {
         grain,
@@ -22,6 +29,9 @@ final class NamingPolicy {
         builderImpl,
     }
 
+    /**
+     * Returns the fully qualified name of the class pattern for the specified schema.
+     */
     String getName(Class<?> schema, Name name) {
         String prefix = GrainTools.targetPackageOf(schema) + '.' + schema.getSimpleName();
         switch (name) {
@@ -36,6 +46,9 @@ final class NamingPolicy {
         }
     }
 
+    /**
+     * Returns the short name of the class pattern for the specified schema.
+     */
     String getSimpleName(Class<?> schema, Name name) {
         String prefix = schema.getSimpleName();
         switch (name) {
@@ -50,6 +63,9 @@ final class NamingPolicy {
         }
     }
 
+    /**
+     * Get all full names for the specified schema.
+     */
     Map<Name, String> getNames(Class<?> schema) {
         Map<Name, String> result = new EnumMap<>(Name.class);
         for (Name name : Name.values()) {
@@ -58,6 +74,9 @@ final class NamingPolicy {
         return result;
     }
 
+    /**
+     * Get all simple names for the specified schema.
+     */
     Map<Name, String> getSimpleNames(Class<?> schema) {
         Map<Name, String> result = new EnumMap<>(Name.class);
         for (Name name : Name.values()) {

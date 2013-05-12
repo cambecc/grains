@@ -3,24 +3,38 @@ package net.nullschool.grains;
 import net.nullschool.collect.*;
 import net.nullschool.collect.basic.BasicConstList;
 import net.nullschool.collect.basic.BasicConstSet;
-
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.*;
 
 
 /**
  * 2013-03-11<p/>
  *
+ * A partial implementation of Grain that provides a MapIterator implementation and const behavior for the
+ * {@link #keySet}, {@link #values}, and {@link #entrySet} views built on {@link BasicConstList} and
+ * {@link BasicConstSet}.
+ *
  * @author Cameron Beccario
  */
 public abstract class AbstractGrain extends AbstractIterableMap<String, Object> implements Grain {
 
-    @Override public abstract Object get(Object key);  // the iterator uses this
+    /**
+     * {@inheritDoc}
+     *
+     * <p/>This method must be overridden by AbstractGrain implementers as it is used for basis iteration.
+     *
+     * @throws ClassCastException {@inheritDoc}
+     * @throws NullPointerException {@inheritDoc}
+     */
+    @Override public abstract Object get(Object key);
 
     protected class BasisIter implements MapIterator<String, Object> {
 
-        private final String[] keys;
-        private final int maxIndex;
-        private int cursor = -1;
+        private static final int BAD = -1;
+
+        private final String[] keys;  // the keys to iterator over
+        private final int maxIndex;  // the index of the last key
+        private int cursor = BAD;  // the index of the key that was most recently returned by next(), or BAD if none
 
         public BasisIter(String[] keys) {
             this.keys = keys;
@@ -33,15 +47,15 @@ public abstract class AbstractGrain extends AbstractIterableMap<String, Object> 
 
         @Override public String next() {
             final int i = cursor;
-            if (i != maxIndex) {
-                return keys[cursor = i + 1];
+            if (i != maxIndex) {              // if we are not currently sitting at the last key
+                return keys[cursor = i + 1];  // advance to the next key
             }
             throw new NoSuchElementException();
         }
 
         @Override public Object value() {
             final int i = cursor;
-            if (i >= 0) {
+            if (i != BAD) {
                 return get(keys[i]);
             }
             throw new IllegalStateException();
@@ -49,9 +63,9 @@ public abstract class AbstractGrain extends AbstractIterableMap<String, Object> 
 
         @Override public Entry<String, Object> entry() {
             final int i = cursor;
-            if (i >= 0) {
+            if (i != BAD) {
                 final String key = keys[i];
-                return new AbstractMap.SimpleImmutableEntry<>(key, get(key));
+                return new SimpleImmutableEntry<>(key, get(key));
             }
             throw new IllegalStateException();
         }

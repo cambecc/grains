@@ -8,13 +8,16 @@ import java.util.Comparator;
 /**
  * 2013-05-09<p/>
  *
+ * A comparator for sorting grain properties alphabetically by name, case-insensitive. Special precedence is given to
+ * properties named "id" which, for convenience, should appear first.
+ *
  * @author Cameron Beccario
  */
 enum GrainPropertyComparator implements Comparator<GrainProperty> {
     INSTANCE;
 
     private boolean isId(GrainProperty prop) {
-        return "id".equalsIgnoreCase(prop.getName());
+        return NamingPolicy.ID_PROPERTY_NAME.equalsIgnoreCase(prop.getName());
     }
 
     private int compareNames(String left, String right) {

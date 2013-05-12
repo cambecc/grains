@@ -8,7 +8,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-final class Imports {
+final class Importer {
 
     private final String packageContext;
 
@@ -16,7 +16,7 @@ final class Imports {
     private final Map<String, String> imports = new HashMap<>();
     private final Set<String> wildcardPackages = new HashSet<>();
 
-    Imports(String packageContext) {
+    Importer(String packageContext) {
         this.packageContext = packageContext;
         wildcardPackages.add("java.lang");
         wildcardPackages.add(packageContext);

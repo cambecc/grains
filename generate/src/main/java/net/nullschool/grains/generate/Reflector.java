@@ -5,8 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.net.URI;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -15,20 +14,7 @@ import java.util.*;
 /**
  * 2013-03-01<p/>
  *
- * maven build of Sample
- * jar:file:/Users/cambecc/code/grain/plugin/target/grain-plugin-0.9.0-SNAPSHOT.jar!/net/nullschool
- * jar:file:/Users/cambecc/code/grain/generator/target/grain-generator-0.9.0-SNAPSHOT.jar!/net/nullschool
- * jar:file:/Users/cambecc/code/grain/runtime/target/grain-runtime-0.9.0-SNAPSHOT.jar!/net/nullschool
- *
- * maven build of Generator
- * file:/Users/cambecc/code/grain/generator/target/test-classes/net/nullschool
- * file:/Users/cambecc/code/grain/generator/target/classes/net/nullschool
- * jar:file:/Users/cambecc/code/grain/runtime/target/grain-runtime-0.9.0-SNAPSHOT.jar!/net/nullschool
- *
- * intellij invocation of Generator
- * file:/Users/cambecc/code/grain/generator/target/test-classes/net/nullschool
- * file:/Users/cambecc/code/grain/generator/target/classes/net/nullschool
- * file:/Users/cambecc/code/grain/runtime/target/classes/net/nullschool
+ * Digs through a classpath, looking for classes annotated with a specific annotation.
  *
  * @author Cameron Beccario
  */
@@ -38,6 +24,11 @@ final class Reflector {
 
     private final String packageName;
 
+    /**
+     * Build a reflector for the desired package.
+     *
+     * @param packageName the package to search in, including sub-packages.
+     */
     Reflector(String packageName) {
         this.packageName = Objects.requireNonNull(packageName);
     }
@@ -46,6 +37,9 @@ final class Reflector {
         T apply(Path path) throws IOException;
     }
 
+    /**
+     * Converts the specified uri to a Path and invokes the action with it, returning the action's result.
+     */
     private static <T> T process(URI uri, Action<T> action) throws IOException {
         try {
             return action.apply(Paths.get(uri));
@@ -58,10 +52,14 @@ final class Reflector {
         }
     }
 
-    private static class Visitor implements FileVisitor<Path> {
+    /**
+     * File visitor that collects the fully qualified class names of all .class files located under a particular
+     * path/directory.
+     */
+    private class Visitor implements FileVisitor<Path> {
 
         private final Path base;
-        private final Set<String> classes = new LinkedHashSet<>();
+        private final Set<String> classNames = new LinkedHashSet<>();
 
         private Visitor(Path base) {
             this.base = base;
@@ -75,16 +73,25 @@ final class Reflector {
         public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
             log.debug("Visiting file: {}", file);
             StringBuilder sb = new StringBuilder();
+
+            // Convert the file's absolute path to a relative path rooted at the search package.
+            // Example: ~/foo/target/classes/com/acme/order/model/Foo.class --> order/model/Foo.class
             file = base.relativize(file);
+
+            // Build the fully qualified name by converting file separators to '.'
+            // Example: order/model/Foo.class --> com.acme.order.model.Foo.class
             if (file.getNameCount() > 0) {
-                sb.append(file.getName(0));
+                sb.append(packageName).append('.').append(file.getName(0));
                 for (int i = 1; i < file.getNameCount(); i++) {
                     sb.append('.').append(file.getName(i));
                 }
             }
             String name = sb.toString();
+
+            // Strip off the ".class" and remember this fully qualified class name.
+            // Example: com.acme.order.model.Foo.class --> com.acme.order.model.Foo
             if (name.endsWith(".class")) {
-                classes.add(name.substring(0, name.length() - 6));
+                classNames.add(name.substring(0, name.length() - 6));
             }
             return FileVisitResult.CONTINUE;
         }
@@ -109,12 +116,20 @@ final class Reflector {
             return FileVisitResult.CONTINUE;
         }
 
-        Set<String> getClasses() {
-            return classes;
+        Set<String> getClassNames() {
+            return classNames;
         }
     }
 
-    private static Set<String> listClasses(URI uri) throws IOException {
+    /**
+     * Walk all files underneath the path specified by the URI. Return any .class files as fully qualified,
+     * dot-delimited class names. The URI must be represent a {@link FileSystem} path.
+     *
+     * @param uri the path to search.
+     * @return the set of fully qualified class names for all classes underneath the path.
+     * @throws IOException
+     */
+    private Set<String> listClasses(URI uri) throws IOException {
         return process(
             uri,
             new Action<Set<String>>() {
@@ -125,46 +140,66 @@ final class Reflector {
                         EnumSet.of(FileVisitOption.FOLLOW_LINKS),
                         Integer.MAX_VALUE,
                         visitor);
-                    return visitor.getClasses();
+                    return visitor.getClassNames();
                 }
             });
     }
 
+    /**
+     * Returns the set of classes annotated with the annotation, located under the specified package, and visible to
+     * the provided search loader.
+     *
+     * @param annotation the annotation to search for.
+     * @param searchLoader the loader to use for finding classes.
+     * @return the set of classes having the desired annotation.
+     * @throws IOException
+     */
     Set<Class<?>> findClassesAnnotatedWith(
         Class<? extends Annotation> annotation,
-        ClassLoader searchLoader) throws Exception {
+        ClassLoader searchLoader) throws IOException {
 
         long start = System.currentTimeMillis();
+
         Set<Class<?>> results = new LinkedHashSet<>();
         ClassLoader inspectLoader = Thread.currentThread().getContextClassLoader();
         if (searchLoader == null) {
             searchLoader = inspectLoader;
         }
+
+        // Get a list of all URIs for the desired package from the search loader.
         List<URI> uris = new ArrayList<>();
         for (URL url : Collections.list(searchLoader.getResources(packageName.replace('.', '/')))) {
             log.debug("Searching: {}", url);
-            uris.add(url.toURI());
-        }
-        int total = 0;
-        for (URI uri : uris) {
-            Set<String> classes = listClasses(uri);
-            total += classes.size();
-            for (String s : classes) {
-                String name = packageName + "." + s;
-                log.debug("Inspecting: {}", name);
-                try {
-                    Class<?> clazz = inspectLoader.loadClass(name);
-                    if (clazz.getAnnotation(annotation) != null) {
-                        log.debug("==== FOUND " + clazz);
-                        results.add(clazz);
-                    }
-                }
-                catch (ClassNotFoundException e) {
-                    log.debug("Cannot load, skipping: {}", name);
-                }
+            try {
+                uris.add(url.toURI());
+            }
+            catch (URISyntaxException e) {
+                throw new RuntimeException(e);
             }
         }
-        log.debug("Scanned {} items in {} ms.", total, System.currentTimeMillis() - start);
+
+        // Get the fully qualified names for all classes under each URI.
+        Set<String> classNames = new LinkedHashSet<>();
+        for (URI uri : uris) {
+            classNames.addAll(listClasses(uri));
+        }
+
+        // Load all classes, looking for the annotation.
+        for (String name : classNames) {
+            log.debug("Inspecting: {}", name);
+            try {
+                Class<?> clazz = inspectLoader.loadClass(name);
+                if (clazz.getAnnotation(annotation) != null) {
+                    log.debug("Found: " + clazz);
+                    results.add(clazz);
+                }
+            }
+            catch (ClassNotFoundException e) {
+                log.debug("Cannot load, skipping {}: {}", name, e);
+            }
+        }
+
+        log.debug("Scanned {} items in {} ms.", classNames.size(), System.currentTimeMillis() - start);
         return results;
     }
 }

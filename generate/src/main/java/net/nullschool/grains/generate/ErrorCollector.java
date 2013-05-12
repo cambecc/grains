@@ -9,6 +9,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * 2013-03-24<p/>
  *
+ * Collects errors emitted by the StringTemplate engine for later reporting.
+ *
  * @author Cameron Beccario
  */
 final class ErrorCollector implements STErrorListener {

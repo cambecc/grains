@@ -4,6 +4,9 @@ package net.nullschool.grains.generate;
 /**
  * 2013-03-25<p/>
  *
+ * A symbol to represent the declaration of a {@link net.nullschool.reflect.TypeToken} and its associated cast
+ * function declaration.
+ *
  * @author Cameron Beccario
  */
 final class TypeTokenSymbol extends FieldSymbol {

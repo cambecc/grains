@@ -2,7 +2,8 @@ package net.nullschool.grains.generate;
 
 import net.nullschool.reflect.*;
 
-import java.lang.reflect.*;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 
 /**

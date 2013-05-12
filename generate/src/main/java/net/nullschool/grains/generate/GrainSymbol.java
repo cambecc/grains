@@ -1,16 +1,15 @@
 package net.nullschool.grains.generate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 2013-03-24<p/>
  *
+ * A symbol that represents the property structure of a grain.
+ *
  * @author Cameron Beccario
  */
-final class GrainSymbol {
+final class GrainSymbol implements Symbol {
     
     private final List<? extends PropertySymbol> properties;
     private final List<? extends TypeTokenSymbol> typeTokens;
