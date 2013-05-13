@@ -25,7 +25,7 @@ import static javassist.bytecode.SignatureAttribute.*;
  * 2013-05-09<p/>
  *
  * Organizes types for code generation. Dynamically constructs new types as needed (using the javassist library),
- * transforms classes into their immutable analogs by delegating to {@link ConstPolicy}, and provides a location to
+ * transforms classes into their immutable analogs by delegating to {@link net.nullschool.grains.TypePolicy}, and provides a location to
  * statically define the common set of types required for code generation.<p/>
  *
  * Dynamic class construction allows the code generators to be driven entirely by Java reflection, particularly when
@@ -50,9 +50,7 @@ final class TypeTable {
         arrays                      (Arrays.class),
         basicConstMap               (BasicConstMap.class),
         basicConstSet               (BasicConstSet.class),
-        transform                   (Transform.class),
         collections                 (Collections.class),
-        constPolicy                 (ConstPolicy.class),
         generated                   (Generated.class),
         grain                       (Grain.class),
         grainBuilder                (GrainBuilder.class),
@@ -75,7 +73,9 @@ final class TypeTable {
         set                         (Set.class),
         simpleGrainProperty         (SimpleGrainProperty.class),
         string                      (String.class),
+        transform                   (Transform.class),
         type                        (Type.class),
+        typePolicy                  (TypePolicy.class),
         typeToken                   (TypeToken.class),
 
         abstractIterableMap         (new TypeToken<AbstractIterableMap<String, Object>>(){}),
@@ -98,12 +98,12 @@ final class TypeTable {
 
 
     private final NamingPolicy namingPolicy;
-    private final ConstPolicy constPolicy;
+    private final TypePolicy typePolicy;
     private final ClassPool classPool;  // Pool used for dynamic construction of grain classes.
 
-    TypeTable(NamingPolicy namingPolicy, ConstPolicy constPolicy) {
+    TypeTable(NamingPolicy namingPolicy, TypePolicy typePolicy) {
         this.namingPolicy = Objects.requireNonNull(namingPolicy);
-        this.constPolicy = Objects.requireNonNull(constPolicy);
+        this.typePolicy = Objects.requireNonNull(typePolicy);
         this.classPool = new ClassPool();
         this.classPool.appendClassPath(new LoaderClassPath(deriveClassLoader()));
     }
@@ -236,8 +236,8 @@ final class TypeTable {
      * @throws IllegalArgumentException if an immutable representation cannot be determined.
      */
     synchronized Class<?> immutify(Class<?> clazz) {
-        // First, use the ConstPolicy to get the immutable representation of the class.
-        Class<?> result = ObjectTools.coalesce(constPolicy.asConstType(clazz), Objects.requireNonNull(clazz));
+        // First, use the TypePolicy to get the immutable representation of the class.
+        Class<?> result = ObjectTools.coalesce(typePolicy.asConstType(clazz), Objects.requireNonNull(clazz));
 
         // Next, map a GrainSchema to its associated Grain implementation. This may require dynamic class construction
         // if the Grain implementation does not yet exist (because we haven't generated it yet).
@@ -245,8 +245,8 @@ final class TypeTable {
             result = loadOrCreateClass(namingPolicy.getName(result, Name.grain), AbstractGrain.class);
         }
 
-        // Finally, the ConstPolicy must agree that the resulting type is immutable.
-        if (!constPolicy.isConstType(result)) {
+        // Finally, the TypePolicy must agree that the resulting type is immutable.
+        if (!typePolicy.isConstType(result)) {
             throw new IllegalArgumentException("do not know how to immutify: " + clazz + " translated as: " + result);
         }
 

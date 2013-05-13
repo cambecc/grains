@@ -13,16 +13,16 @@ final class GrainSymbol implements Symbol {
     
     private final List<? extends PropertySymbol> properties;
     private final List<? extends TypeTokenSymbol> typeTokens;
-    private final Symbol constPolicyLoadExpression;
+    private final Symbol typePolicyLoadExpression;
 
     GrainSymbol(
         List<? extends PropertySymbol> properties,
         Collection<? extends TypeTokenSymbol> typeTokens,
-        Symbol constPolicyLoadExpression) {
+        Symbol typePolicyLoadExpression) {
 
         this.properties = Collections.unmodifiableList(new ArrayList<>(properties));
         this.typeTokens = Collections.unmodifiableList(new ArrayList<>(typeTokens));
-        this.constPolicyLoadExpression = constPolicyLoadExpression;
+        this.typePolicyLoadExpression = typePolicyLoadExpression;
     }
 
     public List<? extends PropertySymbol> getProperties() {
@@ -33,7 +33,7 @@ final class GrainSymbol implements Symbol {
         return typeTokens;
     }
 
-    public Symbol getConstPolicy() {
-        return constPolicyLoadExpression;
+    public Symbol getTypePolicy() {
+        return typePolicyLoadExpression;
     }
 }

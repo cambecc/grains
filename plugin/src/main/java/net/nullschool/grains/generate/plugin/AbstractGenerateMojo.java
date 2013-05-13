@@ -80,13 +80,13 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
         return lineSeparator;
     }
 
-    @Parameter(property = "constPolicy", defaultValue = Configuration.DEFAULT_CONST_POLICY)
-    private String constPolicy;
+    @Parameter(property = "typePolicy", defaultValue = Configuration.DEFAULT_TYPE_POLICY)
+    private String typePolicy;
     /**
-     * The const policy to use for the generated grains.
+     * The type policy to use for the generated grains.
      */
-    public String getConstPolicy() {
-        return constPolicy;
+    public String getTypePolicy() {
+        return typePolicy;
     }
 
     /**

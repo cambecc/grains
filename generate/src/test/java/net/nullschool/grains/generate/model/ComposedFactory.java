@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 import javax.annotation.Generated;
-import net.nullschool.transform.Transform;
 import net.nullschool.collect.ConstList;
 import net.nullschool.collect.ConstMap;
 import net.nullschool.collect.IteratorTools;
@@ -18,14 +17,15 @@ import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
-import net.nullschool.grains.ConstPolicy;
-import net.nullschool.grains.DefaultConstPolicy;
+import net.nullschool.grains.DefaultTypePolicy;
 import net.nullschool.grains.GrainFactory;
 import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
+import net.nullschool.grains.TypePolicy;
 import net.nullschool.reflect.TypeToken;
+import net.nullschool.transform.Transform;
 import net.nullschool.util.MemoizedHashCode;
 
 /**
@@ -35,7 +35,7 @@ import net.nullschool.util.MemoizedHashCode;
 public enum ComposedFactory implements GrainFactory {
     INSTANCE;
 
-    private static final ConstPolicy $POLICY = DefaultConstPolicy.INSTANCE;
+    private static final TypePolicy $POLICY = DefaultTypePolicy.INSTANCE;
 
     private static final TypeToken<ConstList<UUID>> $token0 =
         new TypeToken<ConstList<UUID>>(){};

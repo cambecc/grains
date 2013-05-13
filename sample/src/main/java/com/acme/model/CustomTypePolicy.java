@@ -1,6 +1,6 @@
 package com.acme.model;
 
-import net.nullschool.grains.DefaultConstPolicy;
+import net.nullschool.grains.DefaultTypePolicy;
 import org.joda.time.DateTime;
 
 
@@ -9,12 +9,12 @@ import org.joda.time.DateTime;
  *
  * @author Cameron Beccario
  */
-public class CustomConstPolicy extends DefaultConstPolicy {
+public class CustomTypePolicy extends DefaultTypePolicy {
 
-    public static final CustomConstPolicy INSTANCE = new CustomConstPolicy();
+    public static final CustomTypePolicy INSTANCE = new CustomTypePolicy();
 
 
-    public CustomConstPolicy() {
+    public CustomTypePolicy() {
         registerType(DateTime.class);
 
 //        registerTranslation(Collection.class, ImmutableCollection.class);

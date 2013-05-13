@@ -2,7 +2,7 @@ package net.nullschool.grains.generate;
 
 import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.grains.GrainTools;
-import net.nullschool.grains.ConstPolicy;
+import net.nullschool.grains.TypePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,16 +21,16 @@ final class GrainGeneratorDriver {
     private final Configuration config;
     private final TypeTable typeTable;
     private final NamingPolicy namingPolicy;
-    private Member constPolicyMember;
+    private Member typePolicyMember;
 
     GrainGeneratorDriver(Configuration config, NamingPolicy namingPolicy) {
         this.config = config;
         this.namingPolicy = namingPolicy;
-        this.typeTable = buildTypeTable(config.getConstPolicy());
+        this.typeTable = buildTypeTable(config.getTypePolicy());
     }
 
     private TypeTable buildTypeTable(String accessString) {
-        log.debug("Loading const policy: {}", accessString);
+        log.debug("Loading type policy: {}", accessString);
         int lastDot = accessString.lastIndexOf('.');
         String className = accessString.substring(0, lastDot);
         try {
@@ -40,10 +40,10 @@ final class GrainGeneratorDriver {
                 // Try finding it as a field.
                 Field field = clazz.getField(memberName);
                 if (field != null && Modifier.isStatic(field.getModifiers())) {
-                    ConstPolicy constPolicy = (ConstPolicy)field.get(null);
-                    log.debug("Using {} found in {}.", constPolicy, field);
-                    constPolicyMember = field;
-                    return new TypeTable(namingPolicy, constPolicy);
+                    TypePolicy typePolicy = (TypePolicy)field.get(null);
+                    log.debug("Using {} found in {}.", typePolicy, field);
+                    typePolicyMember = field;
+                    return new TypeTable(namingPolicy, typePolicy);
                 }
             }
             catch (NoSuchFieldException e) {
@@ -53,10 +53,10 @@ final class GrainGeneratorDriver {
                 // Try finding it as a method.
                 Method method = clazz.getMethod(memberName);
                 if (method != null && Modifier.isStatic(method.getModifiers())) {
-                    ConstPolicy constPolicy = (ConstPolicy)method.invoke(null);
-                    log.debug("Using {} found in {}.", constPolicy, method);
-                    constPolicyMember = method;
-                    return new TypeTable(namingPolicy, constPolicy);
+                    TypePolicy typePolicy = (TypePolicy)method.invoke(null);
+                    log.debug("Using {} found in {}.", typePolicy, method);
+                    typePolicyMember = method;
+                    return new TypeTable(namingPolicy, typePolicy);
                 }
             }
             catch (NoSuchMethodException e) {
@@ -79,7 +79,7 @@ final class GrainGeneratorDriver {
 //                    return new FullNamePrinter();
 //                }
 //            };
-            SymbolTable symbolTable = new SymbolTable(schema, typeTable, printerFactory, constPolicyMember);
+            SymbolTable symbolTable = new SymbolTable(schema, typeTable, printerFactory, typePolicyMember);
 
             GenerationResult body = template.invoke(
                 BasicConstMap.mapOf(

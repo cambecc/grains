@@ -9,7 +9,7 @@ import net.nullschool.reflect.TypeToken;
  *
  * @author Cameron Beccario
  */
-public interface ConstPolicy {
+public interface TypePolicy {
 
     boolean isConstType(Class<?> clazz);  // test for immutability
 

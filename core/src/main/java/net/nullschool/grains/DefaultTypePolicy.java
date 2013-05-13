@@ -16,9 +16,9 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-public class DefaultConstPolicy implements ConstPolicy {
+public class DefaultTypePolicy implements TypePolicy {
 
-    public static final DefaultConstPolicy INSTANCE = new DefaultConstPolicy();
+    public static final DefaultTypePolicy INSTANCE = new DefaultTypePolicy();
 
 
     private final Set<Class<?>> immutableTypes = new HashSet<>();
@@ -40,7 +40,7 @@ public class DefaultConstPolicy implements ConstPolicy {
         registerType(to);
     }
 
-    public DefaultConstPolicy() {
+    public DefaultTypePolicy() {
         registerType(boolean.class);
         registerType(byte.class);
         registerType(short.class);

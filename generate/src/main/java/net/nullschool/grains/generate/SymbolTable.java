@@ -26,13 +26,13 @@ final class SymbolTable {
     private final Class<?> schema;
     private final TypeTable typeTable;
     private final TypePrinterFactory printerFactory;
-    private final Member constPolicyMember;
+    private final Member typePolicyMember;
 
-    SymbolTable(Class<?> schema, TypeTable typeTable, TypePrinterFactory printerFactory, Member constPolicyMember) {
+    SymbolTable(Class<?> schema, TypeTable typeTable, TypePrinterFactory printerFactory, Member typePolicyMember) {
         this.schema = schema;
         this.typeTable = typeTable;
         this.printerFactory = printerFactory;
-        this.constPolicyMember = constPolicyMember;
+        this.typePolicyMember = typePolicyMember;
     }
 
     private static Type cook(Type type) {
@@ -134,17 +134,17 @@ final class SymbolTable {
             symbols.add(new PropertySymbol(immutableProp, printerFactory, typeTokenSymbol));
         }
 
-        Symbol constPolicyLoadExpression = null;
+        Symbol typePolicyLoadExpression = null;
         if (!typeTokens.isEmpty()) {
-            if (constPolicyMember instanceof Method) {
-                constPolicyLoadExpression =
-                    new StaticMethodInvocationExpression((Method)constPolicyMember, printerFactory);
+            if (typePolicyMember instanceof Method) {
+                typePolicyLoadExpression =
+                    new StaticMethodInvocationExpression((Method)typePolicyMember, printerFactory);
             }
-            else if (constPolicyMember instanceof Field) {
-                constPolicyLoadExpression = new StaticFieldLoadExpression((Field)constPolicyMember, printerFactory);
+            else if (typePolicyMember instanceof Field) {
+                typePolicyLoadExpression = new StaticFieldLoadExpression((Field)typePolicyMember, printerFactory);
             }
         }
-        return new GrainSymbol(symbols, typeTokens.values(), constPolicyLoadExpression);
+        return new GrainSymbol(symbols, typeTokens.values(), typePolicyLoadExpression);
     }
 
     Map<String, Symbol> buildTypeSymbols() {

@@ -17,8 +17,8 @@ public final class Configuration {
     public static final String DEFAULT_ENCODING = "UTF-8";
     public static final String DEFAULT_LINE_WIDTH = "100";
     public static final String DEFAULT_LINE_SEPARATOR = "\n";
-    public static final String DEFAULT_CONST_POLICY =
-        "net.nullschool.grains.DefaultConstPolicy.INSTANCE";
+    public static final String DEFAULT_TYPE_POLICY =
+        "net.nullschool.grains.DefaultTypePolicy.INSTANCE";
 
 
     private Charset charset = Charset.forName(DEFAULT_ENCODING);
@@ -27,7 +27,7 @@ public final class Configuration {
     private Path output;
     private ConstSet<String> searchPackages = BasicConstSet.emptySet();
     private ClassLoader searchLoader;
-    private String constPolicy = DEFAULT_CONST_POLICY;
+    private String typePolicy = DEFAULT_TYPE_POLICY;
 
     public Charset getCharset() {
         return charset;
@@ -83,11 +83,11 @@ public final class Configuration {
         return this;
     }
 
-    public String getConstPolicy() {
-        return constPolicy;
+    public String getTypePolicy() {
+        return typePolicy;
     }
 
-    public void setConstPolicy(String constPolicy) {
-        this.constPolicy = constPolicy;
+    public void setTypePolicy(String typePolicy) {
+        this.typePolicy = typePolicy;
     }
 }

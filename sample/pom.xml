@@ -95,7 +95,7 @@
                 <artifactId>grains-plugin</artifactId>
                 <version>0.9.0-SNAPSHOT</version>
                 <configuration>
-                    <constPolicy>com.acme.model.CustomConstPolicy.INSTANCE</constPolicy>
+                    <typePolicy>com.acme.model.CustomTypePolicy.INSTANCE</typePolicy>
                 </configuration>
                 <executions>
                     <execution>

@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 */
 public class ImmutifyTest {
 
-    private TypeTable typeTable = new TypeTable(new NamingPolicy(), DefaultConstPolicy.INSTANCE);
+    private TypeTable typeTable = new TypeTable(new NamingPolicy(), DefaultTypePolicy.INSTANCE);
 
     private Type immutify(Type type) {
         return new Immutify(typeTable).apply(new Cook().apply(type));

@@ -1,7 +1,7 @@
 group FactoryEnum;
 
-constPolicy_decl(grain, type) ::= <<
-<if(grain.constPolicy)>private static final <type.constPolicy> $POLICY = <grain.constPolicy>;
+typePolicy_decl(grain, type) ::= <<
+<if(grain.typePolicy)>private static final <type.typePolicy> $POLICY = <grain.typePolicy>;
 <endif>
 >>
 
@@ -32,7 +32,7 @@ factory_enum(grain, type) ::= <<
 public enum <type.targetFactory.simpleName> implements <type.grainFactory> {
     INSTANCE;
 
-    <constPolicy_decl(grain, type)>
+    <typePolicy_decl(grain, type)>
     <grain.typeTokens:typeToken_decl(type)>
     private static final <type.basisPropertyMap> $PROPERTIES = <type.grainTools>.asPropertyMap(
         <grain.properties:grain_prop(type); separator=",\n">);
