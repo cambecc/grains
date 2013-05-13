@@ -19,7 +19,7 @@ public class GrainToolsTest {
         FACTORY;
         @Override public Map<String, GrainProperty> getBasisProperties() { throw new UnsupportedOperationException(); }
         @Override public Grain getDefault() { throw new UnsupportedOperationException(); }
-        @Override public GrainBuilder newBuilder() { throw new UnsupportedOperationException(); }
+        @Override public GrainBuilder getNewBuilder() { throw new UnsupportedOperationException(); }
     }
 
     @Test

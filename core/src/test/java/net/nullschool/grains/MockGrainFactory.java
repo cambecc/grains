@@ -19,7 +19,7 @@ enum MockGrainFactory implements GrainFactory {
         return new MockGrain("a", "x");
     }
 
-    @Override public GrainBuilder newBuilder() {
+    @Override public GrainBuilder getNewBuilder() {
         return new MockGrainBuilder("a", "x");
     }
 }

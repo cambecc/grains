@@ -59,13 +59,13 @@ public enum IntrinsicsFactory implements GrainFactory {
         new SimpleGrainProperty("ボックス化バイト", Byte.class));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[24]);
-    private static final IntrinsicsGrain $DEFAULT = builder().build();
+    private static final IntrinsicsGrain $DEFAULT = newBuilder().build();
     public static IntrinsicsGrain DEFAULT() { return $DEFAULT; }
-    public static IntrinsicsBuilder builder() { return new IntrinsicsBuilderImpl(); }
+    public static IntrinsicsBuilder newBuilder() { return new IntrinsicsBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
     public IntrinsicsGrain getDefault() { return DEFAULT(); }
-    public IntrinsicsBuilder newBuilder() { return builder(); }
+    public IntrinsicsBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
     /**
@@ -495,7 +495,7 @@ public enum IntrinsicsFactory implements GrainFactory {
      */
     private static final class IntrinsicsGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
-        protected IntrinsicsBuilder newBuilder() { return IntrinsicsFactory.INSTANCE.newBuilder(); }
+        protected IntrinsicsBuilder newBuilder() { return IntrinsicsFactory.newBuilder(); }
     }
 
     /**

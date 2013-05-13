@@ -6,6 +6,6 @@ serialization_proxy_impl(grain, type) ::= <<
  */
 private static final class <type.targetGrainProxy.simpleName> extends <type.abstractGrainProxy> {
     private static final long serialVersionUID = 1;
-    protected <type.targetBuilder.simpleName> newBuilder() { return <type.targetFactory.simpleName>.INSTANCE.newBuilder(); }
+    protected <type.targetBuilder.simpleName> newBuilder() { return <type.targetFactory.simpleName>.newBuilder(); }
 }
 >>

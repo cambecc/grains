@@ -14,7 +14,7 @@ Start with an interface:
     }
 ```
 
-Then run the Grains Maven plugin, which generates source for both a builder...
+Run the Grains Maven plugin, which generates source for both a builder...
 ```java
     public interface OrderBuilder implements Order, GrainBuilder {
 
@@ -25,7 +25,7 @@ Then run the Grains Maven plugin, which generates source for both a builder...
         OrderGrain build();
     }
 ```
-... and an immutable representation, called a _grain_:
+... and an immutable version, called a _grain_:
 ```java
     public interface OrderGrain implements Order, Grain {
 
@@ -35,7 +35,7 @@ Then run the Grains Maven plugin, which generates source for both a builder...
     }
 ```
 
-Then use the generated factory pattern to create new builders and new grains:
+Use the generated factory class to create new builders and grains:
 ```java
     OrderBuilder builder = OrderFactory.newBuilder();
     builder.setProduct("apples");
@@ -66,7 +66,7 @@ Grains are maps (the builders are, too):
     System.out.println(builder instanceof Map);  // prints: true
 ```
 
-Grains and builders are _extensible_, just like maps:
+Grains and builders are _extensible_ if necessary:
 ```java
     builder.put("buyer", "bob");
     System.out.println(builder);         // prints: {product=apples, quantity=13, buyer=bob}
@@ -79,8 +79,19 @@ Grains and builders are _extensible_, just like maps:
     System.out.println(order);           // prints: {product=apples, quantity=13}
 ```
 
-Because the `equals` and `hashCode` methods are well defined for maps, they are by extension well defined for grains
-and builders, too:
+But they perform like plain old Java objects, using fields to store properties defined by the original interface:
+```java
+    private static final class OrderGrainImpl implements OrderGrain, Serializable {
+        private final String product;
+        private final int quantity;
+
+        private final ConstMap<String, Object> $extensions;
+        ...
+    }
+```
+
+The `equals` and `hashCode` methods are well defined by the Map contract. All maps, including grains, are equal if
+they have the same keys and values:
 ```java
     Map<String, Object> map = new HashMap<>();
     map.put("product", "apples");
@@ -91,6 +102,19 @@ and builders, too:
     System.out.println(builder.equals(order));              // prints: true
     builder.setQuantity(3);
     System.out.println(builder.equals(order));              // prints: false
+```
+
+And Java serialization is automatically implemented:
+```java
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    new ObjectOutputStream(out).writeObject(order);
+
+    ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+    Object obj = new ObjectInputStream(in).readObject();
+
+    System.out.println(obj instanceof OrderGrain);  // prints: true
+    System.out.println(obj);                        // prints: {product=apples, quantity=13}
+    System.out.println(order.equals(obj));          // prints: true
 ```
 
 Motivation

@@ -38,13 +38,13 @@ public enum <type.targetFactory.simpleName> implements <type.grainFactory> {
         <grain.properties:grain_prop(type); separator=",\n">);
 
     private static final <type.string>[] $KEYS = $PROPERTIES.keySet().toArray(new <type.string>[<length(grain.properties)>]);
-    private static final <type.targetGrain> $DEFAULT = builder().build();
+    private static final <type.targetGrain> $DEFAULT = newBuilder().build();
     public static <type.targetGrain> DEFAULT() { return $DEFAULT; }
-    public static <type.targetBuilder> builder() { return new <type.targetBuilderImpl.simpleName>(); }
+    public static <type.targetBuilder> newBuilder() { return new <type.targetBuilderImpl.simpleName>(); }
 
     public <type.basisPropertyMap> getBasisProperties() { return $PROPERTIES; }
     public <type.targetGrain> getDefault() { return DEFAULT(); }
-    public <type.targetBuilder> newBuilder() { return builder(); }
+    public <type.targetBuilder> getNewBuilder() { return newBuilder(); }
     public <type.string> toString() { return getClass().getName(); }
 
     <grain.typeTokens:transform_decl(type)>

@@ -20,7 +20,7 @@ public interface GrainFactory {
     /**
      * Constructs and returns a new builder containing the same values as the default grain instance.
      */
-    GrainBuilder newBuilder();
+    GrainBuilder getNewBuilder();
 
     /**
      * Returns a map of basis keys to property descriptors.

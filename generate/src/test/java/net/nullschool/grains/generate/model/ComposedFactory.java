@@ -50,13 +50,13 @@ public enum ComposedFactory implements GrainFactory {
         new SimpleGrainProperty("top", String.class));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[7]);
-    private static final ComposedGrain $DEFAULT = builder().build();
+    private static final ComposedGrain $DEFAULT = newBuilder().build();
     public static ComposedGrain DEFAULT() { return $DEFAULT; }
-    public static ComposedBuilder builder() { return new ComposedBuilderImpl(); }
+    public static ComposedBuilder newBuilder() { return new ComposedBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
     public ComposedGrain getDefault() { return DEFAULT(); }
-    public ComposedBuilder newBuilder() { return builder(); }
+    public ComposedBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
     private static final Transform<ConstList<UUID>> $transform0 =
@@ -232,7 +232,7 @@ public enum ComposedFactory implements GrainFactory {
      */
     private static final class ComposedGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
-        protected ComposedBuilder newBuilder() { return ComposedFactory.INSTANCE.newBuilder(); }
+        protected ComposedBuilder newBuilder() { return ComposedFactory.newBuilder(); }
     }
 
     /**

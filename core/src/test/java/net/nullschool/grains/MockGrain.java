@@ -88,6 +88,6 @@ final class MockGrain extends AbstractGrain implements Serializable {
 
     private static final class Proxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
-        @Override protected GrainBuilder newBuilder() { return MockGrainFactory.INSTANCE.newBuilder(); }
+        @Override protected GrainBuilder newBuilder() { return MockGrainFactory.INSTANCE.getNewBuilder(); }
     }
 }

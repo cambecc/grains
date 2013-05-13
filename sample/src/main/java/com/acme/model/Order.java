@@ -19,13 +19,13 @@ public interface Order {
 
     UUID getId();
 
-    String getInstrument();
+    String getProduct();
 
     Side getSide();
 
     BigDecimal getPrice();
 
-    BigDecimal getQuantity();
+    int getQuantity();
 
     DateTime getDate();
 }

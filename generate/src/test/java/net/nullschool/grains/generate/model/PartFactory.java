@@ -34,13 +34,13 @@ public enum PartFactory implements GrainFactory {
         new SimpleGrainProperty("model", int.class));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[2]);
-    private static final PartGrain $DEFAULT = builder().build();
+    private static final PartGrain $DEFAULT = newBuilder().build();
     public static PartGrain DEFAULT() { return $DEFAULT; }
-    public static PartBuilder builder() { return new PartBuilderImpl(); }
+    public static PartBuilder newBuilder() { return new PartBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
     public PartGrain getDefault() { return DEFAULT(); }
-    public PartBuilder newBuilder() { return builder(); }
+    public PartBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
     /**
@@ -152,7 +152,7 @@ public enum PartFactory implements GrainFactory {
      */
     private static final class PartGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
-        protected PartBuilder newBuilder() { return PartFactory.INSTANCE.newBuilder(); }
+        protected PartBuilder newBuilder() { return PartFactory.newBuilder(); }
     }
 
     /**

@@ -81,7 +81,7 @@ public class GrainGeneratorTest {
     @Ignore @Test
     public void test_serialization() throws Exception {
 
-        CompoundBuilder cb = CompoundFactory.builder();
+        CompoundBuilder cb = CompoundFactory.newBuilder();
         PartGrain pc = PartFactory.DEFAULT().withMake(42).with("hi", "bob");
         cb.setFirstPart(pc);
         cb.setSecondPart(pc);

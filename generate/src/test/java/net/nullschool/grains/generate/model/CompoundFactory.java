@@ -53,13 +53,13 @@ public enum CompoundFactory implements GrainFactory {
         new SimpleGrainProperty("unusedParts", $token1.asType()));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[6]);
-    private static final CompoundGrain $DEFAULT = builder().build();
+    private static final CompoundGrain $DEFAULT = newBuilder().build();
     public static CompoundGrain DEFAULT() { return $DEFAULT; }
-    public static CompoundBuilder builder() { return new CompoundBuilderImpl(); }
+    public static CompoundBuilder newBuilder() { return new CompoundBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
     public CompoundGrain getDefault() { return DEFAULT(); }
-    public CompoundBuilder newBuilder() { return builder(); }
+    public CompoundBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
     private static final Transform<ConstMap<String, ConstSet<PartGrain>>> $transform0 =
@@ -227,7 +227,7 @@ public enum CompoundFactory implements GrainFactory {
      */
     private static final class CompoundGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
-        protected CompoundBuilder newBuilder() { return CompoundFactory.INSTANCE.newBuilder(); }
+        protected CompoundBuilder newBuilder() { return CompoundFactory.newBuilder(); }
     }
 
     /**

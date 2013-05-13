@@ -13,15 +13,16 @@ import net.nullschool.collect.basic.BasicConstList;
 public class Driver {
 
     public static void main(String[] args) {
-        PersonGrain person = PersonFactory.builder()
+        PersonGrain person = PersonFactory.newBuilder()
             .setId(12345)
             .setName("Bob")
             .setEmail("bob@bob.com")
-            .setPhones(BasicConstList.listOf(
-                PhoneNumberFactory.builder()
-                    .setNumber("1234-5678")
-                    .setType(PhoneNumber.PhoneType.MOBILE)
-                    .build()))
+            .setPhones(
+                BasicConstList.listOf(
+                    PhoneNumberFactory.newBuilder()
+                        .setNumber("1234-5678")
+                        .setType(PhoneNumber.PhoneType.MOBILE)
+                        .build()))
             .build();
 
         System.out.println(person);

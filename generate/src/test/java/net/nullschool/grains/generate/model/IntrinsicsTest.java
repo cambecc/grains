@@ -110,7 +110,7 @@ public class IntrinsicsTest {
     }
 
     private static IntrinsicsBuilder newBuilderWithSampleValues() {
-        IntrinsicsBuilder builder = IntrinsicsFactory.builder();
+        IntrinsicsBuilder builder = IntrinsicsFactory.newBuilder();
         builder.setId("ABC123");
         builder.set$float(2.0F);
         builder.setBigDecimal(BigDecimal.ONE);
@@ -175,18 +175,18 @@ public class IntrinsicsTest {
         assertTrue(GrainFactory.class.isAssignableFrom(IntrinsicsFactory.class));
 
         assertSame(IntrinsicsFactory.DEFAULT(), factory.getDefault());
-        assertNotNull(factory.newBuilder());
+        assertNotNull(factory.getNewBuilder());
     }
 
     @Test
     public void test_unique_builders() {
-        assertNotSame(IntrinsicsFactory.builder(), IntrinsicsFactory.builder());
+        assertNotSame(IntrinsicsFactory.newBuilder(), IntrinsicsFactory.newBuilder());
     }
 
     @Test
     public void test_new_builder_as_map() {
-        compare_maps(newBasisAsPlainMap(), IntrinsicsFactory.builder());
-        compare_maps(newBasisAsPlainMap(), IntrinsicsFactory.class.getEnumConstants()[0].newBuilder());
+        compare_maps(newBasisAsPlainMap(), IntrinsicsFactory.newBuilder());
+        compare_maps(newBasisAsPlainMap(), IntrinsicsFactory.class.getEnumConstants()[0].getNewBuilder());
     }
 
     @Test
@@ -242,7 +242,7 @@ public class IntrinsicsTest {
 
     @Test
     public void test_builder_set_and_put() {
-        IntrinsicsBuilder builder = IntrinsicsFactory.builder();
+        IntrinsicsBuilder builder = IntrinsicsFactory.newBuilder();
         builder.setString("hello");
         assertEquals("hello", builder.getString());
         assertSame(builder.getString(), builder.get("string"));
@@ -253,7 +253,7 @@ public class IntrinsicsTest {
 
     @Test
     public void test_builder_put_null_of_static_key() {
-        IntrinsicsBuilder builder = IntrinsicsFactory.builder();
+        IntrinsicsBuilder builder = IntrinsicsFactory.newBuilder();
 
         builder.put("string", "hello");
         assertEquals("hello", builder.getString());
@@ -283,13 +283,13 @@ public class IntrinsicsTest {
 
     @Test
     public void test_builder_get_nonexistent() {
-        IntrinsicsBuilder builder = IntrinsicsFactory.builder();
+        IntrinsicsBuilder builder = IntrinsicsFactory.newBuilder();
         assertNull(builder.get("barney"));
     }
 
     @Test(expected = ClassCastException.class)
     public void test_put_wrong_type() {
-        IntrinsicsFactory.builder().put("long", 1);
+        IntrinsicsFactory.newBuilder().put("long", 1);
     }
 
     @Test(expected = ClassCastException.class)
@@ -299,7 +299,7 @@ public class IntrinsicsTest {
 
     @Test(expected = ClassCastException.class)
     public void test_put_not_boolean() {
-        IntrinsicsFactory.builder().put("boolean", "true");
+        IntrinsicsFactory.newBuilder().put("boolean", "true");
     }
 
     @Test(expected = ClassCastException.class)

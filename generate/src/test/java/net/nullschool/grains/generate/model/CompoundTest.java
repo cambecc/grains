@@ -22,17 +22,17 @@ public final class CompoundTest {
     }
 
     private static LinkedHashMap<String, Object> newBasisAsPlainMap() {
-        return new LinkedHashMap<>(CompoundFactory.builder());
+        return new LinkedHashMap<>(CompoundFactory.newBuilder());
     }
 
     @Test
     public void test_basis() {
-        compare_maps(newBasisAsPlainMap(), CompoundFactory.builder());
+        compare_maps(newBasisAsPlainMap(), CompoundFactory.newBuilder());
     }
 
     @Test
     public void test_nested_parts() {
-        CompoundBuilder actual = CompoundFactory.builder();
+        CompoundBuilder actual = CompoundFactory.newBuilder();
         actual.setFirstPart(newPart(42, 99));
         actual.setSecondPart(newPart(43, 99));
 
@@ -61,7 +61,7 @@ public final class CompoundTest {
 
     @Test
     public void test_list() {
-        CompoundBuilder actual = CompoundFactory.builder();
+        CompoundBuilder actual = CompoundFactory.newBuilder();
         actual.setRemainingParts(BasicConstList.listOf(newPart(42, 99), newPart(42, 99), newPart(43, 99)));
         actual.setUnusedParts(BasicConstList.listOf(newPart(1, 99), newPart(2, 99), newPart(3, 99)));
 
