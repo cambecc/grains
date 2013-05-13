@@ -3,6 +3,7 @@ package net.nullschool.grains.generate;
 import javassist.*;
 import javassist.bytecode.BadBytecode;
 import javassist.bytecode.SignatureAttribute.*;
+import net.nullschool.transform.Transform;
 import net.nullschool.collect.*;
 import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.collect.basic.BasicConstSet;
@@ -49,7 +50,7 @@ final class TypeTable {
         arrays                      (Arrays.class),
         basicConstMap               (BasicConstMap.class),
         basicConstSet               (BasicConstSet.class),
-        castFunction                (CastFunction.class),
+        transform                   (Transform.class),
         collections                 (Collections.class),
         constPolicy                 (ConstPolicy.class),
         generated                   (Generated.class),
@@ -236,7 +237,7 @@ final class TypeTable {
      */
     synchronized Class<?> immutify(Class<?> clazz) {
         // First, use the ConstPolicy to get the immutable representation of the class.
-        Class<?> result = ObjectTools.coalesce(constPolicy.translate(clazz), Objects.requireNonNull(clazz));
+        Class<?> result = ObjectTools.coalesce(constPolicy.asConstType(clazz), Objects.requireNonNull(clazz));
 
         // Next, map a GrainSchema to its associated Grain implementation. This may require dynamic class construction
         // if the Grain implementation does not yet exist (because we haven't generated it yet).
@@ -245,7 +246,7 @@ final class TypeTable {
         }
 
         // Finally, the ConstPolicy must agree that the resulting type is immutable.
-        if (!constPolicy.test(result)) {
+        if (!constPolicy.isConstType(result)) {
             throw new IllegalArgumentException("do not know how to immutify: " + clazz + " translated as: " + result);
         }
 

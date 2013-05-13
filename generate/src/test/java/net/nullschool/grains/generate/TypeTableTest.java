@@ -1,7 +1,7 @@
 package net.nullschool.grains.generate;
 
 import net.nullschool.grains.GrainSchema;
-import net.nullschool.reflect.DefaultConstPolicy;
+import net.nullschool.grains.DefaultConstPolicy;
 import org.junit.Ignore;
 import org.junit.Test;
 

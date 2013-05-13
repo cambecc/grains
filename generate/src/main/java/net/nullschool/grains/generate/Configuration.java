@@ -18,7 +18,7 @@ public final class Configuration {
     public static final String DEFAULT_LINE_WIDTH = "100";
     public static final String DEFAULT_LINE_SEPARATOR = "\n";
     public static final String DEFAULT_CONST_POLICY =
-        "net.nullschool.reflect.DefaultConstPolicy.INSTANCE";
+        "net.nullschool.grains.DefaultConstPolicy.INSTANCE";
 
 
     private Charset charset = Charset.forName(DEFAULT_ENCODING);

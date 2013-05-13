@@ -11,9 +11,9 @@ private static final <type.typeToken>\<<typeToken.type>\> <typeToken.name> =
 
 >>
 
-castFunction_decl(typeToken, type) ::= <<
-private static final <type.castFunction>\<<typeToken.castFunction.type>\> <typeToken.castFunction.name> =
-    $POLICY.newCastFunction(<typeToken.name>);
+transform_decl(typeToken, type) ::= <<
+private static final <type.transform>\<<typeToken.transform.type>\> <typeToken.transform.name> =
+    $POLICY.newTransform(<typeToken.name>);
 
 >>
 
@@ -47,7 +47,7 @@ public enum <type.targetFactory.simpleName> implements <type.grainFactory> {
     public <type.targetBuilder> newBuilder() { return builder(); }
     public <type.string> toString() { return getClass().getName(); }
 
-    <grain.typeTokens:castFunction_decl(type)>
+    <grain.typeTokens:transform_decl(type)>
     <grain_impl(grain, type)>
 
     <serialization_proxy_impl(grain, type)>

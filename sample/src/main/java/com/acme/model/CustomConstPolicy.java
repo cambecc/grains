@@ -1,6 +1,6 @@
 package com.acme.model;
 
-import net.nullschool.reflect.DefaultConstPolicy;
+import net.nullschool.grains.DefaultConstPolicy;
 import org.joda.time.DateTime;
 
 

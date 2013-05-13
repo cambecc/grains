@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.annotation.Generated;
+import net.nullschool.transform.Transform;
 import net.nullschool.collect.ConstList;
 import net.nullschool.collect.ConstMap;
 import net.nullschool.collect.ConstSet;
@@ -17,14 +18,13 @@ import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
+import net.nullschool.grains.ConstPolicy;
+import net.nullschool.grains.DefaultConstPolicy;
 import net.nullschool.grains.GrainFactory;
 import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
-import net.nullschool.reflect.CastFunction;
-import net.nullschool.reflect.ConstPolicy;
-import net.nullschool.reflect.DefaultConstPolicy;
 import net.nullschool.reflect.TypeToken;
 import net.nullschool.util.MemoizedHashCode;
 
@@ -37,20 +37,20 @@ public enum CompoundFactory implements GrainFactory {
 
     private static final ConstPolicy $POLICY = DefaultConstPolicy.INSTANCE;
 
-    private static final TypeToken<ConstMap<String, ConstSet<PartGrain>>> $0 =
+    private static final TypeToken<ConstMap<String, ConstSet<PartGrain>>> $token0 =
         new TypeToken<ConstMap<String, ConstSet<PartGrain>>>(){};
-    private static final TypeToken<ConstList<PartGrain>> $1 =
+    private static final TypeToken<ConstList<PartGrain>> $token1 =
         new TypeToken<ConstList<PartGrain>>(){};
-    private static final TypeToken<ConstSet<PartGrain>> $2 =
+    private static final TypeToken<ConstSet<PartGrain>> $token2 =
         new TypeToken<ConstSet<PartGrain>>(){};
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("firstPart", PartGrain.class),
-        new SimpleGrainProperty("partGroups", $0.asType()),
-        new SimpleGrainProperty("remainingParts", $1.asType()),
+        new SimpleGrainProperty("partGroups", $token0.asType()),
+        new SimpleGrainProperty("remainingParts", $token1.asType()),
         new SimpleGrainProperty("secondPart", PartGrain.class),
-        new SimpleGrainProperty("uniqueParts", $2.asType()),
-        new SimpleGrainProperty("unusedParts", $1.asType()));
+        new SimpleGrainProperty("uniqueParts", $token2.asType()),
+        new SimpleGrainProperty("unusedParts", $token1.asType()));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[6]);
     private static final CompoundGrain $DEFAULT = builder().build();
@@ -62,12 +62,12 @@ public enum CompoundFactory implements GrainFactory {
     public CompoundBuilder newBuilder() { return builder(); }
     public String toString() { return getClass().getName(); }
 
-    private static final CastFunction<ConstMap<String, ConstSet<PartGrain>>> $0Cast =
-        $POLICY.newCastFunction($0);
-    private static final CastFunction<ConstList<PartGrain>> $1Cast =
-        $POLICY.newCastFunction($1);
-    private static final CastFunction<ConstSet<PartGrain>> $2Cast =
-        $POLICY.newCastFunction($2);
+    private static final Transform<ConstMap<String, ConstSet<PartGrain>>> $transform0 =
+        $POLICY.newTransform($token0);
+    private static final Transform<ConstList<PartGrain>> $transform1 =
+        $POLICY.newTransform($token1);
+    private static final Transform<ConstSet<PartGrain>> $transform2 =
+        $POLICY.newTransform($token2);
 
     /**
      * Code generated implementation of CompoundGrain.
@@ -164,11 +164,11 @@ public enum CompoundFactory implements GrainFactory {
         private CompoundGrain with(String $key, Object $value, boolean $dissoc) {
             switch ($key) {
                 case "firstPart": return withFirstPart((PartGrain)$value);
-                case "partGroups": return withPartGroups($0Cast.apply($value));
-                case "remainingParts": return withRemainingParts($1Cast.apply($value));
+                case "partGroups": return withPartGroups($transform0.apply($value));
+                case "remainingParts": return withRemainingParts($transform1.apply($value));
                 case "secondPart": return withSecondPart((PartGrain)$value);
-                case "uniqueParts": return withUniqueParts($2Cast.apply($value));
-                case "unusedParts": return withUnusedParts($1Cast.apply($value));
+                case "uniqueParts": return withUniqueParts($transform2.apply($value));
+                case "unusedParts": return withUnusedParts($transform1.apply($value));
             }
             ConstMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
@@ -310,11 +310,11 @@ public enum CompoundFactory implements GrainFactory {
                     return $original;
                 case "partGroups":
                     $original = getPartGroups();
-                    setPartGroups($0Cast.apply($value));
+                    setPartGroups($transform0.apply($value));
                     return $original;
                 case "remainingParts":
                     $original = getRemainingParts();
-                    setRemainingParts($1Cast.apply($value));
+                    setRemainingParts($transform1.apply($value));
                     return $original;
                 case "secondPart":
                     $original = getSecondPart();
@@ -322,11 +322,11 @@ public enum CompoundFactory implements GrainFactory {
                     return $original;
                 case "uniqueParts":
                     $original = getUniqueParts();
-                    setUniqueParts($2Cast.apply($value));
+                    setUniqueParts($transform2.apply($value));
                     return $original;
                 case "unusedParts":
                     $original = getUnusedParts();
-                    setUnusedParts($1Cast.apply($value));
+                    setUnusedParts($transform1.apply($value));
                     return $original;
                 default:
                     return $dissoc ? $extensions.remove($key) : $extensions.put($key, $value);

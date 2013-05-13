@@ -55,12 +55,12 @@ enum GenerateTools {;
         return type instanceof ParameterizedType ? LateParameterizedType.copyOf((ParameterizedType)type) : null;
     }
 
-    static Type genericSuperclass(Type type) {
+    static Type genericSuperclassOf(Type type) {
         LateParameterizedType lpt = asLateParameterizedType(type);
         return lpt != null ? lpt.getSuperclass() : ((Class<?>)type).getGenericSuperclass();
     }
 
-    static Type[] genericInterfaces(Type type) {
+    static Type[] genericInterfacesOf(Type type) {
         LateParameterizedType lpt = asLateParameterizedType(type);
         return lpt != null ? lpt.getInterfaces() : ((Class<?>)type).getGenericInterfaces();
     }

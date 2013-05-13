@@ -85,8 +85,8 @@ final class SymbolTable {
 
             results.addAll(collectBeanPropertiesOf(current));
 
-            workList.add(genericSuperclass(current));
-            Collections.addAll(workList, genericInterfaces(current));
+            workList.add(genericSuperclassOf(current));
+            Collections.addAll(workList, genericInterfacesOf(current));
         }
         return results;
     }
@@ -122,13 +122,13 @@ final class SymbolTable {
             if (immutableType instanceof ParameterizedType) {
                 typeTokenSymbol = typeTokens.get(immutableType);
                 if (typeTokenSymbol == null) {
-                    String name = "$" + typeTokenIndex++;
+                    int index = typeTokenIndex++;
                     typeTokens.put(
                         immutableType,
                         typeTokenSymbol = new TypeTokenSymbol(
-                            name,
+                            "$token" + index,
                             immutableTypeSymbol,
-                            new FieldSymbol(name + "Cast", immutableTypeSymbol)));
+                            new FieldSymbol("$transform" + index, immutableTypeSymbol)));
                 }
             }
             symbols.add(new PropertySymbol(immutableProp, printerFactory, typeTokenSymbol));

@@ -2,7 +2,6 @@ package net.nullschool.reflect;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Objects;
 
 import static net.nullschool.reflect.TypeTools.copyOf;
 

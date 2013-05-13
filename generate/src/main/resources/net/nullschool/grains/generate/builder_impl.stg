@@ -17,7 +17,7 @@ case "<prop.name>":
     $original = <prop.getterName>();
     <prop.setterName>(<\\>
         <if(prop.default)>$value == null ? <prop.default> : <endif><\\>
-        <if(prop.typeToken)><prop.typeToken.castFunction.name>.apply($value)<else>(<prop.type>)$value<endif>);
+        <if(prop.typeToken)><prop.typeToken.transform.name>.apply($value)<else>(<prop.type>)$value<endif>);
     return $original;
 >>
 

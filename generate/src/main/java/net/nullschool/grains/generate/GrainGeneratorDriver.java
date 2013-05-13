@@ -2,7 +2,7 @@ package net.nullschool.grains.generate;
 
 import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.grains.GrainTools;
-import net.nullschool.reflect.ConstPolicy;
+import net.nullschool.grains.ConstPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

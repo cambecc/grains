@@ -4,21 +4,21 @@ package net.nullschool.grains.generate;
 /**
  * 2013-03-25<p/>
  *
- * A symbol to represent the declaration of a {@link net.nullschool.reflect.TypeToken} and its associated cast
+ * A symbol to represent the declaration of a {@link net.nullschool.reflect.TypeToken} and its associated transform
  * function declaration.
  *
  * @author Cameron Beccario
  */
 final class TypeTokenSymbol extends FieldSymbol {
 
-    private final FieldSymbol castFunction;
+    private final FieldSymbol transform;
 
-    TypeTokenSymbol(String name, TypeSymbol type, FieldSymbol castFunction) {
+    TypeTokenSymbol(String name, TypeSymbol type, FieldSymbol transform) {
         super(name, type);
-        this.castFunction = castFunction;
+        this.transform = transform;
     }
 
-    public FieldSymbol getCastFunction() {
-        return castFunction;
+    public FieldSymbol getTransform() {
+        return transform;
     }
 }

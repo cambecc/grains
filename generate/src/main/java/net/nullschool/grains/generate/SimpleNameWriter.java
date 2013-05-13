@@ -8,9 +8,9 @@ import java.lang.reflect.Type;
 /**
  * 2013-05-10<p/>
  *
- * A type writer that prints classes using their {@link Class#getSimpleName simple names}. Enclosed classes are not
- * qualified by their enclosing class. For example, {@code java.util.Map.Entry} is rendered as {@code "Entry"} rather
- * than {@code "Map.Entry"}.
+ * A type writer that prints classes using their {@link Class#getSimpleName simple names}. Note that enclosed classes
+ * are not qualified by their enclosing class. For example, {@code java.util.Map.Entry} is rendered as {@code "Entry"}
+ * rather than {@code "Map.Entry"}.
  *
  * @author Cameron Beccario
  */

@@ -1,6 +1,8 @@
-package net.nullschool.reflect;
+package net.nullschool.grains;
 
+import net.nullschool.transform.*;
 import net.nullschool.collect.*;
+import net.nullschool.reflect.*;
 
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
@@ -75,7 +77,7 @@ public class DefaultConstPolicy implements ConstPolicy {
         registerTranslation(SortedMap.class, ConstSortedMap.class);
     }
 
-    @Override public boolean test(Class<?> clazz) {
+    @Override public boolean isConstType(Class<?> clazz) {
         if (immutableTypes.contains(clazz)) {
             return true;
         }
@@ -87,18 +89,24 @@ public class DefaultConstPolicy implements ConstPolicy {
         return false;
     }
 
-    @Override public <T> T requireImmutable(T t) {
-        if (!test(t.getClass())) {
+    @Override public Class<?> asConstType(Class<?> clazz) {
+        return translations.get(clazz);
+    }
+
+    @Override public <T> T requireConst(T t) {
+        if (!isConstType(t.getClass())) {
             throw new IllegalArgumentException("not immutable");
         }
         return t;
     }
 
-    @Override public Class<?> translate(Class<?> clazz) {
-        return translations.get(clazz);
-    }
-
-    @Override public <T> CastFunction<T> newCastFunction(TypeToken<T> token) {
-        return Casts.buildCastFunction(token);
+    @Override public <T> Transform<T> newTransform(TypeToken<T> token) {
+        // UNDONE: construct actual cast functions. For now, this is completely unsafe.
+        return new Transform<T>() {
+            @Override public T apply(Object o) {
+                @SuppressWarnings("unchecked") T t = (T)o;
+                return t;
+            }
+        };
     }
 }

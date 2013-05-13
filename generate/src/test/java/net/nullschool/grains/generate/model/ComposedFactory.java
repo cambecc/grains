@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 import javax.annotation.Generated;
+import net.nullschool.transform.Transform;
 import net.nullschool.collect.ConstList;
 import net.nullschool.collect.ConstMap;
 import net.nullschool.collect.IteratorTools;
@@ -17,14 +18,13 @@ import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
+import net.nullschool.grains.ConstPolicy;
+import net.nullschool.grains.DefaultConstPolicy;
 import net.nullschool.grains.GrainFactory;
 import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
-import net.nullschool.reflect.CastFunction;
-import net.nullschool.reflect.ConstPolicy;
-import net.nullschool.reflect.DefaultConstPolicy;
 import net.nullschool.reflect.TypeToken;
 import net.nullschool.util.MemoizedHashCode;
 
@@ -37,16 +37,16 @@ public enum ComposedFactory implements GrainFactory {
 
     private static final ConstPolicy $POLICY = DefaultConstPolicy.INSTANCE;
 
-    private static final TypeToken<ConstList<UUID>> $0 =
+    private static final TypeToken<ConstList<UUID>> $token0 =
         new TypeToken<ConstList<UUID>>(){};
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("id", UUID.class),
         new SimpleGrainProperty("left", String.class),
-        new SimpleGrainProperty("leftIds", $0.asType()),
+        new SimpleGrainProperty("leftIds", $token0.asType()),
         new SimpleGrainProperty("name", String.class),
         new SimpleGrainProperty("right", String.class),
-        new SimpleGrainProperty("rightIds", $0.asType()),
+        new SimpleGrainProperty("rightIds", $token0.asType()),
         new SimpleGrainProperty("top", String.class));
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[7]);
@@ -59,8 +59,8 @@ public enum ComposedFactory implements GrainFactory {
     public ComposedBuilder newBuilder() { return builder(); }
     public String toString() { return getClass().getName(); }
 
-    private static final CastFunction<ConstList<UUID>> $0Cast =
-        $POLICY.newCastFunction($0);
+    private static final Transform<ConstList<UUID>> $transform0 =
+        $POLICY.newTransform($token0);
 
     /**
      * Code generated implementation of ComposedGrain.
@@ -168,10 +168,10 @@ public enum ComposedFactory implements GrainFactory {
             switch ($key) {
                 case "id": return withId((UUID)$value);
                 case "left": return withLeft((String)$value);
-                case "leftIds": return withLeftIds($0Cast.apply($value));
+                case "leftIds": return withLeftIds($transform0.apply($value));
                 case "name": return withName((String)$value);
                 case "right": return withRight((String)$value);
-                case "rightIds": return withRightIds($0Cast.apply($value));
+                case "rightIds": return withRightIds($transform0.apply($value));
                 case "top": return withTop((String)$value);
             }
             ConstMap<String, Object> $newExtensions =
@@ -327,7 +327,7 @@ public enum ComposedFactory implements GrainFactory {
                     return $original;
                 case "leftIds":
                     $original = getLeftIds();
-                    setLeftIds($0Cast.apply($value));
+                    setLeftIds($transform0.apply($value));
                     return $original;
                 case "name":
                     $original = getName();
@@ -339,7 +339,7 @@ public enum ComposedFactory implements GrainFactory {
                     return $original;
                 case "rightIds":
                     $original = getRightIds();
-                    setRightIds($0Cast.apply($value));
+                    setRightIds($transform0.apply($value));
                     return $original;
                 case "top":
                     $original = getTop();

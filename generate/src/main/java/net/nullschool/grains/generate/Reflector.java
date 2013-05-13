@@ -146,7 +146,7 @@ final class Reflector {
     }
 
     /**
-     * Returns the set of classes annotated with the annotation, located under the specified package, and visible to
+     * Returns the set of classes annotated with the annotation, located under the search package, and visible to
      * the provided search loader.
      *
      * @param annotation the annotation to search for.
