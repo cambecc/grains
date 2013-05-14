@@ -131,15 +131,18 @@ otherwise manual coding of getters, setters, equals, hashCode, builders, factori
 
 Requirements
 ------------
-Java 7
-Maven 3
+* Java 7
+* Maven 3
 
 Usage
 -----
 
-0. Clone the project and run _mvn install_ (required because artifacts are not yet deployed to maven central)
-1. Decide in which package your hand-written `@GrainSchema` interfaces will reside, something like _com.acme.model_.
-2. Configure Maven to pre-compile this package and all sub-packages during the _generate-sources_ phase:
+1. Clone the project and run _mvn install_ (required because artifacts are not yet deployed to maven central).
+
+2. Decide in which package your hand-written grain schema interfaces will reside, something like _com.acme.model_.
+
+3. Configure Maven to pre-compile this package and all sub-packages during the _generate-sources_ phase:
+
     ```xml
     <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -162,7 +165,9 @@ Usage
         </executions>
     </plugin>
     ```
+
 3. Enable the _grains-plugin_ and bind it to the _generate-sources_ phase:
+
     ```xml
     <plugin>
         <groupId>net.nullschool</groupId>
@@ -176,7 +181,9 @@ Usage
         </executions>
     </plugin>
     ```
+    
 4. Finally, add the _grains-core_ dependency to your project:
+
     ```xml
     <dependency>
         <groupId>net.nullschool</groupId>
@@ -185,6 +192,6 @@ Usage
     </dependency>
     ```
 
-Done. Now any interface located under _com.acme.model_, annotated with `@GrainSchema`, will have a grain implementation
-generated when _mvn compile_, or even just _mvn generate-sources_, is invoked. By default, all generated sources appear
+Done. Now any interface located under _com.acme.model_ and annotated with `@GrainSchema` will have a grain implementation
+generated when _mvn compile_  is invoked. By default, all generated sources appear
 in the _target/generated-sources/grains/com/acme/model_ directory.
