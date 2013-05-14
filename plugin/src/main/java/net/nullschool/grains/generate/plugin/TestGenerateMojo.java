@@ -54,9 +54,9 @@ public class TestGenerateMojo extends AbstractGenerateMojo {
         //         </configuration>
         //     </execution>
 
-        Xpp3Dom config = findMavenConfigurationFor("maven-compiler-plugin", "generate-test-sources");
-        if (config != null) {
-            return valuesOf(childrenNamed("testInclude", childrenNamed("testIncludes", asList(config))));
+        Xpp3Dom configuration = findMavenConfigurationFor("maven-compiler-plugin", "generate-test-sources");
+        if (configuration != null) {
+            return valuesOf(childrenNamed("testInclude", childrenNamed("testIncludes", asList(configuration))));
         }
         return Collections.emptyList();
     }

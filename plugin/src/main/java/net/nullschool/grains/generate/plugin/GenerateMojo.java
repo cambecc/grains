@@ -54,9 +54,9 @@ public class GenerateMojo extends AbstractGenerateMojo {
         //         </configuration>
         //     </execution>
 
-        Xpp3Dom config = findMavenConfigurationFor("maven-compiler-plugin", "generate-sources");
-        if (config != null) {
-            return valuesOf(childrenNamed("include", childrenNamed("includes", asList(config))));
+        Xpp3Dom configuration = findMavenConfigurationFor("maven-compiler-plugin", "generate-sources");
+        if (configuration != null) {
+            return valuesOf(childrenNamed("include", childrenNamed("includes", asList(configuration))));
         }
         return Collections.emptyList();
     }
