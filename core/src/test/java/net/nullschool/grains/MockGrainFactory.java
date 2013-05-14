@@ -31,7 +31,7 @@ enum MockGrainFactory implements GrainFactory {
         throw new UnsupportedOperationException("NYI");
     }
 
-    @Override public Grain getDefault() {
+    @Override public Grain getDefaultValue() {
         return new MockGrain("a", "x");
     }
 

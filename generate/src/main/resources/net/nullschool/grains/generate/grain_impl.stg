@@ -75,7 +75,7 @@ private static final class <type.targetGrainImpl.simpleName>
     }
 
     public <type.targetGrain> withAll(<type.mapStringObjectWildcards> $map) {
-        return $map.isEmpty() ? this : <type.mapTools>.putAll(builder(), $map).build();
+        return $map.isEmpty() ? this : <type.mapTools>.putAll(newBuilder(), $map).build();
     }
 
     public <type.targetGrain> without(<type.object> $key) {
@@ -83,10 +83,10 @@ private static final class <type.targetGrainImpl.simpleName>
     }
 
     public <type.targetGrain> withoutAll(<type.collectionWildcard> $keys) {
-        return $keys.isEmpty() ? this : <type.mapTools>.removeAll(builder(), $keys).build();
+        return $keys.isEmpty() ? this : <type.mapTools>.removeAll(newBuilder(), $keys).build();
     }
 
-    public <type.targetBuilder> builder() {
+    public <type.targetBuilder> newBuilder() {
         <type.targetBuilderImpl.simpleName> $builder = new <type.targetBuilderImpl.simpleName>();
         <grain.properties:{prop|$builder.<prop.fieldName> = this.<prop.fieldName>;}; separator="\n">
         $builder.$extensions.putAll(this.$extensions);

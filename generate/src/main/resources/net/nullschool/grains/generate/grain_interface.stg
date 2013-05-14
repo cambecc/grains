@@ -25,6 +25,8 @@ public interface <type.targetGrain.simpleName> extends <type.targetSchema>, <typ
     // <type.grain> Methods
     //
 
+    <type.constMap> extensions();
+
     <type.targetGrain.simpleName> with(<type.string> key, <type.object> value);
 
     <type.targetGrain.simpleName> withAll(<type.mapStringObjectWildcards> map);
@@ -33,9 +35,7 @@ public interface <type.targetGrain.simpleName> extends <type.targetSchema>, <typ
 
     <type.targetGrain.simpleName> withoutAll(<type.collectionWildcard> keys);
 
-    <type.targetBuilder> builder();
-
-    <type.constMap> extensions();
+    <type.targetBuilder> newBuilder();
 }
 
 >>

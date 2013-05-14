@@ -45,7 +45,7 @@ import java.util.Map;
  *
  * As it can be expensive to construct Grain instances from a large sequence of {@code with} method invocations, the
  * builder pattern is utilized to simplify Grain construction. A mutable {@link GrainBuilder} instance containing the
- * current associations of a Grain can be retrieved using the {@link #builder} method. After the builder is modified
+ * current associations of a Grain can be retrieved using the {@link #newBuilder} method. After the builder is modified
  * as desired, the {@link GrainBuilder#build} method is invoked to construct a new immutable Grain instance.<p/>
  *
  * A Grain has no defined iteration order. Whether or not {@code null} keys are allowed is implementation
@@ -115,7 +115,7 @@ public interface Grain extends ConstMap<String, Object> {
      *
      * @return a new builder instance copied from this grain.
      */
-    GrainBuilder builder();
+    GrainBuilder newBuilder();
 
     /**
      * Returns a ConstMap of this grain's extensions, if any. An extension is an extra entry on this grain instance

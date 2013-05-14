@@ -94,7 +94,7 @@ final class MockGrain extends AbstractGrain implements Serializable {
         return result;
     }
 
-    @Override public MockGrainBuilder builder() {
+    @Override public MockGrainBuilder newBuilder() {
         return new MockGrainBuilder(new TreeMap<>(basis), new TreeMap<>(extensions));
     }
 

@@ -86,6 +86,11 @@ But they perform like plain old Java objects, using fields to store properties d
         private final int quantity;
 
         private final ConstMap<String, Object> $extensions;
+
+        public String getProduct() {
+            return this.product;
+        }
+
         ...
     }
 ```

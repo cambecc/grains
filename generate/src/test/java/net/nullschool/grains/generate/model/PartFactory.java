@@ -35,11 +35,11 @@ public enum PartFactory implements GrainFactory {
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[2]);
     private static final PartGrain $DEFAULT = newBuilder().build();
-    public static PartGrain DEFAULT() { return $DEFAULT; }
+    public static PartGrain defaultValue() { return $DEFAULT; }
     public static PartBuilder newBuilder() { return new PartBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
-    public PartGrain getDefault() { return DEFAULT(); }
+    public PartGrain getDefaultValue() { return defaultValue(); }
     public PartBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
@@ -114,7 +114,7 @@ public enum PartFactory implements GrainFactory {
         }
 
         public PartGrain withAll(Map<? extends String, ?> $map) {
-            return $map.isEmpty() ? this : MapTools.putAll(builder(), $map).build();
+            return $map.isEmpty() ? this : MapTools.putAll(newBuilder(), $map).build();
         }
 
         public PartGrain without(Object $key) {
@@ -122,10 +122,10 @@ public enum PartFactory implements GrainFactory {
         }
 
         public PartGrain withoutAll(Collection<?> $keys) {
-            return $keys.isEmpty() ? this : MapTools.removeAll(builder(), $keys).build();
+            return $keys.isEmpty() ? this : MapTools.removeAll(newBuilder(), $keys).build();
         }
 
-        public PartBuilder builder() {
+        public PartBuilder newBuilder() {
             PartBuilderImpl $builder = new PartBuilderImpl();
             $builder.make = this.make;
             $builder.model = this.model;

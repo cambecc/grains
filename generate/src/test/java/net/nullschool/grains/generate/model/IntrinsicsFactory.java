@@ -60,11 +60,11 @@ public enum IntrinsicsFactory implements GrainFactory {
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[24]);
     private static final IntrinsicsGrain $DEFAULT = newBuilder().build();
-    public static IntrinsicsGrain DEFAULT() { return $DEFAULT; }
+    public static IntrinsicsGrain defaultValue() { return $DEFAULT; }
     public static IntrinsicsBuilder newBuilder() { return new IntrinsicsBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
-    public IntrinsicsGrain getDefault() { return DEFAULT(); }
+    public IntrinsicsGrain getDefaultValue() { return defaultValue(); }
     public IntrinsicsBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
@@ -435,7 +435,7 @@ public enum IntrinsicsFactory implements GrainFactory {
         }
 
         public IntrinsicsGrain withAll(Map<? extends String, ?> $map) {
-            return $map.isEmpty() ? this : MapTools.putAll(builder(), $map).build();
+            return $map.isEmpty() ? this : MapTools.putAll(newBuilder(), $map).build();
         }
 
         public IntrinsicsGrain without(Object $key) {
@@ -443,10 +443,10 @@ public enum IntrinsicsFactory implements GrainFactory {
         }
 
         public IntrinsicsGrain withoutAll(Collection<?> $keys) {
-            return $keys.isEmpty() ? this : MapTools.removeAll(builder(), $keys).build();
+            return $keys.isEmpty() ? this : MapTools.removeAll(newBuilder(), $keys).build();
         }
 
-        public IntrinsicsBuilder builder() {
+        public IntrinsicsBuilder newBuilder() {
             IntrinsicsBuilderImpl $builder = new IntrinsicsBuilderImpl();
             $builder.id = this.id;
             $builder.$float_ = this.$float_;

@@ -54,11 +54,11 @@ public enum CompoundFactory implements GrainFactory {
 
     private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[6]);
     private static final CompoundGrain $DEFAULT = newBuilder().build();
-    public static CompoundGrain DEFAULT() { return $DEFAULT; }
+    public static CompoundGrain defaultValue() { return $DEFAULT; }
     public static CompoundBuilder newBuilder() { return new CompoundBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
-    public CompoundGrain getDefault() { return DEFAULT(); }
+    public CompoundGrain getDefaultValue() { return defaultValue(); }
     public CompoundBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
@@ -185,7 +185,7 @@ public enum CompoundFactory implements GrainFactory {
         }
 
         public CompoundGrain withAll(Map<? extends String, ?> $map) {
-            return $map.isEmpty() ? this : MapTools.putAll(builder(), $map).build();
+            return $map.isEmpty() ? this : MapTools.putAll(newBuilder(), $map).build();
         }
 
         public CompoundGrain without(Object $key) {
@@ -193,10 +193,10 @@ public enum CompoundFactory implements GrainFactory {
         }
 
         public CompoundGrain withoutAll(Collection<?> $keys) {
-            return $keys.isEmpty() ? this : MapTools.removeAll(builder(), $keys).build();
+            return $keys.isEmpty() ? this : MapTools.removeAll(newBuilder(), $keys).build();
         }
 
-        public CompoundBuilder builder() {
+        public CompoundBuilder newBuilder() {
             CompoundBuilderImpl $builder = new CompoundBuilderImpl();
             $builder.firstPart = this.firstPart;
             $builder.partGroups = this.partGroups;

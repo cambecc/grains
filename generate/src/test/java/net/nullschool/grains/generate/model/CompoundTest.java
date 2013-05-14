@@ -34,7 +34,7 @@ import static net.nullschool.collect.CollectionTestingTools.*;
 public final class CompoundTest {
 
     private static PartGrain newPart(int make, int model) {
-        return PartFactory.DEFAULT().withMake(make).withModel(model);
+        return PartFactory.defaultValue().withMake(make).withModel(model);
     }
 
     private static LinkedHashMap<String, Object> newBasisAsPlainMap() {

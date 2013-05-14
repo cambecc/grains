@@ -122,6 +122,8 @@ public interface IntrinsicsGrain extends Intrinsics, Grain {
     // Grain Methods
     //
 
+    ConstMap<String, Object> extensions();
+
     IntrinsicsGrain with(String key, Object value);
 
     IntrinsicsGrain withAll(Map<? extends String, ?> map);
@@ -130,7 +132,5 @@ public interface IntrinsicsGrain extends Intrinsics, Grain {
 
     IntrinsicsGrain withoutAll(Collection<?> keys);
 
-    IntrinsicsBuilder builder();
-
-    ConstMap<String, Object> extensions();
+    IntrinsicsBuilder newBuilder();
 }

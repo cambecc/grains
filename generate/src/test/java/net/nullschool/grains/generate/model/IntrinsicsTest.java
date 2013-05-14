@@ -97,7 +97,7 @@ public class IntrinsicsTest {
     }
 
     private static IntrinsicsGrain newConstWithSampleValues() {
-        IntrinsicsGrain grain = IntrinsicsFactory.DEFAULT();
+        IntrinsicsGrain grain = IntrinsicsFactory.defaultValue();
         grain = grain.withId("ABC123");
         grain = grain.with$float(2.0F);
         grain = grain.withBigDecimal(BigDecimal.ONE);
@@ -190,7 +190,7 @@ public class IntrinsicsTest {
         assertEquals(IntrinsicsFactory.class.getName(), factory.toString());
         assertTrue(GrainFactory.class.isAssignableFrom(IntrinsicsFactory.class));
 
-        assertSame(IntrinsicsFactory.DEFAULT(), factory.getDefault());
+        assertSame(IntrinsicsFactory.defaultValue(), factory.getDefaultValue());
         assertNotNull(factory.getNewBuilder());
     }
 
@@ -207,8 +207,8 @@ public class IntrinsicsTest {
 
     @Test
     public void test_default_as_map() {
-        compare_maps(newBasisAsPlainMap(), IntrinsicsFactory.DEFAULT());
-        compare_maps(newBasisAsPlainMap(), IntrinsicsFactory.class.getEnumConstants()[0].getDefault());
+        compare_maps(newBasisAsPlainMap(), IntrinsicsFactory.defaultValue());
+        compare_maps(newBasisAsPlainMap(), IntrinsicsFactory.class.getEnumConstants()[0].getDefaultValue());
     }
 
     @Test
@@ -310,7 +310,7 @@ public class IntrinsicsTest {
 
     @Test(expected = ClassCastException.class)
     public void test_with_wrong_type() {
-        IntrinsicsFactory.DEFAULT().with("long", 1);
+        IntrinsicsFactory.defaultValue().with("long", 1);
     }
 
     @Test(expected = ClassCastException.class)
@@ -320,11 +320,11 @@ public class IntrinsicsTest {
 
     @Test(expected = ClassCastException.class)
     public void test_with_not_boolean() {
-        IntrinsicsFactory.DEFAULT().with("boolean", "true");
+        IntrinsicsFactory.defaultValue().with("boolean", "true");
     }
 
     @Test
     public void test_immutable() {
-        assert_map_immutable(IntrinsicsFactory.DEFAULT());
+        assert_map_immutable(IntrinsicsFactory.defaultValue());
     }
 }

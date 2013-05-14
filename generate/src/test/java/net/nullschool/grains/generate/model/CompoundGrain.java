@@ -49,6 +49,8 @@ public interface CompoundGrain extends Compound, Grain {
     // Grain Methods
     //
 
+    ConstMap<String, Object> extensions();
+
     CompoundGrain with(String key, Object value);
 
     CompoundGrain withAll(Map<? extends String, ?> map);
@@ -57,7 +59,5 @@ public interface CompoundGrain extends Compound, Grain {
 
     CompoundGrain withoutAll(Collection<?> keys);
 
-    CompoundBuilder builder();
-
-    ConstMap<String, Object> extensions();
+    CompoundBuilder newBuilder();
 }

@@ -39,11 +39,11 @@ public enum <type.targetFactory.simpleName> implements <type.grainFactory> {
 
     private static final <type.string>[] $KEYS = $PROPERTIES.keySet().toArray(new <type.string>[<length(grain.properties)>]);
     private static final <type.targetGrain> $DEFAULT = newBuilder().build();
-    public static <type.targetGrain> DEFAULT() { return $DEFAULT; }
+    public static <type.targetGrain> defaultValue() { return $DEFAULT; }
     public static <type.targetBuilder> newBuilder() { return new <type.targetBuilderImpl.simpleName>(); }
 
     public <type.basisPropertyMap> getBasisProperties() { return $PROPERTIES; }
-    public <type.targetGrain> getDefault() { return DEFAULT(); }
+    public <type.targetGrain> getDefaultValue() { return defaultValue(); }
     public <type.targetBuilder> getNewBuilder() { return newBuilder(); }
     public <type.string> toString() { return getClass().getName(); }
 

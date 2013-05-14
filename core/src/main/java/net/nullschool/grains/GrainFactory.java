@@ -31,7 +31,7 @@ public interface GrainFactory {
     /**
      * Returns the default instance of a grain, defined as the set of basis keys and their default values.
      */
-    Grain getDefault();
+    Grain getDefaultValue();
 
     /**
      * Constructs and returns a new builder containing the same values as the default grain instance.

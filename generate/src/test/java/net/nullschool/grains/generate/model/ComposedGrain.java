@@ -53,6 +53,8 @@ public interface ComposedGrain extends Composed, Grain {
     // Grain Methods
     //
 
+    ConstMap<String, Object> extensions();
+
     ComposedGrain with(String key, Object value);
 
     ComposedGrain withAll(Map<? extends String, ?> map);
@@ -61,7 +63,5 @@ public interface ComposedGrain extends Composed, Grain {
 
     ComposedGrain withoutAll(Collection<?> keys);
 
-    ComposedBuilder builder();
-
-    ConstMap<String, Object> extensions();
+    ComposedBuilder newBuilder();
 }

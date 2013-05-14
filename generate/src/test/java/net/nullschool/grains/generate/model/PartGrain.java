@@ -31,6 +31,8 @@ public interface PartGrain extends Compound.Part, Grain {
     // Grain Methods
     //
 
+    ConstMap<String, Object> extensions();
+
     PartGrain with(String key, Object value);
 
     PartGrain withAll(Map<? extends String, ?> map);
@@ -39,7 +41,5 @@ public interface PartGrain extends Compound.Part, Grain {
 
     PartGrain withoutAll(Collection<?> keys);
 
-    PartBuilder builder();
-
-    ConstMap<String, Object> extensions();
+    PartBuilder newBuilder();
 }

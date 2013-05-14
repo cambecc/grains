@@ -34,7 +34,7 @@ public class GrainToolsTest {
     private enum MyFactory implements GrainFactory {
         FACTORY;
         @Override public Map<String, GrainProperty> getBasisProperties() { throw new UnsupportedOperationException(); }
-        @Override public Grain getDefault() { throw new UnsupportedOperationException(); }
+        @Override public Grain getDefaultValue() { throw new UnsupportedOperationException(); }
         @Override public GrainBuilder getNewBuilder() { throw new UnsupportedOperationException(); }
     }
 
