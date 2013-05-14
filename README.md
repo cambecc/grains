@@ -3,7 +3,7 @@ Grains
 
 "Grains" is a small Java framework for generating immutable, extensible data models.
 
-Start with an interface:
+Start by writing an interface with JavaBean-style _get_ methods:
 ```java
     @GrainSchema
     public interface Order {
@@ -53,7 +53,7 @@ Once built, a grain can be modified using _with_ methods, creating new grains wh
     System.out.println(order.getQuantity());  // prints: 13
 ```
 
-Grains are maps (the builders are, too):
+Grains and their builders are maps:
 ```java
     System.out.println(order instanceof Map);    // prints: true
     System.out.println(order.get("product"));    // prints: apples
@@ -66,7 +66,7 @@ Grains are maps (the builders are, too):
     System.out.println(builder instanceof Map);  // prints: true
 ```
 
-Grains and builders are _extensible_ if necessary:
+They are _extensible_ if necessary:
 ```java
     builder.put("buyer", "bob");
     System.out.println(builder);         // prints: {product=apples, quantity=13, buyer=bob}
@@ -128,3 +128,63 @@ The Grains framework is built around three key principles:
 
 You write your data model as a set of Java interfaces and the Grains framework generates all the monotonous,
 otherwise manual coding of getters, setters, equals, hashCode, builders, factories, serialization, etc.
+
+Requirements
+------------
+Java 7
+Maven 3
+
+Usage
+-----
+
+0. Clone the project and run _mvn install_ (required because artifacts are not yet deployed to maven central)
+1. Decide in which package your hand-written `@GrainSchema` interfaces will reside, something like _com.acme.model_.
+2. Configure Maven to pre-compile this package and all sub-packages during the _generate-sources_ phase:
+    ```xml
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+        </configuration>
+        <executions>
+            <execution>
+                <phase>generate-sources</phase>
+                <goals><goal>compile</goal></goals>
+                <configuration>
+                    <includes>
+                        <include>com/acme/model/**</include>  <!-- SPECIFY PACKAGE HERE -->
+                    </includes>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+    ```
+3. Enable the _grains-plugin_ and bind it to the _generate-sources_ phase:
+    ```xml
+    <plugin>
+        <groupId>net.nullschool</groupId>
+        <artifactId>grains-plugin</artifactId>
+        <version>0.9.0-SNAPSHOT</version>
+        <executions>
+            <execution>
+                <phase>generate-sources</phase>
+                <goals><goal>generate</goal></goals>
+            </execution>
+        </executions>
+    </plugin>
+    ```
+4. Finally, add the _grains-core_ dependency to your project:
+    ```xml
+    <dependency>
+        <groupId>net.nullschool</groupId>
+        <artifactId>grains-core</artifactId>
+        <version>0.9.0-SNAPSHOT</version>
+    </dependency>
+    ```
+
+Done. Now any interface located under _com.acme.model_, annotated with `@GrainSchema`, will have a grain implementation
+generated when _mvn compile_, or even just _mvn generate-sources_, is invoked. By default, all generated sources appear
+in the _target/generated-sources/grains/com/acme/model_ directory.
