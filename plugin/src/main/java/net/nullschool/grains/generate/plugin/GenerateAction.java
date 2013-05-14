@@ -13,8 +13,7 @@ import java.net.URLClassLoader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 
 import static net.nullschool.util.ObjectTools.*;
@@ -61,16 +60,43 @@ final class GenerateAction {
         return output;
     }
 
+    ConstSet<String> process(List<String> includes) {
+        ConstSet<String> results = BasicConstSet.emptySet();
+        for (String include : includes) {
+            if (include.endsWith("*")) {
+                // Remove stars and convert path separators to dots.
+                String cleaned = include.replace("*", "").replace('/', '.').replace('\\', '.');
+                // Now remove leading/trailing/duplicate dots.
+                StringBuilder sb = new StringBuilder();
+                for (String s : cleaned.split("\\.")) {
+                    if (!s.isEmpty()) {
+                        sb.append('.').append(s);
+                    }
+                }
+                results = results.with(sb.substring(1));
+            }
+        }
+        return results;
+    }
+
     private ConstSet<String> prepareSearchPackages() {
-        ConstSet<String> packages = BasicConstSet.asSet(coalesce(mojo.getSearchPackages(), new String[0]));
-        if (packages.isEmpty()) {
-            packages = BasicConstSet.setOf(mojo.getProject().getGroupId());
-            log.info("Searching package: {} (result of ${project.groupId})", mojo.getProject().getGroupId());
-        }
-        else {
+        // Search the packages explicitly configured for this plugin, if any.
+        ConstSet<String> packages = BasicConstSet.asSet(mojo.getSearchPackages());
+        if (!packages.isEmpty()) {
             log.info("Searching packages: {}", packages);
+            return packages;
         }
-        return packages;
+
+        // Otherwise, convert the compiler plugin's <include> filters to packages and search them, if any.
+        packages = process(mojo.getCompilerIncludes());
+        if (!packages.isEmpty()) {
+            log.info("Searching packages: {} (result of compiler configuration)", packages);
+            return packages;
+        }
+
+        // If all else fails, use the project's group id as the search package.
+        log.info("Searching package: {} (result of ${project.groupId})", mojo.getProject().getGroupId());
+        return BasicConstSet.setOf(mojo.getProject().getGroupId());
     }
 
     private int prepareLineWidth() {

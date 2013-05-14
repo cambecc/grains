@@ -3,14 +3,19 @@ package net.nullschool.grains.generate.plugin;
 import net.nullschool.grains.generate.Configuration;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.Plugin;
+import org.apache.maven.model.PluginExecution;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static net.nullschool.util.ObjectTools.coalesce;
 
 
@@ -50,7 +55,7 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
      * The set of packages to search for annotated grains, e.g., ["com.foo.order.model", "com.foo.admin.model"]
      */
     public String[] getSearchPackages() {
-        return searchPackages;
+        return coalesce(searchPackages, new String[0]);
     }
 
     @Parameter(property = "searchProjectDependencies", defaultValue = "false")
@@ -111,10 +116,44 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
      */
     abstract void addSourceRoot(Path path);
 
+    /**
+     * Extracts the "include" filters this mojo prefers from the compiler's configuration, if any.
+     */
+    abstract List<String> getCompilerIncludes();
+
     String getProperty(String key, String defaultValue) {
         return coalesce(
             getSession().getUserProperties().getProperty(key),
             getSession().getSystemProperties().getProperty(key, defaultValue));
+    }
+
+    Xpp3Dom findMavenConfigurationFor(String pluginArtifactId, String phase) {
+        for (Plugin plugin : getProject().getBuildPlugins()) {
+            if (pluginArtifactId.equals(plugin.getArtifactId())) {
+                for (PluginExecution execution : plugin.getExecutions()) {
+                    if (phase.equals(execution.getPhase()) && execution.getConfiguration() instanceof Xpp3Dom) {
+                        return (Xpp3Dom)execution.getConfiguration();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    static List<Xpp3Dom> childrenNamed(String name, List<Xpp3Dom> nodes) {
+        List<Xpp3Dom> results = new ArrayList<>();
+        for (Xpp3Dom node : nodes) {
+            results.addAll(asList(node.getChildren(name)));
+        }
+        return results;
+    }
+
+    static List<String> valuesOf(List<Xpp3Dom> nodes) {
+        List<String> results = new ArrayList<>();
+        for (Xpp3Dom node : nodes) {
+            results.add(node.getValue());
+        }
+        return results;
     }
 
     @Override public void execute() throws MojoExecutionException {

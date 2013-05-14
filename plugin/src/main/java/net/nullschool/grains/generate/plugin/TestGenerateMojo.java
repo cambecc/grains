@@ -2,10 +2,12 @@ package net.nullschool.grains.generate.plugin;
 
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugins.annotations.*;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
+import static java.util.Arrays.asList;
 
 
 /**
@@ -40,6 +42,23 @@ public class TestGenerateMojo extends AbstractGenerateMojo {
         return getSearchProjectDependencies() ?
             getProject().getTestClasspathElements() :
             Arrays.asList(getProject().getBuild().getTestOutputDirectory());
+    }
+
+    @Override List<String> getCompilerIncludes() {
+        // Extract the include filters from the pom, if any.
+        //     <execution>
+        //         <phase>generate-test-sources</phase>
+        //         <goals><goal>compile</goal></goals>
+        //         <configuration>
+        //             <testIncludes><testInclude>com/acme/model/**</testInclude></testIncludes>
+        //         </configuration>
+        //     </execution>
+
+        Xpp3Dom config = findMavenConfigurationFor("maven-compiler-plugin", "generate-test-sources");
+        if (config != null) {
+            return valuesOf(childrenNamed("testInclude", childrenNamed("testIncludes", asList(config))));
+        }
+        return Collections.emptyList();
     }
 
     @Override void addSourceRoot(Path path) {
