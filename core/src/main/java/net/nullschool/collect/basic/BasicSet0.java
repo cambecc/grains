@@ -27,7 +27,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-final class BasicSet0<E> extends AbstractBasicConstSet<E> {
+final class BasicSet0<E> extends BasicConstSet<E> {
 
     private static final BasicSet0 INSTANCE = new BasicSet0();
 

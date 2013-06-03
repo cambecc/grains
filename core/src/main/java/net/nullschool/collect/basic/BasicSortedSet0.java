@@ -27,7 +27,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-final class BasicSortedSet0<E> extends AbstractBasicConstSortedSet<E> {
+final class BasicSortedSet0<E> extends BasicConstSortedSet<E> {
 
     private static final BasicSortedSet0 NATURAL_INSTANCE = new BasicSortedSet0<Object>(null);
 

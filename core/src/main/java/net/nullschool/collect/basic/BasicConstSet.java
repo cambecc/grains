@@ -16,8 +16,10 @@
 
 package net.nullschool.collect.basic;
 
+import net.nullschool.collect.AbstractUnmodifiableIterator;
 import net.nullschool.collect.ConstSet;
 
+import java.io.*;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.copy;
@@ -36,7 +38,7 @@ import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
  *
  * @author Cameron Beccario
  */
-public enum BasicConstSet {;
+public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSet<E>, Serializable {
 
     /**
      * Returns an empty ConstSet.
@@ -146,7 +148,7 @@ public enum BasicConstSet {;
      * @throws NullPointerException if {@code collection} is null.
      */
     public static <E> ConstSet<E> asSet(Collection<? extends E> collection) {
-        if (collection instanceof AbstractBasicConstSet && !(collection instanceof AbstractBasicConstSortedSet)) {
+        if (collection instanceof BasicConstSet && !(collection instanceof BasicConstSortedSet)) {
             @SuppressWarnings("unchecked") ConstSet<E> covariant = (ConstSet<E>)collection;
             return covariant;  // The collection is already a non-sorted ConstSet.
         }
@@ -177,7 +179,7 @@ public enum BasicConstSet {;
      * @param trustedElements the Object array of elements.
      * @return a size-appropriate implementation of AbstractBasicConstSet.
      */
-    static <E> AbstractBasicConstSet<E> condense(Object[] trustedElements) {
+    static <E> BasicConstSet<E> condense(Object[] trustedElements) {
         assert trustedElements.getClass() == Object[].class;
         switch (trustedElements.length) {
             case 0: return BasicSet0.instance();
@@ -185,4 +187,61 @@ public enum BasicConstSet {;
             default: return new BasicSetN<>(trustedElements);
         }
     }
+
+
+    // -------------------------------------------------------------------------
+    // Abstract implementation
+
+    BasicConstSet() {
+    }
+
+    abstract E get(int index);
+
+    private class Iter extends AbstractUnmodifiableIterator<E> {
+
+        private final int size = size();
+        private int i = 0;
+
+        @Override public boolean hasNext() {
+            return i < size;
+        }
+
+        @Override public E next() {
+            if (i < size) {
+                return get(i++);
+            }
+            throw new NoSuchElementException();
+        }
+    }
+
+    @Override public Iterator<E> iterator() {
+        return new Iter();
+    }
+
+    // -------------------------------------------------------------------------
+    // Mutation methods marked final, always throw UnsupportedOperationException
+
+    @Deprecated @Override public final boolean add(E e)                          { throw unsupported(); }
+    @Deprecated @Override public final boolean addAll(Collection<? extends E> c) { throw unsupported(); }
+    @Deprecated @Override public final boolean remove(Object o)                  { throw unsupported(); }
+    @Deprecated @Override public final boolean removeAll(Collection<?> c)        { throw unsupported(); }
+    @Deprecated @Override public final boolean retainAll(Collection<?> c)        { throw unsupported(); }
+    @Deprecated @Override public final void clear()                              { throw unsupported(); }
+
+    private static UnsupportedOperationException unsupported() {
+        return new UnsupportedOperationException();
+    }
+
+    // -------------------------------------------------------------------------
+    // Java serialization support
+
+    Object writeReplace() {
+        return new SetProxy(this);
+    }
+
+    private void readObject(ObjectInputStream in) throws InvalidObjectException {
+        throw new InvalidObjectException("proxy expected");
+    }
+
+    private static final long serialVersionUID = 1;
 }

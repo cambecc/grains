@@ -20,7 +20,6 @@ import net.nullschool.collect.*;
 
 import java.util.*;
 
-import static net.nullschool.collect.basic.BasicConstSortedMap.condense;
 import static net.nullschool.collect.basic.BasicTools.*;
 
 /**
@@ -28,7 +27,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
-final class BasicSortedMap1<K, V> extends AbstractBasicConstSortedMap<K, V> {
+final class BasicSortedMap1<K, V> extends BasicConstSortedMap<K, V> {
 
     private final K k0;
     private final V v0;

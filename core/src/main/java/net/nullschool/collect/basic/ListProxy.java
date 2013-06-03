@@ -30,9 +30,9 @@ import java.io.*;
 final class ListProxy implements Serializable {
 
     private static final long serialVersionUID = 1;
-    private transient AbstractBasicConstList<?> list;
+    private transient BasicConstList<?> list;
 
-    ListProxy(AbstractBasicConstList<?> list) {
+    ListProxy(BasicConstList<?> list) {
         this.list = list;
     }
 
@@ -57,7 +57,7 @@ final class ListProxy implements Serializable {
      * @param in the stream containing the serialized form.
      * @return a size-appropriate implementation of AbstractBasicConstList.
      */
-    private AbstractBasicConstList<?> readList(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    private BasicConstList<?> readList(ObjectInputStream in) throws IOException, ClassNotFoundException {
         final int size = in.readInt();
         switch (size) {
             case 0: return BasicList0.instance();

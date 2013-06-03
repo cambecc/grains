@@ -33,9 +33,9 @@ import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
 final class SetProxy implements Serializable {
 
     private static final long serialVersionUID = 1;
-    private transient AbstractBasicConstSet<?> set;
+    private transient BasicConstSet<?> set;
 
-    SetProxy(AbstractBasicConstSet<?> set) {
+    SetProxy(BasicConstSet<?> set) {
         this.set = set;
     }
 
@@ -60,7 +60,7 @@ final class SetProxy implements Serializable {
      * @param in the stream containing the serialized form.
      * @return a size-appropriate implementation of AbstractBasicConstSet.
      */
-    private AbstractBasicConstSet<?> readSet(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    private BasicConstSet<?> readSet(ObjectInputStream in) throws IOException, ClassNotFoundException {
         final int size = in.readInt();
         switch (size) {
             case 0: return BasicSet0.instance();

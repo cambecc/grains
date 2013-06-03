@@ -27,7 +27,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
-final class BasicSortedSetN<E> extends AbstractBasicConstSortedSet<E> {
+final class BasicSortedSetN<E> extends BasicConstSortedSet<E> {
 
     private final E[] elements;
 

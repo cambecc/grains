@@ -30,7 +30,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
-final class BasicListN<E> extends AbstractBasicConstList<E> {
+final class BasicListN<E> extends BasicConstList<E> {
 
     private final E[] elements;
 

@@ -26,7 +26,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-final class BasicSortedMap0<K, V> extends AbstractBasicConstSortedMap<K, V> {
+final class BasicSortedMap0<K, V> extends BasicConstSortedMap<K, V> {
 
     private static final BasicSortedMap0 NATURAL_INSTANCE = new BasicSortedMap0<Object, Object>(null);
 

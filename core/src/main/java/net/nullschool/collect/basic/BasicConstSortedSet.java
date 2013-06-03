@@ -19,6 +19,8 @@ package net.nullschool.collect.basic;
 import net.nullschool.collect.ConstSortedSet;
 import net.nullschool.util.ObjectTools;
 
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
@@ -35,7 +37,7 @@ import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
  *
  * @author Cameron Beccario
  */
-public enum BasicConstSortedSet {;
+public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements ConstSortedSet<E> {
 
     /**
      * Returns an empty ConstSortedSet with the ordering of the specified comparator.
@@ -176,7 +178,7 @@ public enum BasicConstSortedSet {;
      * @return a persistent sorted set containing the exact elements and ordering of the specified set.
      */
     public static <E> ConstSortedSet<E> asSortedSet(SortedSet<E> set) {
-        if (set instanceof AbstractBasicConstSortedSet) {
+        if (set instanceof BasicConstSortedSet) {
             return (ConstSortedSet<E>)set;  // The set is already a ConstSortedSet.
         }
         return condense(set.comparator(), set.toArray());
@@ -234,7 +236,7 @@ public enum BasicConstSortedSet {;
      * @param trustedElements the Object array of elements.
      * @return a size-appropriate implementation of AbstractBasicConstSet.
      */
-    static <E> AbstractBasicConstSortedSet<E> condense(Comparator<? super E> comparator, Object[] trustedElements) {
+    static <E> BasicConstSortedSet<E> condense(Comparator<? super E> comparator, Object[] trustedElements) {
         assert trustedElements.getClass() == Object[].class;
         switch (trustedElements.length) {
             case 0: return BasicSortedSet0.instance(comparator);
@@ -242,4 +244,35 @@ public enum BasicConstSortedSet {;
             default: return new BasicSortedSetN<>(comparator, trustedElements);
         }
     }
+
+
+    // -------------------------------------------------------------------------
+    // Abstract implementation
+
+    final Comparator<? super E> comparator;
+
+    BasicConstSortedSet(Comparator<? super E> comparator) {
+        this.comparator = comparator;
+    }
+
+    @Override public Comparator<? super E> comparator() {
+        return comparator;
+    }
+
+    int compare(E left, E right) {
+        return ObjectTools.compare(left, right, comparator);
+    }
+
+    // -------------------------------------------------------------------------
+    // Java serialization support
+
+    Object writeReplace() {
+        return new SortedSetProxy(this);
+    }
+
+    private void readObject(ObjectInputStream in) throws InvalidObjectException {
+        throw new InvalidObjectException("proxy expected");
+    }
+
+    private static final long serialVersionUID = 1;
 }

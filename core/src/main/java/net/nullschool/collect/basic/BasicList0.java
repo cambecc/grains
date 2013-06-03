@@ -27,7 +27,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-final class BasicList0<E> extends AbstractBasicConstList<E> {
+final class BasicList0<E> extends BasicConstList<E> {
 
     private static final BasicList0 INSTANCE = new BasicList0();
 

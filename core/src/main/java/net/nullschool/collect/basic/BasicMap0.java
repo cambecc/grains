@@ -26,7 +26,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-final class BasicMap0<K, V> extends AbstractBasicConstMap<K, V> {
+final class BasicMap0<K, V> extends BasicConstMap<K, V> {
 
     private static final BasicMap0 INSTANCE = new BasicMap0();
 

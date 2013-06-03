@@ -21,7 +21,6 @@ import net.nullschool.util.ArrayTools;
 
 import java.util.*;
 
-import static net.nullschool.collect.basic.BasicConstMap.condense;
 import static net.nullschool.collect.basic.BasicTools.*;
 
 /**
@@ -29,7 +28,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
-final class BasicMapN<K, V> extends AbstractBasicConstMap<K, V> {
+final class BasicMapN<K, V> extends BasicConstMap<K, V> {
 
     private final K[] keys;
     private final V[] values;

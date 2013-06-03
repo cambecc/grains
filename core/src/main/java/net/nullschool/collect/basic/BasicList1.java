@@ -30,7 +30,7 @@ import static net.nullschool.collect.basic.BasicTools.insertAll;
  *
  * @author Cameron Beccario
  */
-final class BasicList1<E> extends AbstractBasicConstList<E> {
+final class BasicList1<E> extends BasicConstList<E> {
 
     private final E e0;
 

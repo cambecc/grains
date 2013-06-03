@@ -16,9 +16,11 @@
 
 package net.nullschool.collect.basic;
 
-import net.nullschool.collect.ConstSortedMap;
+import net.nullschool.collect.*;
 import net.nullschool.util.ObjectTools;
 
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
@@ -37,7 +39,7 @@ import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
  *
  * @author Cameron Beccario
  */
-public enum BasicConstSortedMap {;
+public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> implements ConstSortedMap<K, V> {
 
     /**
      * Returns an empty ConstSortedMap with the ordering of the specified comparator.
@@ -194,7 +196,7 @@ public enum BasicConstSortedMap {;
      * @throws NullPointerException if {@code map} is null.
      */
     public static <K, V> ConstSortedMap<K, V> asSortedMap(SortedMap<K, V> map) {
-        if (map instanceof AbstractBasicConstSortedMap) {
+        if (map instanceof BasicConstSortedMap) {
             return (ConstSortedMap<K, V>)map;  // The map is already a ConstSortedMap.
         }
         return condense(map.comparator(), copy(map));
@@ -239,7 +241,7 @@ public enum BasicConstSortedMap {;
      * @param trustedColumns the map columns.
      * @return a size-appropriate implementation of AbstractBasicConstSortedMap.
      */
-    static <K, V> AbstractBasicConstSortedMap<K, V> condense(
+    static <K, V> BasicConstSortedMap<K, V> condense(
         Comparator<? super K> comparator,
         MapColumns trustedColumns) {
 
@@ -261,7 +263,7 @@ public enum BasicConstSortedMap {;
      * @param trustedValues the Object array of values.
      * @return a size-appropriate implementation of AbstractBasicConstSortedMap.
      */
-    static <K, V> AbstractBasicConstSortedMap<K, V> condense(
+    static <K, V> BasicConstSortedMap<K, V> condense(
         Comparator<? super K> comparator,
         Object[] trustedKeys,
         Object[] trustedValues) {
@@ -275,4 +277,41 @@ public enum BasicConstSortedMap {;
             default: return new BasicSortedMapN<>(comparator, trustedKeys, trustedValues);
         }
     }
+
+
+    // -------------------------------------------------------------------------
+    // Abstract implementation
+
+    final Comparator<? super K> comparator;
+
+    BasicConstSortedMap(Comparator<? super K> comparator) {
+        this.comparator = comparator;
+    }
+
+    @Override public Comparator<? super K> comparator() {
+        return comparator;
+    }
+
+    int compare(K left, K right) {
+        return ObjectTools.compare(left, right, comparator);
+    }
+
+    @Override public abstract ConstSortedSet<K> keySet();
+
+    @Override public abstract ConstCollection<V> values();
+
+    @Override public abstract ConstSet<Map.Entry<K, V>> entrySet();
+
+    // -------------------------------------------------------------------------
+    // Java serialization support
+
+    Object writeReplace() {
+        return new SortedMapProxy(this);
+    }
+
+    private void readObject(ObjectInputStream in) throws InvalidObjectException {
+        throw new InvalidObjectException("proxy expected");
+    }
+
+    private static final long serialVersionUID = 1;
 }

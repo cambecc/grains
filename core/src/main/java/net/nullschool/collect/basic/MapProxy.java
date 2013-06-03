@@ -35,9 +35,9 @@ import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
 final class MapProxy implements Serializable {
 
     private static final long serialVersionUID = 1;
-    private transient AbstractBasicConstMap<?, ?> map;
+    private transient BasicConstMap<?, ?> map;
 
-    MapProxy(AbstractBasicConstMap<?, ?> map) {
+    MapProxy(BasicConstMap<?, ?> map) {
         this.map = map;
     }
 
@@ -70,7 +70,7 @@ final class MapProxy implements Serializable {
      * @param in the stream containing the serialized form.
      * @return a size-appropriate implementation of AbstractBasicConstMap.
      */
-    private AbstractBasicConstMap<?, ?> readMap(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    private BasicConstMap<?, ?> readMap(ObjectInputStream in) throws IOException, ClassNotFoundException {
         final int size = in.readInt();
         switch (size) {
             case 0: return BasicMap0.instance();

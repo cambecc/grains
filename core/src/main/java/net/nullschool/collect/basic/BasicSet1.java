@@ -28,7 +28,7 @@ import static net.nullschool.collect.basic.BasicTools.unionInto;
  *
  * @author Cameron Beccario
  */
-final class BasicSet1<E> extends AbstractBasicConstSet<E> {
+final class BasicSet1<E> extends BasicConstSet<E> {
 
     private final E e0;
 
