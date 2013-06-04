@@ -16,7 +16,6 @@
 
 package net.nullschool.grains.generate.model;
 
-import net.nullschool.collect.basic.BasicConstList;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -24,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static net.nullschool.collect.CollectionTestingTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -78,8 +78,8 @@ public final class CompoundTest {
     @Test
     public void test_list() {
         CompoundBuilder actual = CompoundFactory.newBuilder();
-        actual.setRemainingParts(BasicConstList.listOf(newPart(42, 99), newPart(42, 99), newPart(43, 99)));
-        actual.setUnusedParts(BasicConstList.listOf(newPart(1, 99), newPart(2, 99), newPart(3, 99)));
+        actual.setRemainingParts(listOf(newPart(42, 99), newPart(42, 99), newPart(43, 99)));
+        actual.setUnusedParts(listOf(newPart(1, 99), newPart(2, 99), newPart(3, 99)));
 
         Map<String, Object> expected = newBasisAsPlainMap();
         expected.put("remainingParts", Arrays.asList(newPart(42, 99), newPart(42, 99), newPart(43, 99)));
@@ -88,8 +88,8 @@ public final class CompoundTest {
         compare_maps(expected, actual);
         compare_maps(expected, actual.build());
 
-        actual.put("remainingParts", BasicConstList.listOf(newPart(42, 99), newPart(42, 99), newPart(43, 99)));
-        actual.put("unusedParts", BasicConstList.listOf(newPart(1, 99), newPart(2, 99), newPart(3, 99)));
+        actual.put("remainingParts", listOf(newPart(42, 99), newPart(42, 99), newPart(43, 99)));
+        actual.put("unusedParts", listOf(newPart(1, 99), newPart(2, 99), newPart(3, 99)));
 
         compare_maps(expected, actual);
         compare_maps(expected, actual.build());

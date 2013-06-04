@@ -21,6 +21,7 @@ import net.nullschool.reflect.PublicInterfaceRef;
 import net.nullschool.util.ArrayTools;
 
 import java.util.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -96,7 +97,7 @@ final class BasicList0<E> extends BasicConstList<E> {
     }
 
     @Override public ConstList<E> with(E e) {
-        return BasicConstList.listOf(e);
+        return listOf(e);
     }
 
     @Override public ConstList<E> with(int index, E e) {
@@ -107,7 +108,7 @@ final class BasicList0<E> extends BasicConstList<E> {
     }
 
     @Override public ConstList<E> withAll(Collection<? extends E> c) {
-        return BasicConstList.asList(c);
+        return asList(c);
     }
 
     @Override public ConstList<E> withAll(int index, Collection<? extends E> c) {

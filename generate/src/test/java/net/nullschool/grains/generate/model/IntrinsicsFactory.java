@@ -15,7 +15,7 @@ import net.nullschool.collect.ConstMap;
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.collect.MapTools;
-import net.nullschool.collect.basic.BasicConstMap;
+import net.nullschool.collect.basic.BasicCollections;
 import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
@@ -855,7 +855,7 @@ public enum IntrinsicsFactory implements GrainFactory {
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
                 integer, long_, short_, string, URI, UUID, ボックス化バイト, 
-                BasicConstMap.asMap($extensions));
+                BasicCollections.asMap($extensions));
         }
     }
 }

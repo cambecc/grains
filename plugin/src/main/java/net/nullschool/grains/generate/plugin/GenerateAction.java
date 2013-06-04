@@ -17,7 +17,6 @@
 package net.nullschool.grains.generate.plugin;
 
 import net.nullschool.collect.ConstSet;
-import net.nullschool.collect.basic.BasicConstSet;
 import net.nullschool.grains.generate.Configuration;
 import net.nullschool.grains.generate.GrainGenerator;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -34,6 +33,8 @@ import java.util.concurrent.*;
 
 import static net.nullschool.util.ObjectTools.*;
 import static net.nullschool.util.ThreadTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-02-28<p/>
@@ -77,7 +78,7 @@ final class GenerateAction {
     }
 
     ConstSet<String> process(List<String> includes) {
-        ConstSet<String> results = BasicConstSet.emptySet();
+        ConstSet<String> results = emptySet();
         for (String include : includes) {
             if (include.endsWith("*")) {
                 // Remove stars and convert path separators to dots.
@@ -97,7 +98,7 @@ final class GenerateAction {
 
     private ConstSet<String> prepareSearchPackages() {
         // Search the packages explicitly configured for this plugin, if any.
-        ConstSet<String> packages = BasicConstSet.asSet(mojo.getSearchPackages());
+        ConstSet<String> packages = asSet(mojo.getSearchPackages());
         if (!packages.isEmpty()) {
             log.info("Searching packages: {}", packages);
             return packages;
@@ -112,7 +113,7 @@ final class GenerateAction {
 
         // If all else fails, use the project's group id as the search package.
         log.info("Searching package: {} (result of ${project.groupId})", mojo.getProject().getGroupId());
-        return BasicConstSet.setOf(mojo.getProject().getGroupId());
+        return setOf(mojo.getProject().getGroupId());
     }
 
     private int prepareLineWidth() {

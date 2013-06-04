@@ -22,6 +22,7 @@ import java.io.*;
 
 import static net.nullschool.collect.basic.BasicTools.unionInto;
 import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -82,7 +83,7 @@ final class MapProxy implements Serializable {
                     keys[i] = in.readObject();
                     values[i] = in.readObject();
                 }
-                return BasicConstMap.condense(unionInto(EMPTY_OBJECT_ARRAY, EMPTY_OBJECT_ARRAY, keys, values));
+                return condenseToMap(unionInto(EMPTY_OBJECT_ARRAY, EMPTY_OBJECT_ARRAY, keys, values));
         }
     }
 

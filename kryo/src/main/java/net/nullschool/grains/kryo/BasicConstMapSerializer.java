@@ -23,7 +23,7 @@ import com.esotericsoftware.kryo.io.Output;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.collect.basic.BasicConstMap;
 
-import static net.nullschool.collect.basic.BasicConstMap.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**

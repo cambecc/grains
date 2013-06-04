@@ -7,7 +7,8 @@ import com.esotericsoftware.kryo.io.Output;
 import net.nullschool.collect.basic.BasicConstSortedSet;
 
 import java.util.Comparator;
-import static net.nullschool.collect.basic.BasicConstSortedSet.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-06-03<p/>

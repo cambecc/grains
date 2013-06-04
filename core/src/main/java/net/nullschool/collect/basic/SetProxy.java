@@ -20,6 +20,7 @@ import java.io.*;
 
 import static net.nullschool.collect.basic.BasicTools.unionInto;
 import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -70,7 +71,7 @@ final class SetProxy implements Serializable {
                 for (int i = 0; i < size; i++) {
                     elements[i] = in.readObject();
                 }
-                return BasicConstSet.condense(unionInto(EMPTY_OBJECT_ARRAY, elements));
+                return condenseToSet(unionInto(EMPTY_OBJECT_ARRAY, elements));
         }
     }
 

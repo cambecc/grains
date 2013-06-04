@@ -22,6 +22,8 @@ import net.nullschool.util.ArrayTools;
 
 import java.util.*;
 
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-03-18<p/>
@@ -86,11 +88,11 @@ final class BasicSortedSet0<E> extends BasicConstSortedSet<E> {
     }
 
     @Override public ConstSortedSet<E> with(E e) {
-        return BasicConstSortedSet.sortedSetOf(comparator, e);
+        return sortedSetOf(comparator, e);
     }
 
     @Override public ConstSortedSet<E> withAll(Collection<? extends E> c) {
-        return c.isEmpty() ? this : BasicConstSortedSet.asSortedSet(comparator, c);
+        return c.isEmpty() ? this : asSortedSet(comparator, c);
     }
 
     @Override public ConstSortedSet<E> without(Object o) {

@@ -22,6 +22,8 @@ import net.nullschool.reflect.PublicInterfaceRef;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-03-18<p/>
@@ -86,7 +88,7 @@ final class BasicSortedSetN<E> extends BasicConstSortedSet<E> {
 
     @Override public ConstSortedSet<E> without(Object o) {
         int index = indexOf(o);
-        return index < 0 ? this : BasicConstSortedSet.condense(comparator, delete(elements, index));
+        return index < 0 ? this : condenseToSortedSet(comparator, delete(elements, index));
     }
 
     @Override public ConstSortedSet<E> withoutAll(Collection<?> c) {
@@ -96,7 +98,7 @@ final class BasicSortedSetN<E> extends BasicConstSortedSet<E> {
         // deleteAll uses the collection's contains method to test for equality, just as
         // AbstractCollection.removeAll does.
         Object[] shrunk = deleteAll(elements, c);
-        return shrunk.length == size() ? this : BasicConstSortedSet.condense(comparator, shrunk);
+        return shrunk.length == size() ? this : condenseToSortedSet(comparator, shrunk);
     }
 
     private ConstSortedSet<E> subSet(int fromIndex, int toIndex) {
@@ -109,7 +111,7 @@ final class BasicSortedSetN<E> extends BasicConstSortedSet<E> {
         if (fromIndex == 0 && toIndex == elements.length) {
             return this;
         }
-        return BasicConstSortedSet.condense(comparator, Arrays.copyOfRange(elements, fromIndex, toIndex));
+        return condenseToSortedSet(comparator, Arrays.copyOfRange(elements, fromIndex, toIndex));
     }
 
     @Override public ConstSortedSet<E> headSet(E toElement) {

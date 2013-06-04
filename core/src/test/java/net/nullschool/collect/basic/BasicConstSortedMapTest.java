@@ -25,9 +25,8 @@ import java.util.*;
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.util.Collections.reverseOrder;
 import static net.nullschool.collect.CollectionTestingTools.*;
-import static net.nullschool.collect.basic.BasicConstSortedMap.*;
-import static net.nullschool.collect.basic.BasicConstSortedMap.sortedMapOf;
 import static org.junit.Assert.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -343,12 +342,12 @@ public class BasicConstSortedMapTest {
     @Test
     public void test_condense() {
         Object[] a;
-        assertEquals(BasicSortedMap1.class, condense(null, a = new Object[] {1}, a).getClass());
-        assertEquals(BasicSortedMapN.class, condense(null, a = new Object[] {1, 2}, a).getClass());
-        assertEquals(BasicSortedMapN.class, condense(null, a = new Object[] {1, 2, 3}, a).getClass());
-        assertEquals(BasicSortedMapN.class, condense(null, a = new Object[] {1, 2, 3, 4}, a).getClass());
-        assertEquals(BasicSortedMapN.class, condense(null, a = new Object[] {1, 2, 3, 4, 5}, a).getClass());
-        assertEquals(BasicSortedMapN.class, condense(null, a = new Object[] {1, 2, 3, 4, 5, 6}, a).getClass());
+        assertEquals(BasicSortedMap1.class, condenseToSortedMap(null, a = new Object[] {1}, a).getClass());
+        assertEquals(BasicSortedMapN.class, condenseToSortedMap(null, a = new Object[] {1, 2}, a).getClass());
+        assertEquals(BasicSortedMapN.class, condenseToSortedMap(null, a = new Object[] {1, 2, 3}, a).getClass());
+        assertEquals(BasicSortedMapN.class, condenseToSortedMap(null, a = new Object[] {1, 2, 3, 4}, a).getClass());
+        assertEquals(BasicSortedMapN.class, condenseToSortedMap(null, a = new Object[] {1, 2, 3, 4, 5}, a).getClass());
+        assertEquals(BasicSortedMapN.class, condenseToSortedMap(null, a = new Object[] {1, 2, 3, 4, 5, 6}, a).getClass());
     }
 
     @Test

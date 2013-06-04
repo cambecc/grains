@@ -20,6 +20,7 @@ import net.nullschool.collect.*;
 import net.nullschool.reflect.PublicInterfaceRef;
 
 import java.util.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -82,23 +83,23 @@ final class BasicSortedMap0<K, V> extends BasicConstSortedMap<K, V> {
     }
 
     @Override public ConstSortedSet<K> keySet() {
-        return BasicConstSortedSet.emptySortedSet(comparator);
+        return emptySortedSet(comparator);
     }
 
     @Override public ConstCollection<V> values() {
-        return BasicConstList.emptyList();
+        return emptyList();
     }
 
     @Override public ConstSet<Entry<K, V>> entrySet() {
-        return BasicConstSet.emptySet();
+        return emptySet();
     }
 
     @Override public ConstSortedMap<K, V> with(K key, V value) {
-        return BasicConstSortedMap.sortedMapOf(comparator, key, value);
+        return sortedMapOf(comparator, key, value);
     }
 
     @Override public ConstSortedMap<K, V> withAll(Map<? extends K, ? extends V> map) {
-        return map.isEmpty() ? this : BasicConstSortedMap.asSortedMap(comparator, map);
+        return map.isEmpty() ? this : asSortedMap(comparator, map);
     }
 
     @Override public ConstSortedMap<K, V> without(Object key) {

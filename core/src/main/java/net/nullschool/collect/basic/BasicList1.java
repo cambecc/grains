@@ -24,6 +24,7 @@ import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.insert;
 import static net.nullschool.collect.basic.BasicTools.insertAll;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -73,54 +74,54 @@ final class BasicList1<E> extends BasicConstList<E> {
     }
 
     @Override public ConstList<E> with(E e) {
-        return BasicConstList.listOf(e0, e);
+        return listOf(e0, e);
     }
 
     @Override public ConstList<E> with(int index, E e) {
         switch (index) {
-            case 0: return BasicConstList.listOf(e, e0);
-            case 1: return BasicConstList.listOf(e0, e);
+            case 0: return listOf(e, e0);
+            case 1: return listOf(e0, e);
         }
         throw new IndexOutOfBoundsException();
     }
 
     @Override public ConstList<E> withAll(Collection<? extends E> c) {
-        return c.isEmpty() ? this : BasicConstList.<E>condense(insert(c.toArray(), 0, e0));
+        return c.isEmpty() ? this : BasicCollections.<E>condenseToList(insert(c.toArray(), 0, e0));
     }
 
     @Override public ConstList<E> withAll(int index, Collection<? extends E> c) {
         if (0 <= index && index <= 1) {
-            return c.isEmpty() ? this : BasicConstList.<E>condense(insertAll(new Object[] {e0}, index, c));
+            return c.isEmpty() ? this : BasicCollections.<E>condenseToList(insertAll(new Object[] {e0}, index, c));
         }
         throw new IndexOutOfBoundsException();
     }
 
     @Override public ConstList<E> replace(int index, E e) {
         if (index == 0) {
-            return BasicConstList.listOf(e);
+            return listOf(e);
         }
         throw new IndexOutOfBoundsException();
     }
 
     @Override public ConstList<E> without(Object o) {
-        return !contains(o) ? this : BasicConstList.<E>emptyList();
+        return !contains(o) ? this : BasicCollections.<E>emptyList();
     }
 
     @Override public ConstList<E> delete(int index) {
         if (index == 0) {
-            return BasicConstList.emptyList();
+            return emptyList();
         }
         throw new IndexOutOfBoundsException();
     }
 
     @Override public ConstList<E> withoutAll(Collection<?> c) {
-        return !c.contains(e0) ? this : BasicConstList.<E>emptyList();
+        return !c.contains(e0) ? this : BasicCollections.<E>emptyList();
     }
 
     @Override public ConstList<E> subList(int fromIndex, int toIndex) {
         ArrayTools.checkRange(fromIndex, toIndex, 1);
         // three possibilities: [0, 0), [0, 1), [1, 1)
-        return fromIndex != toIndex ? this : BasicConstList.<E>emptyList();
+        return fromIndex != toIndex ? this : BasicCollections.<E>emptyList();
     }
 
     private boolean equals(List<?> that) {

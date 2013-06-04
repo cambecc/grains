@@ -17,10 +17,10 @@
 package net.nullschool.grains.generate;
 
 import net.nullschool.collect.ConstSet;
-import net.nullschool.collect.basic.BasicConstSet;
 
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -41,7 +41,7 @@ public final class Configuration {
     private int lineWidth = Integer.parseInt(DEFAULT_LINE_WIDTH);
     private String lineSeparator = DEFAULT_LINE_SEPARATOR;
     private Path output;
-    private ConstSet<String> searchPackages = BasicConstSet.emptySet();
+    private ConstSet<String> searchPackages = emptySet();
     private ClassLoader searchLoader;
     private String typePolicy = DEFAULT_TYPE_POLICY;
 

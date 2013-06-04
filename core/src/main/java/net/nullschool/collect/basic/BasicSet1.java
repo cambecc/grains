@@ -71,15 +71,15 @@ final class BasicSet1<E> extends BasicConstSet<E> {
             return this;
         }
         Object[] expanded = unionInto(new Object[] {e0}, c.toArray());
-        return expanded.length == size() ? this : BasicConstSet.<E>condense(expanded);
+        return expanded.length == size() ? this : BasicCollections.<E>condenseToSet(expanded);
     }
 
     @Override public ConstSet<E> without(Object o) {
-        return !contains(o) ? this : BasicConstSet.<E>emptySet();
+        return !contains(o) ? this : BasicCollections.<E>emptySet();
     }
 
     @Override public ConstSet<E> withoutAll(Collection<?> c) {
-        return !c.contains(e0) ? this : BasicConstSet.<E>emptySet();
+        return !c.contains(e0) ? this : BasicCollections.<E>emptySet();
     }
 
     @Override public int hashCode() {

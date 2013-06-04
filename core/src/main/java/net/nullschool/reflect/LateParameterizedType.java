@@ -17,7 +17,6 @@
 package net.nullschool.reflect;
 
 
-import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.util.ArrayTools;
 
 import java.lang.reflect.*;
@@ -26,6 +25,7 @@ import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 import static net.nullschool.reflect.TypeTools.erase;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 /**
  * 2013-03-24<p/>
@@ -79,7 +79,7 @@ public final class LateParameterizedType implements ParameterizedType {
                 Arrays.toString(typeParameters),
                 rawType));
         }
-        this.resolver = new Resolver(BasicConstMap.asMap(typeParameters, typeArguments));
+        this.resolver = new Resolver(asMap(typeParameters, typeArguments));
     }
 
     /**

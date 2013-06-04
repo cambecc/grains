@@ -21,9 +21,9 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static net.nullschool.collect.basic.BasicConstMap.*;
 import static org.junit.Assert.*;
 import static net.nullschool.collect.CollectionTestingTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -157,7 +157,7 @@ public class BasicConstMapTest {
         assertSame(map, asMap(map));
 
         // However, ConstSortedMap should be converted to a regular ConstMap.
-        map = BasicConstSortedMap.sortedMapOf(null, 1, 1);
+        map = sortedMapOf(null, 1, 1);
         assertNotSame(map, asMap(map));
     }
 
@@ -169,12 +169,12 @@ public class BasicConstMapTest {
     @Test
     public void test_condense() {
         Object[] a;
-        assertEquals(BasicMap1.class, condense(a = new Object[] {1}, a).getClass());
-        assertEquals(BasicMapN.class, condense(a = new Object[] {1, 2}, a).getClass());
-        assertEquals(BasicMapN.class, condense(a = new Object[] {1, 2, 3}, a).getClass());
-        assertEquals(BasicMapN.class, condense(a = new Object[] {1, 2, 3, 4}, a).getClass());
-        assertEquals(BasicMapN.class, condense(a = new Object[] {1, 2, 3, 4, 5}, a).getClass());
-        assertEquals(BasicMapN.class, condense(a = new Object[] {1, 2, 3, 4, 5, 6}, a).getClass());
+        assertEquals(BasicMap1.class, condenseToMap(a = new Object[] {1}, a).getClass());
+        assertEquals(BasicMapN.class, condenseToMap(a = new Object[] {1, 2}, a).getClass());
+        assertEquals(BasicMapN.class, condenseToMap(a = new Object[] {1, 2, 3}, a).getClass());
+        assertEquals(BasicMapN.class, condenseToMap(a = new Object[] {1, 2, 3, 4}, a).getClass());
+        assertEquals(BasicMapN.class, condenseToMap(a = new Object[] {1, 2, 3, 4, 5}, a).getClass());
+        assertEquals(BasicMapN.class, condenseToMap(a = new Object[] {1, 2, 3, 4, 5, 6}, a).getClass());
     }
 
     @Test

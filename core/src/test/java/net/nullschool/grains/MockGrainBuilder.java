@@ -18,10 +18,11 @@ package net.nullschool.grains;
 
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
-import net.nullschool.collect.basic.BasicConstSortedMap;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -70,6 +71,6 @@ final class MockGrainBuilder extends AbstractGrainBuilder {
     }
 
     @Override public Grain build() {
-        return new MockGrain(BasicConstSortedMap.asSortedMap(basis), BasicConstSortedMap.asSortedMap(extensions));
+        return new MockGrain(asSortedMap(basis), asSortedMap(extensions));
     }
 }

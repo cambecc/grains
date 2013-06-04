@@ -11,7 +11,7 @@ import net.nullschool.collect.ConstMap;
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.collect.MapTools;
-import net.nullschool.collect.basic.BasicConstMap;
+import net.nullschool.collect.basic.BasicCollections;
 import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
@@ -218,7 +218,7 @@ public enum PartFactory implements GrainFactory {
         public PartGrain build() {
             return new PartGrainImpl(
                 make, model, 
-                BasicConstMap.asMap($extensions));
+                BasicCollections.asMap($extensions));
         }
     }
 }

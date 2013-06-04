@@ -22,6 +22,7 @@ import net.nullschool.reflect.PublicInterfaceRef;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 /**
  * 2013-03-17<p/>
@@ -75,17 +76,17 @@ final class BasicMap1<K, V> extends BasicConstMap<K, V> {
     }
 
     @Override public ConstSet<K> keySet() {
-        return BasicConstSet.setOf(k0);
+        return setOf(k0);
     }
 
     @Override public ConstCollection<V> values() {
-        return BasicConstList.listOf(v0);
+        return listOf(v0);
     }
 
     @Override public ConstSet<Entry<K, V>> entrySet() {
         MapIterator<K, V> iter = iterator();
         iter.next();
-        return BasicConstSet.setOf(iter.entry());
+        return setOf(iter.entry());
     }
 
     @Override public ConstMap<K, V> with(K key, V value) {
@@ -103,15 +104,15 @@ final class BasicMap1<K, V> extends BasicConstMap<K, V> {
             return this;
         }
         MapColumns mc = copy(map);
-        return condense(unionInto(new Object[] {k0}, new Object[] {v0}, mc.keys, mc.values));
+        return condenseToMap(unionInto(new Object[] {k0}, new Object[] {v0}, mc.keys, mc.values));
     }
 
     @Override public ConstMap<K, V> without(Object key) {
-        return !containsKey(key) ? this : BasicConstMap.<K, V>emptyMap();
+        return !containsKey(key) ? this : BasicCollections.<K, V>emptyMap();
     }
 
     @Override public ConstMap<K, V> withoutAll(Collection<?> keys) {
-        return !keys.contains(k0) ? this : BasicConstMap.<K, V>emptyMap();
+        return !keys.contains(k0) ? this : BasicCollections.<K, V>emptyMap();
     }
 
     @Override public int hashCode() {

@@ -19,10 +19,10 @@ package net.nullschool.collect.basic;
 import java.io.*;
 import java.util.Comparator;
 
-import static net.nullschool.collect.basic.BasicConstSortedSet.condense;
 import static net.nullschool.collect.basic.BasicTools.checkType;
 import static net.nullschool.collect.basic.BasicTools.unionInto;
 import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -75,7 +75,7 @@ final class SortedSetProxy implements Serializable {
                 for (int i = 0; i < size; i++) {
                     elements[i] = in.readObject();
                 }
-                return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, elements, comparator));
+                return condenseToSortedSet(comparator, unionInto(EMPTY_OBJECT_ARRAY, elements, comparator));
         }
     }
 

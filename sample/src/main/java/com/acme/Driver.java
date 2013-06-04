@@ -2,7 +2,7 @@ package com.acme;
 
 
 import com.acme.model.*;
-import net.nullschool.collect.basic.BasicConstList;
+import net.nullschool.collect.basic.BasicCollections;
 
 
 /**
@@ -18,7 +18,7 @@ public class Driver {
             .setName("Bob")
             .setEmail("bob@bob.com")
             .setPhones(
-                BasicConstList.listOf(
+                BasicCollections.listOf(
                     PhoneNumberFactory.newBuilder()
                         .setNumber("1234-5678")
                         .setType(PhoneNumber.PhoneType.MOBILE)

@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-03-15<p/>
@@ -110,7 +112,7 @@ final class BasicListN<E> extends BasicConstList<E> {
     }
 
     @Override public ConstList<E> delete(int index) {
-        return BasicConstList.condense(BasicTools.delete(elements, index));
+        return condenseToList(BasicTools.delete(elements, index));
     }
 
     @Override public ConstList<E> withoutAll(Collection<?> c) {
@@ -118,11 +120,11 @@ final class BasicListN<E> extends BasicConstList<E> {
             return this;
         }
         Object[] shrunk = deleteAll(elements, c);
-        return shrunk.length == size() ? this : BasicConstList.<E>condense(shrunk);
+        return shrunk.length == size() ? this : BasicCollections.<E>condenseToList(shrunk);
     }
 
     @Override public ConstList<E> subList(int fromIndex, int toIndex) {
-        return BasicConstList.condense(Arrays.copyOfRange(elements, fromIndex, toIndex));
+        return condenseToList(Arrays.copyOfRange(elements, fromIndex, toIndex));
     }
 
     @Override public int hashCode() {

@@ -8,7 +8,8 @@ import net.nullschool.collect.*;
 import net.nullschool.collect.basic.BasicConstSortedMap;
 
 import java.util.Comparator;
-import static net.nullschool.collect.basic.BasicConstSortedMap.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-06-03<p/>

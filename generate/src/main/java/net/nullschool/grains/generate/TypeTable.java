@@ -19,10 +19,9 @@ package net.nullschool.grains.generate;
 import javassist.*;
 import javassist.bytecode.BadBytecode;
 import javassist.bytecode.SignatureAttribute.*;
+import net.nullschool.collect.basic.*;
 import net.nullschool.transform.Transform;
 import net.nullschool.collect.*;
-import net.nullschool.collect.basic.BasicConstMap;
-import net.nullschool.collect.basic.BasicConstSet;
 import net.nullschool.grains.*;
 import net.nullschool.grains.generate.NamingPolicy.Name;
 import net.nullschool.reflect.*;
@@ -64,8 +63,7 @@ final class TypeTable {
         abstractGrainBuilder        (AbstractGrainBuilder.class),
         abstractGrainProxy          (AbstractGrainProxy.class),
         arrays                      (Arrays.class),
-        basicConstMap               (BasicConstMap.class),
-        basicConstSet               (BasicConstSet.class),
+        basicCollections            (BasicCollections.class),
         collections                 (Collections.class),
         generated                   (Generated.class),
         grain                       (Grain.class),

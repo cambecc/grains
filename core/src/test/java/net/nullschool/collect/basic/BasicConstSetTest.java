@@ -22,9 +22,9 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static net.nullschool.collect.basic.BasicConstSet.*;
 import static org.junit.Assert.*;
 import static net.nullschool.collect.CollectionTestingTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -162,7 +162,7 @@ public class BasicConstSetTest {
         assertSame(set, asSet(set));
 
         // However, ConstSortedSet should be converted to a regular ConstSet.
-        set = BasicConstSortedSet.sortedSetOf(null, 1);
+        set = sortedSetOf(null, 1);
         assertNotSame(set, asSet(set));
     }
 
@@ -213,15 +213,15 @@ public class BasicConstSetTest {
 
     @Test
     public void test_condense() {
-        assertSame(emptySet(), condense(new Object[] {}));
-        assertEquals(BasicSet1.class, condense(new Object[] {1}).getClass());
-        assertEquals(BasicSetN.class, condense(new Object[] {1, 2}).getClass());
-        assertEquals(BasicSetN.class, condense(new Object[] {1, 2, 3}).getClass());
-        assertEquals(BasicSetN.class, condense(new Object[] {1, 2, 3, 4}).getClass());
-        assertEquals(BasicSetN.class, condense(new Object[] {1, 2, 3, 4, 5}).getClass());
-        assertEquals(BasicSetN.class, condense(new Object[] {1, 2, 3, 4, 5, 6}).getClass());
-        assertEquals(BasicSetN.class, condense(new Object[] {1, 2, 3, 4, 5, 6, 7}).getClass());
-        assertEquals(BasicSetN.class, condense(new Object[] {1, 2, 3, 4, 5, 6, 7, 8}).getClass());
+        assertSame(emptySet(), condenseToSet(new Object[] {}));
+        assertEquals(BasicSet1.class, condenseToSet(new Object[] {1}).getClass());
+        assertEquals(BasicSetN.class, condenseToSet(new Object[] {1, 2}).getClass());
+        assertEquals(BasicSetN.class, condenseToSet(new Object[] {1, 2, 3}).getClass());
+        assertEquals(BasicSetN.class, condenseToSet(new Object[] {1, 2, 3, 4}).getClass());
+        assertEquals(BasicSetN.class, condenseToSet(new Object[] {1, 2, 3, 4, 5}).getClass());
+        assertEquals(BasicSetN.class, condenseToSet(new Object[] {1, 2, 3, 4, 5, 6}).getClass());
+        assertEquals(BasicSetN.class, condenseToSet(new Object[] {1, 2, 3, 4, 5, 6, 7}).getClass());
+        assertEquals(BasicSetN.class, condenseToSet(new Object[] {1, 2, 3, 4, 5, 6, 7, 8}).getClass());
     }
 
     @Test

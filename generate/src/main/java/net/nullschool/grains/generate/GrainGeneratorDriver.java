@@ -16,13 +16,14 @@
 
 package net.nullschool.grains.generate;
 
-import net.nullschool.collect.basic.BasicConstMap;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.TypePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-03-24<p/>
@@ -98,12 +99,12 @@ final class GrainGeneratorDriver {
             SymbolTable symbolTable = new SymbolTable(schema, typeTable, printerFactory, typePolicyMember);
 
             GenerationResult body = template.invoke(
-                BasicConstMap.mapOf(
+                mapOf(
                     "grain", symbolTable.buildGrainSymbol(),
                     "type", symbolTable.buildTypeSymbols()));
 
             GenerationResult importsBlock = Templates.newImportsBlockTemplate(config).invoke(
-                BasicConstMap.mapOf("imports", (Object)importer));
+                mapOf("imports", (Object)importer));
 
             body.getErrors().addAll(importsBlock.getErrors());
             return new GenerationResult(importsBlock.getText() + body.getText(), body.getErrors());

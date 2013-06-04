@@ -31,6 +31,8 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static net.nullschool.grains.kryo.KryoTestTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-06-04<p/>
@@ -138,7 +140,7 @@ public class GrainSerializerTest {
             .setDescription("test")
             .setSide(Order.Side.buy)
             .setMainProduct(product.withDescription("test1"))
-            .setProducts(BasicConstList.listOf(
+            .setProducts(listOf(
                 product.withDescription("test2"),
                 product.withDescription("test3")))
             .build();
@@ -165,7 +167,7 @@ public class GrainSerializerTest {
             .setDescription("test")
             .setSide(Order.Side.buy)
             .setMainProduct(product.withDescription("test1"))
-            .setProducts(BasicConstList.listOf(product.withDescription("test2")))
+            .setProducts(listOf(product.withDescription("test2")))
             .build();
 
         Kryo kryo = newTestKryo();

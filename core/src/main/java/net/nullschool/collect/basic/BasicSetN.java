@@ -87,7 +87,7 @@ final class BasicSetN<E> extends BasicConstSet<E> {
 
     @Override public ConstSet<E> without(Object o) {
         int index = ArrayTools.indexOf(o, elements);
-        return index < 0 ? this : BasicConstSet.<E>condense(delete(elements, index));
+        return index < 0 ? this : BasicCollections.<E>condenseToSet(delete(elements, index));
     }
 
     @Override public ConstSet<E> withoutAll(Collection<?> c) {
@@ -95,7 +95,7 @@ final class BasicSetN<E> extends BasicConstSet<E> {
             return this;
         }
         Object[] shrunk = deleteAll(elements, c);
-        return shrunk.length == size() ? this : BasicConstSet.<E>condense(shrunk);
+        return shrunk.length == size() ? this : BasicCollections.<E>condenseToSet(shrunk);
     }
 
     @Override public int hashCode() {

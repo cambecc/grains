@@ -22,7 +22,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static net.nullschool.collect.basic.BasicConstList.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 import static org.junit.Assert.*;
 import static net.nullschool.collect.CollectionTestingTools.*;
 
@@ -174,15 +174,15 @@ public class BasicConstListTest {
 
     @Test
     public void test_condense() {
-        assertSame(emptyList(), condense(new Object[] {}));
-        assertEquals(BasicList1.class, condense(new Object[] {1}).getClass());
-        assertEquals(BasicListN.class, condense(new Object[] {1, 2}).getClass());
-        assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3}).getClass());
-        assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3, 4}).getClass());
-        assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3, 4, 5}).getClass());
-        assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3, 4, 5, 6}).getClass());
-        assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3, 4, 5, 6, 7}).getClass());
-        assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3, 4, 5, 6, 7, 8}).getClass());
+        assertSame(emptyList(), condenseToList(new Object[] {}));
+        assertEquals(BasicList1.class, condenseToList(new Object[] {1}).getClass());
+        assertEquals(BasicListN.class, condenseToList(new Object[] {1, 2}).getClass());
+        assertEquals(BasicListN.class, condenseToList(new Object[] {1, 2, 3}).getClass());
+        assertEquals(BasicListN.class, condenseToList(new Object[] {1, 2, 3, 4}).getClass());
+        assertEquals(BasicListN.class, condenseToList(new Object[] {1, 2, 3, 4, 5}).getClass());
+        assertEquals(BasicListN.class, condenseToList(new Object[] {1, 2, 3, 4, 5, 6}).getClass());
+        assertEquals(BasicListN.class, condenseToList(new Object[] {1, 2, 3, 4, 5, 6, 7}).getClass());
+        assertEquals(BasicListN.class, condenseToList(new Object[] {1, 2, 3, 4, 5, 6, 7, 8}).getClass());
     }
 
     @Test

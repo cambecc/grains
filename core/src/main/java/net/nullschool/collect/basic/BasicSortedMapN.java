@@ -23,6 +23,7 @@ import net.nullschool.util.ArrayTools;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -92,11 +93,11 @@ final class BasicSortedMapN<K, V> extends BasicConstSortedMap<K, V> {
     }
 
     @Override public ConstSortedSet<K> keySet() {
-        return BasicConstSortedSet.condense(comparator, keys);
+        return condenseToSortedSet(comparator, keys);
     }
 
     @Override public ConstCollection<V> values() {
-        return BasicConstList.condense(values);
+        return condenseToList(values);
     }
 
     @Override public ConstSet<Entry<K, V>> entrySet() {
@@ -106,19 +107,19 @@ final class BasicSortedMapN<K, V> extends BasicConstSortedMap<K, V> {
             @Override public ConstSet<Entry<K, V>> with(Entry<K, V> entry) {
                 // UNDONE: conversion to standard set means the equality test has changed. The set of entries
                 //         may no longer be a proper set. Is this the case? Need to uniquify here?
-                return contains(entry) ? this : BasicConstSet.<Entry<K, V>>condense(toArray()).with(entry);
+                return contains(entry) ? this : BasicCollections.<Entry<K, V>>condenseToSet(toArray()).with(entry);
             }
 
             @Override public ConstSet<Entry<K, V>> withAll(Collection<? extends Entry<K, V>> c) {
-                return c.isEmpty() ? this : BasicConstSet.<Entry<K, V>>condense(toArray()).withAll(c);
+                return c.isEmpty() ? this : BasicCollections.<Entry<K, V>>condenseToSet(toArray()).withAll(c);
             }
 
             @Override public ConstSet<Entry<K, V>> without(Object entry) {
-                return !contains(entry) ? this : BasicConstSet.<Entry<K, V>>condense(toArray()).without(entry);
+                return !contains(entry) ? this : BasicCollections.<Entry<K, V>>condenseToSet(toArray()).without(entry);
             }
 
             @Override public ConstSet<Entry<K, V>> withoutAll(Collection<?> c) {
-                return c.isEmpty() ? this : BasicConstSet.<Entry<K, V>>condense(toArray()).withoutAll(c);
+                return c.isEmpty() ? this : BasicCollections.<Entry<K, V>>condenseToSet(toArray()).withoutAll(c);
             }
         };
     }
@@ -140,21 +141,21 @@ final class BasicSortedMapN<K, V> extends BasicConstSortedMap<K, V> {
             return this;
         }
         MapColumns mc = copy(map);
-        return condense(comparator, unionInto(keys, values, mc.keys, mc.values, comparator));
+        return condenseToSortedMap(comparator, unionInto(keys, values, mc.keys, mc.values, comparator));
     }
 
     @Override public ConstSortedMap<K, V> without(Object key) {
         int index = indexOf(key);
         return index < 0 ?
             this :
-            BasicConstSortedMap.<K, V>condense(comparator, delete(keys, index), delete(values, index));
+            BasicCollections.<K, V>condenseToSortedMap(comparator, delete(keys, index), delete(values, index));
     }
 
     @Override public ConstSortedMap<K, V> withoutAll(Collection<?> keysToDelete) {
         if (keysToDelete.isEmpty()) {
             return this;
         }
-        return condense(comparator, deleteAll(keys, values, keysToDelete));
+        return condenseToSortedMap(comparator, deleteAll(keys, values, keysToDelete));
     }
 
     private ConstSortedMap<K, V> subMap(int fromIndex, int toIndex) {
@@ -167,7 +168,7 @@ final class BasicSortedMapN<K, V> extends BasicConstSortedMap<K, V> {
         if (fromIndex == 0 && toIndex == keys.length) {
             return this;
         }
-        return BasicConstSortedMap.condense(
+        return condenseToSortedMap(
             comparator,
             Arrays.copyOfRange(keys, fromIndex, toIndex),
             Arrays.copyOfRange(values, fromIndex, toIndex));

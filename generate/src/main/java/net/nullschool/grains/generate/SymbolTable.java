@@ -16,7 +16,7 @@
 
 package net.nullschool.grains.generate;
 
-import net.nullschool.collect.basic.BasicConstSet;
+import net.nullschool.collect.basic.BasicCollections;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainProperty.Flag;
 import net.nullschool.grains.SimpleGrainProperty;
@@ -28,6 +28,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 import static net.nullschool.grains.generate.GenerateTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -65,8 +66,8 @@ final class SymbolTable {
 
     private static Set<Flag> flagsFor(PropertyDescriptor pd) {
         return pd.getReadMethod().getName().startsWith("is") ?
-            BasicConstSet.setOf(Flag.IS_PROPERTY) :
-            BasicConstSet.<Flag>emptySet();
+            setOf(Flag.IS_PROPERTY) :
+            BasicCollections.<Flag>emptySet();
     }
 
     private static List<GrainProperty> collectBeanPropertiesOf(Type type) throws IntrospectionException {

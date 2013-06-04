@@ -17,12 +17,12 @@
 package net.nullschool.grains;
 
 import net.nullschool.collect.*;
-import net.nullschool.collect.basic.BasicConstSortedMap;
+import net.nullschool.collect.basic.BasicCollections;
 
 import java.io.Serializable;
 import java.util.*;
 
-import static net.nullschool.collect.basic.BasicConstSortedMap.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -40,7 +40,7 @@ final class MockGrain extends AbstractGrain implements Serializable {
     MockGrain(String... basisKeys) {
         this(
             asSortedMap(null, basisKeys, new Object[basisKeys.length]),
-            BasicConstSortedMap.<String, Object>emptySortedMap(null));
+            BasicCollections.<String, Object>emptySortedMap(null));
     }
 
     MockGrain(ConstSortedMap<String, Object> basis, ConstSortedMap<String, Object> extensions) {

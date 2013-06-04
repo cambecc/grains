@@ -23,6 +23,8 @@ import net.nullschool.util.ArrayTools;
 import java.util.*;
 
 import static net.nullschool.collect.basic.BasicTools.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-03-17<p/>
@@ -76,30 +78,30 @@ final class BasicMapN<K, V> extends BasicConstMap<K, V>  {
     }
 
     @Override public ConstSet<K> keySet() {
-        return BasicConstSet.condense(keys);
+        return condenseToSet(keys);
     }
 
     @Override public ConstCollection<V> values() {
-        return BasicConstList.condense(values);
+        return condenseToList(values);
     }
 
     @Override public ConstSet<Entry<K, V>> entrySet() {
         return new BasicConstEntriesView() {
 
             @Override public ConstSet<Entry<K, V>> with(Entry<K, V> entry) {
-                return contains(entry) ? this : BasicConstSet.<Entry<K, V>>condense(toArray()).with(entry);
+                return contains(entry) ? this : BasicCollections.<Entry<K, V>>condenseToSet(toArray()).with(entry);
             }
 
             @Override public ConstSet<Entry<K, V>> withAll(Collection<? extends Entry<K, V>> c) {
-                return c.isEmpty() ? this : BasicConstSet.<Entry<K, V>>condense(toArray()).withAll(c);
+                return c.isEmpty() ? this : BasicCollections.<Entry<K, V>>condenseToSet(toArray()).withAll(c);
             }
 
             @Override public ConstSet<Entry<K, V>> without(Object entry) {
-                return !contains(entry) ? this : BasicConstSet.<Entry<K, V>>condense(toArray()).without(entry);
+                return !contains(entry) ? this : BasicCollections.<Entry<K, V>>condenseToSet(toArray()).without(entry);
             }
 
             @Override public ConstSet<Entry<K, V>> withoutAll(Collection<?> c) {
-                return c.isEmpty() ? this : BasicConstSet.<Entry<K, V>>condense(toArray()).withoutAll(c);
+                return c.isEmpty() ? this : BasicCollections.<Entry<K, V>>condenseToSet(toArray()).withoutAll(c);
             }
         };
     }
@@ -121,19 +123,19 @@ final class BasicMapN<K, V> extends BasicConstMap<K, V>  {
             return this;
         }
         MapColumns mc = copy(map);
-        return condense(unionInto(keys, values, mc.keys, mc.values));
+        return condenseToMap(unionInto(keys, values, mc.keys, mc.values));
     }
 
     @Override public ConstMap<K, V> without(Object key) {
         int index = ArrayTools.indexOf(key, keys);
-        return index < 0 ? this : BasicConstMap.<K, V>condense(delete(keys, index), delete(values, index));
+        return index < 0 ? this : BasicCollections.<K, V>condenseToMap(delete(keys, index), delete(values, index));
     }
 
     @Override public ConstMap<K, V> withoutAll(Collection<?> keysToDelete) {
         if (keysToDelete.isEmpty()) {
             return this;
         }
-        return condense(deleteAll(keys, values, keysToDelete));
+        return condenseToMap(deleteAll(keys, values, keysToDelete));
     }
 
     @Override public int hashCode() {

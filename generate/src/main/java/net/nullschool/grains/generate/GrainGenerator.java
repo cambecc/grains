@@ -16,7 +16,6 @@
 
 package net.nullschool.grains.generate;
 
-import net.nullschool.collect.basic.BasicConstSet;
 import net.nullschool.grains.GrainSchema;
 import net.nullschool.grains.GrainTools;
 import org.slf4j.Logger;
@@ -31,6 +30,8 @@ import java.util.concurrent.*;
 import static net.nullschool.grains.generate.NamingPolicy.Name;
 import static net.nullschool.util.ThreadTools.newDaemonThreadFactory;
 import static net.nullschool.util.ThreadTools.newNamingThreadFactory;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-02-13<p/>
@@ -148,7 +149,7 @@ public class GrainGenerator implements Callable<Void> {
         Thread.currentThread().setName("main");
         Configuration config = new Configuration();
         config.setOutput(Paths.get(args[0]));
-        config.setSearchPackages(BasicConstSet.asSet(Arrays.asList(args).subList(1, args.length)));
+        config.setSearchPackages(asSet(Arrays.asList(args).subList(1, args.length)));
         new GrainGenerator(config).call();
         Thread.sleep(10); // yeah, just so logging catches up.
     }

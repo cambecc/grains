@@ -22,7 +22,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import net.nullschool.collect.basic.BasicConstSet;
 
-import static net.nullschool.collect.basic.BasicConstSet.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**

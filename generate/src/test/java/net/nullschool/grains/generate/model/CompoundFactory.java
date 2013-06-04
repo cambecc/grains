@@ -13,7 +13,7 @@ import net.nullschool.collect.ConstSet;
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.collect.MapTools;
-import net.nullschool.collect.basic.BasicConstMap;
+import net.nullschool.collect.basic.BasicCollections;
 import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
@@ -341,7 +341,7 @@ public enum CompoundFactory implements GrainFactory {
         public CompoundGrain build() {
             return new CompoundGrainImpl(
                 firstPart, partGroups, remainingParts, secondPart, uniqueParts, unusedParts, 
-                BasicConstMap.asMap($extensions));
+                BasicCollections.asMap($extensions));
         }
     }
 }

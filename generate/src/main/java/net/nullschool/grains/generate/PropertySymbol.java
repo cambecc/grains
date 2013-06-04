@@ -17,7 +17,6 @@
 package net.nullschool.grains.generate;
 
 import net.nullschool.collect.ConstSet;
-import net.nullschool.collect.basic.BasicConstSet;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.util.StringTools;
 
@@ -25,6 +24,7 @@ import java.util.Set;
 
 import static net.nullschool.grains.GrainProperty.Flag.IS_PROPERTY;
 import static net.nullschool.reflect.TypeTools.erase;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -55,7 +55,7 @@ final class PropertySymbol implements Symbol {
         this.typeSymbol = new TypeSymbol(prop.getType(), factory);
         this.typeToken = typeToken;
 
-        ConstSet<StaticFieldLoadExpression> flags = BasicConstSet.emptySet();
+        ConstSet<StaticFieldLoadExpression> flags = emptySet();
         for (GrainProperty.Flag flag : prop.getFlags()) {
             flags = flags.with(new StaticFieldLoadExpression(GrainProperty.Flag.class, flag.name(), factory));
         }

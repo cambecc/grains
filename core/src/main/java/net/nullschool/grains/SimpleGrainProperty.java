@@ -16,11 +16,10 @@
 
 package net.nullschool.grains;
 
-import net.nullschool.collect.basic.BasicConstSet;
-
 import java.lang.reflect.Type;
 import java.util.Objects;
 import java.util.Set;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -37,11 +36,11 @@ public class SimpleGrainProperty implements GrainProperty {
     public SimpleGrainProperty(String name, Type type, Set<Flag> flags) {
         this.name = Objects.requireNonNull(name);
         this.type = Objects.requireNonNull(type);
-        this.flags = BasicConstSet.asSet(flags);
+        this.flags = asSet(flags);
     }
 
     public SimpleGrainProperty(String name, Type type, Flag... flags) {
-        this(name, type, BasicConstSet.asSet(flags));
+        this(name, type, asSet(flags));
     }
 
     @Override public String getName() {

@@ -17,7 +17,7 @@
 package net.nullschool.grains;
 
 import net.nullschool.collect.ConstMap;
-import net.nullschool.collect.basic.BasicConstMap;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -89,6 +89,6 @@ public class GrainTools {
         for (int i = 0; i < properties.length; i++) {
             keys[i] = properties[i].getName();
         }
-        return BasicConstMap.asMap(keys, properties);
+        return asMap(keys, properties);
     }
 }

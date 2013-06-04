@@ -20,6 +20,7 @@ import net.nullschool.collect.*;
 import net.nullschool.reflect.PublicInterfaceRef;
 
 import java.util.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -73,23 +74,23 @@ final class BasicMap0<K, V> extends BasicConstMap<K, V> {
     }
 
     @Override public ConstSet<K> keySet() {
-        return BasicConstSet.emptySet();
+        return emptySet();
     }
 
     @Override public ConstCollection<V> values() {
-        return BasicConstList.emptyList();
+        return emptyList();
     }
 
     @Override public ConstSet<Entry<K, V>> entrySet() {
-        return BasicConstSet.emptySet();
+        return emptySet();
     }
 
     @Override public ConstMap<K, V> with(K key, V value) {
-        return BasicConstMap.mapOf(key, value);
+        return mapOf(key, value);
     }
 
     @Override public ConstMap<K, V> withAll(Map<? extends K, ? extends V> map) {
-        return BasicConstMap.asMap(map);
+        return asMap(map);
     }
 
     @Override public ConstMap<K, V> without(Object key) {

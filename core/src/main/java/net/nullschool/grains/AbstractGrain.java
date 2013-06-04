@@ -22,6 +22,8 @@ import net.nullschool.collect.basic.BasicConstSet;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.*;
 
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-03-11<p/>
@@ -108,19 +110,19 @@ public abstract class AbstractGrain extends AbstractIterableMap<String, Object> 
     protected class ConstKeysView extends KeysView implements ConstSet<String> {
 
         @Override public ConstSet<String> with(String key) {
-            return contains(key) ? this : BasicConstSet.asSet(this).with(key);
+            return contains(key) ? this : asSet(this).with(key);
         }
 
         @Override public ConstSet<String> withAll(Collection<? extends String> c) {
-            return c.isEmpty() ? this : BasicConstSet.asSet(this).withAll(c);
+            return c.isEmpty() ? this : asSet(this).withAll(c);
         }
 
         @Override public ConstSet<String> without(Object key) {
-            return !contains(key) ? this : BasicConstSet.asSet(this).without(key);
+            return !contains(key) ? this : asSet(this).without(key);
         }
 
         @Override public ConstSet<String> withoutAll(Collection<?> c) {
-            return c.isEmpty() ? this : BasicConstSet.asSet(this).withoutAll(c);
+            return c.isEmpty() ? this : asSet(this).withoutAll(c);
         }
 
         // -------------------------------------------------------------------------
@@ -144,19 +146,19 @@ public abstract class AbstractGrain extends AbstractIterableMap<String, Object> 
     protected class ConstValuesView extends ValuesView implements ConstCollection<Object> {
 
         @Override public ConstCollection<Object> with(Object value) {
-            return contains(value) ? this : BasicConstList.asList(this).with(value);
+            return contains(value) ? this : asList(this).with(value);
         }
 
         @Override public ConstCollection<Object> withAll(Collection<?> c) {
-            return c.isEmpty() ? this : BasicConstList.asList(this).withAll(c);
+            return c.isEmpty() ? this : asList(this).withAll(c);
         }
 
         @Override public ConstCollection<Object> without(Object value) {
-            return !contains(value) ? this : BasicConstList.asList(this).without(value);
+            return !contains(value) ? this : asList(this).without(value);
         }
 
         @Override public ConstCollection<Object> withoutAll(Collection<?> c) {
-            return c.isEmpty() ? this : BasicConstList.asList(this).withoutAll(c);
+            return c.isEmpty() ? this : asList(this).withoutAll(c);
         }
 
         // -------------------------------------------------------------------------
@@ -180,19 +182,19 @@ public abstract class AbstractGrain extends AbstractIterableMap<String, Object> 
     protected class ConstEntriesView extends EntriesView implements ConstSet<Entry<String, Object>> {
 
         @Override public ConstSet<Entry<String, Object>> with(Entry<String, Object> entry) {
-            return contains(entry) ? this : BasicConstSet.asSet(this).with(entry);
+            return contains(entry) ? this : asSet(this).with(entry);
         }
 
         @Override public ConstSet<Entry<String, Object>> withAll(Collection<? extends Entry<String, Object>> c) {
-            return c.isEmpty() ? this : BasicConstSet.asSet(this).withAll(c);
+            return c.isEmpty() ? this : asSet(this).withAll(c);
         }
 
         @Override public ConstSet<Entry<String, Object>> without(Object entry) {
-            return !contains(entry) ? this : BasicConstSet.asSet(this).without(entry);
+            return !contains(entry) ? this : asSet(this).without(entry);
         }
 
         @Override public ConstSet<Entry<String, Object>> withoutAll(Collection<?> c) {
-            return c.isEmpty() ? this : BasicConstSet.asSet(this).withoutAll(c);
+            return c.isEmpty() ? this : asSet(this).withoutAll(c);
         }
 
         // -------------------------------------------------------------------------

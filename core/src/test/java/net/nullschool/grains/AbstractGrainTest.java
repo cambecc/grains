@@ -23,7 +23,8 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static net.nullschool.collect.CollectionTestingTools.*;
-import static net.nullschool.collect.basic.BasicConstSortedMap.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
+
 
 /**
  * 2013-05-04<p/>

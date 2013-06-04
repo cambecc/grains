@@ -21,6 +21,7 @@ import net.nullschool.reflect.PublicInterfaceRef;
 import net.nullschool.util.ArrayTools;
 
 import java.util.*;
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -77,11 +78,11 @@ final class BasicSet0<E> extends BasicConstSet<E> {
     }
 
     @Override public ConstSet<E> with(E e) {
-        return BasicConstSet.setOf(e);
+        return setOf(e);
     }
 
     @Override public ConstSet<E> withAll(Collection<? extends E> c) {
-        return BasicConstSet.asSet(c);
+        return asSet(c);
     }
 
     @Override public ConstSet<E> without(Object o) {
