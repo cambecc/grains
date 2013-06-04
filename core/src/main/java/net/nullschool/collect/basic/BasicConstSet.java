@@ -26,12 +26,17 @@ import java.util.*;
 /**
  * 2013-03-16<p/>
  *
- * Utility methods for constructing instances of {@link ConstSet} that use arrays to store their elements, providing
- * a memory efficient implementation of ConstSet but with O(N) complexity for most set query operations, and O(N^2)
- * complexity for most set construction operations. These sets allow {@code null} elements and use {@link Object#equals}
- * and {@link Object#hashCode} to test for set membership.<p/>
+ * A {@link ConstSet} that uses an array to store its elements, providing a memory efficient implementation of ConstSet
+ * but with O(N) complexity for most set query operations, and O(N^2) complexity for most set construction operations.
+ * This set allows {@code null} elements and uses {@link Object#equals} and {@link Object#hashCode} to test for set
+ * membership.<p/>
  *
- * Note that these sets are not sorted. See {@link BasicConstSortedSet} to construct instances of ConstSortedSet.
+ * Note that this set is not sorted. See {@link BasicConstSortedSet} for a ConstSortedSet implementation.<p/>
+ *
+ * See {@link BasicCollections} for utility methods that construct instances of this set.
+ *
+ * @see BasicCollections#emptySet
+ * @see BasicCollections#setOf
  *
  * @author Cameron Beccario
  */

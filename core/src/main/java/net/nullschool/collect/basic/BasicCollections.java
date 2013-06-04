@@ -28,6 +28,15 @@ import static net.nullschool.util.ArrayTools.EMPTY_OBJECT_ARRAY;
 /**
  * 2013-06-04<p/>
  *
+ * Utility methods for constructing the entire family of const collections that use basic arrays to store their
+ * elements.
+ *
+ * @see BasicConstList
+ * @see BasicConstSet
+ * @see BasicConstSortedSet
+ * @see BasicConstMap
+ * @see BasicConstSortedMap
+ *
  * @author Cameron Beccario
  */
 public final class BasicCollections {

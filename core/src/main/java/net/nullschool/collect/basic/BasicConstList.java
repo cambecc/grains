@@ -26,9 +26,13 @@ import java.util.*;
 /**
  * 2013-03-15<p/>
  *
- * Utility methods for constructing instances of {@link ConstList} that use arrays to store their elements,
- * providing a memory efficient implementation of ConstList but with O(N) complexity for most list operations. These
- * lists allow {@code null} elements.
+ * A {@link ConstList} that uses an array to store its elements, providing a memory efficient implementation of
+ * ConstList but with O(N) complexity for most list operations. This list allows {@code null} elements.<p/>
+ *
+ * See {@link BasicCollections} for utility methods that construct instances of this list.
+ *
+ * @see BasicCollections#emptyList
+ * @see BasicCollections#listOf
  *
  * @author Cameron Beccario
  */

@@ -27,11 +27,16 @@ import java.util.*;
 /**
  * 2013-04-29<p/>
  *
- * Utility methods for constructing instances of {@link ConstSortedMap} that use arrays to store their entries,
- * providing a memory efficient implementation of ConstSortedMap but with O(log(N)) complexity for most map query
- * operations, and O(N) complexity for most map construction operations. Map membership is determined using
- * {@link Comparator#compare}, or {@link Comparable natural ordering} if the comparator is {@code null}. These maps
- * allow {@code null} keys only if the associated {@link Comparator} allows nulls.
+ * A {@link ConstSortedMap} that uses arrays to store its entries, providing a memory efficient implementation of
+ * ConstSortedMap but with O(log(N)) complexity for most map query operations, and O(N) complexity for most map
+ * construction operations. Map membership is determined using {@link Comparator#compare}, or {@link Comparable
+ * natural ordering} if the comparator is {@code null}. This map allows {@code null} keys only if the associated
+ * {@link Comparator} allows nulls.<p/>
+ *
+ * See {@link BasicCollections} for utility methods that construct instances of this map.
+ *
+ * @see BasicCollections#emptySortedMap
+ * @see BasicCollections#sortedMapOf
  *
  * @author Cameron Beccario
  */

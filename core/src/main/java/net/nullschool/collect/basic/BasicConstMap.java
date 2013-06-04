@@ -25,12 +25,17 @@ import java.util.*;
 /**
  * 2013-03-17<p/>
  *
- * Utility methods for constructing instances of {@link ConstMap} that use arrays to store their entries, providing
- * a memory efficient implementation of ConstMap but with O(N) complexity for most map query operations, and O(N^2)
- * complexity for most map construction operations. These maps allow {@code null} keys and values, and use
- * {@link Object#equals} and {@link Object#hashCode} to test for map membership.<p/>
+ * A {@link ConstMap} that uses arrays to store its entries, providing a memory efficient implementation of ConstMap
+ * but with O(N) complexity for most map query operations, and O(N^2) complexity for most map construction operations.
+ * This maps allows {@code null} keys and values, and uses {@link Object#equals} and {@link Object#hashCode} to test
+ * for map membership.<p/>
  *
- * Note that these maps are not sorted. See {@link BasicConstSortedMap} to construct instances of ConstSortedMap.
+ * Note that this map is not sorted. See {@link BasicConstSortedMap} for a ConstSortedMap implementation.<p/>
+ *
+ * See {@link BasicCollections} for utility methods that construct instances of this map.
+ *
+ * @see BasicCollections#emptyMap
+ * @see BasicCollections#mapOf
  *
  * @author Cameron Beccario
  */

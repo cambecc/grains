@@ -27,11 +27,16 @@ import java.util.*;
 /**
  * 2013-03-18<p/>
  *
- * Utility methods for constructing instances of {@link ConstSortedSet} that use arrays to store their elements,
- * providing a memory efficient implementation of ConstSortedSet but with O(log(N)) complexity for most set query
- * operations, and O(N) complexity for most set construction operations. Set membership is determined using
- * {@link Comparator#compare}, or {@link Comparable natural ordering} if the comparator is {@code null}. These sets
- * allow {@code null} elements only if the associated {@link Comparator} allows nulls.
+ * A {@link ConstSortedSet} that uses an array to store its elements, providing a memory efficient implementation of
+ * ConstSortedSet but with O(log(N)) complexity for most set query operations, and O(N) complexity for most set
+ * construction operations. Set membership is determined using {@link Comparator#compare}, or {@link Comparable
+ * natural ordering} if the comparator is {@code null}. This set allows {@code null} elements only if the associated
+ * {@link Comparator} allows nulls.<p/>
+ *
+ * See {@link BasicCollections} for utility methods that construct instances of this set.
+ *
+ * @see BasicCollections#emptySortedSet
+ * @see BasicCollections#sortedSetOf
  *
  * @author Cameron Beccario
  */
