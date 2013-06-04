@@ -97,6 +97,7 @@ final class TypeTable {
         basisPropertyMap            (new TypeToken<ConstMap<String, GrainProperty>>(){}),
         collectionWildcard          (new TypeToken<Collection<?>>(){}),
         constMap                    (new TypeToken<ConstMap<String, Object>>(){}),
+        constSortedMap              (new TypeToken<ConstSortedMap<String, Object>>(){}),
         entry                       (new TypeToken<Map.Entry<String, Object>>(){}),
         iterableMap                 (new TypeToken<IterableMap<String, Object>>(){}),
         mapIterator                 (new TypeToken<MapIterator<String, Object>>(){}),

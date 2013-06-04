@@ -31,11 +31,11 @@ private static final class <type.targetGrainImpl.simpleName>
 
     <grain.properties:{prop|private final <prop.type> <prop.fieldName>;}; separator="\n">
 
-    private final <type.constMap> $extensions;
+    private final <type.constSortedMap> $extensions;
 
     private <type.targetGrainImpl.simpleName>(
         <grain.properties:{prop|<prop.type> <prop.fieldName>, }; wrap>
-        <type.constMap> $extensions) {
+        <type.constSortedMap> $extensions) {
 
         <grain.properties:{prop|this.<prop.fieldName> = <prop.fieldName>;}; separator="\n">
         this.$extensions = $extensions;
@@ -60,7 +60,7 @@ private static final class <type.targetGrainImpl.simpleName>
         switch ($key) {
             <grain.properties:grain_with_case(); separator="\n">
         }
-        <type.constMap> $newExtensions =
+        <type.constSortedMap> $newExtensions =
             $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
         if ($newExtensions == $extensions) {
             return this;

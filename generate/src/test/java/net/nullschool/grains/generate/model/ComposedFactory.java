@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.annotation.Generated;
 import net.nullschool.collect.ConstList;
 import net.nullschool.collect.ConstMap;
+import net.nullschool.collect.ConstSortedMap;
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.collect.MapTools;
@@ -79,12 +80,12 @@ public enum ComposedFactory implements GrainFactory {
         private final ConstList<UUID> rightIds;
         private final String top;
 
-        private final ConstMap<String, Object> $extensions;
+        private final ConstSortedMap<String, Object> $extensions;
 
         private ComposedGrainImpl(
             UUID id, String left, ConstList<UUID> leftIds, String name, String right, ConstList<UUID> rightIds, 
             String top, 
-            ConstMap<String, Object> $extensions) {
+            ConstSortedMap<String, Object> $extensions) {
 
             this.id = id;
             this.left = left;
@@ -174,7 +175,7 @@ public enum ComposedFactory implements GrainFactory {
                 case "rightIds": return withRightIds($transform0.apply($value));
                 case "top": return withTop((String)$value);
             }
-            ConstMap<String, Object> $newExtensions =
+            ConstSortedMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
             if ($newExtensions == $extensions) {
                 return this;
@@ -358,7 +359,7 @@ public enum ComposedFactory implements GrainFactory {
         public ComposedGrain build() {
             return new ComposedGrainImpl(
                 id, left, leftIds, name, right, rightIds, top, 
-                BasicCollections.asMap($extensions));
+                BasicCollections.asSortedMap($extensions));
         }
     }
 }

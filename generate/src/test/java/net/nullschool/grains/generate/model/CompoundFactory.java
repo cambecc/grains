@@ -10,6 +10,7 @@ import javax.annotation.Generated;
 import net.nullschool.collect.ConstList;
 import net.nullschool.collect.ConstMap;
 import net.nullschool.collect.ConstSet;
+import net.nullschool.collect.ConstSortedMap;
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.collect.MapTools;
@@ -85,12 +86,12 @@ public enum CompoundFactory implements GrainFactory {
         private final ConstSet<PartGrain> uniqueParts;
         private final ConstList<PartGrain> unusedParts;
 
-        private final ConstMap<String, Object> $extensions;
+        private final ConstSortedMap<String, Object> $extensions;
 
         private CompoundGrainImpl(
             PartGrain firstPart, ConstMap<String, ConstSet<PartGrain>> partGroups, ConstList<PartGrain> remainingParts, 
             PartGrain secondPart, ConstSet<PartGrain> uniqueParts, ConstList<PartGrain> unusedParts, 
-            ConstMap<String, Object> $extensions) {
+            ConstSortedMap<String, Object> $extensions) {
 
             this.firstPart = firstPart;
             this.partGroups = partGroups;
@@ -170,7 +171,7 @@ public enum CompoundFactory implements GrainFactory {
                 case "uniqueParts": return withUniqueParts($transform2.apply($value));
                 case "unusedParts": return withUnusedParts($transform1.apply($value));
             }
-            ConstMap<String, Object> $newExtensions =
+            ConstSortedMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
             if ($newExtensions == $extensions) {
                 return this;
@@ -341,7 +342,7 @@ public enum CompoundFactory implements GrainFactory {
         public CompoundGrain build() {
             return new CompoundGrainImpl(
                 firstPart, partGroups, remainingParts, secondPart, uniqueParts, unusedParts, 
-                BasicCollections.asMap($extensions));
+                BasicCollections.asSortedMap($extensions));
         }
     }
 }

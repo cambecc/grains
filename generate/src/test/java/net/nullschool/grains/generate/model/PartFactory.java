@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.annotation.Generated;
 import net.nullschool.collect.ConstMap;
+import net.nullschool.collect.ConstSortedMap;
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.collect.MapTools;
@@ -55,11 +56,11 @@ public enum PartFactory implements GrainFactory {
         private final int make;
         private final int model;
 
-        private final ConstMap<String, Object> $extensions;
+        private final ConstSortedMap<String, Object> $extensions;
 
         private PartGrainImpl(
             int make, int model, 
-            ConstMap<String, Object> $extensions) {
+            ConstSortedMap<String, Object> $extensions) {
 
             this.make = make;
             this.model = model;
@@ -99,7 +100,7 @@ public enum PartFactory implements GrainFactory {
                 case "make": return withMake($value == null ? 0 : (int)$value);
                 case "model": return withModel($value == null ? 0 : (int)$value);
             }
-            ConstMap<String, Object> $newExtensions =
+            ConstSortedMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
             if ($newExtensions == $extensions) {
                 return this;
@@ -218,7 +219,7 @@ public enum PartFactory implements GrainFactory {
         public PartGrain build() {
             return new PartGrainImpl(
                 make, model, 
-                BasicCollections.asMap($extensions));
+                BasicCollections.asSortedMap($extensions));
         }
     }
 }

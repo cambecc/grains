@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import javax.annotation.Generated;
 import net.nullschool.collect.ConstMap;
+import net.nullschool.collect.ConstSortedMap;
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
 import net.nullschool.collect.MapTools;
@@ -105,7 +106,7 @@ public enum IntrinsicsFactory implements GrainFactory {
         private final UUID UUID;
         private final Byte ボックス化バイト;
 
-        private final ConstMap<String, Object> $extensions;
+        private final ConstSortedMap<String, Object> $extensions;
 
         private IntrinsicsGrainImpl(
             String id, float $float_, BigDecimal bigDecimal, BigInteger bigInteger, boolean boolean_, 
@@ -113,7 +114,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             byte byte_, char char_, char char__, Character character, double double_, Intrinsics.Color$ enum_, 
             float float_, int int_, Integer integer, long long_, short short_, String string, URI URI, 
             UUID UUID, Byte ボックス化バイト, 
-            ConstMap<String, Object> $extensions) {
+            ConstSortedMap<String, Object> $extensions) {
 
             this.id = id;
             this.$float_ = $float_;
@@ -433,7 +434,7 @@ public enum IntrinsicsFactory implements GrainFactory {
                 case "UUID": return withUUID((UUID)$value);
                 case "ボックス化バイト": return withボックス化バイト((Byte)$value);
             }
-            ConstMap<String, Object> $newExtensions =
+            ConstSortedMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
             if ($newExtensions == $extensions) {
                 return this;
@@ -855,7 +856,7 @@ public enum IntrinsicsFactory implements GrainFactory {
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
                 integer, long_, short_, string, URI, UUID, ボックス化バイト, 
-                BasicCollections.asMap($extensions));
+                BasicCollections.asSortedMap($extensions));
         }
     }
 }

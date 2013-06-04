@@ -70,7 +70,7 @@ private static final class <type.targetBuilderImpl.simpleName>
     public <type.targetGrain> build() {
         return new <type.targetGrainImpl.simpleName>(
             <grain.properties:{prop|<prop.fieldName>, }; wrap>
-            <type.basicCollections>.asMap($extensions));
+            <type.basicCollections>.asSortedMap($extensions));
     }
 }
 >>

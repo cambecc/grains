@@ -19,13 +19,14 @@ package net.nullschool.collect.basic;
 
 import net.nullschool.collect.IteratorTools;
 import net.nullschool.collect.MapIterator;
-import net.nullschool.util.ArrayTools;
 import net.nullschool.util.ObjectTools;
 
 import java.util.*;
 
 import static java.lang.Math.min;
 import static java.util.Objects.requireNonNull;
+import static net.nullschool.util.ArrayTools.*;
+
 
 /**
  * 2013-03-15<p/>
@@ -52,6 +53,8 @@ class BasicTools {
             this.values = values;
         }
     }
+
+    private static final MapColumns EMPTY_MAP_COLUMNS = new MapColumns(EMPTY_OBJECT_ARRAY, EMPTY_OBJECT_ARRAY);
 
     /**
      * Copies the specified array into a new array having component type Object.
@@ -90,7 +93,7 @@ class BasicTools {
         // be changing concurrently. Note the contract for toArray() lets us avoid a wasteful defensive
         // copy of the result.
         // noinspection ToArrayCallWithZeroLengthArrayArgument
-        return original.toArray(ArrayTools.EMPTY_OBJECT_ARRAY);
+        return original.toArray(EMPTY_OBJECT_ARRAY);
     }
 
     /**
@@ -119,6 +122,10 @@ class BasicTools {
      */
     static MapColumns copy(Map<?, ?> original) {
         final int expectedSize = original.size();
+        if (expectedSize == 0) {
+            return EMPTY_MAP_COLUMNS;
+        }
+
         Object[] keys = new Object[expectedSize];
         Object[] values = new Object[expectedSize];
 
@@ -303,7 +310,7 @@ class BasicTools {
         int cursor = original.length;
         for (Object element : additional) {
             // Do a linear search of the resulting elements found so far.
-            if (ArrayTools.indexOf(element, result, 0, cursor) < 0) {
+            if (indexOf(element, result, 0, cursor) < 0) {
                 result[cursor++] = element;
             }
         }
@@ -344,7 +351,7 @@ class BasicTools {
             // Do a binary search of the original sorted elements.
             if (Arrays.binarySearch(result, 0, original.length, element, c) < 0) {
                 // Do a linear search of new unique elements found so far.
-                if (ArrayTools.indexOf(element, result, original.length, cursor, c) < 0) {
+                if (indexOf(element, result, original.length, cursor, c) < 0) {
                     if (cursor == 0) {
                         checkType(c, element);  // This is the first item, so check comparability.
                     }
@@ -353,7 +360,7 @@ class BasicTools {
             }
         }
         // Truncate if array was not completely filled. Sort the result.
-        return ArrayTools.sort(cursor == result.length ? result : copy(result, cursor), c);
+        return sort(cursor == result.length ? result : copy(result, cursor), c);
     }
 
     /**
@@ -388,7 +395,7 @@ class BasicTools {
         for (int i = 0; i < additionalLength; i++) {
             Object newKey = additionalKeys[i];
             Object newValue = additionalValues[i];
-            int index = ArrayTools.indexOf(newKey, resultKeys, 0, cursor);
+            int index = indexOf(newKey, resultKeys, 0, cursor);
             if (index < 0) {
                 // Add a new unique entry
                 resultKeys[cursor] = newKey;
