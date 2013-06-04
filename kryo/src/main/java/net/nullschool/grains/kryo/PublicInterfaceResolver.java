@@ -31,8 +31,10 @@ import java.lang.reflect.Modifier;
  *
  * A Kryo {@link ClassResolver} that processes classes using their {@link PublicInterfaceRef public interface},
  * if defined. This ensures Kryo encodes objects using their publicly exported types rather than their private internal
- * implementations that may evolve over time. For example, {@code OrderGrainImpl} should be written as
- * {@code OrderGrain}, {@code BasicListN} should be written as {@code BasicConstList}, etc.<p/>
+ * implementations that may evolve over time. Generated grain implementations and const collections are particularly
+ * susceptible to this condition. For example, {@code OrderGrainImpl} should be written as {@code OrderGrain},
+ * {@code BasicListN} should be written as {@code BasicConstList}, etc. Using the public interface also makes it
+ * possible to register these classes with Kryo.<p/>
  *
  * Note: instances of this resolver are not thread safe.
  *
