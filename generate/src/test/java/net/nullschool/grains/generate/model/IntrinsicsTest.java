@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
@@ -62,6 +63,7 @@ public class IntrinsicsTest {
         map.put("long", 0L);
         map.put("short", (short)0);
         map.put("string", null);
+        map.put("URI", null);
         map.put("UUID", null);
         map.put("ボックス化バイト", null);
         return map;
@@ -91,6 +93,7 @@ public class IntrinsicsTest {
         map.put("long", 6L);
         map.put("short", (short)7);
         map.put("string", "hello");
+        map.put("URI", URI.create("http://nullschool.net"));
         map.put("UUID", UUID.fromString("1bd31d66-eda2-4395-a2a7-510bd581e3ab"));
         map.put("ボックス化バイト", (byte)1);
         return map;
@@ -121,6 +124,7 @@ public class IntrinsicsTest {
         grain = grain.withLong(6);
         grain = grain.withShort((short)7);
         grain = grain.withString("hello");
+        grain = grain.withURI(URI.create("http://nullschool.net"));
         grain = grain.withUUID(UUID.fromString("1bd31d66-eda2-4395-a2a7-510bd581e3ab"));
         return grain;
     }
@@ -150,6 +154,7 @@ public class IntrinsicsTest {
         builder.setLong(6);
         builder.setShort((short)7);
         builder.setString("hello");
+        builder.setURI(URI.create("http://nullschool.net"));
         builder.setUUID(UUID.fromString("1bd31d66-eda2-4395-a2a7-510bd581e3ab"));
         return builder;
     }
@@ -178,7 +183,13 @@ public class IntrinsicsTest {
         assertEquals(6L, intrinsics.getLong());
         assertEquals((short)7, intrinsics.getShort());
         assertEquals("hello", intrinsics.getString());
+        assertEquals(URI.create("http://nullschool.net"), intrinsics.getURI());
         assertEquals(UUID.fromString("1bd31d66-eda2-4395-a2a7-510bd581e3ab"), intrinsics.getUUID());
+    }
+
+    @Test
+    public void test_intrinsics_size_changed() {
+        assertEquals(25, IntrinsicsFactory.defaultValue().size());
     }
 
     @Test

@@ -35,7 +35,7 @@ public class BasicToolsTest {
     public static String asReadableString(byte[] data) {
         StringBuilder sb = new StringBuilder(data.length);
         for (byte b : data) {
-            if (b < 32) {
+            if (b < 32 || b > 126) {
                 sb/*.append('»')*/.append(String.format("%x", b & 0xff));
             }
             else {

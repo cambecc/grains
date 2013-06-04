@@ -20,6 +20,7 @@ import net.nullschool.grains.GrainSchema;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.UUID;
 
 
@@ -81,6 +82,8 @@ public interface Intrinsics {
     BigDecimal getBigDecimal();
 
     UUID getUUID();
+
+    URI getURI();
 
     Color$ getEnum();
 }

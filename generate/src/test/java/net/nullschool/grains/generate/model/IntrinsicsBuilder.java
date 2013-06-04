@@ -2,6 +2,7 @@ package net.nullschool.grains.generate.model;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.UUID;
 import javax.annotation.Generated;
 import net.nullschool.grains.GrainBuilder;
@@ -105,6 +106,10 @@ public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {
     String getString();
 
     IntrinsicsBuilder setString(String string);
+
+    URI getURI();
+
+    IntrinsicsBuilder setURI(URI URI);
 
     UUID getUUID();
 

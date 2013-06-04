@@ -58,6 +58,7 @@
         <module>core</module>
         <module>generate</module>
         <module>plugin</module>
+        <module>kryo</module>
         <module>sample</module>
     </modules>
 

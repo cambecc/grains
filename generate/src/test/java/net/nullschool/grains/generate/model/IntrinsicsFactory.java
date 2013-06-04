@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -55,10 +56,11 @@ public enum IntrinsicsFactory implements GrainFactory {
         new SimpleGrainProperty("long", long.class),
         new SimpleGrainProperty("short", short.class),
         new SimpleGrainProperty("string", String.class),
+        new SimpleGrainProperty("URI", URI.class),
         new SimpleGrainProperty("UUID", UUID.class),
         new SimpleGrainProperty("ボックス化バイト", Byte.class));
 
-    private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[24]);
+    private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[25]);
     private static final IntrinsicsGrain $DEFAULT = newBuilder().build();
     public static IntrinsicsGrain defaultValue() { return $DEFAULT; }
     public static IntrinsicsBuilder newBuilder() { return new IntrinsicsBuilderImpl(); }
@@ -99,6 +101,7 @@ public enum IntrinsicsFactory implements GrainFactory {
         private final long long_;
         private final short short_;
         private final String string;
+        private final URI URI;
         private final UUID UUID;
         private final Byte ボックス化バイト;
 
@@ -108,8 +111,8 @@ public enum IntrinsicsFactory implements GrainFactory {
             String id, float $float_, BigDecimal bigDecimal, BigInteger bigInteger, boolean boolean_, 
             Boolean boxedBoolean, Double boxedDouble, Float boxedFloat, Long boxedLong, Short boxedShort, 
             byte byte_, char char_, char char__, Character character, double double_, Intrinsics.Color$ enum_, 
-            float float_, int int_, Integer integer, long long_, short short_, String string, UUID UUID, 
-            Byte ボックス化バイト, 
+            float float_, int int_, Integer integer, long long_, short short_, String string, URI URI, 
+            UUID UUID, Byte ボックス化バイト, 
             ConstMap<String, Object> $extensions) {
 
             this.id = id;
@@ -134,12 +137,13 @@ public enum IntrinsicsFactory implements GrainFactory {
             this.long_ = long_;
             this.short_ = short_;
             this.string = string;
+            this.URI = URI;
             this.UUID = UUID;
             this.ボックス化バイト = ボックス化バイト;
             this.$extensions = $extensions;
         }
 
-        public int size() { return 24 + $extensions.size(); }
+        public int size() { return 25 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
             return IteratorTools.chainMapIterators(new BasisIter($KEYS), $extensions.iterator());
@@ -150,7 +154,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -159,7 +163,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -168,7 +172,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -177,7 +181,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -186,7 +190,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -195,7 +199,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -204,7 +208,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -213,7 +217,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -222,7 +226,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -231,7 +235,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -240,7 +244,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -249,7 +253,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -258,7 +262,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -267,7 +271,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -276,7 +280,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -285,7 +289,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -294,7 +298,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -303,7 +307,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -312,7 +316,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -321,7 +325,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -330,7 +334,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -339,7 +343,16 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
+                $extensions);
+        }
+
+        public URI getURI() { return URI; }
+        public IntrinsicsGrain withURI(URI URI) {
+            return new IntrinsicsGrainImpl(
+                id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
+                boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -348,7 +361,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -357,7 +370,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $extensions);
         }
 
@@ -385,6 +398,7 @@ public enum IntrinsicsFactory implements GrainFactory {
                 case "long": return getLong();
                 case "short": return getShort();
                 case "string": return getString();
+                case "URI": return getURI();
                 case "UUID": return getUUID();
                 case "ボックス化バイト": return getボックス化バイト();
                 default: return $extensions.get($key);
@@ -415,6 +429,7 @@ public enum IntrinsicsFactory implements GrainFactory {
                 case "long": return withLong($value == null ? 0 : (long)$value);
                 case "short": return withShort($value == null ? 0 : (short)$value);
                 case "string": return withString((String)$value);
+                case "URI": return withURI((URI)$value);
                 case "UUID": return withUUID((UUID)$value);
                 case "ボックス化バイト": return withボックス化バイト((Byte)$value);
             }
@@ -426,7 +441,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 $newExtensions);
         }
 
@@ -470,6 +485,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             $builder.long_ = this.long_;
             $builder.short_ = this.short_;
             $builder.string = this.string;
+            $builder.URI = this.URI;
             $builder.UUID = this.UUID;
             $builder.ボックス化バイト = this.ボックス化バイト;
             $builder.$extensions.putAll(this.$extensions);
@@ -525,12 +541,13 @@ public enum IntrinsicsFactory implements GrainFactory {
         private long long_;
         private short short_;
         private String string;
+        private URI URI;
         private UUID UUID;
         private Byte ボックス化バイト;
 
         private final TreeMap<String, Object> $extensions = new TreeMap<>();
 
-        public int size() { return 24 + $extensions.size(); }
+        public int size() { return 25 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
             return IteratorTools.chainMapIterators(new BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
@@ -668,6 +685,12 @@ public enum IntrinsicsFactory implements GrainFactory {
             return this;
         }
 
+        public URI getURI() { return URI; }
+        public IntrinsicsBuilder setURI(URI URI) {
+            this.URI = URI;
+            return this;
+        }
+
         public UUID getUUID() { return UUID; }
         public IntrinsicsBuilder setUUID(UUID UUID) {
             this.UUID = UUID;
@@ -704,6 +727,7 @@ public enum IntrinsicsFactory implements GrainFactory {
                 case "long": return getLong();
                 case "short": return getShort();
                 case "string": return getString();
+                case "URI": return getURI();
                 case "UUID": return getUUID();
                 case "ボックス化バイト": return getボックス化バイト();
                 default: return $extensions.get($key);
@@ -801,6 +825,10 @@ public enum IntrinsicsFactory implements GrainFactory {
                     $original = getString();
                     setString((String)$value);
                     return $original;
+                case "URI":
+                    $original = getURI();
+                    setURI((URI)$value);
+                    return $original;
                 case "UUID":
                     $original = getUUID();
                     setUUID((UUID)$value);
@@ -826,7 +854,7 @@ public enum IntrinsicsFactory implements GrainFactory {
             return new IntrinsicsGrainImpl(
                 id, $float_, bigDecimal, bigInteger, boolean_, boxedBoolean, boxedDouble, boxedFloat, 
                 boxedLong, boxedShort, byte_, char_, char__, character, double_, enum_, float_, int_, 
-                integer, long_, short_, string, UUID, ボックス化バイト, 
+                integer, long_, short_, string, URI, UUID, ボックス化バイト, 
                 BasicConstMap.asMap($extensions));
         }
     }
