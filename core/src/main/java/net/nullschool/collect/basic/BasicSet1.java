@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSet;
+import net.nullschool.reflect.PublicInterfaceRef;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -28,6 +29,7 @@ import static net.nullschool.collect.basic.BasicTools.unionInto;
  *
  * @author Cameron Beccario
  */
+@PublicInterfaceRef(BasicConstSet.class)
 final class BasicSet1<E> extends BasicConstSet<E> {
 
     private final E e0;

@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSet;
+import net.nullschool.reflect.PublicInterfaceRef;
 import net.nullschool.util.ArrayTools;
 
 import java.lang.reflect.Array;
@@ -30,6 +31,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
+@PublicInterfaceRef(BasicConstSet.class)
 final class BasicSetN<E> extends BasicConstSet<E> {
 
     private final E[] elements;

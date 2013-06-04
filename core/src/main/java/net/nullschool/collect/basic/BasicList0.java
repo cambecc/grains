@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstList;
+import net.nullschool.reflect.PublicInterfaceRef;
 import net.nullschool.util.ArrayTools;
 
 import java.util.*;
@@ -27,6 +28,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
+@PublicInterfaceRef(BasicConstList.class)
 final class BasicList0<E> extends BasicConstList<E> {
 
     private static final BasicList0 INSTANCE = new BasicList0();

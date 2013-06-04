@@ -43,7 +43,7 @@ public abstract class BasicConstMap<K, V> extends AbstractIterableMap<K, V> impl
      *
      * @return a persistent empty map.
      */
-    public static <K, V> ConstMap<K, V> emptyMap() {
+    public static <K, V> BasicConstMap<K, V> emptyMap() {
         return BasicMap0.instance();
     }
 
@@ -54,7 +54,7 @@ public abstract class BasicConstMap<K, V> extends AbstractIterableMap<K, V> impl
      * @param v0 the value.
      * @return a persistent map containing the specified entry.
      */
-    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0) {
+    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0) {
         return new BasicMap1<>(k0, v0);
     }
 
@@ -69,7 +69,7 @@ public abstract class BasicConstMap<K, V> extends AbstractIterableMap<K, V> impl
      * @param v1 the second value.
      * @return a persistent map containing the unique entries from the provided arguments in the order they appear.
      */
-    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0, K k1, V v1) {
+    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0, K k1, V v1) {
         return Objects.equals(k1, k0) ?
             new BasicMap1<K, V>(k0, v1) :
             new BasicMapN<K, V>(new Object[] {k0, k1}, new Object[] {v0, v1});
@@ -82,7 +82,7 @@ public abstract class BasicConstMap<K, V> extends AbstractIterableMap<K, V> impl
      *
      * @return a persistent map containing the unique entries from the provided arguments in the order they appear.
      */
-    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2) {
+    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2) {
         return condense(
             unionInto(
                 EMPTY_OBJECT_ARRAY,
@@ -98,7 +98,7 @@ public abstract class BasicConstMap<K, V> extends AbstractIterableMap<K, V> impl
      *
      * @return a persistent map containing the unique entries from the provided arguments in the order they appear.
      */
-    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2, K k3, V v3) {
+    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2, K k3, V v3) {
         return condense(
             unionInto(
                 EMPTY_OBJECT_ARRAY,
@@ -114,7 +114,7 @@ public abstract class BasicConstMap<K, V> extends AbstractIterableMap<K, V> impl
      *
      * @return a persistent map containing the unique entries from the provided arguments in the order they appear.
      */
-    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
         return condense(
             unionInto(
                 EMPTY_OBJECT_ARRAY,
@@ -135,7 +135,7 @@ public abstract class BasicConstMap<K, V> extends AbstractIterableMap<K, V> impl
      * @return a persistent map containing the unique entries from the arrays in the order they appear.
      * @throws NullPointerException if {@code keys} or {@code values} is null.
      */
-    public static <K, V> ConstMap<K, V> asMap(K[] keys, V[] values) {
+    public static <K, V> BasicConstMap<K, V> asMap(K[] keys, V[] values) {
         return condense(unionInto(EMPTY_OBJECT_ARRAY, EMPTY_OBJECT_ARRAY, keys, values));
     }
 
@@ -147,9 +147,9 @@ public abstract class BasicConstMap<K, V> extends AbstractIterableMap<K, V> impl
      * @return a persistent map containing the unique entries from the map in the order they appear.
      * @throws NullPointerException if {@code map} is null.
      */
-    public static <K, V> ConstMap<K, V> asMap(Map<? extends K, ? extends V> map) {
+    public static <K, V> BasicConstMap<K, V> asMap(Map<? extends K, ? extends V> map) {
         if (map instanceof BasicConstMap && !(map instanceof BasicConstSortedMap)) {
-            @SuppressWarnings("unchecked") ConstMap<K, V> covariant = (ConstMap<K, V>)map;
+            @SuppressWarnings("unchecked") BasicConstMap<K, V> covariant = (BasicConstMap<K, V>)map;
             return covariant;  // The map is already a non-sorted ConstMap.
         }
         // Unfortunately, we must build the map from scratch. The provided map may have different uniqueness semantics.

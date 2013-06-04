@@ -45,7 +45,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      *
      * @return a persistent empty set.
      */
-    public static <E> ConstSet<E> emptySet() {
+    public static <E> BasicConstSet<E> emptySet() {
         return BasicSet0.instance();
     }
 
@@ -55,7 +55,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      * @param e0 the element.
      * @return a persistent set containing the specified element.
      */
-    public static <E> ConstSet<E> setOf(E e0) {
+    public static <E> BasicConstSet<E> setOf(E e0) {
         return new BasicSet1<>(e0);
     }
 
@@ -68,7 +68,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      * @param e1 the (potential) second element.
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
-    public static <E> ConstSet<E> setOf(E e0, E e1) {
+    public static <E> BasicConstSet<E> setOf(E e0, E e1) {
         return Objects.equals(e1, e0) ?
             new BasicSet1<E>(e0) :
             new BasicSetN<E>(new Object[] {e0, e1});
@@ -83,7 +83,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      * @param e2 the (potential) third element.
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
-    public static <E> ConstSet<E> setOf(E e0, E e1, E e2) {
+    public static <E> BasicConstSet<E> setOf(E e0, E e1, E e2) {
         return condense(unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2}));
     }
 
@@ -93,7 +93,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      *
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
-    public static <E> ConstSet<E> setOf(E e0, E e1, E e2, E e3) {
+    public static <E> BasicConstSet<E> setOf(E e0, E e1, E e2, E e3) {
         return condense(unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3}));
     }
 
@@ -103,7 +103,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      *
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
-    public static <E> ConstSet<E> setOf(E e0, E e1, E e2, E e3, E e4) {
+    public static <E> BasicConstSet<E> setOf(E e0, E e1, E e2, E e3, E e4) {
         return condense(unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3, e4}));
     }
 
@@ -115,7 +115,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
     @SafeVarargs
-    public static <E> ConstSet<E> setOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
+    public static <E> BasicConstSet<E> setOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
         Object[] elements = new Object[6 + additional.length];
         elements[0] = e0;
         elements[1] = e1;
@@ -135,7 +135,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      * @return a persistent set containing the unique elements from the array in the order they appear.
      * @throws NullPointerException if {@code elements} is null.
      */
-    public static <E> ConstSet<E> asSet(E[] elements) {
+    public static <E> BasicConstSet<E> asSet(E[] elements) {
         return condense(unionInto(EMPTY_OBJECT_ARRAY, elements));
     }
 
@@ -147,9 +147,9 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      * @return a persistent set containing the unique elements from the collection in the order they appear.
      * @throws NullPointerException if {@code collection} is null.
      */
-    public static <E> ConstSet<E> asSet(Collection<? extends E> collection) {
+    public static <E> BasicConstSet<E> asSet(Collection<? extends E> collection) {
         if (collection instanceof BasicConstSet && !(collection instanceof BasicConstSortedSet)) {
-            @SuppressWarnings("unchecked") ConstSet<E> covariant = (ConstSet<E>)collection;
+            @SuppressWarnings("unchecked") BasicConstSet<E> covariant = (BasicConstSet<E>)collection;
             return covariant;  // The collection is already a non-sorted ConstSet.
         }
         return condense(unionInto(EMPTY_OBJECT_ARRAY, collection.toArray()));
@@ -163,7 +163,7 @@ public abstract class BasicConstSet<E> extends AbstractSet<E> implements ConstSe
      * @return a persistent set containing the unique elements of the iteration in the order they appear.
      * @throws NullPointerException if {@code iterator} is null.
      */
-    public static <E> ConstSet<E> asSet(Iterator<? extends E> iterator) {
+    public static <E> BasicConstSet<E> asSet(Iterator<? extends E> iterator) {
         return condense(unionInto(EMPTY_OBJECT_ARRAY, copy(iterator)));
     }
 

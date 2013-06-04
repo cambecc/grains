@@ -47,7 +47,7 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      * @param comparator the comparator, or null for {@link Comparable natural ordering}.
      * @return a persistent empty sorted map.
      */
-    public static <K, V> ConstSortedMap<K, V> emptySortedMap(Comparator<? super K> comparator) {
+    public static <K, V> BasicConstSortedMap<K, V> emptySortedMap(Comparator<? super K> comparator) {
         return BasicSortedMap0.instance(comparator);
     }
 
@@ -61,7 +61,7 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      * @throws NullPointerException if the key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if the key is of a type not compatible for comparison.
      */
-    public static <K, V> ConstSortedMap<K, V> sortedMapOf(Comparator<? super K> comparator, K k0, V v0) {
+    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(Comparator<? super K> comparator, K k0, V v0) {
         return new BasicSortedMap1<>(comparator, checkType(comparator, k0), v0);
     }
 
@@ -79,7 +79,11 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      * @throws NullPointerException if any key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> ConstSortedMap<K, V> sortedMapOf(Comparator<? super K> comparator, K k0, V v0, K k1, V v1) {
+    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(
+        Comparator<? super K> comparator,
+        K k0, V v0,
+        K k1, V v1) {
+
         int cmp = ObjectTools.compare(k0, k1, comparator);
         return cmp == 0 ?
             new BasicSortedMap1<K, V>(comparator, k0, v1) :
@@ -98,7 +102,7 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      * @throws NullPointerException if any key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> ConstSortedMap<K, V> sortedMapOf(
+    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(
         Comparator<? super K> comparator,
         K k0, V v0,
         K k1, V v1,
@@ -124,7 +128,7 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      * @throws NullPointerException if any key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> ConstSortedMap<K, V> sortedMapOf(
+    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(
         Comparator<? super K> comparator,
         K k0, V v0,
         K k1, V v1,
@@ -151,7 +155,7 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      * @throws NullPointerException if any key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> ConstSortedMap<K, V> sortedMapOf(
+    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(
         Comparator<? super K> comparator,
         K k0, V v0,
         K k1, V v1,
@@ -184,7 +188,7 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      *                              the {@code keys} or {@code values} array is null.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> ConstSortedMap<K, V> asSortedMap(Comparator<? super K> comparator, K[] keys, V[] values) {
+    public static <K, V> BasicConstSortedMap<K, V> asSortedMap(Comparator<? super K> comparator, K[] keys, V[] values) {
         return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, EMPTY_OBJECT_ARRAY, keys, values, comparator));
     }
 
@@ -195,9 +199,9 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      * @return a persistent sorted map containing the exact entries and ordering of the specified map.
      * @throws NullPointerException if {@code map} is null.
      */
-    public static <K, V> ConstSortedMap<K, V> asSortedMap(SortedMap<K, V> map) {
+    public static <K, V> BasicConstSortedMap<K, V> asSortedMap(SortedMap<K, V> map) {
         if (map instanceof BasicConstSortedMap) {
-            return (ConstSortedMap<K, V>)map;  // The map is already a ConstSortedMap.
+            return (BasicConstSortedMap<K, V>)map;  // The map is already a ConstSortedMap.
         }
         return condense(map.comparator(), copy(map));
     }
@@ -213,7 +217,7 @@ public abstract class BasicConstSortedMap<K, V> extends BasicConstMap<K, V> impl
      *                              the {@code map} is null.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> ConstSortedMap<K, V> asSortedMap(
+    public static <K, V> BasicConstSortedMap<K, V> asSortedMap(
         Comparator<? super K> comparator,
         Map<? extends K, ? extends V> map) {
 

@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.*;
+import net.nullschool.reflect.PublicInterfaceRef;
 import net.nullschool.util.ArrayTools;
 
 import java.util.*;
@@ -29,6 +30,7 @@ import static net.nullschool.collect.basic.BasicTools.*;
  *
  * @author Cameron Beccario
  */
+@PublicInterfaceRef(BasicConstSortedMap.class)
 final class BasicSortedMapN<K, V> extends BasicConstSortedMap<K, V> {
 
     private final K[] keys;

@@ -16,9 +16,10 @@
 
 package net.nullschool.collect.basic;
 
+import net.nullschool.reflect.PublicInterfaceRef;
 import org.junit.Test;
 
-import java.util.Map;
+import java.util.*;
 
 import static net.nullschool.collect.basic.BasicConstMap.*;
 import static org.junit.Assert.*;
@@ -174,5 +175,16 @@ public class BasicConstMapTest {
         assertEquals(BasicMapN.class, condense(a = new Object[] {1, 2, 3, 4}, a).getClass());
         assertEquals(BasicMapN.class, condense(a = new Object[] {1, 2, 3, 4, 5}, a).getClass());
         assertEquals(BasicMapN.class, condense(a = new Object[] {1, 2, 3, 4, 5, 6}, a).getClass());
+    }
+
+    @Test
+    public void test_publicInterfaceRef_annotation_present() {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < 15; i++) {
+            assertSame(
+                BasicConstMap.class,
+                asMap(map).getClass().getAnnotation(PublicInterfaceRef.class).value());
+            map.put(i, i);
+        }
     }
 }

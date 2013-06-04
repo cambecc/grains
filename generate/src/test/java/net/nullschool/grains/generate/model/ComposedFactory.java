@@ -24,9 +24,9 @@ import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
 import net.nullschool.grains.TypePolicy;
+import net.nullschool.reflect.PublicInterfaceRef;
 import net.nullschool.reflect.TypeToken;
 import net.nullschool.transform.Transform;
-import net.nullschool.util.MemoizedHashCode;
 
 /**
  * Factory for constructing Grain instances of Composed.
@@ -65,10 +65,11 @@ public enum ComposedFactory implements GrainFactory {
     /**
      * Code generated implementation of ComposedGrain.
      */
+    @PublicInterfaceRef(ComposedGrain.class)
     @GrainFactoryRef(ComposedFactory.class)
     private static final class ComposedGrainImpl
         extends AbstractGrain
-        implements ComposedGrain, MemoizedHashCode, Serializable {
+        implements ComposedGrain, Serializable {
 
         private final UUID id;
         private final String left;
@@ -79,7 +80,6 @@ public enum ComposedFactory implements GrainFactory {
         private final String top;
 
         private final ConstMap<String, Object> $extensions;
-        private transient volatile int $hashCode;
 
         private ComposedGrainImpl(
             UUID id, String left, ConstList<UUID> leftIds, String name, String right, ConstList<UUID> rightIds, 
@@ -217,10 +217,6 @@ public enum ComposedFactory implements GrainFactory {
             return $extensions;
         }
 
-        public int hashCode() {
-            return $hashCode != 0 ? $hashCode : ($hashCode = (super.hashCode() + $extensions.hashCode()));
-        }
-
         private Object writeReplace() { return new ComposedGrainProxy().setPayload(this); }
         private void readObject(ObjectInputStream in) throws InvalidObjectException {
             throw new InvalidObjectException("proxy expected");
@@ -238,6 +234,7 @@ public enum ComposedFactory implements GrainFactory {
     /**
      * Code generated implementation of ComposedBuilder.
      */
+    @PublicInterfaceRef(ComposedBuilder.class)
     @GrainFactoryRef(ComposedFactory.class)
     private static final class ComposedBuilderImpl
         extends AbstractGrainBuilder

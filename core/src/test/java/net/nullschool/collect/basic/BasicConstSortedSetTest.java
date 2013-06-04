@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSortedSet;
+import net.nullschool.reflect.PublicInterfaceRef;
 import org.junit.Test;
 
 import java.util.*;
@@ -416,5 +417,16 @@ public class BasicConstSortedSetTest {
         try { sortedSetOf(null, null, null);             fail(); } catch (NullPointerException ignored) {}
         try { sortedSetOf(null, null, null, null);       fail(); } catch (NullPointerException ignored) {}
         try { sortedSetOf(null, null, null, null, null); fail(); } catch (NullPointerException ignored) {}
+    }
+
+    @Test
+    public void test_publicInterfaceRef_annotation_present() {
+        Collection<Integer> elements = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            assertSame(
+                BasicConstSortedSet.class,
+                asSortedSet(null, elements).getClass().getAnnotation(PublicInterfaceRef.class).value());
+            elements.add(i);
+        }
     }
 }

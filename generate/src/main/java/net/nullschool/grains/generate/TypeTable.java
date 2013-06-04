@@ -85,6 +85,7 @@ final class TypeTable {
         noSuchElementException      (NoSuchElementException.class),
         object                      (Object.class),
         objectInputStream           (ObjectInputStream.class),
+        publicInterfaceRef          (PublicInterfaceRef.class),
         serializable                (Serializable.class),
         set                         (Set.class),
         simpleGrainProperty         (SimpleGrainProperty.class),

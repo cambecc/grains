@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSet;
+import net.nullschool.reflect.PublicInterfaceRef;
 import net.nullschool.util.ArrayTools;
 
 import java.util.*;
@@ -27,6 +28,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
+@PublicInterfaceRef(BasicConstSet.class)
 final class BasicSet0<E> extends BasicConstSet<E> {
 
     private static final BasicSet0 INSTANCE = new BasicSet0();

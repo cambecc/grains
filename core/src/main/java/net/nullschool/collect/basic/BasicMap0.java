@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.*;
+import net.nullschool.reflect.PublicInterfaceRef;
 
 import java.util.*;
 
@@ -26,6 +27,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
+@PublicInterfaceRef(BasicConstMap.class)
 final class BasicMap0<K, V> extends BasicConstMap<K, V> {
 
     private static final BasicMap0 INSTANCE = new BasicMap0();

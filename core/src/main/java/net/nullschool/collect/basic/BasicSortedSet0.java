@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSortedSet;
+import net.nullschool.reflect.PublicInterfaceRef;
 import net.nullschool.util.ArrayTools;
 
 import java.util.*;
@@ -27,6 +28,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
+@PublicInterfaceRef(BasicConstSortedSet.class)
 final class BasicSortedSet0<E> extends BasicConstSortedSet<E> {
 
     private static final BasicSortedSet0 NATURAL_INSTANCE = new BasicSortedSet0<Object>(null);

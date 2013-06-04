@@ -17,11 +17,10 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstList;
+import net.nullschool.reflect.PublicInterfaceRef;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 import static net.nullschool.collect.basic.BasicConstList.*;
 import static org.junit.Assert.*;
@@ -184,5 +183,16 @@ public class BasicConstListTest {
         assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3, 4, 5, 6}).getClass());
         assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3, 4, 5, 6, 7}).getClass());
         assertEquals(BasicListN.class, condense(new Object[] {1, 2, 3, 4, 5, 6, 7, 8}).getClass());
+    }
+
+    @Test
+    public void test_publicInterfaceRef_annotation_present() {
+        Collection<Integer> elements = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            assertSame(
+                BasicConstList.class,
+                asList(elements).getClass().getAnnotation(PublicInterfaceRef.class).value());
+            elements.add(i);
+        }
     }
 }

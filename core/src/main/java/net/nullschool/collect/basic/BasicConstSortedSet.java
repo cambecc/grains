@@ -45,7 +45,7 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      * @param comparator the comparator, or null for {@link Comparable natural ordering}.
      * @return a persistent empty sorted set.
      */
-    public static <E> ConstSortedSet<E> emptySortedSet(Comparator<? super E> comparator) {
+    public static <E> BasicConstSortedSet<E> emptySortedSet(Comparator<? super E> comparator) {
         return BasicSortedSet0.instance(comparator);
     }
 
@@ -58,7 +58,7 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      * @throws NullPointerException if the element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if the element is of a type not compatible for comparison.
      */
-    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0) {
+    public static <E> BasicConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0) {
         return new BasicSortedSet1<>(comparator, checkType(comparator, e0));
     }
 
@@ -73,7 +73,7 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1) {
+    public static <E> BasicConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1) {
         int cmp = ObjectTools.compare(e0, e1, comparator);
         return cmp == 0 ?
             new BasicSortedSet1<>(comparator, e0) :
@@ -94,7 +94,7 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2) {
+    public static <E> BasicConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2) {
         return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2}, comparator));
     }
 
@@ -107,7 +107,7 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2, E e3) {
+    public static <E> BasicConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2, E e3) {
         return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3}, comparator));
     }
 
@@ -120,7 +120,14 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2, E e3, E e4) {
+    public static <E> BasicConstSortedSet<E> sortedSetOf(
+        Comparator<? super E> comparator,
+        E e0,
+        E e1,
+        E e2,
+        E e3,
+        E e4) {
+
         return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3, e4}, comparator));
     }
 
@@ -135,7 +142,7 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
     @SafeVarargs
-    public static <E> ConstSortedSet<E> sortedSetOf(
+    public static <E> BasicConstSortedSet<E> sortedSetOf(
         Comparator<? super E> comparator,
         E e0,
         E e1,
@@ -167,7 +174,7 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      *                              or the {@code elements} array itself is null.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> ConstSortedSet<E> asSortedSet(Comparator<? super E> comparator, E[] elements) {
+    public static <E> BasicConstSortedSet<E> asSortedSet(Comparator<? super E> comparator, E[] elements) {
         return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, elements, comparator));
     }
 
@@ -177,9 +184,9 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      * @param set the sorted set.
      * @return a persistent sorted set containing the exact elements and ordering of the specified set.
      */
-    public static <E> ConstSortedSet<E> asSortedSet(SortedSet<E> set) {
+    public static <E> BasicConstSortedSet<E> asSortedSet(SortedSet<E> set) {
         if (set instanceof BasicConstSortedSet) {
-            return (ConstSortedSet<E>)set;  // The set is already a ConstSortedSet.
+            return (BasicConstSortedSet<E>)set;  // The set is already a ConstSortedSet.
         }
         return condense(set.comparator(), set.toArray());
     }
@@ -195,7 +202,7 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      *                              or the {@code collection} itself is null.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> ConstSortedSet<E> asSortedSet(
+    public static <E> BasicConstSortedSet<E> asSortedSet(
         Comparator<? super E> comparator,
         Collection<? extends E> collection) {
 
@@ -219,7 +226,10 @@ public abstract class BasicConstSortedSet<E> extends BasicConstSet<E> implements
      *                              or the {@code iterator} itself is null.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> ConstSortedSet<E> asSortedSet(Comparator<? super E> comparator, Iterator<? extends E> iterator) {
+    public static <E> BasicConstSortedSet<E> asSortedSet(
+        Comparator<? super E> comparator,
+        Iterator<? extends E> iterator) {
+
         return condense(comparator, unionInto(EMPTY_OBJECT_ARRAY, copy(iterator), comparator));
     }
 

@@ -20,7 +20,7 @@ import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
-import net.nullschool.util.MemoizedHashCode;
+import net.nullschool.reflect.PublicInterfaceRef;
 
 /**
  * Factory for constructing Grain instances of Compound.Part.
@@ -46,16 +46,16 @@ public enum PartFactory implements GrainFactory {
     /**
      * Code generated implementation of PartGrain.
      */
+    @PublicInterfaceRef(PartGrain.class)
     @GrainFactoryRef(PartFactory.class)
     private static final class PartGrainImpl
         extends AbstractGrain
-        implements PartGrain, MemoizedHashCode, Serializable {
+        implements PartGrain, Serializable {
 
         private final int make;
         private final int model;
 
         private final ConstMap<String, Object> $extensions;
-        private transient volatile int $hashCode;
 
         private PartGrainImpl(
             int make, int model, 
@@ -137,10 +137,6 @@ public enum PartFactory implements GrainFactory {
             return $extensions;
         }
 
-        public int hashCode() {
-            return $hashCode != 0 ? $hashCode : ($hashCode = (super.hashCode() + $extensions.hashCode()));
-        }
-
         private Object writeReplace() { return new PartGrainProxy().setPayload(this); }
         private void readObject(ObjectInputStream in) throws InvalidObjectException {
             throw new InvalidObjectException("proxy expected");
@@ -158,6 +154,7 @@ public enum PartFactory implements GrainFactory {
     /**
      * Code generated implementation of PartBuilder.
      */
+    @PublicInterfaceRef(PartBuilder.class)
     @GrainFactoryRef(PartFactory.class)
     private static final class PartBuilderImpl
         extends AbstractGrainBuilder

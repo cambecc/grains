@@ -17,6 +17,7 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.*;
+import net.nullschool.reflect.PublicInterfaceRef;
 
 import java.util.*;
 
@@ -26,6 +27,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
+@PublicInterfaceRef(BasicConstSortedMap.class)
 final class BasicSortedMap0<K, V> extends BasicConstSortedMap<K, V> {
 
     private static final BasicSortedMap0 NATURAL_INSTANCE = new BasicSortedMap0<Object, Object>(null);

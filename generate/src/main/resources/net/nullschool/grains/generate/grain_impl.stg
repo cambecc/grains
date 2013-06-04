@@ -23,15 +23,15 @@ grain_impl(grain, type) ::= <<
 /**
  * Code generated implementation of <type.targetGrain>.
  */
+@<type.publicInterfaceRef>(<type.targetGrain>.class)
 @<type.grainFactoryRef>(<type.targetFactory>.class)
 private static final class <type.targetGrainImpl.simpleName>
     extends <type.abstractGrain>
-    implements <type.targetGrain>, <type.memoizedHashCode>, <type.serializable> {
+    implements <type.targetGrain>,<! <type.memoizedHashCode>,!> <type.serializable> {
 
     <grain.properties:{prop|private final <prop.type> <prop.fieldName>;}; separator="\n">
 
     private final <type.constMap> $extensions;
-    private transient volatile int $hashCode;
 
     private <type.targetGrainImpl.simpleName>(
         <grain.properties:{prop|<prop.type> <prop.fieldName>, }; wrap>
@@ -97,10 +97,11 @@ private static final class <type.targetGrainImpl.simpleName>
         return $extensions;
     }
 
+    <!
     public int hashCode() {
         return $hashCode != 0 ? $hashCode : ($hashCode = (super.hashCode() + $extensions.hashCode()));
     }
-
+    !>
     private <type.object> writeReplace() { return new <type.targetGrainProxy.simpleName>().setPayload(this); }
     private void readObject(<type.objectInputStream> in) throws <type.invalidObjectException> {
         throw new <type.invalidObjectException>("proxy expected");

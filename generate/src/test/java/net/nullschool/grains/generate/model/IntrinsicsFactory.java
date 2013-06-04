@@ -23,7 +23,7 @@ import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainTools;
 import net.nullschool.grains.SimpleGrainProperty;
-import net.nullschool.util.MemoizedHashCode;
+import net.nullschool.reflect.PublicInterfaceRef;
 
 /**
  * Factory for constructing Grain instances of Intrinsics.
@@ -71,10 +71,11 @@ public enum IntrinsicsFactory implements GrainFactory {
     /**
      * Code generated implementation of IntrinsicsGrain.
      */
+    @PublicInterfaceRef(IntrinsicsGrain.class)
     @GrainFactoryRef(IntrinsicsFactory.class)
     private static final class IntrinsicsGrainImpl
         extends AbstractGrain
-        implements IntrinsicsGrain, MemoizedHashCode, Serializable {
+        implements IntrinsicsGrain, Serializable {
 
         private final String id;
         private final float $float_;
@@ -102,7 +103,6 @@ public enum IntrinsicsFactory implements GrainFactory {
         private final Byte ボックス化バイト;
 
         private final ConstMap<String, Object> $extensions;
-        private transient volatile int $hashCode;
 
         private IntrinsicsGrainImpl(
             String id, float $float_, BigDecimal bigDecimal, BigInteger bigInteger, boolean boolean_, 
@@ -480,10 +480,6 @@ public enum IntrinsicsFactory implements GrainFactory {
             return $extensions;
         }
 
-        public int hashCode() {
-            return $hashCode != 0 ? $hashCode : ($hashCode = (super.hashCode() + $extensions.hashCode()));
-        }
-
         private Object writeReplace() { return new IntrinsicsGrainProxy().setPayload(this); }
         private void readObject(ObjectInputStream in) throws InvalidObjectException {
             throw new InvalidObjectException("proxy expected");
@@ -501,6 +497,7 @@ public enum IntrinsicsFactory implements GrainFactory {
     /**
      * Code generated implementation of IntrinsicsBuilder.
      */
+    @PublicInterfaceRef(IntrinsicsBuilder.class)
     @GrainFactoryRef(IntrinsicsFactory.class)
     private static final class IntrinsicsBuilderImpl
         extends AbstractGrainBuilder

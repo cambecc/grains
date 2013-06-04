@@ -40,7 +40,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      *
      * @return a persistent empty list.
      */
-    public static <E> ConstList<E> emptyList() {
+    public static <E> BasicConstList<E> emptyList() {
         return BasicList0.instance();
     }
 
@@ -50,7 +50,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      * @param e0 the element.
      * @return a persistent list containing the specified element.
      */
-    public static <E> ConstList<E> listOf(E e0) {
+    public static <E> BasicConstList<E> listOf(E e0) {
         return new BasicList1<>(e0);
     }
 
@@ -61,7 +61,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      * @param e1 the second element.
      * @return a persistent list containing the specified elements.
      */
-    public static <E> ConstList<E> listOf(E e0, E e1) {
+    public static <E> BasicConstList<E> listOf(E e0, E e1) {
         return new BasicListN<>(new Object[] {e0, e1});
     }
 
@@ -73,7 +73,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      * @param e2 the third element.
      * @return a persistent list containing the specified elements.
      */
-    public static <E> ConstList<E> listOf(E e0, E e1, E e2) {
+    public static <E> BasicConstList<E> listOf(E e0, E e1, E e2) {
         return new BasicListN<>(new Object[] {e0, e1, e2});
     }
 
@@ -82,7 +82,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      *
      * @return a persistent list containing the specified elements.
      */
-    public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3) {
+    public static <E> BasicConstList<E> listOf(E e0, E e1, E e2, E e3) {
         return new BasicListN<>(new Object[] {e0, e1, e2, e3});
     }
 
@@ -91,7 +91,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      *
      * @return a persistent list containing the specified elements.
      */
-    public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3, E e4) {
+    public static <E> BasicConstList<E> listOf(E e0, E e1, E e2, E e3, E e4) {
         return new BasicListN<>(new Object[] {e0, e1, e2, e3, e4});
     }
 
@@ -102,7 +102,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      * @return a persistent list containing the specified elements in the order they appear.
      */
     @SafeVarargs
-    public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
+    public static <E> BasicConstList<E> listOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
         Object[] elements = new Object[6 + additional.length];
         elements[0] = e0;
         elements[1] = e1;
@@ -121,7 +121,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      * @return a persistent list containing the specified elements in the order they appear.
      * @throws NullPointerException if {@code elements} is null.
      */
-    public static <E> ConstList<E> asList(E[] elements) {
+    public static <E> BasicConstList<E> asList(E[] elements) {
         return condense(copy(elements));
     }
 
@@ -133,9 +133,9 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      * @return a persistent list containing the elements of the specified collection in the order they appear.
      * @throws NullPointerException if {@code collection} is null.
      */
-    public static <E> ConstList<E> asList(Collection<? extends E> collection) {
+    public static <E> BasicConstList<E> asList(Collection<? extends E> collection) {
         if (collection instanceof BasicConstList) {
-            @SuppressWarnings("unchecked") ConstList<E> covariant = (ConstList<E>)collection;
+            @SuppressWarnings("unchecked") BasicConstList<E> covariant = (BasicConstList<E>)collection;
             return covariant;  // The collection is already a ConstList.
         }
         return condense(copy(collection));
@@ -148,7 +148,7 @@ public abstract class BasicConstList<E> extends AbstractList<E> implements Const
      * @return a persistent list containing the elements of the iteration in the order they appear.
      * @throws NullPointerException if {@code iterator} is null.
      */
-    public static <E> ConstList<E> asList(Iterator<? extends E> iterator) {
+    public static <E> BasicConstList<E> asList(Iterator<? extends E> iterator) {
         return condense(copy(iterator));
     }
 

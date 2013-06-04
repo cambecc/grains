@@ -17,11 +17,10 @@
 package net.nullschool.collect.basic;
 
 import net.nullschool.collect.ConstSortedMap;
+import net.nullschool.reflect.PublicInterfaceRef;
 import org.junit.Test;
 
-import java.util.Comparator;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.util.Collections.reverseOrder;
@@ -406,5 +405,16 @@ public class BasicConstSortedMapTest {
         try { sortedMapOf(null, null, null, null, null, null, null);                         fail(); } catch (NullPointerException ignored) {}
         try { sortedMapOf(null, null, null, null, null, null, null, null, null);             fail(); } catch (NullPointerException ignored) {}
         try { sortedMapOf(null, null, null, null, null, null, null, null, null, null, null); fail(); } catch (NullPointerException ignored) {}
+    }
+
+    @Test
+    public void test_publicInterfaceRef_annotation_present() {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < 15; i++) {
+            assertSame(
+                BasicConstSortedMap.class,
+                asSortedMap(null, map).getClass().getAnnotation(PublicInterfaceRef.class).value());
+            map.put(i, i);
+        }
     }
 }
