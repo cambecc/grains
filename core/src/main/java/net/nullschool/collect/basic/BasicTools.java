@@ -33,7 +33,11 @@ import static java.util.Objects.requireNonNull;
  * @author Cameron Beccario
  */
 
-enum BasicTools {;
+class BasicTools {
+
+    private BasicTools() {
+        throw new AssertionError();
+    }
 
     /**
      * A utility class to hold the keys and values of a columnized map. Map entries are represented as

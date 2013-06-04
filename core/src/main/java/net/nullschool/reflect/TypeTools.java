@@ -26,7 +26,11 @@ import java.lang.reflect.*;
  *
  * @author Cameron Beccario
  */
-public enum TypeTools {;
+public class TypeTools {
+
+    private TypeTools() {
+        throw new AssertionError();
+    }
 
     /**
      * Compares the inheritance relationship between two classes. This method returns:

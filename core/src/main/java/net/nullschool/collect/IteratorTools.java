@@ -26,7 +26,11 @@ import java.util.Map.Entry;
  *
  * @author Cameron Beccario
  */
-public enum IteratorTools {;
+public class IteratorTools {
+
+    private IteratorTools() {
+        throw new AssertionError();
+    }
 
     /**
      * A MapIterator that has no iterations.

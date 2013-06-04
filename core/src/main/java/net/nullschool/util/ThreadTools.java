@@ -29,7 +29,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Cameron Beccario
  */
-public enum ThreadTools {;
+public class ThreadTools {
+
+    private ThreadTools() {
+        throw new AssertionError();
+    }
 
     /**
      * Returns a {@link ThreadFactory} that configures threads constructed by an existing ThreadFactory as

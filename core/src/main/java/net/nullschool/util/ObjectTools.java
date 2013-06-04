@@ -26,7 +26,11 @@ import java.util.Comparator;
  *
  * @author Cameron Beccario
  */
-public enum ObjectTools {;
+public class ObjectTools {
+
+    private ObjectTools() {
+        throw new AssertionError();
+    }
 
     /**
      * Returns the first non-null argument, or null if all arguments are null.

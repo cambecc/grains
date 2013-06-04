@@ -29,7 +29,11 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-enum GenerateTools {;
+class GenerateTools {
+
+    private GenerateTools() {
+        throw new AssertionError();
+    }
 
     private static final Set<String> javaReservedWords =
         new HashSet<>(

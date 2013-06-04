@@ -27,7 +27,11 @@ import net.nullschool.collect.basic.BasicConstMap;
  *
  * @author Cameron Beccario
  */
-public enum GrainTools {;
+public class GrainTools {
+
+    private GrainTools() {
+        throw new AssertionError();
+    }
 
     /**
      * Returns the target package for the specified schema. The target package is the package where generated grain
@@ -59,6 +63,7 @@ public enum GrainTools {;
     }
 
     public static GrainFactory factoryFor(Class<?> clazz) {
+        // UNDONE: this throws if factory cannot be found, but targetPackageOf returns null if package cannot be found.
         // CONSIDER: also possible to check if the enclosing class is a GrainFactory, like would be for *GrainImpl.
         GrainFactoryRef ref = clazz.getAnnotation(GrainFactoryRef.class);
         if (ref != null) {

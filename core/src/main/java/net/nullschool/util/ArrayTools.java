@@ -27,7 +27,11 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-public enum ArrayTools {;
+public class ArrayTools {
+
+    private ArrayTools() {
+        throw new AssertionError();
+    }
 
     /**
      * Immutable Object[] of length 0.

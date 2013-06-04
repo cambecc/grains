@@ -27,7 +27,11 @@ import java.util.Locale;
  *
  * @author Cameron Beccario
  */
-public enum StringTools {;
+public class StringTools {
+
+    private StringTools() {
+        throw new AssertionError();
+    }
 
     /**
      * Capitalizes the specified string by changing the first character to upper case using {@link Locale#ENGLISH}

@@ -33,7 +33,11 @@ import static org.junit.Assert.*;
  *
  * @author Cameron Beccario
  */
-public enum CollectionTestingTools {;
+public class CollectionTestingTools {
+
+    private CollectionTestingTools() {
+        throw new AssertionError();
+    }
 
     public static final class NullSafeReverseComparator<T> implements Comparator<T> {
         @Override public int compare(T left, T right) {

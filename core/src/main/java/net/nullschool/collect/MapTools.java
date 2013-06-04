@@ -26,7 +26,11 @@ import static java.lang.Math.min;
  *
  * @author Cameron Beccario
  */
-public enum MapTools {;
+public class MapTools {
+
+    private MapTools() {
+        throw new AssertionError();
+    }
 
     private static int goodInitialCapacity(int size) {
         // Just like what the HashMap(Map) constructor does...
