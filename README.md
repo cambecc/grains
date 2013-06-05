@@ -109,7 +109,7 @@ they have the same keys and values:
     System.out.println(builder.equals(order));              // prints: false
 ```
 
-And Java serialization is automatically implemented:
+And Java serialization is supported natively:
 ```java
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     new ObjectOutputStream(out).writeObject(order);
@@ -120,6 +120,23 @@ And Java serialization is automatically implemented:
     System.out.println(obj instanceof OrderGrain);  // prints: true
     System.out.println(obj);                        // prints: {product=apples, quantity=13}
     System.out.println(order.equals(obj));          // prints: true
+```
+
+[Kryo](http://code.google.com/p/kryo/) serialization is available by adding the `grains-kryo` dependency. Example
+usage:
+```java
+    Kryo kryo = KryoTools.newGrainKryo();
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    Output output = new Output(out);
+    kryo.writeClassAndObject(output, order);
+    output.close();
+
+    Input input = new Input(new ByteArrayInputStream(out.toByteArray()));
+    Object obj = kryo.readClassAndObject(input);
+    input.close();
+
+    System.out.println(obj instanceof OrderGrain);  // prints: true
 ```
 
 Motivation
