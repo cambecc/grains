@@ -37,7 +37,6 @@ public class BasicConstListSerializer extends Serializer<BasicConstList> {
     @Override public void write(Kryo kryo, Output output, BasicConstList list) {
         final int size = list.size();
         output.writeInt(size, true);
-        // noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < size; i++) {
             kryo.writeClassAndObject(output, list.get(i));
         }

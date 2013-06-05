@@ -30,7 +30,7 @@ import java.net.URI;
  *
  * @author Cameron Beccario
  */
-public class URISerializer extends Serializer<URI> {
+public final class URISerializer extends Serializer<URI> {
 
     {
         setAcceptsNull(true);
