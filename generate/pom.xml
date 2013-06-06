@@ -132,6 +132,17 @@
                 </configuration>
             </plugin>
 
+            <!-- Create a jar of the testing utilities so they can be used by other modules' tests. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <goals><goal>test-jar</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
