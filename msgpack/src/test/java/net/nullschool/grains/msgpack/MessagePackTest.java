@@ -25,6 +25,8 @@ import java.io.IOException;
 
 import static net.nullschool.collect.basic.BasicCollections.*;
 import static org.junit.Assert.*;
+import static net.nullschool.grains.msgpack.MessagePackTools.*;
+import static net.nullschool.grains.generate.model.CompleteTest.*;
 
 
 /**
@@ -36,11 +38,11 @@ public class MessagePackTest {
 
     @Test
     public void test_complete_serialization() throws IOException {
-        CompleteGrain expected = CompleteTest.newCompleteBuilderWithSampleValues().build();
+        CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
 
-        MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
+        MessagePack msgpack = newGrainsMessagePack();
         byte[] data = msgpack.write(expected);
-        CompleteGrain actual = msgpack.read(data, CompleteGrain.class);
+        CompleteGrain actual = newGrainsMessagePack().read(data, CompleteGrain.class);
 
         assertEquals(
             "de01ba1ac3a1b1a1c2a1d2a1e3a1f1a1gca?8000a1hcbbff0000000a1ia210a1jaa1ka5helloa1l92cf1bd31dfeda2C9" +
@@ -55,9 +57,9 @@ public class MessagePackTest {
     public void test_sparse_serialization() throws IOException {
         CompleteGrain expected = CompleteFactory.defaultValue();
 
-        MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
+        MessagePack msgpack = newGrainsMessagePack();
         byte[] data = msgpack.write(expected);
-        CompleteGrain actual = msgpack.read(data, CompleteGrain.class);
+        CompleteGrain actual = newGrainsMessagePack().read(data, CompleteGrain.class);
 
         assertEquals("80", BasicToolsTest.asReadableString(data));
         assertEquals(expected, actual);
@@ -72,9 +74,9 @@ public class MessagePackTest {
         expected = expected.with("z", null);  // expected that this extension key will be dropped
         expected = expected.with("extra", mapOf("a", 1, "b", 2));
 
-        MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
+        MessagePack msgpack = newGrainsMessagePack();
         byte[] data = msgpack.write(expected);
-        NodeGrain actual = msgpack.read(data, NodeGrain.class);
+        NodeGrain actual = newGrainsMessagePack().read(data, NodeGrain.class);
 
         assertEquals("84a2idaa5extra82a1a1a1b2a1x1a1y2", BasicToolsTest.asReadableString(data));
         assertEquals(expected.without("z"), actual);
