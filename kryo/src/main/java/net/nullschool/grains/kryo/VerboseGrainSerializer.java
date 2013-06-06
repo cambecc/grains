@@ -60,7 +60,9 @@ public class VerboseGrainSerializer extends Serializer<Grain> {
         for (MapIterator<String, Object> iter = grain.iterator(); iter.hasNext();) {
             String key = iter.next();
             Object value = iter.value();
+
             if (!Objects.equals(defaultValue.get(key), value)) {
+                // This entry differs from the default value, so write it to the stream.
                 kryo.writeObject(output, key, keySerializer);
                 kryo.writeClassAndObject(output, value);
             }
