@@ -139,6 +139,16 @@ usage:
     System.out.println(obj instanceof OrderGrain);  // prints: true
 ```
 
+[MessagePack](http://msgpack.org) serialization is available by adding the `grains-msgpack` dependency. Example usage:
+```java
+    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
+
+    byte[] data = msgpack.write(order);
+    Object obj = msgpack.read(data, OrderGrain.class);
+
+    System.out.println(obj instanceof OrderGrain);  // prints: true
+```
+
 Motivation
 ----------
 
