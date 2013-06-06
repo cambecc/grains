@@ -125,7 +125,7 @@ And Java serialization is supported natively:
 [Kryo](http://code.google.com/p/kryo/) serialization is available by adding the `grains-kryo` dependency. Example
 usage:
 ```java
-    Kryo kryo = KryoTools.newGrainKryo();
+    Kryo kryo = KryoTools.newGrainsKryo();
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     Output output = new Output(out);

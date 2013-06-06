@@ -53,7 +53,7 @@ class KryoTestTools {
     }
 
     static Kryo newTestKryo() {
-        Kryo kryo = KryoTools.newGrainKryo();
+        Kryo kryo = KryoTools.newGrainsKryo();
         kryo.setDefaultSerializer(NoSerializer.class);
         return kryo;
     }

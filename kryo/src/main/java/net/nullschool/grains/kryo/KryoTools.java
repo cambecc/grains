@@ -30,9 +30,9 @@ import java.util.UUID;
  *
  * Utility methods to support {@link Kryo} serialization of Grains.<p/>
  *
- * The {@link #newGrainKryo} method provides a ready-built Kryo instance for serializing grains. Example usage:
+ * The {@link #newGrainsKryo} method provides a ready-built Kryo instance for serializing grains. Example usage:
  * <pre>
- *     Kryo kryo = KryoTools.newGrainKryo();
+ *     Kryo kryo = KryoTools.newGrainsKryo();
  *
  *     Output output = new Output(new FileOutputStream("persistence.kryo"));
  *     kryo.writeClassAndObject(output, anyGrain);
@@ -54,8 +54,8 @@ public class KryoTools {
     /**
      * Constructs a new Kryo instance configured for serialization and deserialization of Grains.
      */
-    public static Kryo newGrainKryo() {
-        return configureGrainSerializers(new Kryo(new PublicInterfaceResolver(), new MapReferenceResolver()));
+    public static Kryo newGrainsKryo() {
+        return addDefaultSerializers(new Kryo(new PublicInterfaceResolver(), new MapReferenceResolver()));
     }
 
     /**
@@ -65,7 +65,7 @@ public class KryoTools {
      * @return the same kryo instance.
      * @throws NullPointerException if kryo is null.
      */
-    public static Kryo configureGrainSerializers(Kryo kryo) {
+    public static Kryo addDefaultSerializers(Kryo kryo) {
         kryo.addDefaultSerializer(Grain.class, VerboseGrainSerializer.class);
         kryo.addDefaultSerializer(UUID.class, new UUIDSerializer());
         kryo.addDefaultSerializer(URI.class, new URISerializer());
