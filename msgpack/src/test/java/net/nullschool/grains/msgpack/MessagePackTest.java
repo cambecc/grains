@@ -51,6 +51,9 @@ public class MessagePackTest {
                 "7a1y92a1xa1ya1z82181a2id8281a2id9a2za81a1a919281a2id181a2id2",
             BasicToolsTest.asReadableString(data));
         assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
     }
 
     @Test
@@ -63,6 +66,9 @@ public class MessagePackTest {
 
         assertEquals("80", BasicToolsTest.asReadableString(data));
         assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
     }
 
     @Test
@@ -79,6 +85,10 @@ public class MessagePackTest {
         NodeGrain actual = newGrainsMessagePack().read(data, NodeGrain.class);
 
         assertEquals("84a2idaa5extra82a1a1a1b2a1x1a1y2", BasicToolsTest.asReadableString(data));
-        assertEquals(expected.without("z"), actual);
+        expected = expected.without("z");
+        assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
     }
 }

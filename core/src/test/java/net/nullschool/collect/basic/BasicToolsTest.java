@@ -45,6 +45,35 @@ public class BasicToolsTest {
         return sb.toString();
     }
 
+    /**
+     * Prints the object's type, and all elements' types if the object is a collection or map.
+     */
+    public static String asTypeHierarchy(Object o) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(o != null ? o.getClass().getSimpleName() : o);
+        if (o instanceof Collection) {
+            sb.append('[');
+            boolean first = true;
+            for (Object e : (Collection<?>)o) {
+                if (!first) sb.append(' '); else first = false;
+                sb.append(asTypeHierarchy(e));
+            }
+            sb.append(']');
+        }
+        else if (o instanceof Map) {
+            sb.append('{');
+            boolean first = true;
+            for (Map.Entry entry : ((Map<?, ?>)o).entrySet()) {
+                if (!first) sb.append(' '); else first = false;
+                sb.append(asTypeHierarchy(entry.getKey()));
+                sb.append(':');
+                sb.append(asTypeHierarchy(entry.getValue()));
+            }
+            sb.append('}');
+        }
+        return sb.toString();
+    }
+
     @Test
     public void test_copy_array() {
         Object[] src = new Object[] {1, 2, 3};

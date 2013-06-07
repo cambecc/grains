@@ -61,6 +61,9 @@ public class GrainSerializerTest {
 
         assertTrue(actual instanceof CompleteGrain);
         assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
     }
 
     @Test
@@ -76,6 +79,9 @@ public class GrainSerializerTest {
 
         assertTrue(actual instanceof CompleteGrain);
         assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
     }
 
     @Test
@@ -96,7 +102,11 @@ public class GrainSerializerTest {
             BasicToolsTest.asReadableString(baos.toByteArray()));
 
         assertTrue(actual instanceof NodeGrain);
-        assertEquals(expected.without("z"), actual);
+        expected = expected.without("z");
+        assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
     }
 
     @Test
@@ -123,5 +133,8 @@ public class GrainSerializerTest {
 
         assertTrue(actual instanceof CompleteGrain);
         assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
     }
 }
