@@ -38,6 +38,6 @@ public class GrainsModule extends Module {
 
     @Override public void setupModule(SetupContext context) {
         context.addDeserializers(new GrainsDeserializers());
-        context.addSerializers(new GrainsSerializers());
+//        context.addSerializers(new GrainsSerializers());
     }
 }

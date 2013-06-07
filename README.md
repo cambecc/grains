@@ -122,6 +122,28 @@ And Java serialization is supported natively:
     System.out.println(order.equals(obj));          // prints: true
 ```
 
+[Jackson](http://wiki.fasterxml.com/JacksonHome) data types are available by adding the `grains-jackson` dependency.
+These data types can be used for all Jackson supported data formats, such as JSON, Smile, etc.
+Example use:
+```java
+    ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
+
+    byte[] data = mapper.writeValueAsBytes(order);
+    Object obj = mapper.readValue(data, OrderGrain.class);
+
+    System.out.println(obj instanceof OrderGrain);  // prints: true
+```
+
+[MessagePack](http://msgpack.org) serialization is available by adding the `grains-msgpack` dependency. Example usage:
+```java
+    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
+
+    byte[] data = msgpack.write(order);
+    Object obj = msgpack.read(data, OrderGrain.class);
+
+    System.out.println(obj instanceof OrderGrain);  // prints: true
+```
+
 [Kryo](http://code.google.com/p/kryo/) serialization is available by adding the `grains-kryo` dependency. Example
 usage:
 ```java
@@ -135,16 +157,6 @@ usage:
     Input input = new Input(new ByteArrayInputStream(out.toByteArray()));
     Object obj = kryo.readClassAndObject(input);
     input.close();
-
-    System.out.println(obj instanceof OrderGrain);  // prints: true
-```
-
-[MessagePack](http://msgpack.org) serialization is available by adding the `grains-msgpack` dependency. Example usage:
-```java
-    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
-
-    byte[] data = msgpack.write(order);
-    Object obj = msgpack.read(data, OrderGrain.class);
 
     System.out.println(obj instanceof OrderGrain);  // prints: true
 ```

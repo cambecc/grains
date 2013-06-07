@@ -19,9 +19,7 @@ package net.nullschool.grains.jackson.datatype;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
-import net.nullschool.collect.*;
 import net.nullschool.grains.Grain;
 import net.nullschool.grains.jackson.datatype.deser.*;
 
@@ -31,28 +29,16 @@ import net.nullschool.grains.jackson.datatype.deser.*;
  *
  * @author Cameron Beccario
  */
-public class GrainsDeserializers extends Deserializers.Base {
+final class GrainsDeserializers extends Deserializers.Base {
 
-    @Override public JsonDeserializer<?> findCollectionDeserializer(
-        CollectionType type,
-        DeserializationConfig config,
-        BeanDescription beanDesc,
-        TypeDeserializer elementTypeDeserializer,
-        JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
-
-        Class<?> clazz = type.getRawClass();
-
-        if (ConstCollection.class.isAssignableFrom(clazz)) {
-            if (ConstSet.class.isAssignableFrom(clazz)) {
-                if (ConstSortedSet.class.isAssignableFrom(clazz)) {
-                    return new BasicConstSortedSetDeserializer(type, elementDeserializer, elementTypeDeserializer);
-                }
-                return new BasicConstSetDeserializer(type, elementDeserializer, elementTypeDeserializer);
-            }
-            return new BasicConstListDeserializer(type, elementDeserializer, elementTypeDeserializer);
-        }
-        return null;
-    }
+//    @Override public JsonDeserializer<?> findCollectionDeserializer(
+//        CollectionType type,
+//        DeserializationConfig config,
+//        BeanDescription beanDesc,
+//        TypeDeserializer elementTypeDeserializer,
+//        JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+//
+//    }
 
     @Override
     public JsonDeserializer<?> findMapDeserializer(
@@ -65,20 +51,9 @@ public class GrainsDeserializers extends Deserializers.Base {
 
         Class<?> clazz = type.getRawClass();
 
-        if (ConstMap.class.isAssignableFrom(clazz)) {
-            if (Grain.class.isAssignableFrom(clazz)) {
-                return new GrainDeserializer(type, null /*UNDONE*/);
-            }
-            if (ConstSortedMap.class.isAssignableFrom(clazz)) {
-                return new BasicConstSortedMapDeserializer(
-                    type,
-                    keyDeserializer,
-                    valueDeserializer,
-                    valueTypeDeserializer);
-            }
-            return new BasicConstMapDeserializer(type, keyDeserializer, valueDeserializer, valueTypeDeserializer);
+        if (Grain.class.isAssignableFrom(clazz)) {
+            return new GrainDeserializer(type, null /*UNDONE*/);
         }
-
         return null;
     }
 }

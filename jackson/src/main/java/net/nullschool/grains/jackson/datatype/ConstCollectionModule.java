@@ -16,7 +16,9 @@
 
 package net.nullschool.grains.jackson.datatype;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.json.PackageVersion;
+import com.fasterxml.jackson.databind.Module;
 
 
 /**
@@ -24,6 +26,18 @@ import com.fasterxml.jackson.databind.ser.Serializers;
  *
  * @author Cameron Beccario
  */
-public class GrainsSerializers extends Serializers.Base {
+public class ConstCollectionModule extends Module {
 
+    @Override public String getModuleName() {
+        return "ConstCollectionModule";
+    }
+
+    @Override public Version version() {
+        return PackageVersion.VERSION;
+    }
+
+    @Override public void setupModule(SetupContext context) {
+        context.addDeserializers(new ConstCollectionDeserializers());
+//        context.addSerializers(new ConstCollectionSerializers());
+    }
 }
