@@ -39,6 +39,7 @@ public class MessagePackTest {
     @Test
     public void test_complete_serialization() throws IOException {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
+        assertEquals(27, expected.size());
 
         MessagePack msgpack = newGrainsMessagePack();
         byte[] data = msgpack.write(expected);

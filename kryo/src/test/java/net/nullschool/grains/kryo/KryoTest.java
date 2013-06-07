@@ -36,7 +36,7 @@ import static net.nullschool.grains.generate.model.CompleteTest.*;
  *
  * @author Cameron Beccario
  */
-public class GrainSerializerTest {
+public class KryoTest {
 
     @Test
     public void test_intrinsic_serialization() {
