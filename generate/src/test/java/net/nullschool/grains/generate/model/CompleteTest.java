@@ -16,8 +16,6 @@
 
 package net.nullschool.grains.generate.model;
 
-import net.nullschool.collect.ConstList;
-import net.nullschool.collect.ConstSet;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -44,6 +42,7 @@ public class CompleteTest {
 
     public static CompleteBuilder newCompleteBuilderWithSampleValues() {
         CompleteBuilder builder = CompleteFactory.newBuilder();
+
         builder.setA(true);
         builder.setB((byte)1);
         builder.setC((short)2);
@@ -70,10 +69,7 @@ public class CompleteTest {
         builder.setX(mapOf("a", newNode(6), "b", newNode(7)));
         builder.setY(sortedSetOf(null, "x", "y"));
         builder.setZ(sortedMapOf(null, 1, newNode(8), 2, newNode(9)));
-
-        ConstList<NodeGrain> cl = listOf(newNode(1), newNode(2));
-        ConstSet<ConstList<NodeGrain>> cs = setOf(cl);
-        builder.setZa(mapOf("a", cs));  // UNDONE: this is a pain. all because those methods return Basic* concrete types.
+        builder.setZa(mapOf("a", setOf(listOf(newNode(1), newNode(2)))));
 
         return builder;
     }

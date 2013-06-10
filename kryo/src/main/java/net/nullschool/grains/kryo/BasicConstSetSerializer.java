@@ -20,7 +20,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import net.nullschool.collect.basic.BasicConstSet;
+import net.nullschool.collect.ConstSet;
 
 import static net.nullschool.collect.basic.BasicCollections.*;
 
@@ -32,16 +32,16 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-public class BasicConstSetSerializer extends Serializer<BasicConstSet> {
+public class BasicConstSetSerializer extends Serializer<ConstSet> {
 
-    @Override public void write(Kryo kryo, Output output, BasicConstSet set) {
+    @Override public void write(Kryo kryo, Output output, ConstSet set) {
         output.writeInt(set.size(), true);
         for (Object o : set) {
             kryo.writeClassAndObject(output, o);
         }
     }
 
-    @Override public BasicConstSet<?> read(Kryo kryo, Input input, Class<BasicConstSet> type) {
+    @Override public ConstSet<?> read(Kryo kryo, Input input, Class<ConstSet> type) {
         final int size = input.readInt(true);
         switch (size) {
             case 0: return emptySet();

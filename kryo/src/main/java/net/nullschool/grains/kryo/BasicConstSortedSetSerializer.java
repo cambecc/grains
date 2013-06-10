@@ -4,7 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import net.nullschool.collect.basic.BasicConstSortedSet;
+import net.nullschool.collect.ConstSortedSet;
 
 import java.util.Comparator;
 import static net.nullschool.collect.basic.BasicCollections.*;
@@ -17,9 +17,9 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-public class BasicConstSortedSetSerializer extends Serializer<BasicConstSortedSet> {
+public class BasicConstSortedSetSerializer extends Serializer<ConstSortedSet> {
 
-    @Override public void write(Kryo kryo, Output output, BasicConstSortedSet set) {
+    @Override public void write(Kryo kryo, Output output, ConstSortedSet set) {
         kryo.writeClassAndObject(output, set.comparator());
         output.writeInt(set.size(), true);
         for (Object o : set) {
@@ -27,7 +27,7 @@ public class BasicConstSortedSetSerializer extends Serializer<BasicConstSortedSe
         }
     }
 
-    @Override public BasicConstSortedSet<?> read(Kryo kryo, Input input, Class<BasicConstSortedSet> type) {
+    @Override public ConstSortedSet<?> read(Kryo kryo, Input input, Class<ConstSortedSet> type) {
         @SuppressWarnings("unchecked")
         Comparator<Object> comparator = (Comparator<Object>)kryo.readClassAndObject(input);
         final int size = input.readInt(true);

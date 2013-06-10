@@ -20,8 +20,8 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import net.nullschool.collect.ConstMap;
 import net.nullschool.collect.MapIterator;
-import net.nullschool.collect.basic.BasicConstMap;
 
 import static net.nullschool.collect.basic.BasicCollections.*;
 
@@ -33,9 +33,9 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-public class BasicConstMapSerializer extends Serializer<BasicConstMap> {
+public class BasicConstMapSerializer extends Serializer<ConstMap> {
 
-    @Override public void write(Kryo kryo, Output output, BasicConstMap map) {
+    @Override public void write(Kryo kryo, Output output, ConstMap map) {
         output.writeInt(map.size(), true);
         for (MapIterator<?, ?> iter = map.iterator(); iter.hasNext();) {
             kryo.writeClassAndObject(output, iter.next());
@@ -43,7 +43,7 @@ public class BasicConstMapSerializer extends Serializer<BasicConstMap> {
         }
     }
 
-    @Override public BasicConstMap<?, ?> read(Kryo kryo, Input input, Class<BasicConstMap> type) {
+    @Override public ConstMap<?, ?> read(Kryo kryo, Input input, Class<ConstMap> type) {
         final int size = input.readInt(true);
         switch (size) {
             case 0: return emptyMap();

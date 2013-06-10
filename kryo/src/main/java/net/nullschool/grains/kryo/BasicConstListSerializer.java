@@ -20,7 +20,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import net.nullschool.collect.basic.BasicConstList;
+import net.nullschool.collect.ConstList;
 
 import static net.nullschool.collect.basic.BasicCollections.*;
 
@@ -32,9 +32,9 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-public class BasicConstListSerializer extends Serializer<BasicConstList> {
+public class BasicConstListSerializer extends Serializer<ConstList> {
 
-    @Override public void write(Kryo kryo, Output output, BasicConstList list) {
+    @Override public void write(Kryo kryo, Output output, ConstList list) {
         final int size = list.size();
         output.writeInt(size, true);
         for (int i = 0; i < size; i++) {
@@ -42,7 +42,7 @@ public class BasicConstListSerializer extends Serializer<BasicConstList> {
         }
     }
 
-    @Override public BasicConstList<?> read(Kryo kryo, Input input, Class<BasicConstList> type) {
+    @Override public ConstList<?> read(Kryo kryo, Input input, Class<ConstList> type) {
         final int size = input.readInt(true);
         switch (size) {
             case 0: return emptyList();

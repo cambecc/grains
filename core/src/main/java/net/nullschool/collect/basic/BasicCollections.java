@@ -16,6 +16,7 @@
 
 package net.nullschool.collect.basic;
 
+import net.nullschool.collect.*;
 import net.nullschool.util.ObjectTools;
 
 import java.util.*;
@@ -54,7 +55,7 @@ public final class BasicCollections {
      *
      * @return a persistent empty list.
      */
-    public static <E> BasicConstList<E> emptyList() {
+    public static <E> ConstList<E> emptyList() {
         return BasicList0.instance();
     }
 
@@ -64,7 +65,7 @@ public final class BasicCollections {
      * @param e0 the element.
      * @return a persistent list containing the specified element.
      */
-    public static <E> BasicConstList<E> listOf(E e0) {
+    public static <E> ConstList<E> listOf(E e0) {
         return new BasicList1<>(e0);
     }
 
@@ -75,7 +76,7 @@ public final class BasicCollections {
      * @param e1 the second element.
      * @return a persistent list containing the specified elements.
      */
-    public static <E> BasicConstList<E> listOf(E e0, E e1) {
+    public static <E> ConstList<E> listOf(E e0, E e1) {
         return new BasicListN<>(new Object[] {e0, e1});
     }
 
@@ -87,7 +88,7 @@ public final class BasicCollections {
      * @param e2 the third element.
      * @return a persistent list containing the specified elements.
      */
-    public static <E> BasicConstList<E> listOf(E e0, E e1, E e2) {
+    public static <E> ConstList<E> listOf(E e0, E e1, E e2) {
         return new BasicListN<>(new Object[] {e0, e1, e2});
     }
 
@@ -96,7 +97,7 @@ public final class BasicCollections {
      *
      * @return a persistent list containing the specified elements.
      */
-    public static <E> BasicConstList<E> listOf(E e0, E e1, E e2, E e3) {
+    public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3) {
         return new BasicListN<>(new Object[] {e0, e1, e2, e3});
     }
 
@@ -105,7 +106,7 @@ public final class BasicCollections {
      *
      * @return a persistent list containing the specified elements.
      */
-    public static <E> BasicConstList<E> listOf(E e0, E e1, E e2, E e3, E e4) {
+    public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3, E e4) {
         return new BasicListN<>(new Object[] {e0, e1, e2, e3, e4});
     }
 
@@ -116,7 +117,7 @@ public final class BasicCollections {
      * @return a persistent list containing the specified elements in the order they appear.
      */
     @SafeVarargs
-    public static <E> BasicConstList<E> listOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
+    public static <E> ConstList<E> listOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
         Object[] elements = new Object[6 + additional.length];
         elements[0] = e0;
         elements[1] = e1;
@@ -135,7 +136,7 @@ public final class BasicCollections {
      * @return a persistent list containing the specified elements in the order they appear.
      * @throws NullPointerException if {@code elements} is null.
      */
-    public static <E> BasicConstList<E> asList(E[] elements) {
+    public static <E> ConstList<E> asList(E[] elements) {
         return condenseToList(copy(elements));
     }
 
@@ -147,7 +148,7 @@ public final class BasicCollections {
      * @return a persistent list containing the elements of the specified collection in the order they appear.
      * @throws NullPointerException if {@code collection} is null.
      */
-    public static <E> BasicConstList<E> asList(Collection<? extends E> collection) {
+    public static <E> ConstList<E> asList(Collection<? extends E> collection) {
         if (collection instanceof BasicConstList) {
             @SuppressWarnings("unchecked") BasicConstList<E> covariant = (BasicConstList<E>)collection;
             return covariant;  // The collection is already a ConstList.
@@ -162,7 +163,7 @@ public final class BasicCollections {
      * @return a persistent list containing the elements of the iteration in the order they appear.
      * @throws NullPointerException if {@code iterator} is null.
      */
-    public static <E> BasicConstList<E> asList(Iterator<? extends E> iterator) {
+    public static <E> ConstList<E> asList(Iterator<? extends E> iterator) {
         return condenseToList(copy(iterator));
     }
 
@@ -195,7 +196,7 @@ public final class BasicCollections {
      *
      * @return a persistent empty set.
      */
-    public static <E> BasicConstSet<E> emptySet() {
+    public static <E> ConstSet<E> emptySet() {
         return BasicSet0.instance();
     }
 
@@ -205,7 +206,7 @@ public final class BasicCollections {
      * @param e0 the element.
      * @return a persistent set containing the specified element.
      */
-    public static <E> BasicConstSet<E> setOf(E e0) {
+    public static <E> ConstSet<E> setOf(E e0) {
         return new BasicSet1<>(e0);
     }
 
@@ -218,7 +219,7 @@ public final class BasicCollections {
      * @param e1 the (potential) second element.
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
-    public static <E> BasicConstSet<E> setOf(E e0, E e1) {
+    public static <E> ConstSet<E> setOf(E e0, E e1) {
         return Objects.equals(e1, e0) ?
             new BasicSet1<E>(e0) :
             new BasicSetN<E>(new Object[] {e0, e1});
@@ -233,7 +234,7 @@ public final class BasicCollections {
      * @param e2 the (potential) third element.
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
-    public static <E> BasicConstSet<E> setOf(E e0, E e1, E e2) {
+    public static <E> ConstSet<E> setOf(E e0, E e1, E e2) {
         return condenseToSet(unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2}));
     }
 
@@ -243,7 +244,7 @@ public final class BasicCollections {
      *
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
-    public static <E> BasicConstSet<E> setOf(E e0, E e1, E e2, E e3) {
+    public static <E> ConstSet<E> setOf(E e0, E e1, E e2, E e3) {
         return condenseToSet(unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3}));
     }
 
@@ -253,7 +254,7 @@ public final class BasicCollections {
      *
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
-    public static <E> BasicConstSet<E> setOf(E e0, E e1, E e2, E e3, E e4) {
+    public static <E> ConstSet<E> setOf(E e0, E e1, E e2, E e3, E e4) {
         return condenseToSet(unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3, e4}));
     }
 
@@ -265,7 +266,7 @@ public final class BasicCollections {
      * @return a persistent set containing the unique elements from the provided arguments in the order they appear.
      */
     @SafeVarargs
-    public static <E> BasicConstSet<E> setOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
+    public static <E> ConstSet<E> setOf(E e0, E e1, E e2, E e3, E e4, E e5, E... additional) {
         Object[] elements = new Object[6 + additional.length];
         elements[0] = e0;
         elements[1] = e1;
@@ -285,7 +286,7 @@ public final class BasicCollections {
      * @return a persistent set containing the unique elements from the array in the order they appear.
      * @throws NullPointerException if {@code elements} is null.
      */
-    public static <E> BasicConstSet<E> asSet(E[] elements) {
+    public static <E> ConstSet<E> asSet(E[] elements) {
         return condenseToSet(unionInto(EMPTY_OBJECT_ARRAY, elements));
     }
 
@@ -297,7 +298,11 @@ public final class BasicCollections {
      * @return a persistent set containing the unique elements from the collection in the order they appear.
      * @throws NullPointerException if {@code collection} is null.
      */
-    public static <E> BasicConstSet<E> asSet(Collection<? extends E> collection) {
+    public static <E> ConstSet<E> asSet(Collection<? extends E> collection) {
+        // NOTE: We do not provide overload asSet(Set<? extends E>) because the behavior of that function would
+        // be the same as this function. Set membership must be recomputed because Set lacks an explicit membership
+        // function, unlike SortedSet.
+
         if (collection instanceof BasicConstSet && !(collection instanceof BasicConstSortedSet)) {
             @SuppressWarnings("unchecked") BasicConstSet<E> covariant = (BasicConstSet<E>)collection;
             return covariant;  // The collection is already a non-sorted ConstSet.
@@ -313,7 +318,7 @@ public final class BasicCollections {
      * @return a persistent set containing the unique elements of the iteration in the order they appear.
      * @throws NullPointerException if {@code iterator} is null.
      */
-    public static <E> BasicConstSet<E> asSet(Iterator<? extends E> iterator) {
+    public static <E> ConstSet<E> asSet(Iterator<? extends E> iterator) {
         return condenseToSet(unionInto(EMPTY_OBJECT_ARRAY, copy(iterator)));
     }
 
@@ -348,7 +353,7 @@ public final class BasicCollections {
      * @param comparator the comparator, or null for {@link Comparable natural ordering}.
      * @return a persistent empty sorted set.
      */
-    public static <E> BasicConstSortedSet<E> emptySortedSet(Comparator<? super E> comparator) {
+    public static <E> ConstSortedSet<E> emptySortedSet(Comparator<? super E> comparator) {
         return BasicSortedSet0.instance(comparator);
     }
 
@@ -361,7 +366,7 @@ public final class BasicCollections {
      * @throws NullPointerException if the element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if the element is of a type not compatible for comparison.
      */
-    public static <E> BasicConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0) {
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0) {
         return new BasicSortedSet1<>(comparator, checkType(comparator, e0));
     }
 
@@ -376,7 +381,7 @@ public final class BasicCollections {
      * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> BasicConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1) {
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1) {
         int cmp = ObjectTools.compare(e0, e1, comparator);
         return cmp == 0 ?
             new BasicSortedSet1<>(comparator, e0) :
@@ -397,7 +402,7 @@ public final class BasicCollections {
      * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> BasicConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2) {
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2) {
         return condenseToSortedSet(comparator, unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2}, comparator));
     }
 
@@ -410,7 +415,7 @@ public final class BasicCollections {
      * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> BasicConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2, E e3) {
+    public static <E> ConstSortedSet<E> sortedSetOf(Comparator<? super E> comparator, E e0, E e1, E e2, E e3) {
         return condenseToSortedSet(
             comparator,
             unionInto(EMPTY_OBJECT_ARRAY, new Object[] {e0, e1, e2, e3}, comparator));
@@ -425,7 +430,7 @@ public final class BasicCollections {
      * @throws NullPointerException if any element is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> BasicConstSortedSet<E> sortedSetOf(
+    public static <E> ConstSortedSet<E> sortedSetOf(
         Comparator<? super E> comparator,
         E e0,
         E e1,
@@ -449,7 +454,7 @@ public final class BasicCollections {
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
     @SafeVarargs
-    public static <E> BasicConstSortedSet<E> sortedSetOf(
+    public static <E> ConstSortedSet<E> sortedSetOf(
         Comparator<? super E> comparator,
         E e0,
         E e1,
@@ -481,7 +486,7 @@ public final class BasicCollections {
      *                              or the {@code elements} array itself is null.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> BasicConstSortedSet<E> asSortedSet(Comparator<? super E> comparator, E[] elements) {
+    public static <E> ConstSortedSet<E> asSortedSet(Comparator<? super E> comparator, E[] elements) {
         return condenseToSortedSet(comparator, unionInto(EMPTY_OBJECT_ARRAY, elements, comparator));
     }
 
@@ -491,7 +496,7 @@ public final class BasicCollections {
      * @param set the sorted set.
      * @return a persistent sorted set containing the exact elements and ordering of the specified set.
      */
-    public static <E> BasicConstSortedSet<E> asSortedSet(SortedSet<E> set) {
+    public static <E> ConstSortedSet<E> asSortedSet(SortedSet<E> set) {
         if (set instanceof BasicConstSortedSet) {
             return (BasicConstSortedSet<E>)set;  // The set is already a ConstSortedSet.
         }
@@ -509,7 +514,7 @@ public final class BasicCollections {
      *                              or the {@code collection} itself is null.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> BasicConstSortedSet<E> asSortedSet(
+    public static <E> ConstSortedSet<E> asSortedSet(
         Comparator<? super E> comparator,
         Collection<? extends E> collection) {
 
@@ -533,7 +538,7 @@ public final class BasicCollections {
      *                              or the {@code iterator} itself is null.
      * @throws ClassCastException if any element is of a type not compatible for comparison.
      */
-    public static <E> BasicConstSortedSet<E> asSortedSet(
+    public static <E> ConstSortedSet<E> asSortedSet(
         Comparator<? super E> comparator,
         Iterator<? extends E> iterator) {
 
@@ -571,7 +576,7 @@ public final class BasicCollections {
      *
      * @return a persistent empty map.
      */
-    public static <K, V> BasicConstMap<K, V> emptyMap() {
+    public static <K, V> ConstMap<K, V> emptyMap() {
         return BasicMap0.instance();
     }
 
@@ -582,7 +587,7 @@ public final class BasicCollections {
      * @param v0 the value.
      * @return a persistent map containing the specified entry.
      */
-    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0) {
+    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0) {
         return new BasicMap1<>(k0, v0);
     }
 
@@ -597,7 +602,7 @@ public final class BasicCollections {
      * @param v1 the second value.
      * @return a persistent map containing the unique entries from the provided arguments in the order they appear.
      */
-    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0, K k1, V v1) {
+    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0, K k1, V v1) {
         return Objects.equals(k1, k0) ?
             new BasicMap1<K, V>(k0, v1) :
             new BasicMapN<K, V>(new Object[] {k0, k1}, new Object[] {v0, v1});
@@ -610,7 +615,7 @@ public final class BasicCollections {
      *
      * @return a persistent map containing the unique entries from the provided arguments in the order they appear.
      */
-    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2) {
+    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2) {
         return condenseToMap(
             unionInto(
                 EMPTY_OBJECT_ARRAY,
@@ -626,7 +631,7 @@ public final class BasicCollections {
      *
      * @return a persistent map containing the unique entries from the provided arguments in the order they appear.
      */
-    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2, K k3, V v3) {
+    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2, K k3, V v3) {
         return condenseToMap(
             unionInto(
                 EMPTY_OBJECT_ARRAY,
@@ -642,7 +647,7 @@ public final class BasicCollections {
      *
      * @return a persistent map containing the unique entries from the provided arguments in the order they appear.
      */
-    public static <K, V> BasicConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+    public static <K, V> ConstMap<K, V> mapOf(K k0, V v0, K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
         return condenseToMap(
             unionInto(
                 EMPTY_OBJECT_ARRAY,
@@ -663,7 +668,7 @@ public final class BasicCollections {
      * @return a persistent map containing the unique entries from the arrays in the order they appear.
      * @throws NullPointerException if {@code keys} or {@code values} is null.
      */
-    public static <K, V> BasicConstMap<K, V> asMap(K[] keys, V[] values) {
+    public static <K, V> ConstMap<K, V> asMap(K[] keys, V[] values) {
         return condenseToMap(unionInto(EMPTY_OBJECT_ARRAY, EMPTY_OBJECT_ARRAY, keys, values));
     }
 
@@ -675,7 +680,7 @@ public final class BasicCollections {
      * @return a persistent map containing the unique entries from the map in the order they appear.
      * @throws NullPointerException if {@code map} is null.
      */
-    public static <K, V> BasicConstMap<K, V> asMap(Map<? extends K, ? extends V> map) {
+    public static <K, V> ConstMap<K, V> asMap(Map<? extends K, ? extends V> map) {
         if (map instanceof BasicConstMap && !(map instanceof BasicConstSortedMap)) {
             @SuppressWarnings("unchecked") BasicConstMap<K, V> covariant = (BasicConstMap<K, V>)map;
             return covariant;  // The map is already a non-sorted ConstMap.
@@ -736,7 +741,7 @@ public final class BasicCollections {
      * @param comparator the comparator, or null for {@link Comparable natural ordering}.
      * @return a persistent empty sorted map.
      */
-    public static <K, V> BasicConstSortedMap<K, V> emptySortedMap(Comparator<? super K> comparator) {
+    public static <K, V> ConstSortedMap<K, V> emptySortedMap(Comparator<? super K> comparator) {
         return BasicSortedMap0.instance(comparator);
     }
 
@@ -750,7 +755,7 @@ public final class BasicCollections {
      * @throws NullPointerException if the key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if the key is of a type not compatible for comparison.
      */
-    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(Comparator<? super K> comparator, K k0, V v0) {
+    public static <K, V> ConstSortedMap<K, V> sortedMapOf(Comparator<? super K> comparator, K k0, V v0) {
         return new BasicSortedMap1<>(comparator, checkType(comparator, k0), v0);
     }
 
@@ -768,7 +773,7 @@ public final class BasicCollections {
      * @throws NullPointerException if any key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(
+    public static <K, V> ConstSortedMap<K, V> sortedMapOf(
         Comparator<? super K> comparator,
         K k0, V v0,
         K k1, V v1) {
@@ -791,7 +796,7 @@ public final class BasicCollections {
      * @throws NullPointerException if any key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(
+    public static <K, V> ConstSortedMap<K, V> sortedMapOf(
         Comparator<? super K> comparator,
         K k0, V v0,
         K k1, V v1,
@@ -817,7 +822,7 @@ public final class BasicCollections {
      * @throws NullPointerException if any key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(
+    public static <K, V> ConstSortedMap<K, V> sortedMapOf(
         Comparator<? super K> comparator,
         K k0, V v0,
         K k1, V v1,
@@ -844,7 +849,7 @@ public final class BasicCollections {
      * @throws NullPointerException if any key is null and the comparator is null or does not permit nulls.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> BasicConstSortedMap<K, V> sortedMapOf(
+    public static <K, V> ConstSortedMap<K, V> sortedMapOf(
         Comparator<? super K> comparator,
         K k0, V v0,
         K k1, V v1,
@@ -877,7 +882,7 @@ public final class BasicCollections {
      *                              the {@code keys} or {@code values} array is null.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> BasicConstSortedMap<K, V> asSortedMap(Comparator<? super K> comparator, K[] keys, V[] values) {
+    public static <K, V> ConstSortedMap<K, V> asSortedMap(Comparator<? super K> comparator, K[] keys, V[] values) {
         return condenseToSortedMap(
             comparator,
             unionInto(EMPTY_OBJECT_ARRAY, EMPTY_OBJECT_ARRAY, keys, values, comparator));
@@ -890,7 +895,7 @@ public final class BasicCollections {
      * @return a persistent sorted map containing the exact entries and ordering of the specified map.
      * @throws NullPointerException if {@code map} is null.
      */
-    public static <K, V> BasicConstSortedMap<K, V> asSortedMap(SortedMap<K, V> map) {
+    public static <K, V> ConstSortedMap<K, V> asSortedMap(SortedMap<K, V> map) {
         if (map instanceof BasicConstSortedMap) {
             return (BasicConstSortedMap<K, V>)map;  // The map is already a ConstSortedMap.
         }
@@ -908,7 +913,7 @@ public final class BasicCollections {
      *                              the {@code map} is null.
      * @throws ClassCastException if any key is of a type not compatible for comparison.
      */
-    public static <K, V> BasicConstSortedMap<K, V> asSortedMap(
+    public static <K, V> ConstSortedMap<K, V> asSortedMap(
         Comparator<? super K> comparator,
         Map<? extends K, ? extends V> map) {
 

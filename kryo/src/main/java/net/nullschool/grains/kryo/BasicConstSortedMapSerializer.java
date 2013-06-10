@@ -5,7 +5,6 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import net.nullschool.collect.*;
-import net.nullschool.collect.basic.BasicConstSortedMap;
 
 import java.util.Comparator;
 import static net.nullschool.collect.basic.BasicCollections.*;
@@ -18,9 +17,9 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-public class BasicConstSortedMapSerializer extends Serializer<BasicConstSortedMap> {
+public class BasicConstSortedMapSerializer extends Serializer<ConstSortedMap> {
 
-    @Override public void write(Kryo kryo, Output output, BasicConstSortedMap map) {
+    @Override public void write(Kryo kryo, Output output, ConstSortedMap map) {
         kryo.writeClassAndObject(output, map.comparator());
         output.writeInt(map.size(), true);
         for (MapIterator<?, ?> iter = map.iterator(); iter.hasNext();) {
@@ -29,7 +28,7 @@ public class BasicConstSortedMapSerializer extends Serializer<BasicConstSortedMa
         }
     }
 
-    @Override public BasicConstSortedMap<?, ?> read(Kryo kryo, Input input, Class<BasicConstSortedMap> type) {
+    @Override public ConstSortedMap<?, ?> read(Kryo kryo, Input input, Class<ConstSortedMap> type) {
         @SuppressWarnings("unchecked")
         Comparator<Object> comparator = (Comparator<Object>)kryo.readClassAndObject(input);
         final int size = input.readInt(true);
