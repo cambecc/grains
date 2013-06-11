@@ -2,6 +2,7 @@ Grains
 ======
 
 "Grains" is a small Java framework for generating immutable, extensible data models.
+[See the wiki for more details](https://github.com/cambecc/grains/wiki), or read on for an accelerated introduction.
 
 Start by writing an interface with JavaBean-style _get_ methods:
 ```java
