@@ -67,6 +67,8 @@ public enum CompleteFactory implements GrainFactory {
         new TypeToken<ConstSortedMap<Integer, NodeGrain>>(){};
     private static final TypeToken<ConstMap<String, ConstSet<ConstList<NodeGrain>>>> $token10 =
         new TypeToken<ConstMap<String, ConstSet<ConstList<NodeGrain>>>>(){};
+    private static final TypeToken<ConstList<ConstList<String>>> $token11 =
+        new TypeToken<ConstList<ConstList<String>>>(){};
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("a", boolean.class),
@@ -95,9 +97,10 @@ public enum CompleteFactory implements GrainFactory {
         new SimpleGrainProperty("x", $token7.asType()),
         new SimpleGrainProperty("y", $token8.asType()),
         new SimpleGrainProperty("z", $token9.asType()),
-        new SimpleGrainProperty("za", $token10.asType()));
+        new SimpleGrainProperty("za", $token10.asType()),
+        new SimpleGrainProperty("zb", $token11.asType()));
 
-    private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[27]);
+    private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[28]);
     private static final CompleteGrain $DEFAULT = newBuilder().build();
     public static CompleteGrain defaultValue() { return $DEFAULT; }
     public static CompleteBuilder newBuilder() { return new CompleteBuilderImpl(); }
@@ -129,6 +132,8 @@ public enum CompleteFactory implements GrainFactory {
         $POLICY.newTransform($token9);
     private static final Transform<ConstMap<String, ConstSet<ConstList<NodeGrain>>>> $transform10 =
         $POLICY.newTransform($token10);
+    private static final Transform<ConstList<ConstList<String>>> $transform11 =
+        $POLICY.newTransform($token11);
 
     /**
      * Code generated implementation of CompleteGrain.
@@ -166,6 +171,7 @@ public enum CompleteFactory implements GrainFactory {
         private final ConstSortedSet<String> y;
         private final ConstSortedMap<Integer, NodeGrain> z;
         private final ConstMap<String, ConstSet<ConstList<NodeGrain>>> za;
+        private final ConstList<ConstList<String>> zb;
 
         private final ConstSortedMap<String, Object> $extensions;
 
@@ -175,6 +181,7 @@ public enum CompleteFactory implements GrainFactory {
             ConstCollection<NodeGrain> r, ConstList<Integer> s, ConstList<NodeGrain> t, ConstSet<String> u, 
             ConstSet<NodeGrain> v, ConstMap<String, Integer> w, ConstMap<String, NodeGrain> x, ConstSortedSet<String> y, 
             ConstSortedMap<Integer, NodeGrain> z, ConstMap<String, ConstSet<ConstList<NodeGrain>>> za, 
+            ConstList<ConstList<String>> zb, 
             ConstSortedMap<String, Object> $extensions) {
 
             this.a = a;
@@ -204,10 +211,11 @@ public enum CompleteFactory implements GrainFactory {
             this.y = y;
             this.z = z;
             this.za = za;
+            this.zb = zb;
             this.$extensions = $extensions;
         }
 
-        public int size() { return 27 + $extensions.size(); }
+        public int size() { return 28 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
             return IteratorTools.chainMapIterators(new BasisIter($KEYS), $extensions.iterator());
@@ -216,189 +224,196 @@ public enum CompleteFactory implements GrainFactory {
         public boolean getA() { return a; }
         public CompleteGrain withA(boolean a) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public byte getB() { return b; }
         public CompleteGrain withB(byte b) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public short getC() { return c; }
         public CompleteGrain withC(short c) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public int getD() { return d; }
         public CompleteGrain withD(int d) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public long getE() { return e; }
         public CompleteGrain withE(long e) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public BigInteger getF() { return f; }
         public CompleteGrain withF(BigInteger f) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public float getG() { return g; }
         public CompleteGrain withG(float g) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public double getH() { return h; }
         public CompleteGrain withH(double h) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public BigDecimal getI() { return i; }
         public CompleteGrain withI(BigDecimal i) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public char getJ() { return j; }
         public CompleteGrain withJ(char j) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public String getK() { return k; }
         public CompleteGrain withK(String k) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public UUID getL() { return l; }
         public CompleteGrain withL(UUID l) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public URI getM() { return m; }
         public CompleteGrain withM(URI m) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public Currency getN() { return n; }
         public CompleteGrain withN(Currency n) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public Complete.Color getO() { return o; }
         public CompleteGrain withO(Complete.Color o) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public NodeGrain getP() { return p; }
         public CompleteGrain withP(NodeGrain p) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstCollection<Integer> getQ() { return q; }
         public CompleteGrain withQ(ConstCollection<Integer> q) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstCollection<NodeGrain> getR() { return r; }
         public CompleteGrain withR(ConstCollection<NodeGrain> r) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstList<Integer> getS() { return s; }
         public CompleteGrain withS(ConstList<Integer> s) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstList<NodeGrain> getT() { return t; }
         public CompleteGrain withT(ConstList<NodeGrain> t) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstSet<String> getU() { return u; }
         public CompleteGrain withU(ConstSet<String> u) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstSet<NodeGrain> getV() { return v; }
         public CompleteGrain withV(ConstSet<NodeGrain> v) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstMap<String, Integer> getW() { return w; }
         public CompleteGrain withW(ConstMap<String, Integer> w) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstMap<String, NodeGrain> getX() { return x; }
         public CompleteGrain withX(ConstMap<String, NodeGrain> x) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstSortedSet<String> getY() { return y; }
         public CompleteGrain withY(ConstSortedSet<String> y) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstSortedMap<Integer, NodeGrain> getZ() { return z; }
         public CompleteGrain withZ(ConstSortedMap<Integer, NodeGrain> z) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
         public ConstMap<String, ConstSet<ConstList<NodeGrain>>> getZa() { return za; }
         public CompleteGrain withZa(ConstMap<String, ConstSet<ConstList<NodeGrain>>> za) {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
+                $extensions);
+        }
+
+        public ConstList<ConstList<String>> getZb() { return zb; }
+        public CompleteGrain withZb(ConstList<ConstList<String>> zb) {
+            return new CompleteGrainImpl(
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $extensions);
         }
 
@@ -431,6 +446,7 @@ public enum CompleteFactory implements GrainFactory {
                 case "y": return getY();
                 case "z": return getZ();
                 case "za": return getZa();
+                case "zb": return getZb();
                 default: return $extensions.get($key);
             }
         }
@@ -464,6 +480,7 @@ public enum CompleteFactory implements GrainFactory {
                 case "y": return withY($transform8.apply($value));
                 case "z": return withZ($transform9.apply($value));
                 case "za": return withZa($transform10.apply($value));
+                case "zb": return withZb($transform11.apply($value));
             }
             ConstSortedMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
@@ -471,7 +488,7 @@ public enum CompleteFactory implements GrainFactory {
                 return this;
             }
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 $newExtensions);
         }
 
@@ -520,6 +537,7 @@ public enum CompleteFactory implements GrainFactory {
             $builder.y = this.y;
             $builder.z = this.z;
             $builder.za = this.za;
+            $builder.zb = this.zb;
             $builder.$extensions.putAll(this.$extensions);
             return $builder;
         }
@@ -578,10 +596,11 @@ public enum CompleteFactory implements GrainFactory {
         private ConstSortedSet<String> y;
         private ConstSortedMap<Integer, NodeGrain> z;
         private ConstMap<String, ConstSet<ConstList<NodeGrain>>> za;
+        private ConstList<ConstList<String>> zb;
 
         private final TreeMap<String, Object> $extensions = new TreeMap<>();
 
-        public int size() { return 27 + $extensions.size(); }
+        public int size() { return 28 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
             return IteratorTools.chainMapIterators(new BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
@@ -749,6 +768,12 @@ public enum CompleteFactory implements GrainFactory {
             return this;
         }
 
+        public ConstList<ConstList<String>> getZb() { return zb; }
+        public CompleteBuilder setZb(ConstList<ConstList<String>> zb) {
+            this.zb = zb;
+            return this;
+        }
+
         public Object get(Object $key) {
             switch ((String)$key) {
                 case "a": return getA();
@@ -778,6 +803,7 @@ public enum CompleteFactory implements GrainFactory {
                 case "y": return getY();
                 case "z": return getZ();
                 case "za": return getZa();
+                case "zb": return getZb();
                 default: return $extensions.get($key);
             }
         }
@@ -893,6 +919,10 @@ public enum CompleteFactory implements GrainFactory {
                     $original = getZa();
                     setZa($transform10.apply($value));
                     return $original;
+                case "zb":
+                    $original = getZb();
+                    setZb($transform11.apply($value));
+                    return $original;
                 default:
                     return $dissoc ? $extensions.remove($key) : $extensions.put($key, $value);
             }
@@ -908,7 +938,7 @@ public enum CompleteFactory implements GrainFactory {
 
         public CompleteGrain build() {
             return new CompleteGrainImpl(
-                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, 
+                a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, za, zb, 
                 BasicCollections.asSortedMap($extensions));
         }
     }

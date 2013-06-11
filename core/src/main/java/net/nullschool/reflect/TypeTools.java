@@ -170,4 +170,20 @@ public class TypeTools {
     static Type copyOf(Type type) {
         return LateTypeConverter.INSTANCE.apply(type);
     }
+
+    /**
+     * Derives the type that represents the public interface of the specified type. If no public interface can be
+     * found, then the specified type is returned as-is.<p/>
+     *
+     * This implementation inspects the {@link PublicInterfaceRef} annotation declared directly on the specified type,
+     * if any.
+     *
+     * @param type the type.
+     * @return the type's publicly exported interface.
+     * @throws NullPointerException if type is null.
+     */
+    public static Class<?> publicInterfaceOf(Class<?> type) {
+        PublicInterfaceRef pi = type.getAnnotation(PublicInterfaceRef.class);
+        return pi != null ? pi.value() : type;
+    }
 }

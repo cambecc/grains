@@ -70,6 +70,7 @@ public class CompleteTest {
         builder.setY(sortedSetOf(null, "x", "y"));
         builder.setZ(sortedMapOf(null, 1, newNode(8), 2, newNode(9)));
         builder.setZa(mapOf("a", setOf(listOf(newNode(1), newNode(2)))));
+        builder.setZb(listOf(listOf("a", "b"), listOf("c", "d")));
 
         return builder;
     }

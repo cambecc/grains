@@ -136,6 +136,10 @@ public interface CompleteGrain extends Complete, Grain {
 
     CompleteGrain withZa(ConstMap<String, ConstSet<ConstList<NodeGrain>>> za);
 
+    ConstList<ConstList<String>> getZb();
+
+    CompleteGrain withZb(ConstList<ConstList<String>> zb);
+
 
     //
     // Grain Methods

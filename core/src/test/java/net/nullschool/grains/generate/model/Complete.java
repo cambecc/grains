@@ -95,4 +95,6 @@ public interface Complete {
     SortedMap<Integer, ? extends Node> getZ();
 
     Map<String, ? extends Set<? extends List<? extends Node>>> getZa();
+
+    List<? extends List<String>> getZb();
 }

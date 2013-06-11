@@ -41,7 +41,7 @@ public class KryoTest {
     @Test
     public void test_intrinsic_serialization() {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(27, expected.size());
+        assertEquals(28, expected.size());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Object actual = roundTrip(expected, baos);
@@ -56,7 +56,7 @@ public class KryoTest {
                 "et.nullschool.collect.basic.BasicConstSef4123334182v19121711b2801711b2a0182w1anet.nullschool" +
                 ".collect.basic.BasicConstMaf01233223424182x1a12331711b2c0341711b2e0182y1bnet.nullschool.coll" +
                 "ect.basic.BasicConstSortedSef41023034182z1cnet.nullschool.collect.basic.BasicConstSortedMaf0" +
-                "102221711b2100241711b21201ze11a1133191118121711b2201711b2400",
+                "102221711b2100241711b21201ze11a1133191118121711b2201711b2401ze2181218123334181235360",
             BasicToolsTest.asReadableString(baos.toByteArray()));
 
         assertTrue(actual instanceof CompleteGrain);

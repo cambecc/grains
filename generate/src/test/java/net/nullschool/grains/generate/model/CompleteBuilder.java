@@ -134,6 +134,10 @@ public interface CompleteBuilder extends Complete, GrainBuilder {
 
     CompleteBuilder setZa(ConstMap<String, ConstSet<ConstList<NodeGrain>>> za);
 
+    ConstList<ConstList<String>> getZb();
+
+    CompleteBuilder setZb(ConstList<ConstList<String>> zb);
+
 
     //
     // GrainBuilder Methods

@@ -25,6 +25,8 @@ import net.nullschool.reflect.PublicInterfaceRef;
 
 import java.lang.reflect.Modifier;
 
+import static net.nullschool.reflect.TypeTools.*;
+
 
 /**
  * 2013-06-02<p/>
@@ -44,42 +46,27 @@ public class PublicInterfaceResolver extends DefaultClassResolver implements Cla
 
     private final ObjectMap<Class<?>, Class<?>> memos = new ObjectMap<>();
 
-    /**
-     * Derives the type that represents the public interface of the specified type. If no public interface can be
-     * found, then the specified type is returned as-is.<p/>
-     *
-     * This implementation inspects the {@link PublicInterfaceRef} annotation declared directly on the specified type,
-     * if any.
-     *
-     * @param type the type.
-     * @return the type's publicly exported interface.
-     */
     protected Class<?> derivePublicInterface(Class<?> type) {
-        PublicInterfaceRef pi = type.getAnnotation(PublicInterfaceRef.class);
-        return pi != null ? pi.value() : type;
-    }
-
-    protected Class<?> publicInterfaceOf(Class<?> type) {
         if (type == null || Modifier.isPublic(type.getModifiers())) {
             // A public type is its own public interface, so just return it.
             return type;
         }
         Class<?> memo = memos.get(type);
         if (memo == null) {
-            memos.put(type, memo = derivePublicInterface(type));
+            memos.put(type, memo = publicInterfaceOf(type));
         }
         return memo;
     }
 
     @Override public Registration registerImplicit(Class type) {
-        return super.registerImplicit(publicInterfaceOf(type));
+        return super.registerImplicit(derivePublicInterface(type));
     }
 
     @Override public Registration getRegistration(Class type) {
-        return super.getRegistration(publicInterfaceOf(type));
+        return super.getRegistration(derivePublicInterface(type));
     }
 
     @Override public Registration writeClass(Output output, Class type) {
-        return super.writeClass(output, publicInterfaceOf(type));
+        return super.writeClass(output, derivePublicInterface(type));
     }
 }
