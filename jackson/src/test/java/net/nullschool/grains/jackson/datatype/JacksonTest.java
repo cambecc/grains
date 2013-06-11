@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static net.nullschool.collect.basic.BasicCollections.listOf;
 import static net.nullschool.collect.basic.BasicCollections.mapOf;
 import static net.nullschool.grains.generate.model.CompleteTest.newCompleteBuilderWithSampleValues;
 import static org.junit.Assert.assertEquals;
@@ -95,13 +96,14 @@ public class JacksonTest {
         expected = expected.with("x", 1);
         expected = expected.with("y", 2);
         expected = expected.with("z", null);  // expected that this extension key will be dropped
-        expected = expected.with("extra", mapOf("a", 1, "b", 2));
+        expected = expected.with("extraMap", mapOf("a", 1, "b", 2));
+        expected = expected.with("extraList", listOf(1, 2));
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
         byte[] data = mapper.writeValueAsBytes(expected);
 
         assertEquals(
-            "{'id':10,'extra':{'a':1,'b':2},'x':1,'y':2}",
+            "{'id':10,'extraList':[1,2],'extraMap':{'a':1,'b':2},'x':1,'y':2}",
             BasicToolsTest.asReadableString(data).replace('\"', '\''));
 
         NodeGrain actual = mapper.readValue(data, NodeGrain.class);

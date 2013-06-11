@@ -16,19 +16,14 @@
 
 package net.nullschool.grains.jackson.datatype;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import net.nullschool.collect.ConstSet;
-import net.nullschool.collect.basic.BasicCollections;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+
+import static net.nullschool.collect.basic.BasicCollections.*;
 
 
 /**
@@ -36,73 +31,34 @@ import java.util.List;
  *
  * @author Cameron Beccario
  */
-final class BasicConstSetDeserializer extends StdDeserializer<ConstSet> implements ContextualDeserializer {
+final class BasicConstSetDeserializer extends AbstractBasicConstCollectionSerializer<ConstSet> {
 
     private static final long serialVersionUID = 1;
 
 
-    private final CollectionType setType;
-    private final JsonDeserializer<?> elementDeserializer;
-    private final TypeDeserializer elementTypeDeserializer;
-
-    public BasicConstSetDeserializer(
+    BasicConstSetDeserializer(
         CollectionType setType,
         JsonDeserializer<?> elementDeserializer,
         TypeDeserializer elementTypeDeserializer) {
 
-        super(setType.getRawClass());
-        this.setType = setType;
-        this.elementDeserializer = elementDeserializer;
-        this.elementTypeDeserializer = elementTypeDeserializer;
+        super(setType, elementDeserializer, elementTypeDeserializer);
     }
 
-    @Override public JsonDeserializer<?> createContextual(
-        DeserializationContext ctxt,
-        BeanProperty property) throws JsonMappingException {
-
-        JsonDeserializer<?> ed = elementDeserializer != null ?
-            elementDeserializer :
-            ctxt.findContextualValueDeserializer(setType.getContentType(), property);
-        TypeDeserializer etd = elementTypeDeserializer != null ?
-            elementTypeDeserializer.forProperty(property) :
-            null;
-
+    @Override JsonDeserializer<?> withDeserializers(JsonDeserializer<?> ed, TypeDeserializer etd) {
         return ed == elementDeserializer && etd == elementTypeDeserializer ?
             this :
-            new BasicConstSetDeserializer(setType, ed, etd);
+            new BasicConstSetDeserializer(collectionType, ed, etd);
     }
 
-    @Override public Object deserializeWithType(
-        JsonParser jp,
-        DeserializationContext ctxt,
-        TypeDeserializer typeDeserializer) throws IOException {
-
-        return typeDeserializer.deserializeTypedFromArray(jp, ctxt);
+    @Override ConstSet emptyResult() {
+        return emptySet();
     }
 
-    @Override public ConstSet<?> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-        if (jp.getCurrentToken() != JsonToken.START_ARRAY) {
-            throw ctxt.mappingException(setType.getRawClass());
-        }
+    @Override ConstSet resultOf(Object element) {
+        return setOf(element);
+    }
 
-        JsonDeserializer<?> ed = elementDeserializer;
-        TypeDeserializer etd = elementTypeDeserializer;
-        List<Object> elements = new ArrayList<>();
-        JsonToken token;
-
-        while ((token = jp.nextToken()) != JsonToken.END_ARRAY) {
-            Object element;
-            if (token == JsonToken.VALUE_NULL) {
-                element = null;
-            }
-            else if (etd == null) {
-                element = ed.deserialize(jp, ctxt);
-            }
-            else {
-                element = ed.deserializeWithType(jp, ctxt, etd);
-            }
-            elements.add(element);
-        }
-        return BasicCollections.asSet(elements);
+    @Override ConstSet asResult(List<Object> elements) {
+        return asSet(elements);
     }
 }

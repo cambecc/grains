@@ -80,17 +80,18 @@ class GrainDeserializer extends StdDeserializer<Grain> implements ResolvableDese
         JsonToken token = jp.getCurrentToken();
         if (token == JsonToken.START_OBJECT) {
             token = jp.nextToken();
-            if (token != JsonToken.FIELD_NAME && token != JsonToken.END_OBJECT) {
-                throw ctxt.mappingException(getValueClass());
-            }
         }
         else if (token != JsonToken.FIELD_NAME) {
             throw ctxt.mappingException(getValueClass());
         }
 
+        if (token == JsonToken.END_OBJECT) {
+            return factory.getDefaultValue();
+        }
+
         GrainBuilder builder = factory.getNewBuilder();
 
-        while (token == JsonToken.FIELD_NAME) {
+        do {
             String key = jp.getCurrentName();
             PropertyReader reader = readers.get(key);
             token = jp.nextToken();
@@ -115,8 +116,8 @@ class GrainDeserializer extends StdDeserializer<Grain> implements ResolvableDese
             }
 
             builder.put(key, value);
-            token = jp.nextToken();
-        }
+        } while (jp.nextToken() == JsonToken.FIELD_NAME);
+
         return builder.build();
     }
 
