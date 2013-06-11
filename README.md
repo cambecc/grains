@@ -129,10 +129,11 @@ Example use:
 ```java
     ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
 
-    byte[] data = mapper.writeValueAsBytes(order);
-    Object obj = mapper.readValue(data, OrderGrain.class);
-
-    System.out.println(obj instanceof OrderGrain);  // prints: true
+    String json = mapper.writeValueAsString(order);
+    OrderGrain obj = mapper.readValue(json, OrderGrain.class);
+    
+    System.out.println(json);               // prints: {"product":"apples","quantity":13}
+    System.out.println(order.equals(obj));  // prints: true
 ```
 
 [MessagePack](http://msgpack.org) serialization is available by adding the `grains-msgpack` dependency. Example usage:
