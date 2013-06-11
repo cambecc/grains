@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.nullschool.grains.jackson.datatype.ConstCollectionModule;
 import net.nullschool.grains.jackson.datatype.GrainsModule;
-import net.nullschool.grains.jackson.datatype.ser.GrainSerializerFactory;
+import net.nullschool.grains.jackson.datatype.GrainSerializerFactory;
 
 
 /**

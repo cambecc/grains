@@ -19,10 +19,8 @@ package net.nullschool.grains.jackson.datatype;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.*;
 import net.nullschool.collect.*;
-import net.nullschool.grains.jackson.datatype.deser.*;
 
 
 /**
@@ -37,7 +35,7 @@ final class ConstCollectionDeserializers extends Deserializers.Base {
         DeserializationConfig config,
         BeanDescription beanDesc,
         TypeDeserializer elementTypeDeserializer,
-        JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+        JsonDeserializer<?> elementDeserializer) {
 
         Class<?> clazz = type.getRawClass();
 
@@ -53,14 +51,13 @@ final class ConstCollectionDeserializers extends Deserializers.Base {
         return null;
     }
 
-    @Override
-    public JsonDeserializer<?> findMapDeserializer(
+    @Override public JsonDeserializer<?> findMapDeserializer(
         MapType type,
         DeserializationConfig config,
         BeanDescription beanDesc,
         KeyDeserializer keyDeserializer,
         TypeDeserializer valueTypeDeserializer,
-        JsonDeserializer<?> valueDeserializer) throws JsonMappingException {
+        JsonDeserializer<?> valueDeserializer) {
 
         Class<?> clazz = type.getRawClass();
 

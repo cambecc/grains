@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.type.MapType;
 import net.nullschool.grains.Grain;
-import net.nullschool.grains.jackson.datatype.deser.*;
 
 
 /**
@@ -52,7 +51,7 @@ final class GrainsDeserializers extends Deserializers.Base {
         Class<?> clazz = type.getRawClass();
 
         if (Grain.class.isAssignableFrom(clazz)) {
-            return new GrainDeserializer(type, null /*UNDONE*/);
+            return new GrainDeserializer(clazz.asSubclass(Grain.class));
         }
         return null;
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.nullschool.grains.jackson.datatype.deser;
+package net.nullschool.grains.jackson.datatype;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @author Cameron Beccario
  */
-public final class BasicConstSetDeserializer extends StdDeserializer<ConstSet> implements ContextualDeserializer {
+final class BasicConstSetDeserializer extends StdDeserializer<ConstSet> implements ContextualDeserializer {
 
     private static final long serialVersionUID = 1;
 
@@ -50,7 +50,7 @@ public final class BasicConstSetDeserializer extends StdDeserializer<ConstSet> i
         JsonDeserializer<?> elementDeserializer,
         TypeDeserializer elementTypeDeserializer) {
 
-        super(setType);
+        super(setType.getRawClass());
         this.setType = setType;
         this.elementDeserializer = elementDeserializer;
         this.elementTypeDeserializer = elementTypeDeserializer;
@@ -90,15 +90,18 @@ public final class BasicConstSetDeserializer extends StdDeserializer<ConstSet> i
         List<Object> elements = new ArrayList<>();
         JsonToken token;
 
-        if (etd != null) {
-            while ((token = jp.nextToken()) != JsonToken.END_ARRAY) {
-                elements.add(token == JsonToken.VALUE_NULL ? null : ed.deserializeWithType(jp, ctxt, etd));
+        while ((token = jp.nextToken()) != JsonToken.END_ARRAY) {
+            Object element;
+            if (token == JsonToken.VALUE_NULL) {
+                element = null;
             }
-        }
-        else {
-            while ((token = jp.nextToken()) != JsonToken.END_ARRAY) {
-                elements.add(token == JsonToken.VALUE_NULL ? null : ed.deserialize(jp, ctxt));
+            else if (etd == null) {
+                element = ed.deserialize(jp, ctxt);
             }
+            else {
+                element = ed.deserializeWithType(jp, ctxt, etd);
+            }
+            elements.add(element);
         }
         return BasicCollections.asSet(elements);
     }

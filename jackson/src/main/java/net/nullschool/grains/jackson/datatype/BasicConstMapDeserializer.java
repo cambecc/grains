@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.nullschool.grains.jackson.datatype.deser;
+package net.nullschool.grains.jackson.datatype;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -35,7 +35,7 @@ import java.util.*;
  *
  * @author Cameron Beccario
  */
-public final class BasicConstMapDeserializer extends StdDeserializer<ConstMap> implements ContextualDeserializer {
+final class BasicConstMapDeserializer extends StdDeserializer<ConstMap> implements ContextualDeserializer {
 
     private static final long serialVersionUID = 1;
 
@@ -51,7 +51,7 @@ public final class BasicConstMapDeserializer extends StdDeserializer<ConstMap> i
         JsonDeserializer<?> valueDeserializer,
         TypeDeserializer valueTypeDeserializer) {
 
-        super(mapType);
+        super(mapType.getRawClass());
         this.mapType = mapType;
         this.keyDeserializer = keyDeserializer;
         this.valueDeserializer = valueDeserializer;
@@ -82,7 +82,7 @@ public final class BasicConstMapDeserializer extends StdDeserializer<ConstMap> i
         DeserializationContext ctxt,
         TypeDeserializer typeDeserializer) throws IOException {
 
-        return typeDeserializer.deserializeTypedFromArray(jp, ctxt);  // UNDONE: ??? array? this is a map...
+        return typeDeserializer.deserializeTypedFromObject(jp, ctxt);
     }
 
     @Override public ConstMap<?, ?> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

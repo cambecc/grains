@@ -1,4 +1,4 @@
-package net.nullschool.grains.jackson.datatype.deser;
+package net.nullschool.grains.jackson.datatype;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Cameron Beccario
  */
-public final class BasicConstSortedMapDeserializer
+final class BasicConstSortedMapDeserializer
     extends StdDeserializer<ConstSortedMap>
     implements ContextualDeserializer {
 
@@ -38,7 +38,13 @@ public final class BasicConstSortedMapDeserializer
         JsonDeserializer<?> valueDeserializer,
         TypeDeserializer valueTypeDeserializer) {
 
-        super(mapType);
+        super(mapType.getRawClass());
+        if (!Comparable.class.isAssignableFrom(mapType.getKeyType().getRawClass())) {
+            throw new IllegalArgumentException(String.format("%s key type %s does not implement %s",
+                mapType.getRawClass().getName(),
+                mapType.getContentType().getRawClass().getName(),
+                Comparable.class));
+        }
         this.mapType = mapType;
         this.keyDeserializer = keyDeserializer;
         this.valueDeserializer = valueDeserializer;
@@ -69,7 +75,7 @@ public final class BasicConstSortedMapDeserializer
         DeserializationContext ctxt,
         TypeDeserializer typeDeserializer) throws IOException {
 
-        return typeDeserializer.deserializeTypedFromArray(jp, ctxt);  // UNDONE: ??? array? this is a map...
+        return typeDeserializer.deserializeTypedFromObject(jp, ctxt);
     }
 
     @Override public ConstSortedMap<?, ?> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {

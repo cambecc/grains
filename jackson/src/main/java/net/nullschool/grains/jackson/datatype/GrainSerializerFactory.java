@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.nullschool.grains.jackson.datatype.ser;
+package net.nullschool.grains.jackson.datatype;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.cfg.SerializerFactoryConfig;
@@ -44,11 +44,14 @@ public class GrainSerializerFactory extends BeanSerializerFactory {
         SerializerProvider provider,
         JavaType type) throws JsonMappingException {
 
-        if (Grain.class.isAssignableFrom(type.getRawClass())) {
-            @SuppressWarnings("unchecked") JsonSerializer<Object> s =
-                (JsonSerializer)new GrainSerializer(type, null /*UNDONE*/);
-            return s;
+        Class<?> clazz = type.getRawClass();
+
+        if (Grain.class.isAssignableFrom(clazz)) {
+            @SuppressWarnings("unchecked") JsonSerializer<Object> serializer =
+                (JsonSerializer)new GrainSerializer(clazz.asSubclass(Grain.class));
+            return serializer;
         }
+
         return super.createSerializer(provider, type);
     }
 }
