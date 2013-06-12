@@ -18,20 +18,19 @@
   ~
   ~ @author Cameron Beccario
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-master</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.0</version>
         <relativePath>../master/pom.xml</relativePath>
     </parent>
 
     <groupId>net.nullschool</groupId>
     <artifactId>grains-generate</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.0</version>
     <packaging>jar</packaging>
 
     <name>generate</name>
@@ -58,14 +57,14 @@
         <connection>scm:git:git@github.com:cambecc/grains.git</connection>
         <developerConnection>scm:git:git@github.com:cambecc/grains.git</developerConnection>
         <url>https://github.com/cambecc/grains.git</url>
-        <tag>HEAD</tag>
+        <tag>grains-project-0.9.0</tag>
     </scm>
 
     <dependencies>
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
+            <version>0.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -86,7 +85,7 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
+            <version>0.9.0</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

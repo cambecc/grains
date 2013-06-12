@@ -4,13 +4,12 @@
   ~
   ~ @author Cameron Beccario
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.acme</groupId>
     <artifactId>grains-sample</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.0</version>
     <packaging>jar</packaging>
 
     <name>sample</name>
@@ -21,7 +20,7 @@
         <connection>scm:git:git@github.com:cambecc/grains.git</connection>
         <developerConnection>scm:git:git@github.com:cambecc/grains.git</developerConnection>
         <url>https://github.com/cambecc/grains.git</url>
-        <tag>HEAD</tag>
+        <tag>grains-project-0.9.0</tag>
     </scm>
 
     <properties>
@@ -32,7 +31,7 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
+            <version>0.9.0</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -83,7 +82,7 @@
             <plugin>
                 <groupId>net.nullschool</groupId>
                 <artifactId>grains-plugin</artifactId>
-                <version>0.9.0-SNAPSHOT</version>
+                <version>0.9.0</version>
                 <configuration>
                     <typePolicy>com.acme.model.CustomTypePolicy.INSTANCE</typePolicy>
                 </configuration>
