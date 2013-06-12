@@ -76,20 +76,10 @@
                             <includes><include>com/acme/model/**</include></includes>
                         </configuration>
                     </execution>
-<!--
-                    <execution>
-                        <id>test-sources</id>
-                        <phase>generate-test-sources</phase>
-                        <goals><goal>testCompile</goal></goals>
-                        <configuration>
-                            <testIncludes><testInclude>com/acme/model/**</testInclude></testIncludes>
-                        </configuration>
-                    </execution>
--->
                 </executions>
             </plugin>
 
-            <!-- invoke generator -->
+            <!-- Invoke generator. -->
             <plugin>
                 <groupId>net.nullschool</groupId>
                 <artifactId>grains-plugin</artifactId>
@@ -102,14 +92,17 @@
                         <phase>generate-sources</phase>
                         <goals><goal>generate</goal></goals>
                     </execution>
-<!--
-                    <execution>
-                        <id>second</id>
-                        <phase>generate-test-sources</phase>
-                        <goals><goal>testGenerate</goal></goals>
-                    </execution>
--->
                 </executions>
+            </plugin>
+
+            <!-- Just a sample project, so should not actually be deployed. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
 
         </plugins>
