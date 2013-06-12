@@ -97,7 +97,9 @@
                     <configuration>
                         <localCheckout>true</localCheckout>
                         <pushChanges>false</pushChanges>
-                        <pomFileName>${project.name}/pom.xml</pomFileName> <!-- allows release from sub modules -->
+<!--
+                        <pomFileName>${project.name}/pom.xml</pomFileName> &lt;!&ndash; allows release from sub modules &ndash;&gt;
+-->
                     </configuration>
                 </plugin>
             </plugins>
