@@ -30,7 +30,7 @@
 
     <groupId>net.nullschool</groupId>
     <artifactId>grains-master</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>master</name>
@@ -57,7 +57,7 @@
         <connection>scm:git:git@github.com:cambecc/grains.git</connection>
         <developerConnection>scm:git:git@github.com:cambecc/grains.git</developerConnection>
         <url>https://github.com/cambecc/grains.git</url>
-      <tag>grains-master-0.9.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <properties>
