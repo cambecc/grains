@@ -97,8 +97,16 @@
                     <configuration>
                         <localCheckout>true</localCheckout>
                         <pushChanges>false</pushChanges>
-                        <pomFileName>${project.name}/pom.xml</pomFileName> <!-- allows release from sub modules -->
                     </configuration>
+                    <executions>
+                        <execution>
+                            <goals><goal>perform</goal></goals>
+                            <configuration>
+                                <!-- allows release from sub modules -->
+                                <pomFileName>${project.name}/pom.xml</pomFileName>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
