@@ -19,7 +19,6 @@ package net.nullschool.grains.jackson.datatype;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.nullschool.collect.*;
-import net.nullschool.collect.basic.BasicToolsTest;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -77,7 +76,6 @@ public class BasicCollectionsTest {
         for (int i = 0; i < 10; i++) {
             ObjectMapper mapper = newGrainsObjectMapper();
             byte[] data = mapper.writeValueAsBytes(map);
-            System.out.println(BasicToolsTest.asReadableString(data));
             ConstMap<?, ?> actual = mapper.readValue(data, ConstMap.class);
             CollectionTestingTools.compare_maps(map, actual);
             map = map.with(String.valueOf(i), i);

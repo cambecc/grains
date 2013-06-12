@@ -30,12 +30,12 @@
     </parent>
 
     <groupId>net.nullschool</groupId>
-    <artifactId>master</artifactId>
+    <artifactId>grains-master</artifactId>
     <version>0.9.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>master</name>
-    <description>Nullschool Master</description>
+    <description>Nullschool Grains Master</description>
     <url>https://github.com/cambecc/grains</url>
 
     <licenses>
@@ -93,6 +93,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
+                    <version>2.4.1</version>
                     <configuration>
                         <localCheckout>true</localCheckout>
                         <pushChanges>false</pushChanges>
