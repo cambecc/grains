@@ -9,7 +9,7 @@
 
     <groupId>com.acme</groupId>
     <artifactId>grains-sample</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>sample</name>
@@ -20,7 +20,7 @@
         <connection>scm:git:git@github.com:cambecc/grains.git</connection>
         <developerConnection>scm:git:git@github.com:cambecc/grains.git</developerConnection>
         <url>https://github.com/cambecc/grains.git</url>
-        <tag>grains-project-0.9.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.9.0</version>
+            <version>0.9.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -82,7 +82,7 @@
             <plugin>
                 <groupId>net.nullschool</groupId>
                 <artifactId>grains-plugin</artifactId>
-                <version>0.9.0</version>
+                <version>0.9.1-SNAPSHOT</version>
                 <configuration>
                     <typePolicy>com.acme.model.CustomTypePolicy.INSTANCE</typePolicy>
                 </configuration>

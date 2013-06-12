@@ -20,13 +20,13 @@
     <parent>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-master</artifactId>
-        <version>0.9.0</version>
+        <version>0.9.1-SNAPSHOT</version>
         <relativePath>../master/pom.xml</relativePath>
     </parent>
 
     <groupId>net.nullschool</groupId>
     <artifactId>grains-msgpack</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>msgpack</name>
@@ -53,14 +53,14 @@
         <connection>scm:git:git@github.com:cambecc/grains.git</connection>
         <developerConnection>scm:git:git@github.com:cambecc/grains.git</developerConnection>
         <url>https://github.com/cambecc/grains.git</url>
-        <tag>grains-project-0.9.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencies>
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.9.0</version>
+            <version>0.9.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.msgpack</groupId>
@@ -77,14 +77,14 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.9.0</version>
+            <version>0.9.1-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-generate</artifactId>
-            <version>0.9.0</version>
+            <version>0.9.1-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
