@@ -28,7 +28,7 @@
     <packaging>pom</packaging>
 
     <name>project</name>
-    <description>Grain Project</description>
+    <description>Grains Project</description>
     <url>https://github.com/cambecc/grains</url>
 
     <licenses>
@@ -51,6 +51,7 @@
         <connection>scm:git:git@github.com:cambecc/grains.git</connection>
         <developerConnection>scm:git:git@github.com:cambecc/grains.git</developerConnection>
         <url>https://github.com/cambecc/grains.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <modules>

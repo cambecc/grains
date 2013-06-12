@@ -21,6 +21,7 @@
         <connection>scm:git:git@github.com:cambecc/grains.git</connection>
         <developerConnection>scm:git:git@github.com:cambecc/grains.git</developerConnection>
         <url>https://github.com/cambecc/grains.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
