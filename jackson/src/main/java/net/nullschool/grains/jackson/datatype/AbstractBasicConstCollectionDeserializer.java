@@ -33,7 +33,9 @@ import java.util.List;
  *
  * @author Cameron Beccario
  */
-abstract class AbstractBasicConstCollectionSerializer<T> extends StdDeserializer<T> implements ContextualDeserializer {
+abstract class AbstractBasicConstCollectionDeserializer<T>
+    extends StdDeserializer<T>
+    implements ContextualDeserializer {
 
     private static final long serialVersionUID = 1;
 
@@ -42,7 +44,7 @@ abstract class AbstractBasicConstCollectionSerializer<T> extends StdDeserializer
     final JsonDeserializer<?> elementDeserializer;
     final TypeDeserializer elementTypeDeserializer;
 
-    AbstractBasicConstCollectionSerializer(
+    AbstractBasicConstCollectionDeserializer(
         CollectionType collectionType,
         JsonDeserializer<?> elementDeserializer,
         TypeDeserializer elementTypeDeserializer) {

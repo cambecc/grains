@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @author Cameron Beccario
  */
-abstract class AbstractBasicConstMapSerializer<T> extends StdDeserializer<T> implements ContextualDeserializer {
+abstract class AbstractBasicConstMapDeserializer<T> extends StdDeserializer<T> implements ContextualDeserializer {
 
     private static final long serialVersionUID = 1;
 
@@ -44,7 +44,7 @@ abstract class AbstractBasicConstMapSerializer<T> extends StdDeserializer<T> imp
     final JsonDeserializer<?> valueDeserializer;
     final TypeDeserializer valueTypeDeserializer;
 
-    AbstractBasicConstMapSerializer(
+    AbstractBasicConstMapDeserializer(
         MapType mapType,
         KeyDeserializer keyDeserializer,
         JsonDeserializer<?> valueDeserializer,

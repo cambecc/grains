@@ -71,4 +71,8 @@ final class JacksonGrainProperty implements BeanProperty {  // UNDONE: Serializa
         // UNDONE
         throw new UnsupportedOperationException("NYI");
     }
+
+    @Override public String toString() {
+        return String.format("%s(%s, %s)", getClass().getSimpleName(), name, type);
+    }
 }

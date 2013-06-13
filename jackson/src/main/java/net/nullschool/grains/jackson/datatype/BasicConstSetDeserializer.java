@@ -31,7 +31,7 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-final class BasicConstSetDeserializer extends AbstractBasicConstCollectionSerializer<ConstSet> {
+final class BasicConstSetDeserializer extends AbstractBasicConstCollectionDeserializer<ConstSet> {
 
     private static final long serialVersionUID = 1;
 

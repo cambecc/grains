@@ -30,15 +30,6 @@ import net.nullschool.grains.Grain;
  */
 final class GrainsDeserializers extends Deserializers.Base {
 
-//    @Override public JsonDeserializer<?> findCollectionDeserializer(
-//        CollectionType type,
-//        DeserializationConfig config,
-//        BeanDescription beanDesc,
-//        TypeDeserializer elementTypeDeserializer,
-//        JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
-//
-//    }
-
     @Override
     public JsonDeserializer<?> findMapDeserializer(
         MapType type,

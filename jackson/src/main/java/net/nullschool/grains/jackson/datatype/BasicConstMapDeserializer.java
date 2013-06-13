@@ -31,7 +31,7 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-final class BasicConstMapDeserializer extends AbstractBasicConstMapSerializer<ConstMap> {
+final class BasicConstMapDeserializer extends AbstractBasicConstMapDeserializer<ConstMap> {
 
     private static final long serialVersionUID = 1;
 

@@ -27,6 +27,7 @@ import net.nullschool.grains.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static net.nullschool.reflect.TypeTools.*;
 
@@ -50,6 +51,7 @@ class GrainSerializer extends StdSerializer<Grain> implements ResolvableSerializ
 
     private final GrainFactory factory;
     private final Grain defaultValue;
+    private final AtomicBoolean isResolved = new AtomicBoolean();
     private volatile PropertyWriter[] writers;
     private volatile PropertySerializerMap lateSerializerMemos = PropertySerializerMap.emptyMap();
 
@@ -64,6 +66,10 @@ class GrainSerializer extends StdSerializer<Grain> implements ResolvableSerializ
     }
 
     @Override public void resolve(SerializerProvider provider) throws JsonMappingException {
+        if (isResolved.getAndSet(true)) {
+            // This serializer has already been resolved so don't resolve again; avoids stack overflow.
+            return;
+        }
         List<PropertyWriter> writers = new ArrayList<>();
         for (GrainProperty gp : factory.getBasisProperties().values()) {
             JacksonGrainProperty prop = new JacksonGrainProperty(gp, provider.getTypeFactory(), handledType());

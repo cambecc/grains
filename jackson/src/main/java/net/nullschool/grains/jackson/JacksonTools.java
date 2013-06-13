@@ -2,9 +2,7 @@ package net.nullschool.grains.jackson;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.nullschool.grains.jackson.datatype.ConstCollectionModule;
-import net.nullschool.grains.jackson.datatype.GrainsModule;
-import net.nullschool.grains.jackson.datatype.GrainSerializerFactory;
+import net.nullschool.grains.jackson.datatype.*;
 
 
 /**
@@ -41,7 +39,6 @@ public final class JacksonTools {
      * @return a mapper capable of serializing Grains.
      */
     public static ObjectMapper configureForGrains(ObjectMapper mapper) {
-        mapper.setSerializerFactory(new GrainSerializerFactory(null));
         mapper.registerModule(new ConstCollectionModule());
         mapper.registerModule(new GrainsModule());
         return mapper;

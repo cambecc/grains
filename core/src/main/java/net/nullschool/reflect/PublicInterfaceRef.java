@@ -30,7 +30,9 @@ import java.lang.annotation.*;
  * A hypothetical example: if the private member class {@code java.util.Collections.EmptyList} was annotated with
  * {@code @PublicInterfaceRef(List.class)}, then a custom serialization framework that encodes objects using fully
  * qualified type names would be able to conveniently encode instances of {@code EmptyList} as "java.util.List" rather
- * than "java.util.Collections.EmptyList" (which is a hidden implementation detail not intended for public export).
+ * than "java.util.Collections.EmptyList" (which is a hidden implementation detail not intended for public export).<p/>
+ *
+ * Proper usage ensures the value of this annotation is a wider type than the type with this annotation.
  *
  * @author Cameron Beccario
  */

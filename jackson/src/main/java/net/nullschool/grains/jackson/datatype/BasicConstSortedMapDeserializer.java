@@ -15,7 +15,7 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-final class BasicConstSortedMapDeserializer extends AbstractBasicConstMapSerializer<ConstSortedMap> {
+final class BasicConstSortedMapDeserializer extends AbstractBasicConstMapDeserializer<ConstSortedMap> {
 
     private static final long serialVersionUID = 1;
 

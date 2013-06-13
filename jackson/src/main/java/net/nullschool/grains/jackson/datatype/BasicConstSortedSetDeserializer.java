@@ -15,7 +15,7 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-final class BasicConstSortedSetDeserializer extends AbstractBasicConstCollectionSerializer<ConstSortedSet> {
+final class BasicConstSortedSetDeserializer extends AbstractBasicConstCollectionDeserializer<ConstSortedSet> {
 
     private static final long serialVersionUID = 1;
 

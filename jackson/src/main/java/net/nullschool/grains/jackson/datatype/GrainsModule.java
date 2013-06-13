@@ -17,7 +17,6 @@
 package net.nullschool.grains.jackson.datatype;
 
 import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.core.json.PackageVersion;
 import com.fasterxml.jackson.databind.Module;
 
 
@@ -33,11 +32,11 @@ public class GrainsModule extends Module {
     }
 
     @Override public Version version() {
-        return PackageVersion.VERSION;
+        return Version.unknownVersion();
     }
 
     @Override public void setupModule(SetupContext context) {
+        context.insertAnnotationIntrospector(new GrainsAnnotationIntrospector());
         context.addDeserializers(new GrainsDeserializers());
-//        context.addSerializers(new GrainsSerializers());
     }
 }
