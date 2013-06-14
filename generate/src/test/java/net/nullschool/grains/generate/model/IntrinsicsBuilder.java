@@ -25,7 +25,15 @@ public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {
 
     float get$float();
 
-    IntrinsicsBuilder set$float(float $float_);
+    IntrinsicsBuilder set$float(float _$float);
+
+    int get0();
+
+    IntrinsicsBuilder set0(int _0);
+
+    char get_char();
+
+    IntrinsicsBuilder set_char(char __char);
 
     BigDecimal getBigDecimal();
 
@@ -37,7 +45,7 @@ public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {
 
     boolean isBoolean();
 
-    IntrinsicsBuilder setBoolean(boolean boolean_);
+    IntrinsicsBuilder setBoolean(boolean _boolean);
 
     Boolean getBoxedBoolean();
 
@@ -61,15 +69,11 @@ public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {
 
     byte getByte();
 
-    IntrinsicsBuilder setByte(byte byte_);
+    IntrinsicsBuilder setByte(byte _byte);
 
     char getChar();
 
-    IntrinsicsBuilder setChar(char char_);
-
-    char getChar_();
-
-    IntrinsicsBuilder setChar_(char char__);
+    IntrinsicsBuilder setChar(char _char);
 
     Character getCharacter();
 
@@ -77,19 +81,19 @@ public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {
 
     double getDouble();
 
-    IntrinsicsBuilder setDouble(double double_);
+    IntrinsicsBuilder setDouble(double _double);
 
     Intrinsics.Color$ getEnum();
 
-    IntrinsicsBuilder setEnum(Intrinsics.Color$ enum_);
+    IntrinsicsBuilder setEnum(Intrinsics.Color$ _enum);
 
     float getFloat();
 
-    IntrinsicsBuilder setFloat(float float_);
+    IntrinsicsBuilder setFloat(float _float);
 
     int getInt();
 
-    IntrinsicsBuilder setInt(int int_);
+    IntrinsicsBuilder setInt(int _int);
 
     Integer getInteger();
 
@@ -97,11 +101,11 @@ public interface IntrinsicsBuilder extends Intrinsics, GrainBuilder {
 
     long getLong();
 
-    IntrinsicsBuilder setLong(long long_);
+    IntrinsicsBuilder setLong(long _long);
 
     short getShort();
 
-    IntrinsicsBuilder setShort(short short_);
+    IntrinsicsBuilder setShort(short _short);
 
     String getString();
 

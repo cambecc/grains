@@ -32,6 +32,7 @@ import static org.mockito.Mockito.*;
  */
 public class TypeToolsTest {
 
+/*
     @Test
     public void test_compare() {
         assertEquals(-1, (Object)compare(List.class, Collection.class));
@@ -50,6 +51,7 @@ public class TypeToolsTest {
         assertEquals(null, compare(int.class, Integer.class));
         assertEquals(null, compare(int.class, Number.class));
     }
+*/
 
     @Test
     public void test_buildArrayType() {

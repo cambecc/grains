@@ -43,6 +43,8 @@ public class IntrinsicsTest {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("id", null);
         map.put("$float", 0.0F);
+        map.put("0", 0);
+        map.put("_char", (char)0);
         map.put("bigDecimal", null);
         map.put("bigInteger", null);
         map.put("boolean", false);
@@ -53,7 +55,6 @@ public class IntrinsicsTest {
         map.put("boxedShort", null);
         map.put("byte", (byte)0);
         map.put("char", (char)0);
-        map.put("char_", (char)0);
         map.put("character", null);
         map.put("double", 0.0D);
         map.put("enum", null);
@@ -73,6 +74,8 @@ public class IntrinsicsTest {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("id", "ABC123");
         map.put("$float", 2.0F);
+        map.put("0", 10);
+        map.put("_char", 'b');
         map.put("bigDecimal", BigDecimal.ONE);
         map.put("bigInteger", BigInteger.ONE);
         map.put("boolean", true);
@@ -83,7 +86,6 @@ public class IntrinsicsTest {
         map.put("boxedShort", (short)2);
         map.put("byte", (byte)3);
         map.put("char", 'a');
-        map.put("char_", 'b');
         map.put("character", 'b');
         map.put("double", Double.POSITIVE_INFINITY);
         map.put("enum", Intrinsics.Color$.red);
@@ -103,6 +105,8 @@ public class IntrinsicsTest {
         IntrinsicsGrain grain = IntrinsicsFactory.defaultValue();
         grain = grain.withId("ABC123");
         grain = grain.with$float(2.0F);
+        grain = grain.with0(10);
+        grain = grain.with_char('b');
         grain = grain.withBigDecimal(BigDecimal.ONE);
         grain = grain.withBigInteger(BigInteger.ONE);
         grain = grain.withBoolean(true);
@@ -114,7 +118,6 @@ public class IntrinsicsTest {
         grain = grain.withBoxedShort((short)2);
         grain = grain.withByte((byte)3);
         grain = grain.withChar('a');
-        grain = grain.withChar_('b');
         grain = grain.withCharacter('b');
         grain = grain.withDouble(Double.POSITIVE_INFINITY);
         grain = grain.withEnum(Intrinsics.Color$.red);
@@ -133,6 +136,8 @@ public class IntrinsicsTest {
         IntrinsicsBuilder builder = IntrinsicsFactory.newBuilder();
         builder.setId("ABC123");
         builder.set$float(2.0F);
+        builder.set0(10);
+        builder.set_char('b');
         builder.setBigDecimal(BigDecimal.ONE);
         builder.setBigInteger(BigInteger.ONE);
         builder.setBoolean(true);
@@ -144,7 +149,6 @@ public class IntrinsicsTest {
         builder.setBoxedShort((short)2);
         builder.setByte((byte)3);
         builder.setChar('a');
-        builder.setChar_('b');
         builder.setCharacter('b');
         builder.setDouble(Double.POSITIVE_INFINITY);
         builder.setEnum(Intrinsics.Color$.red);
@@ -162,6 +166,8 @@ public class IntrinsicsTest {
     private static void compare_getters_with_expected(Intrinsics intrinsics) {
         assertEquals("ABC123", intrinsics.getId());
         assertEquals(2.0F, intrinsics.get$float(), 0.0F);
+        assertEquals(10, intrinsics.get0());
+        assertEquals('b', intrinsics.get_char());
         assertEquals(BigDecimal.ONE, intrinsics.getBigDecimal());
         assertEquals(BigInteger.ONE, intrinsics.getBigInteger());
         assertEquals(true, intrinsics.isBoolean());
@@ -173,7 +179,6 @@ public class IntrinsicsTest {
         assertEquals((Short)(short)2, intrinsics.getBoxedShort());
         assertEquals((byte)3, intrinsics.getByte());
         assertEquals('a', intrinsics.getChar());
-        assertEquals('b', intrinsics.getChar_());
         assertEquals((Character)'b', intrinsics.getCharacter());
         assertEquals(Double.POSITIVE_INFINITY, intrinsics.getDouble(), 0.0D);
         assertEquals(Intrinsics.Color$.red, intrinsics.getEnum());
@@ -189,7 +194,7 @@ public class IntrinsicsTest {
 
     @Test
     public void test_intrinsics_size_changed() {
-        assertEquals(25, IntrinsicsFactory.defaultValue().size());
+        assertEquals(26, IntrinsicsFactory.defaultValue().size());
     }
 
     @Test

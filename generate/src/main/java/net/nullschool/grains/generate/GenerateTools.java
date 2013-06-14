@@ -49,10 +49,10 @@ class GenerateTools {
                 "true", "try", "void", "volatile", "while"));
 
     /**
-     * Any identifier starting with '$' or ending with '_' is reserved for internal use in grain implementations.
+     * Any identifier starting with '$' or '_' is reserved for internal use in grain implementations.
      */
     static boolean isGrainReservedWord(String s) {
-        return s.startsWith("$") || s.endsWith("_");
+        return s.startsWith("$") || s.startsWith("_");
     }
 
     /**
@@ -63,14 +63,39 @@ class GenerateTools {
     }
 
     /**
-     * Appends '_' if the identifier is a Java keyword or a grain reserved word.
+     * Returns true if the string is an illegal Java identifier, such as staring with a number character.
      */
-    static String escape(String identifier) {
-        return javaReservedWords.contains(identifier) || isGrainReservedWord(identifier) ?
-            identifier + '_' :
-            identifier;
+    static boolean isIllegalIdentifier(String s) {
+        switch (s.charAt(0)) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                return true;
+            default:
+                return false;
+        }
     }
 
+    /**
+     * Prepends '_' if the string is a Java keyword, grain reserved word, or an illegal identifier.
+     */
+    static String escape(String s) {
+        return javaReservedWords.contains(s) || isIllegalIdentifier(s) || isGrainReservedWord(s) ?
+            '_' + s :
+            s;
+    }
+
+    /**
+     * Returns the specified type as an instance of LateParameterizedType if it is a ParameterizedType, otherwise
+     * returns null.
+     */
     static LateParameterizedType asLateParameterizedType(Type type) {
         return type instanceof ParameterizedType ? LateParameterizedType.copyOf((ParameterizedType)type) : null;
     }

@@ -32,35 +32,38 @@ public class TypeTools {
         throw new AssertionError();
     }
 
-    /**
-     * Compares the inheritance relationship between two classes. This method returns:
-     * <ul>
-     * <li>-1 : when left is encompassed by right, i.e., right is a superclass or superinterface of left.</li>
-     * <li>0 : when left is exactly the same type as right.</li>
-     * <li>1 : when right is encompassed by left, i.e., left is a superclass or superinterface of right.</li>
-     * <li>null : when left and right have no inheritance relationship.</li>
-     * </ul>
-     *
-     * Note that primitive types, such as int.class, have no inheritance relationship with any other type,
-     * and are equal only to themselves.
-     *
-     * @param left the class to compare.
-     * @param right the class to compare.
-     * @return -1, 0, 1, or null depending on the inheritance relationship between left and right.
-     * @throws NullPointerException if just one of the arguments is null.
-     */
-    public static Integer compare(Class<?> left, Class<?> right) {
-        if (left == right) {
-            return 0;
-        }
-        if (right.isAssignableFrom(left)) {
-            return -1;
-        }
-        if (left.isAssignableFrom(right)) {
-            return 1;
-        }
-        return null;
-    }
+// UNDONE: Unlikely to be correct. Need to check JLS7 §5.1.5 and §5.1.6. Then this method can be used to implement the
+// SymbolTable#isWider method in the grains-generator module.
+//
+//    /**
+//     * Compares the inheritance relationship between two classes. This method returns:
+//     * <ul>
+//     * <li>-1 : when left is encompassed by right, i.e., right is a superclass or superinterface of left.</li>
+//     * <li>0 : when left is exactly the same type as right.</li>
+//     * <li>1 : when right is encompassed by left, i.e., left is a superclass or superinterface of right.</li>
+//     * <li>null : when left and right have no inheritance relationship.</li>
+//     * </ul>
+//     *
+//     * Note that primitive types, such as int.class, have no inheritance relationship with any other type,
+//     * and are equal only to themselves.
+//     *
+//     * @param left the class to compare.
+//     * @param right the class to compare.
+//     * @return -1, 0, 1, or null depending on the inheritance relationship between left and right.
+//     * @throws NullPointerException if just one of the arguments is null.
+//     */
+//    public static Integer compare(Class<?> left, Class<?> right) {
+//        if (left == right) {
+//            return 0;
+//        }
+//        if (right.isAssignableFrom(left)) {
+//            return -1;
+//        }
+//        if (left.isAssignableFrom(right)) {
+//            return 1;
+//        }
+//        return null;
+//    }
 
     /**
      * Returns true if the specified class is an inner class (i.e., a non-static member class).

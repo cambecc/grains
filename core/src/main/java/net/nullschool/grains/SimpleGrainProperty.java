@@ -54,4 +54,8 @@ public class SimpleGrainProperty implements GrainProperty {
     @Override public Set<Flag> getFlags() {
         return flags;
     }
+
+    @Override public String toString() {
+        return String.format("%s{%s, %s, %s}", SimpleGrainProperty.class.getSimpleName(), name, type, flags);
+    }
 }

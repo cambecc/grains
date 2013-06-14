@@ -132,4 +132,8 @@ final class PropertySymbol implements Symbol {
     public Set<StaticFieldLoadExpression> getFlags() {
         return flags;
     }
+
+    @Override public String toString() {
+        return String.format("%s{%s, %s}", PropertySymbol.class.getSimpleName(), prop.getName(), prop.getType());
+    }
 }

@@ -55,7 +55,7 @@ public interface Intrinsics {
 
     char getChar();
 
-    char getChar_();
+    char get_char();
 
     Boolean getBoxedBoolean();
 
@@ -86,4 +86,6 @@ public interface Intrinsics {
     URI getURI();
 
     Color$ getEnum();
+
+    int get0();
 }

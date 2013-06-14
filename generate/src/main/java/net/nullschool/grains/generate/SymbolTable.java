@@ -21,7 +21,6 @@ import net.nullschool.grains.GrainProperty;
 import net.nullschool.grains.GrainProperty.Flag;
 import net.nullschool.grains.SimpleGrainProperty;
 import net.nullschool.reflect.LateParameterizedType;
-import net.nullschool.reflect.TypeTools;
 
 import java.beans.*;
 import java.lang.reflect.*;
@@ -29,6 +28,7 @@ import java.util.*;
 
 import static net.nullschool.grains.generate.GenerateTools.*;
 import static net.nullschool.collect.basic.BasicCollections.*;
+import static net.nullschool.reflect.TypeTools.*;
 
 
 /**
@@ -70,25 +70,67 @@ final class SymbolTable {
             BasicCollections.<Flag>emptySet();
     }
 
-    private static List<GrainProperty> collectBeanPropertiesOf(Type type) throws IntrospectionException {
-        List<GrainProperty> properties = new ArrayList<>();
-        BeanInfo bi = Introspector.getBeanInfo(TypeTools.erase(type));
-        for (PropertyDescriptor pd : bi.getPropertyDescriptors()) {
+    /**
+     * Returns true if the left type is wider than the right type, i.e., the right type is more specific than the
+     * left type.
+     */
+    private static boolean isWider(Type left, Type right) {
+        // UNDONE: use proper widening conversion check that follows rules in JLS7 §4.10 and §5.1.5.
+        return erase(left).isAssignableFrom(erase(right));
+    }
 
-            Type returnType = pd.getReadMethod().getGenericReturnType();
-            LateParameterizedType lpt = asLateParameterizedType(type);
+    /**
+     * Collects all grain properties explicitly defined on the specified type. This method uses the JavaBean
+     * introspector to identify the properties. Type variables are replaced with their appropriate type arguments,
+     * if any.
+     *
+     * @param type the type to introspect.
+     * @return a list of declared grain properties.
+     * @throws IntrospectionException if an exception occurs during introspection.
+     */
+    static List<GrainProperty> collectDeclaredProperties(Type type) throws IntrospectionException {
+        List<GrainProperty> results = new ArrayList<>();
+        LateParameterizedType lpt = asLateParameterizedType(type);
+        Class<?> clazz = erase(type);
+        BeanInfo bi = Introspector.getBeanInfo(clazz);
+
+        for (PropertyDescriptor pd : bi.getPropertyDescriptors()) {
+            if (pd instanceof IndexedPropertyDescriptor) {
+                // Ignore index properties.
+                continue;
+            }
+            Method getter = pd.getReadMethod();
+            if (getter == null || getter.getDeclaringClass() != clazz) {
+                // Ignore properties not declared on the current type or not readable.
+                continue;
+            }
+
+            // If the type we are processing has type variable bindings, then replace the type variables, if any.
+            // For example, "T Foo#getId()" becomes "String Foo#getId()" if current type is Foo<String>.
+            Type returnType = getter.getGenericReturnType();
             if (lpt != null) {
                 returnType = lpt.resolve(returnType);
             }
-            properties.add(new SimpleGrainProperty(pd.getName(), returnType, flagsFor(pd)));
+            results.add(new SimpleGrainProperty(pd.getName(), returnType, flagsFor(pd)));
         }
-        return properties;
+        return results;
     }
 
-    private static List<GrainProperty> collectBeanProperties(Type type) throws IntrospectionException {
+    /**
+     * Collects all grain properties defined on the specified type and all super classes and super interfaces. This
+     * method uses the JavaBean introspector to identify the properties. Type variables are replaced with their
+     * appropriate type arguments, if any. Classes are traversed breadth-first, with the super class traversed before
+     * any super interfaces.
+     *
+     * @param type the type to introspect.
+     * @return a list of grain properties.
+     * @throws IntrospectionException if an exception occurs during introspection.
+     */
+    static List<GrainProperty> collectProperties(Type type) throws IntrospectionException {
         List<GrainProperty> results = new ArrayList<>();
         Set<Type> visited = new HashSet<>();
-        visited.add(null);
+        visited.add(null);          // ensures we don't visit null superclass
+        visited.add(Object.class);  // ensures we don't visit Object and its confusing getClass() accessor.
         Deque<Type> workList = new LinkedList<>();
         workList.add(type);
 
@@ -100,7 +142,7 @@ final class SymbolTable {
             }
             visited.add(current);
 
-            results.addAll(collectBeanPropertiesOf(current));
+            results.addAll(collectDeclaredProperties(current));
 
             workList.add(genericSuperclassOf(current));
             Collections.addAll(workList, genericInterfacesOf(current));
@@ -108,24 +150,35 @@ final class SymbolTable {
         return results;
     }
 
-    private static List<GrainProperty> resolveProperties(List<GrainProperty> properties) {
-        // UNDONE: use a proper algorithm to handle name collisions.
-        Set<String> names = new HashSet<>();
-        List<GrainProperty> results = new ArrayList<>();
-        for (GrainProperty prop : properties) {
-            if (!names.add(prop.getName())) {
-                continue;
+    /**
+     * Returns all unique properties by name from the specified collection. For any two properties with the same
+     * name, the property having the more specific type is preferred.
+     *
+     * @param properties the properties to scan for duplicates.
+     * @return the most specific, unique properties by name.
+     */
+    static List<GrainProperty> resolveProperties(Collection<? extends GrainProperty> properties) {
+        Map<String, GrainProperty> bestFit = new LinkedHashMap<>();
+
+        for (GrainProperty candidate : properties) {
+            String name = candidate.getName();
+            GrainProperty previous = bestFit.put(name, candidate);
+            if (previous != null) {
+                // We have a collision/duplicate. If the candidate is wider than the previous, put the previous back.
+                if (isWider(candidate.getType(), previous.getType())) {
+                    bestFit.put(name, previous);
+                }
             }
-            results.add(prop);
         }
-        return results;
+
+        return new ArrayList<>(bestFit.values());
     }
 
     GrainSymbol buildGrainSymbol() throws IntrospectionException {
         int typeTokenIndex = 0;
 
         Map<Type, TypeTokenSymbol> typeTokens = new LinkedHashMap<>();
-        List<GrainProperty> properties = resolveProperties(collectBeanProperties(schema));
+        List<GrainProperty> properties = resolveProperties(collectProperties(schema));
         Collections.sort(properties, GrainPropertyComparator.INSTANCE);
 
         List<PropertySymbol> symbols = new ArrayList<>();

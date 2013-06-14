@@ -28,7 +28,15 @@ public interface IntrinsicsGrain extends Intrinsics, Grain {
 
     float get$float();
 
-    IntrinsicsGrain with$float(float $float_);
+    IntrinsicsGrain with$float(float _$float);
+
+    int get0();
+
+    IntrinsicsGrain with0(int _0);
+
+    char get_char();
+
+    IntrinsicsGrain with_char(char __char);
 
     BigDecimal getBigDecimal();
 
@@ -40,7 +48,7 @@ public interface IntrinsicsGrain extends Intrinsics, Grain {
 
     boolean isBoolean();
 
-    IntrinsicsGrain withBoolean(boolean boolean_);
+    IntrinsicsGrain withBoolean(boolean _boolean);
 
     Boolean getBoxedBoolean();
 
@@ -64,15 +72,11 @@ public interface IntrinsicsGrain extends Intrinsics, Grain {
 
     byte getByte();
 
-    IntrinsicsGrain withByte(byte byte_);
+    IntrinsicsGrain withByte(byte _byte);
 
     char getChar();
 
-    IntrinsicsGrain withChar(char char_);
-
-    char getChar_();
-
-    IntrinsicsGrain withChar_(char char__);
+    IntrinsicsGrain withChar(char _char);
 
     Character getCharacter();
 
@@ -80,19 +84,19 @@ public interface IntrinsicsGrain extends Intrinsics, Grain {
 
     double getDouble();
 
-    IntrinsicsGrain withDouble(double double_);
+    IntrinsicsGrain withDouble(double _double);
 
     Intrinsics.Color$ getEnum();
 
-    IntrinsicsGrain withEnum(Intrinsics.Color$ enum_);
+    IntrinsicsGrain withEnum(Intrinsics.Color$ _enum);
 
     float getFloat();
 
-    IntrinsicsGrain withFloat(float float_);
+    IntrinsicsGrain withFloat(float _float);
 
     int getInt();
 
-    IntrinsicsGrain withInt(int int_);
+    IntrinsicsGrain withInt(int _int);
 
     Integer getInteger();
 
@@ -100,11 +104,11 @@ public interface IntrinsicsGrain extends Intrinsics, Grain {
 
     long getLong();
 
-    IntrinsicsGrain withLong(long long_);
+    IntrinsicsGrain withLong(long _long);
 
     short getShort();
 
-    IntrinsicsGrain withShort(short short_);
+    IntrinsicsGrain withShort(short _short);
 
     String getString();
 
