@@ -210,7 +210,7 @@ final class Reflector {
                     results.add(clazz);
                 }
             }
-            catch (ClassNotFoundException e) {
+            catch (ClassNotFoundException | LinkageError e) {
                 log.debug("Cannot load, skipping {}: {}", name, e);
             }
         }

@@ -17,7 +17,7 @@
 package net.nullschool.grains.generate;
 
 import javassist.*;
-import javassist.bytecode.BadBytecode;
+import javassist.bytecode.*;
 import javassist.bytecode.SignatureAttribute.*;
 import net.nullschool.collect.basic.*;
 import net.nullschool.transform.Transform;
@@ -31,6 +31,7 @@ import net.nullschool.util.ObjectTools;
 import javax.annotation.Generated;
 import java.io.*;
 import java.lang.reflect.Type;
+import java.security.ProtectionDomain;
 import java.util.*;
 
 import static javassist.bytecode.SignatureAttribute.*;
@@ -116,12 +117,14 @@ final class TypeTable {
     private final NamingPolicy namingPolicy;
     private final TypePolicy typePolicy;
     private final ClassPool classPool;  // Pool used for dynamic construction of grain classes.
+    private final ProtectionDomain protectionDomain;
 
     TypeTable(NamingPolicy namingPolicy, TypePolicy typePolicy) {
         this.namingPolicy = Objects.requireNonNull(namingPolicy);
         this.typePolicy = Objects.requireNonNull(typePolicy);
         this.classPool = new ClassPool();
         this.classPool.appendClassPath(new LoaderClassPath(deriveClassLoader()));
+        this.protectionDomain = TypeTable.class.getProtectionDomain();
     }
 
     /**
@@ -141,16 +144,72 @@ final class TypeTable {
         return Thread.currentThread().getContextClassLoader();
     }
 
-    private static Class<?> loadClass(String name) {
-        try {
-            return deriveClassLoader().loadClass(name);
+    /**
+     * An object to hold both the Java Class object and its associated Javassist CtClass object together in one unit.
+     */
+    private class ClassHandle {
+
+        private final String name;
+        private final CtClass ctClass;
+        private Class<?> clazz;
+
+        ClassHandle(String name, Class<?> clazz, CtClass ctClass) {
+            this.name = name;
+            this.clazz = clazz;
+            this.ctClass = ctClass;
         }
-        catch (ClassNotFoundException e) {
-            return null;
+
+        /**
+         * Returns true if the class is loaded by a Java class loader and the Class object is available.
+         */
+        boolean isLoaded() { return clazz != null; }
+
+        /**
+         * Returns true if the class was dynamically created using Javassist.
+         */
+        boolean isDynamicallyCreated() { return clazz == null && ctClass != null; }
+
+        /**
+         * Returns the Class object associated with this handle. If this handle refers to a dynamically created class,
+         * then the class is first constructed using {@link CtClass#toClass(ClassLoader, ProtectionDomain)}.
+         */
+        Class<?> toClass() {
+            try {
+                return isLoaded() ? clazz : (clazz = ctClass.toClass(deriveClassLoader(), protectionDomain));
+            }
+            catch (Exception e) {
+                throw new RuntimeException("Failed to convert " + name + " to a Class.", e);
+            }
         }
     }
 
-    private static void setGenericSignature(CtClass newClass, CtClass baseClass, ClassSignature baseSignature) {
+    /**
+     * Loads the class objects for the specified fully qualified name. If the class could not be loaded because
+     * it does not exist or because loading failed, then an empty ClassHandle is returned.
+     *
+     * @param name the fully qualified name of the class to load.
+     * @return a class handle holding both the Class and CtClass representations of the desired type.
+     */
+    private ClassHandle loadClass(String name) {
+        try {
+            return new ClassHandle(name, deriveClassLoader().loadClass(name), classPool.get(name));
+        }
+        catch (ClassNotFoundException | LinkageError | NotFoundException e) {
+            return new ClassHandle(name, null, null);
+        }
+    }
+
+    /**
+     * Assigns a generic signature to the specified new class. The generic signature is constructed by copying and
+     * passing along the type parameters verbatim to the specified base class. For example, if the new class is named
+     * "Foo" and the base class is {@code AbstractMap&lt;K, V&gt;}, then the generic signature is created as:
+     * {@code Foo&lt;K, V&gt; extends AbstractMap&lt;K, V&gt;}.
+     *
+     * @param newClass the class to assign the generic signature on.
+     * @param baseClass the base class.
+     * @param baseSignature the base's class signature.
+     */
+    private static void assignGenericSignature(CtClass newClass, CtClass baseClass, ClassSignature baseSignature) {
         TypeParameter[] params = baseSignature.getParameters();
         TypeArgument[] args = new TypeArgument[params.length];
         for (int i = 0; i < params.length; i++) {
@@ -165,36 +224,93 @@ final class TypeTable {
         newClass.setGenericSignature(cs.encode());
     }
 
-    private static final TypeParameter[] NO_PARAMS = new TypeParameter[0];
-
-    private Class<?> createClass(String name, Class<?> inherits) {
+    /**
+     * Dynamically creates a new class having the specified name, inheriting the specified base class and having the
+     * same generic type parameters of the base class, if any.
+     *
+     * @param name the fully qualified name of the new class.
+     * @param inherits the base class.
+     * @return the class handle.
+     */
+    private ClassHandle createClass(String name, Class<?> inherits) {
         try {
             CtClass newClass = classPool.makeClass(name);
             CtClass baseClass = classPool.get(inherits.getName());
             ClassSignature baseSignature =
                 baseClass.getGenericSignature() != null ? toClassSignature(baseClass.getGenericSignature()) : null;
-            TypeParameter[] params = baseSignature != null ? baseSignature.getParameters() : NO_PARAMS;
+            TypeParameter[] params = baseSignature != null ? baseSignature.getParameters() : new TypeParameter[0];
             if (params.length > 0) {
                 // The base class is generic. Create equivalent type parameters on the new class.
-                setGenericSignature(newClass, baseClass, baseSignature);
+                assignGenericSignature(newClass, baseClass, baseSignature);
             }
             else {
                 newClass.setSuperclass(baseClass);
             }
-            return newClass.toClass();
+            return new ClassHandle(name, null, newClass);
         }
-        catch (CannotCompileException | NotFoundException | BadBytecode e) {
+        catch (NotFoundException | CannotCompileException | BadBytecode e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * Attempts to load the class with the specified name. If the class cannot be found, then a new class is
-     * dynamically constructed. This constructed class will extend the class {@code inherits}.
+     * Loads the class object for the specified fully qualified name. If the class could not be loaded because
+     * it does not exist or because loading failed, then a new class, extending the specified base class, is
+     * dynamically created.
+     *
+     * @param name the fully qualified name of the class to load or create.
+     * @param baseClass the class to extend if a new class is created.
+     * @return the handle for the class.
      */
-    private Class<?> loadOrCreateClass(String name, Class<?> inherits) {
-        Class<?> result = loadClass(name);
-        return result != null ? result : createClass(name, inherits);
+    private ClassHandle loadOrCreateClass(String name, Class<?> baseClass) {
+        ClassHandle result = loadClass(name);
+        return result.isLoaded() ? result : createClass(name, baseClass);
+    }
+
+    /**
+     * Marks the enclosing class as having {@code nested} as an inner class.
+     *
+     * @param nested the nested class.
+     * @param enclosing the enclosing class.
+     */
+    private void recordAsInnerClass(CtClass nested, CtClass enclosing) {
+        ClassFile enclosingFile = enclosing.getClassFile();  // expected to be not frozen
+        InnerClassesAttribute attribute = (InnerClassesAttribute)enclosingFile.getAttribute(InnerClassesAttribute.tag);
+        if (attribute == null) {
+            attribute = new InnerClassesAttribute(enclosingFile.getConstPool());
+            enclosingFile.addAttribute(attribute);
+        }
+        ClassFile nestedFile = nested.getClassFile2();  // expected to be frozen
+        attribute.append(
+            nested.getName(),
+            enclosing.getName(),
+            nested.getSimpleName(),
+            (nestedFile.getAccessFlags() & ~AccessFlag.SUPER) | AccessFlag.STATIC);
+    }
+
+    /**
+     * Loads the nested class object for the specified name. If the nested class could not be loaded because
+     * it does not exist or because loading failed, then a new static class, nested inside the specified enclosing
+     * class, is dynamically created. If the nested class exists but the enclosing class does not, i.e., it was
+     * dynamically created, then the enclosing class is marked as having this nested class as an inner class.
+     *
+     * @param name the fully qualified name of the nested class to load or create.
+     * @param simpleName the simple name of the nested class.
+     * @param enclosing the enclosing class.
+     * @return the handle for the nested class.
+     */
+    private ClassHandle loadOrCreateNested(String name, String simpleName, ClassHandle enclosing) {
+        ClassHandle nested = loadClass(name);
+        if (nested.isLoaded()) {
+            if (enclosing.isDynamicallyCreated()) {
+                // If the enclosing class is brand new and we don't mark it as containing the nested class, then
+                // the class loader will be unhappy. How can the nested class exist but the enclosing not exist?
+                // One possibility is to delete the enclosing type's .class file and then run the generator...
+                recordAsInnerClass(nested.ctClass, enclosing.ctClass);
+            }
+            return nested;
+        }
+        return new ClassHandle(name, null, enclosing.ctClass.makeNestedClass(simpleName, true));
     }
 
     /**
@@ -207,40 +323,24 @@ final class TypeTable {
         Map<Name, String> names = namingPolicy.getNames(schema);
         Map<Name, String> simpleNames = namingPolicy.getSimpleNames(schema);
 
+        ClassHandle targetGrain = loadOrCreateClass(names.get(Name.grain), AbstractGrain.class);
+        ClassHandle targetBuilder = loadOrCreateClass(names.get(Name.builder), AbstractGrainBuilder.class);
+        ClassHandle targetFactory = loadOrCreateClass(names.get(Name.factory), Enum.class);
+        ClassHandle targetGrainImpl =
+            loadOrCreateNested(names.get(Name.grainImpl), simpleNames.get(Name.grainImpl), targetFactory);
+        ClassHandle targetGrainProxy =
+            loadOrCreateNested(names.get(Name.grainProxy), simpleNames.get(Name.grainProxy), targetFactory);
+        ClassHandle targetBuilderImpl =
+            loadOrCreateNested(names.get(Name.builderImpl), simpleNames.get(Name.builderImpl), targetFactory);
+
+        // All types are loaded/created, so we can now "freeze" them into proper Java Class objects.
         map.put("targetSchema", schema);
-
-        Class<?> targetGrain = loadOrCreateClass(names.get(Name.grain), AbstractGrain.class);
-        map.put("targetGrain", targetGrain);
-
-        Class<?> targetBuilder = loadOrCreateClass(names.get(Name.builder), AbstractGrainBuilder.class);
-        map.put("targetBuilder", targetBuilder);
-
-        Class<?> targetFactory = loadClass(names.get(Name.factory));
-        Class<?> targetGrainImpl = loadClass(names.get(Name.grainImpl));
-        Class<?> targetGrainProxy = loadClass(names.get(Name.grainProxy));
-        Class<?> targetBuilderImpl = loadClass(names.get(Name.builderImpl));
-
-        if (targetFactory == null) {
-            CtClass ctFactory = classPool.makeClass(names.get(Name.factory));
-            CtClass ctGrainImpl = ctFactory.makeNestedClass(simpleNames.get(Name.grainImpl), true);
-            CtClass ctGrainProxy = ctFactory.makeNestedClass(simpleNames.get(Name.grainProxy), true);
-            CtClass ctBuilderImpl = ctFactory.makeNestedClass(simpleNames.get(Name.builderImpl), true);
-
-            try {
-                targetFactory = ctFactory.toClass();  // Must build enclosing class before enclosed classes.
-                targetGrainImpl = ctGrainImpl.toClass();
-                targetGrainProxy =  ctGrainProxy.toClass();
-                targetBuilderImpl = ctBuilderImpl.toClass();
-            }
-            catch (CannotCompileException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        map.put("targetFactory", targetFactory);
-        map.put("targetGrainImpl", targetGrainImpl);
-        map.put("targetGrainProxy", targetGrainProxy);
-        map.put("targetBuilderImpl", targetBuilderImpl);
+        map.put("targetGrain", targetGrain.toClass());
+        map.put("targetBuilder", targetBuilder.toClass());
+        map.put("targetFactory", targetFactory.toClass());
+        map.put("targetGrainImpl", targetGrainImpl.toClass());
+        map.put("targetGrainProxy", targetGrainProxy.toClass());
+        map.put("targetBuilderImpl", targetBuilderImpl.toClass());
 
         return map;
     }
@@ -258,7 +358,7 @@ final class TypeTable {
         // Next, map a GrainSchema to its associated Grain implementation. This may require dynamic class construction
         // if the Grain implementation does not yet exist (because we haven't generated it yet).
         if (result.getAnnotation(GrainSchema.class) != null) {
-            result = loadOrCreateClass(namingPolicy.getName(result, Name.grain), AbstractGrain.class);
+            result = loadOrCreateClass(namingPolicy.getName(result, Name.grain), AbstractGrain.class).toClass();
         }
 
         // Finally, the TypePolicy must agree that the resulting type is immutable.

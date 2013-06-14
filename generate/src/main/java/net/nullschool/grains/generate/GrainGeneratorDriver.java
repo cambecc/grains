@@ -100,8 +100,8 @@ final class GrainGeneratorDriver {
 
             GenerationResult body = template.invoke(
                 mapOf(
-                    "grain", symbolTable.buildGrainSymbol(),
-                    "type", symbolTable.buildTypeSymbols()));
+                    "type", symbolTable.buildTypeSymbols(),
+                    "grain", symbolTable.buildGrainSymbol()));
 
             GenerationResult importsBlock = Templates.newImportsBlockTemplate(config).invoke(
                 mapOf("imports", (Object)importer));
