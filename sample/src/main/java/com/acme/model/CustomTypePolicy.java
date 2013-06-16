@@ -1,7 +1,8 @@
 package com.acme.model;
 
-import net.nullschool.grains.DefaultTypePolicy;
+import net.nullschool.grains.*;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 
 /**
@@ -9,22 +10,18 @@ import org.joda.time.DateTime;
  *
  * @author Cameron Beccario
  */
-public class CustomTypePolicy extends DefaultTypePolicy {
+public class CustomTypePolicy {
 
-    public static final CustomTypePolicy INSTANCE = new CustomTypePolicy();
-
-
-    public CustomTypePolicy() {
-        registerType(DateTime.class);
-
-//        registerTranslation(Collection.class, ImmutableCollection.class);
-//        registerTranslation(List.class, ImmutableList.class);
-//        registerTranslation(Set.class, ImmutableSet.class);
-//        registerTranslation(SortedSet.class, ImmutableSortedSet.class);
-//        registerTranslation(Map.class, ImmutableMap.class);
-//        registerTranslation(SortedMap.class, ImmutableSortedMap.class);
-//        registerTranslation(Multimap.class, ImmutableMultimap.class);
-//        registerTranslation(ListMultimap.class, ImmutableListMultimap.class);
-//        registerTranslation(SetMultimap.class, ImmutableSetMultimap.class);
-    }
+    public static final TypePolicy INSTANCE = ConfigurableTypePolicy.STANDARD
+        .withImmutableTypes(DateTime.class, DateTimeZone.class)
+//        .withImmutableMapping(Set.class, ImmutableSet.class)
+//        .withImmutableMapping(Map.class, ImmutableMap.class)
+//        .withImmutableMapping(List.class, ImmutableList.class)
+//        .withImmutableMapping(SortedSet.class, ImmutableSortedSet.class)
+//        .withImmutableMapping(SortedMap.class, ImmutableSortedMap.class)
+//        .withImmutableMapping(Collection.class, ImmutableCollection.class)
+//        .withImmutableMapping(Multimap.class, ImmutableMultimap.class)
+//        .withImmutableMapping(SetMultimap.class, ImmutableSetMultimap.class)
+//        .withImmutableMapping(ListMultimap.class, ImmutableListMultimap.class)
+        ;
 }

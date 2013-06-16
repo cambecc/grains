@@ -18,7 +18,7 @@ import net.nullschool.collect.basic.BasicCollections;
 import net.nullschool.grains.AbstractGrain;
 import net.nullschool.grains.AbstractGrainBuilder;
 import net.nullschool.grains.AbstractGrainProxy;
-import net.nullschool.grains.DefaultTypePolicy;
+import net.nullschool.grains.ConfigurableTypePolicy;
 import net.nullschool.grains.GrainFactory;
 import net.nullschool.grains.GrainFactoryRef;
 import net.nullschool.grains.GrainProperty;
@@ -36,7 +36,7 @@ import net.nullschool.transform.Transform;
 public enum ComposedFactory implements GrainFactory {
     INSTANCE;
 
-    private static final TypePolicy $POLICY = DefaultTypePolicy.INSTANCE;
+    private static final TypePolicy $POLICY = ConfigurableTypePolicy.STANDARD;
 
     private static final TypeToken<ConstList<UUID>> $token0 =
         new TypeToken<ConstList<UUID>>(){};

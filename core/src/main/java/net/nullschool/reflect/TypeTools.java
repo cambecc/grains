@@ -26,7 +26,7 @@ import java.lang.reflect.*;
  *
  * @author Cameron Beccario
  */
-public class TypeTools {
+public final class TypeTools {
 
     private TypeTools() {
         throw new AssertionError();

@@ -57,7 +57,6 @@ public final class MessagePackTools {
 
     public static GrainsTemplateRegistry addDefaultTemplates(GrainsTemplateRegistry registry) {
         registry.register(Object.class, new LateTemplate());
-        registry.register(Currency.class, new CurrencyTemplate());
         registry.register(URI.class, new URITemplate());
         registry.register(UUID.class, new UUIDTemplate());
         return registry;

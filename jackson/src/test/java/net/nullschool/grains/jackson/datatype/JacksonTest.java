@@ -25,14 +25,14 @@ public class JacksonTest {
     @Test
     public void test_complete_serialization_json() throws IOException {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(28, expected.size());
+        assertEquals(27, expected.size());
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
         byte[] data = mapper.writeValueAsBytes(expected);
 
         assertEquals(
             "{'a':true,'b':1,'c':2,'d':2,'e':3,'f':1,'g':1.0,'h':-1.0,'i':10,'j':'a','k':'hello','l':" +
-                "'1bd31d66-eda2-4395-a2a7-510bd581e3ab','m':'http://nullschool.net','n':'USD','o':'green','p':" +
+                "'1bd31d66-eda2-4395-a2a7-510bd581e3ab','m':'http://nullschool.net','o':'green','p':" +
                 "{'id':1},'q':[1,2],'r':[{'id':1},{'id':2}],'s':[2,3],'t':[{'id':2},{'id':3}],'u':['a','b'],'v':" +
                 "[{'id':4},{'id':5}],'w':{'a':1,'b':2},'x':{'a':{'id':6},'b':{'id':7}},'y':['x','y'],'z':{'1':" +
                 "{'id':8},'2':{'id':9}},'za':{'a':[[{'id':1},{'id':2}]]},'zb':[['a','b'],['c','d']]}",
@@ -49,17 +49,17 @@ public class JacksonTest {
     @Test
     public void test_complete_serialization_smile() throws IOException {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(28, expected.size());
+        assertEquals(27, expected.size());
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper(new SmileFactory());
         byte[] data = mapper.writeValueAsBytes(expected);
 
         assertEquals(
             ":)a1fa80a#80bc280cc480dc480ec680f&810180g(3|00080h)1?x000000080i*80815080j@a80kDhello80lc1bd31d6" +
-                "6-eda2-4395-a2a7-510bd581e3ab80mThttp://nullschool.net80nBUSD80oDgreen80pfa81idc2fb80qf8c2c4" +
-                "f980rf8faPc2fbfaPc4fbf980sf8c4c6f980tf8faPc4fbfaPc6fbf980uf8@a@bf980vf8faPc8fbfaPcafbf980wfa" +
-                "@c2Ac4fb80xfa@faPccfbAfaPcefbfb80yf8@x@yf980zfa801faPd0fb802faPd2fbfb81zafa@f8f8faPc2fbfaPc4" +
-                "fbf9f9fb81zbf8f8@a@bf9f8@c@df9f9fb",
+                "6-eda2-4395-a2a7-510bd581e3ab80mThttp://nullschool.net80oDgreen80pfa81idc2fb80qf8c2c4f980rf8" +
+                "faOc2fbfaOc4fbf980sf8c4c6f980tf8faOc4fbfaOc6fbf980uf8@a@bf980vf8faOc8fbfaOcafbf980wfa@c2Ac4f" +
+                "b80xfa@faOccfbAfaOcefbfb80yf8@x@yf980zfa801faOd0fb802faOd2fbfb81zafa@f8f8faOc2fbfaOc4fbf9f9f" +
+                "b81zbf8f8@a@bf9f8@c@df9f9fb",
             BasicToolsTest.asReadableString(data));
 
         CompleteGrain actual = mapper.readValue(data, CompleteGrain.class);

@@ -41,11 +41,11 @@ import static java.util.Arrays.asList;
     threadSafe = true)
 public class TestGenerateMojo extends AbstractGenerateMojo {
 
-    @Parameter(property = "targetDirectory", defaultValue = "${project.build.directory}/generated-test-sources/grains")
-    private String targetDirectory;
     /**
      * The location to save generated test source files.
      */
+    @Parameter(property = "targetDirectory", defaultValue = "${project.build.directory}/generated-test-sources/grains")
+    private String targetDirectory;
     @Override public String getTargetDirectory() {
         return targetDirectory;
     }

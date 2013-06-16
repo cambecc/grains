@@ -68,8 +68,6 @@ public interface Complete {
 
     URI getM();
 
-    Currency getN();
-
     Color getO();
 
     Node getP();

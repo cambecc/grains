@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
-import java.util.Currency;
 import java.util.UUID;
 
 import static net.nullschool.collect.basic.BasicCollections.*;
@@ -56,7 +55,6 @@ public class CompleteTest {
         builder.setK("hello");
         builder.setL(UUID.fromString("1bd31d66-eda2-4395-a2a7-510bd581e3ab"));
         builder.setM(URI.create("http://nullschool.net"));
-        builder.setN(Currency.getInstance("USD"));
         builder.setO(Complete.Color.green);
         builder.setP(newNode(1));
         builder.setQ(listOf(1, 2));

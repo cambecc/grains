@@ -16,7 +16,7 @@
 
 package net.nullschool.grains.generate;
 
-import net.nullschool.grains.DefaultTypePolicy;
+import net.nullschool.grains.ConfigurableTypePolicy;
 import net.nullschool.grains.GrainSchema;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class TypeTableTest {
 
     @Test @Ignore
     public void test() {
-        TypeTable table = new TypeTable(new NamingPolicy(), DefaultTypePolicy.INSTANCE);
+        TypeTable table = new TypeTable(new NamingPolicy(), ConfigurableTypePolicy.STANDARD);
         System.out.println(table.schemaTypes(Foo.class));
     }
 }

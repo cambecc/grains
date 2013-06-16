@@ -56,56 +56,61 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
         return session;
     }
 
+    /**
+     * The character encoding to use for generated source files. Example: "UTF-8".
+     */
     @Parameter(property = "encoding", defaultValue = "${project.build.sourceEncoding}")
     private String encoding;
-    /**
-     * The character encoding to use for generated source files.
-     */
     public String getEncoding() {
         return encoding;
     }
 
+    /**
+     * The set of packages to search for annotated grains. Examples: "com.foo.order.model", "com.foo.admin.model".
+     * Default are the packages configured for compilation during the generate-sources phase, if any, otherwise
+     * "${project.groupId}".
+     */
     @Parameter(property = "searchPackages")
     private String[] searchPackages;
-    /**
-     * The set of packages to search for annotated grains, e.g., ["com.foo.order.model", "com.foo.admin.model"]
-     */
     public String[] getSearchPackages() {
         return coalesce(searchPackages, new String[0]);
     }
 
+    /**
+     * Set to "true" if project dependencies are to be searched for annotated grains. Otherwise, only classes defined
+     * by the project are searched.
+     */
     @Parameter(property = "searchProjectDependencies", defaultValue = "false")
     private boolean searchProjectDependencies;
-    /**
-     * True if project dependencies are to be searched for annotated grains.
-     */
     public boolean getSearchProjectDependencies() {
         return searchProjectDependencies;
     }
 
+    /**
+     * The (approximate) maximum line width of the generated source.
+     */
     @Parameter(property = "lineWidth", defaultValue = Configuration.DEFAULT_LINE_WIDTH)
     private int lineWidth;
-    /**
-     * The (approximate) generated source's line width.
-     */
     public int getLineWidth() {
         return lineWidth;
     }
 
-    @Parameter(property = "lineSeparator", defaultValue = Configuration.DEFAULT_LINE_SEPARATOR)
-    private String lineSeparator;
     /**
      * The line separator to use for generated source.
      */
+    @Parameter(property = "lineSeparator", defaultValue = Configuration.DEFAULT_LINE_SEPARATOR)
+    private String lineSeparator;
     public String getLineSeparator() {
         return lineSeparator;
     }
 
+    /**
+     * The custom type policy to use for grain generation. This property should be the fully qualified name of a class
+     * and the name of a static method or field that returns the type policy instance, separated by a dot. For example:
+     * "com.acme.foo.CustomTypePolicy.INSTANCE".
+     */
     @Parameter(property = "typePolicy", defaultValue = Configuration.DEFAULT_TYPE_POLICY)
     private String typePolicy;
-    /**
-     * The type policy to use for the generated grains.
-     */
     public String getTypePolicy() {
         return typePolicy;
     }

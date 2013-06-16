@@ -27,7 +27,7 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-public class GrainTools {
+public final class GrainTools {
 
     private GrainTools() {
         throw new AssertionError();

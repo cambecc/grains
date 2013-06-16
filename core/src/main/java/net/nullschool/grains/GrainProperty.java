@@ -50,7 +50,4 @@ public interface GrainProperty {
      * The set of flags that describe this property, or an empty set if no flags are set.
      */
     Set<Flag> getFlags();
-
-    // UNDONE: define equals? hashCode? would doing so require an "owner" property? would equal properties require
-    //         consistency when calling setValue with potentially different owner types?
 }

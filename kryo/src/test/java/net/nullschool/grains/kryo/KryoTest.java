@@ -41,7 +41,7 @@ public class KryoTest {
     @Test
     public void test_intrinsic_serialization() {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(28, expected.size());
+        assertEquals(27, expected.size());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Object actual = roundTrip(expected, baos);
@@ -50,13 +50,13 @@ public class KryoTest {
             "10net.nullschool.grains.generate.model.CompleteGraiee1182a51182b61182c802182d24182e96182f11java." +
                 "math.BigIntegef2121182g4?8000182habff0000000182i12java.math.BigDecimaec12a0182j70a182k31hell" +
                 "ef182l13java.util.UUIc411bd31dfeda2C95a2a7Qbd581e3ab182m14java.net.URc91http://nullschool.ne" +
-                "f4182n15java.util.Currencf91USc4182o16net.nullschool.grains.generate.model.Complete$Colof212" +
-                "182p17net.nullschool.grains.generate.model.NodeGraiee11ie4220182q18net.nullschool.collect.ba" +
-                "sic.BasicConstLisf4122224182r18121711b2201711b240182s18122426182t18121711b2401711b260182u19n" +
-                "et.nullschool.collect.basic.BasicConstSef4123334182v19121711b2801711b2a0182w1anet.nullschool" +
-                ".collect.basic.BasicConstMaf01233223424182x1a12331711b2c0341711b2e0182y1bnet.nullschool.coll" +
-                "ect.basic.BasicConstSortedSef41023034182z1cnet.nullschool.collect.basic.BasicConstSortedMaf0" +
-                "102221711b2100241711b21201ze11a1133191118121711b2201711b2401ze2181218123334181235360",
+                "f4182o15net.nullschool.grains.generate.model.Complete$Colof212182p16net.nullschool.grains.ge" +
+                "nerate.model.NodeGraiee11ie4220182q17net.nullschool.collect.basic.BasicConstLisf4122224182r1" +
+                "7121611922016119240182s17122426182t17121611924016119260182u18net.nullschool.collect.basic.Ba" +
+                "sicConstSef4123334182v181216119280161192a0182w19net.nullschool.collect.basic.BasicConstMaf01" +
+                "233223424182x191233161192c034161192e0182y1anet.nullschool.collect.basic.BasicConstSortedSef4" +
+                "1023.32182z1bnet.nullschool.collect.basic.BasicConstSortedMaf010222161192100241611921201ze11" +
+                "911331811171216119220161192401ze2171217123334171235360",
             BasicToolsTest.asReadableString(baos.toByteArray()));
 
         assertTrue(actual instanceof CompleteGrain);

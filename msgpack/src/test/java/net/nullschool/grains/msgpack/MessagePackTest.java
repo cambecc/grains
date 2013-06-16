@@ -39,17 +39,17 @@ public class MessagePackTest {
     @Test
     public void test_complete_serialization() throws IOException {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(28, expected.size());
+        assertEquals(27, expected.size());
 
         MessagePack msgpack = newGrainsMessagePack();
         byte[] data = msgpack.write(expected);
         CompleteGrain actual = newGrainsMessagePack().read(data, CompleteGrain.class);
 
         assertEquals(
-            "de01ca1ac3a1b1a1c2a1d2a1e3a1f1a1gca?8000a1hcbbff0000000a1ia210a1jaa1ka5helloa1l92cf1bd31dfeda2C9" +
-                "5d3a2a7Qbd581e3aba1mb5http://nullschool.neta1na3USDa1o1a1p81a2id1a1q9212a1r9281a2id181a2id2a" +
-                "1s9223a1t9281a2id281a2id3a1u92a1aa1ba1v9281a2id481a2id5a1w82a1a1a1b2a1x82a1a81a2id6a1b81a2id" +
-                "7a1y92a1xa1ya1z82181a2id8281a2id9a2za81a1a919281a2id181a2id2a2zb9292a1aa1b92a1ca1d",
+            "de01ba1ac3a1b1a1c2a1d2a1e3a1f1a1gca?8000a1hcbbff0000000a1ia210a1jaa1ka5helloa1l92cf1bd31dfeda2C9" +
+                "5d3a2a7Qbd581e3aba1mb5http://nullschool.neta1o1a1p81a2id1a1q9212a1r9281a2id181a2id2a1s9223a1" +
+                "t9281a2id281a2id3a1u92a1aa1ba1v9281a2id481a2id5a1w82a1a1a1b2a1x82a1a81a2id6a1b81a2id7a1y92a1" +
+                "xa1ya1z82181a2id8281a2id9a2za81a1a919281a2id181a2id2a2zb9292a1aa1b92a1ca1d",
             BasicToolsTest.asReadableString(data));
         assertEquals(expected, actual);
         assertEquals(

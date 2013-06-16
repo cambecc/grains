@@ -3,7 +3,6 @@ package net.nullschool.grains.generate.model;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
-import java.util.Currency;
 import java.util.UUID;
 import javax.annotation.Generated;
 import net.nullschool.collect.ConstCollection;
@@ -77,10 +76,6 @@ public interface CompleteBuilder extends Complete, GrainBuilder {
     URI getM();
 
     CompleteBuilder setM(URI m);
-
-    Currency getN();
-
-    CompleteBuilder setN(Currency n);
 
     Complete.Color getO();
 

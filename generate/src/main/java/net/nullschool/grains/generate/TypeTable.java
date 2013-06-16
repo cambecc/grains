@@ -353,7 +353,7 @@ final class TypeTable {
      */
     synchronized Class<?> immutify(Class<?> clazz) {
         // First, use the TypePolicy to get the immutable representation of the class.
-        Class<?> result = ObjectTools.coalesce(typePolicy.asConstType(clazz), Objects.requireNonNull(clazz));
+        Class<?> result = ObjectTools.coalesce(typePolicy.asImmutableType(clazz), Objects.requireNonNull(clazz));
 
         // Next, map a GrainSchema to its associated Grain implementation. This may require dynamic class construction
         // if the Grain implementation does not yet exist (because we haven't generated it yet).
@@ -362,8 +362,14 @@ final class TypeTable {
         }
 
         // Finally, the TypePolicy must agree that the resulting type is immutable.
-        if (!typePolicy.isConstType(result)) {
-            throw new IllegalArgumentException("do not know how to immutify: " + clazz + " translated as: " + result);
+        if (!typePolicy.isImmutableType(result)) {
+            if (clazz == result) {
+                throw new IllegalArgumentException(String.format("Do not know how to immutify: %s", result));
+            }
+            else {
+                throw new IllegalArgumentException(
+                    String.format("Do not know how to immutify: %s, mapped from: %s", result, clazz));
+            }
         }
 
         return result;

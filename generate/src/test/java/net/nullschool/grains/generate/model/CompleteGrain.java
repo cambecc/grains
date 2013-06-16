@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Collection;
-import java.util.Currency;
 import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Generated;
@@ -79,10 +78,6 @@ public interface CompleteGrain extends Complete, Grain {
     URI getM();
 
     CompleteGrain withM(URI m);
-
-    Currency getN();
-
-    CompleteGrain withN(Currency n);
 
     Complete.Color getO();
 

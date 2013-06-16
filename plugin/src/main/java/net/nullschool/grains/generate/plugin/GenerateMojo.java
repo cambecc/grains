@@ -41,11 +41,11 @@ import static java.util.Arrays.asList;
     threadSafe = true)
 public class GenerateMojo extends AbstractGenerateMojo {
 
-    @Parameter(property = "targetDirectory", defaultValue = "${project.build.directory}/generated-sources/grains")
-    private String targetDirectory;
     /**
      * The location to save generated source files.
      */
+    @Parameter(property = "targetDirectory", defaultValue = "${project.build.directory}/generated-sources/grains")
+    private String targetDirectory;
     @Override public String getTargetDirectory() {
         return targetDirectory;
     }

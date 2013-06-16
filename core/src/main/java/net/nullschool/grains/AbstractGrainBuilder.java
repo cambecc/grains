@@ -40,9 +40,9 @@ public abstract class AbstractGrainBuilder extends AbstractIterableMap<String, O
      */
     @Override public abstract Grain build();
 
-    @Override public abstract Object get(Object key);  // the iterator uses this
+    @Override public abstract Object get(Object key);  // the iterator uses this, so must be defined by implementers
 
-    @Override public abstract Object remove(Object key);  // the iterator uses this
+    @Override public abstract Object remove(Object key);  // the iterator uses this, so must be defined by implementers
 
     /**
      * An implementation of MapIterator that iterates over an array of basis keys provided by implementers of

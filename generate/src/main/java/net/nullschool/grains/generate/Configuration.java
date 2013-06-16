@@ -33,8 +33,7 @@ public final class Configuration {
     public static final String DEFAULT_ENCODING = "UTF-8";
     public static final String DEFAULT_LINE_WIDTH = "100";
     public static final String DEFAULT_LINE_SEPARATOR = "\n";
-    public static final String DEFAULT_TYPE_POLICY =
-        "net.nullschool.grains.DefaultTypePolicy.INSTANCE";
+    public static final String DEFAULT_TYPE_POLICY = "net.nullschool.grains.ConfigurableTypePolicy.STANDARD";
 
 
     private Charset charset = Charset.forName(DEFAULT_ENCODING);

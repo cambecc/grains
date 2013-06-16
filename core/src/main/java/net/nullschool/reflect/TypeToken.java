@@ -21,6 +21,7 @@ import java.lang.reflect.Type;
 
 import static net.nullschool.reflect.TypeTools.copyOf;
 
+
 /**
  * 2013-02-19<p/>
  *
