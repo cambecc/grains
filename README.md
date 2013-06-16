@@ -1,5 +1,5 @@
 #### _Grains_
-... is a small Java framework for generating immutable and extensible objects.
+... is a small Java framework for generating immutable, extensible objects.
 
 1. Create an interface with getters:
 ```java
@@ -12,19 +12,28 @@
     }
 ```
 
-2. Run the Grains Maven plugin (which processes anything annotated with `@GrainSchema`).
+2. Run the Grains Maven plugin.
 
-3. Start using the generated implementation:
+3. Use the generated implementation:
 ```java
     OrderBuilder builder = OrderFactory.newBuilder();
     builder.setProduct("apples");
     builder.setQuantity(13);
     OrderGrain order = builder.build();
     
-    System.out.println(order instanceof Order); // prints: true
-    System.out.println(order.getProduct());     // prints: apples
-    System.out.println(order.get("quantity"));  // prints: 13
-    System.out.println(order.entrySet());       // prints: [product=apples, quantity=13]
+    System.out.println(order instanceof Order);  // prints: true
+    System.out.println(order.getProduct());      // prints: apples
+    
+    System.out.println(order instanceof Map);    // prints: true
+    System.out.println(order.get("quantity"));   // prints: 13
+    System.out.println(order.entrySet());        // prints: [product=apples, quantity=13]
+    
+    OrderGrain changed = order.withQuantity(9);  // immutable :)
+    System.out.println(changed);                 // prints: {product=apples, quantity=9}
+    System.out.println(order);                   // prints: {product=apples, quantity=13}
+    
+    changed = changed.with("notes", "shipped");  // extensible :)
+    System.out.println(changed);                 // prints: {product=apples, quantity=9, notes=shipped}
 ```
 
 [See the wiki for documentation](https://github.com/cambecc/grains/wiki), or continue reading the accelerated
@@ -34,7 +43,7 @@ introduction...
 
 #### Additional details
 
-The Grains Maven plugin generates source for both a builder...
+The Grains Maven plugin processes anything annotated with `@GrainSchema` and generates source for both a builder...
 ```java
     public interface OrderBuilder implements Order, GrainBuilder {
 
