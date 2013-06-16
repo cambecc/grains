@@ -3,11 +3,12 @@ package net.nullschool.grains;
 import net.nullschool.collect.*;
 import net.nullschool.collect.basic.BasicCollections;
 import net.nullschool.reflect.TypeToken;
-import net.nullschool.reflect.TypeTools;
 import net.nullschool.transform.Transform;
 
 import java.lang.reflect.*;
 import java.util.*;
+
+import static net.nullschool.reflect.TypeTools.*;
 
 
 /**
@@ -211,9 +212,9 @@ public final class ConfigurableTypePolicy implements TypePolicy {
         }
         if (type instanceof ParameterizedType) {
             // UNDONE: proper transform that checks elements of collections. For now, this is unsafe.
-            @SuppressWarnings("unchecked") final Class<T> erasure = (Class<T>)TypeTools.erase(type);
+            @SuppressWarnings("unchecked") final Class<T> erasure = (Class<T>)erase(type);
             return new CastingTransform<>(erasure);
         }
-        throw new IllegalArgumentException("Cannot create transform for: " + TypeTools.toString(type));
+        throw new IllegalArgumentException("Cannot create transform for: " + print(type));
     }
 }

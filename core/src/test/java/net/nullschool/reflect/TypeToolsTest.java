@@ -93,17 +93,17 @@ public class TypeToolsTest {
 
     @Test
     public void test_print() {
-        assertEquals("java.util.List", TypeTools.toString(List.class));
-        assertEquals("java.util.List[]", TypeTools.toString(List[].class));
+        assertEquals("java.util.List", print(List.class));
+        assertEquals("java.util.List[]", print(List[].class));
         assertEquals(
             "java.util.List<? extends java.lang.Integer>",
-            TypeTools.toString(new JavaToken<List<? extends Integer>>(){}.asType()));
+            print(new JavaToken<List<? extends Integer>>(){}.asType()));
         assertEquals(
             "java.util.List<? extends java.lang.Integer>[][]",
-            TypeTools.toString(new JavaToken<List<? extends Integer>[][]>(){}.asType()));
-        assertEquals("java.util.Map.Entry", TypeTools.toString(Map.Entry.class));
-        assertEquals("int", TypeTools.toString(int.class));
-        assertEquals("int[]", TypeTools.toString(int[].class));
+            print(new JavaToken<List<? extends Integer>[][]>(){}.asType()));
+        assertEquals("java.util.Map.Entry", print(Map.Entry.class));
+        assertEquals("int", print(int.class));
+        assertEquals("int[]", print(int[].class));
     }
 
     private static class PrependTildePrinter extends AbstractTypePrinter {
@@ -115,17 +115,17 @@ public class TypeToolsTest {
 
     @Test
     public void test_print_with_custom_printer() {
-        assertEquals("~List", TypeTools.toString(List.class, new PrependTildePrinter()));
-        assertEquals("~List[]", TypeTools.toString(List[].class, new PrependTildePrinter()));
+        assertEquals("~List", print(List.class, new PrependTildePrinter()));
+        assertEquals("~List[]", print(List[].class, new PrependTildePrinter()));
         assertEquals(
             "~List<? extends ~Integer>",
-            TypeTools.toString(new JavaToken<List<? extends Integer>>(){}.asType(), new PrependTildePrinter()));
+            print(new JavaToken<List<? extends Integer>>(){}.asType(), new PrependTildePrinter()));
         assertEquals(
             "~List<? extends ~Integer>[][]",
-            TypeTools.toString(new JavaToken<List<? extends Integer>[][]>(){}.asType(), new PrependTildePrinter()));
-        assertEquals("~Map.Entry", TypeTools.toString(Map.Entry.class, new PrependTildePrinter()));
-        assertEquals("~int", TypeTools.toString(int.class, new PrependTildePrinter()));
-        assertEquals("~int[]", TypeTools.toString(int[].class, new PrependTildePrinter()));
+            print(new JavaToken<List<? extends Integer>[][]>(){}.asType(), new PrependTildePrinter()));
+        assertEquals("~Map.Entry", print(Map.Entry.class, new PrependTildePrinter()));
+        assertEquals("~int", print(int.class, new PrependTildePrinter()));
+        assertEquals("~int[]", print(int[].class, new PrependTildePrinter()));
     }
 
     @Test

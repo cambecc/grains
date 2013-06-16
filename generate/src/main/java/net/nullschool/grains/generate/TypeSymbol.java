@@ -16,11 +16,10 @@
 
 package net.nullschool.grains.generate;
 
-import net.nullschool.reflect.TypeTools;
-
 import java.lang.reflect.Type;
 
 import static java.util.Objects.requireNonNull;
+import static net.nullschool.reflect.TypeTools.*;
 
 
 /**
@@ -44,7 +43,7 @@ final class TypeSymbol implements Symbol {
      * Returns this type using fully qualified names for each type argument.
      */
     public String getFullName() {
-        return TypeTools.toString(type);
+        return print(type);
     }
 
     /**
@@ -65,6 +64,6 @@ final class TypeSymbol implements Symbol {
      * Returns this type as printed using this symbol's printer factory.
      */
     @Override public String toString() {
-        return TypeTools.toString(type, factory.newPrinter());
+        return print(type, factory.newPrinter());
     }
 }

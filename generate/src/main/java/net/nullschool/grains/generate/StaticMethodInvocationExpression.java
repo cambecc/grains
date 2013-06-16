@@ -16,10 +16,10 @@
 
 package net.nullschool.grains.generate;
 
-import net.nullschool.reflect.TypeTools;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+
+import static net.nullschool.reflect.TypeTools.*;
 
 
 /**
@@ -46,6 +46,6 @@ final class StaticMethodInvocationExpression implements Symbol {
     }
 
     @Override public String toString() {
-        return TypeTools.toString(declaringClass, factory.newPrinter()) + '.' + name + "()";
+        return print(declaringClass, factory.newPrinter()) + '.' + name + "()";
     }
 }

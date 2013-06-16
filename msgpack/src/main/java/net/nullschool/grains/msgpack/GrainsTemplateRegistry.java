@@ -1,12 +1,12 @@
 package net.nullschool.grains.msgpack;
 
-import net.nullschool.reflect.TypeTools;
 import org.msgpack.MessageTypeException;
 import org.msgpack.template.*;
 import org.msgpack.template.builder.TemplateBuilder;
 
 import java.lang.reflect.Type;
 import java.util.*;
+import static net.nullschool.reflect.TypeTools.*;
 
 
 /**
@@ -69,7 +69,7 @@ public class GrainsTemplateRegistry extends TemplateRegistry {
 
         if (result == null) {
             throw new RuntimeException(
-                String.format("Cannot find registered template for %s.", TypeTools.toString(targetType)));
+                String.format("Cannot find registered template for %s.", print(targetType)));
         }
 
         return result;

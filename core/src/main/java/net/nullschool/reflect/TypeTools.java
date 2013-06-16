@@ -119,8 +119,8 @@ public final class TypeTools {
      * @return the String representation.
      * @throws NullPointerException if type is null.
      */
-    public static String toString(Type type) {
-        return toString(type, new FullNamePrinter());
+    public static String print(Type type) {
+        return print(type, new FullNamePrinter());
     }
 
     /**
@@ -135,7 +135,7 @@ public final class TypeTools {
      * @return the String representation.
      * @throws NullPointerException if type is null.
      */
-    public static String toString(Type type, TypePrinter printer) {
+    public static String print(Type type, TypePrinter printer) {
         return new TypeWriter(printer).apply(type).toString();
     }
 

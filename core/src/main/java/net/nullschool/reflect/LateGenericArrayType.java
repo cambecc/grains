@@ -17,6 +17,7 @@
 package net.nullschool.reflect;
 
 import java.lang.reflect.*;
+import static net.nullschool.reflect.TypeTools.*;
 
 
 /**
@@ -103,6 +104,6 @@ public final class LateGenericArrayType implements GenericArrayType {
      * component type.
      */
     @Override public String toString() {
-        return TypeTools.toString(this);
+        return print(this);
     }
 }

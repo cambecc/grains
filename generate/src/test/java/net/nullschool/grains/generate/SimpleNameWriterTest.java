@@ -38,7 +38,7 @@ public class SimpleNameWriterTest {
     @Test
     public void test_parameterized_type() {
         Type type = new TypeToken<Set<Map.Entry<Map.Entry, Integer>>>(){}.asType();
-        assertEquals("Set<Map.Entry<Map.Entry, Integer>>", TypeTools.toString(type, new SimpleNamePrinter()));
+        assertEquals("Set<Map.Entry<Map.Entry, Integer>>", TypeTools.print(type, new SimpleNamePrinter()));
         assertEquals("Set<Entry<Entry, Integer>>", new SimpleNameWriter().apply(type).toString());
     }
 }

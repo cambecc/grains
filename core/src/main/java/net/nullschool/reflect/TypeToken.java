@@ -19,7 +19,7 @@ package net.nullschool.reflect;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import static net.nullschool.reflect.TypeTools.copyOf;
+import static net.nullschool.reflect.TypeTools.*;
 
 
 /**
@@ -105,7 +105,7 @@ public abstract class TypeToken<T> {
      * String representation of this token and the type it represents.
      */
     @Override public final String toString() {
-        return "TypeToken<" + TypeTools.toString(type) + '>';
+        return "TypeToken<" + print(type) + '>';
     }
 
 // UNDONE: add this?

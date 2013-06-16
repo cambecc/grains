@@ -21,6 +21,7 @@ import java.lang.reflect.WildcardType;
 import java.util.Arrays;
 
 import static net.nullschool.util.ArrayTools.EMPTY_TYPE_ARRAY;
+import static net.nullschool.reflect.TypeTools.*;
 
 
 /**
@@ -163,6 +164,6 @@ public final class LateWildcardType implements WildcardType {
      * "? super" + lower bounds, or "?" as appropriate.
      */
     @Override public String toString() {
-        return TypeTools.toString(this);
+        return print(this);
     }
 }

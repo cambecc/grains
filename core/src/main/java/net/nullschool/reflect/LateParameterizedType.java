@@ -24,8 +24,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
-import static net.nullschool.reflect.TypeTools.erase;
 import static net.nullschool.collect.basic.BasicCollections.*;
+import static net.nullschool.reflect.TypeTools.*;
+
 
 /**
  * 2013-03-24<p/>
@@ -197,9 +198,9 @@ public final class LateParameterizedType implements ParameterizedType {
     }
 
     /**
-     * Returns a string representation of this type in the form described by {@link TypeTools#toString(Type)}.
+     * Returns a string representation of this type in the form described by {@link TypeTools#print(Type)}.
      */
     @Override public String toString() {
-        return TypeTools.toString(this);
+        return print(this);
     }
 }
