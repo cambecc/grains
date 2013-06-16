@@ -6,18 +6,16 @@ import net.nullschool.grains.GrainSchema;
 /**
  * 2013-02-10<p/>
  *
+ * An example phone number object containing an enum.
+ *
  * @author Cameron Beccario
  */
 @GrainSchema
 public interface PhoneNumber {
 
-    enum PhoneType {
-        MOBILE,  // 0
-        HOME,    // 1
-        WORK,    // 2
-    }
+    enum PhoneType {WORK, HOME, MOBILE}
 
-    String getNumber();  // 1
+    String getNumber();
 
-    PhoneType getType(); // 2, default = home
+    PhoneType getType();
 }

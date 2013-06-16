@@ -96,7 +96,7 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
     }
 
     /**
-     * The line separator to use for generated source.
+     * The line separator to use for generated source. Default value: "\n"
      */
     @Parameter(property = "lineSeparator", defaultValue = Configuration.DEFAULT_LINE_SEPARATOR)
     private String lineSeparator;
