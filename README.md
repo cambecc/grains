@@ -1,10 +1,7 @@
-Grains
-======
+#### _Grains_
+... is a small Java framework for generating immutable and extensible objects.
 
-"Grains" is a small Java framework for generating immutable, extensible data models.
-[See the wiki for more details](https://github.com/cambecc/grains/wiki), or read on for an accelerated introduction.
-
-Start by writing an interface with JavaBean-style _get_ methods:
+1. Create an interface with getters:
 ```java
     @GrainSchema
     public interface Order {
@@ -15,7 +12,29 @@ Start by writing an interface with JavaBean-style _get_ methods:
     }
 ```
 
-Run the Grains Maven plugin, which generates source for both a builder...
+2. Run the Grains Maven plugin (which processes anything annotated with `@GrainSchema`).
+
+3. Start using the generated implementation:
+```java
+    OrderBuilder builder = OrderFactory.newBuilder();
+    builder.setProduct("apples");
+    builder.setQuantity(13);
+    OrderGrain order = builder.build();
+    
+    System.out.println(order instanceof Order); // prints: true
+    System.out.println(order.getProduct());     // prints: apples
+    System.out.println(order.get("quantity"));  // prints: 13
+    System.out.println(order.entrySet());       // prints: [product=apples, quantity=13]
+```
+
+[See the wiki for documentation](https://github.com/cambecc/grains/wiki), or continue reading the accelerated
+introduction...
+
+---
+
+#### Additional details
+
+The Grains Maven plugin generates source for both a builder...
 ```java
     public interface OrderBuilder implements Order, GrainBuilder {
 
@@ -34,17 +53,6 @@ Run the Grains Maven plugin, which generates source for both a builder...
 
         OrderGrain withQuantity(int quantity);
     }
-```
-
-Use the generated factory class to create new builders and grains:
-```java
-    OrderBuilder builder = OrderFactory.newBuilder();
-    builder.setProduct("apples");
-    builder.setQuantity(13);
-
-    OrderGrain order = builder.build();
-    System.out.println(order.getProduct());   // prints: apples
-    System.out.println(order.getQuantity());  // prints: 13
 ```
 
 Once built, a grain can be modified using _with_ methods, creating new grains while leaving the original unchanged:
@@ -86,17 +94,14 @@ But they perform like plain old Java objects, using fields to store properties d
         private final String product;
         private final int quantity;
 
-        private final ConstMap<String, Object> $extensions;
-
-        public String getProduct() {
-            return this.product;
-        }
+        public String getProduct() { return this.product; }
+        public int getQuantity() { return this.quantity; }
 
         ...
     }
 ```
 
-The `equals` and `hashCode` methods are well defined by the Map contract. All maps, including grains, are equal if
+The _equals_ and _hashCode_ methods are well defined by the Map contract. All maps, including grains, are equal if
 they have the same keys and values:
 ```java
     Map<String, Object> map = new HashMap<>();
