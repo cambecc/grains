@@ -12,9 +12,9 @@
     }
 ```
 
-2. Run the Grains Maven plugin.
+2. Run the Grains Maven plugin, which generates a _Factory_, _Builder_, and _Grain_ implementation.
 
-3. Use the generated implementation:
+3. Use them:
 ```java
     OrderBuilder builder = OrderFactory.newBuilder();
     builder.setProduct("apples");
