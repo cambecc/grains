@@ -36,95 +36,31 @@
     System.out.println(changed);                 // prints: {product=apples, quantity=9, notes=shipped}
 ```
 
-[See the wiki for documentation](https://github.com/cambecc/grains/wiki), or continue reading the accelerated
-introduction...
+[See the wiki for documentation](https://github.com/cambecc/grains/wiki), or continue reading the quickstart...
 
 ---
 
-#### Additional details
+##### Something
 
-The Grains Maven plugin processes anything annotated with `@GrainSchema` to generate source for both a builder...
-```java
-    public interface OrderBuilder implements Order, GrainBuilder {
+A _grain_ is an immutable _Map<String, Object>_ that implements an interface of getters like the one shown
+above. Because grains are maps, the _.equals_ and _.hashCode_ methods are well defined:
 
-        OrderBuilder setProduct(String product);
-
-        OrderBuilder setQuantity(int quantity);
-
-        OrderGrain build();
-    }
-```
-... and an immutable version, called a _grain_:
-```java
-    public interface OrderGrain implements Order, Grain {
-
-        OrderGrain withProduct(String product);
-
-        OrderGrain withQuantity(int quantity);
-    }
-```
-
-Once built, a grain can be modified using _with_ methods, creating new grains while leaving the original unchanged:
-```java
-    OrderGrain more = order.withQuantity(23);
-    System.out.println(more.getQuantity());   // prints: 32
-    System.out.println(order.getQuantity());  // prints: 13
-```
-
-Grains and their builders are maps:
-```java
-    System.out.println(order instanceof Map);    // prints: true
-    System.out.println(order.get("product"));    // prints: apples
-    System.out.println(order.get("quantity"));   // prints: 13
-
-    System.out.println(order);                   // prints: {product=apples, quantity=13}
-    System.out.println(order.keySet());          // prints: {product, quantity}
-    System.out.println(order.values());          // prints: {apples, 13}
-
-    System.out.println(builder instanceof Map);  // prints: true
-```
-
-They are _extensible_ if necessary:
-```java
-    builder.put("buyer", "bob");
-    System.out.println(builder);         // prints: {product=apples, quantity=13, buyer=bob}
-    builder.remove("buyer");
-    System.out.println(builder);         // prints: {product=apples, quantity=13}
-
-    order = order.with("buyer", "bob");
-    System.out.println(order);           // prints: {product=apples, quantity=13, buyer=bob}
-    order = order.without("buyer");
-    System.out.println(order);           // prints: {product=apples, quantity=13}
-```
-
-But they perform like plain old Java objects, using fields to store properties defined by the original interface:
-```java
-    private static final class OrderGrainImpl implements OrderGrain, Serializable {
-        private final String product;
-        private final int quantity;
-
-        public String getProduct() { return this.product; }
-        public int getQuantity() { return this.quantity; }
-
-        ...
-    }
-```
-
-The _equals_ and _hashCode_ methods are well defined by the Map contract. All maps, including grains, are equal if
-they have the same keys and values:
 ```java
     Map<String, Object> map = new HashMap<>();
     map.put("product", "apples");
     map.put("quantity", 13);
-    System.out.println(map.equals(order));                  // prints: true
-    System.out.println(map.hashCode() == order.hashCode()); // prints: true
-
-    System.out.println(builder.equals(order));              // prints: true
-    builder.setQuantity(3);
-    System.out.println(builder.equals(order));              // prints: false
+    System.out.println(order.equals(map));                  // prints: true
+    System.out.println(order.hashCode() == map.hashCode()); // prints: true
 ```
 
-And Java serialization is supported natively:
+Because grains are immutable, thread synchronization is not required when changing values, and the _.clone_ method
+becomes superfluous.
+
+In fact, using grains means not having to deal with methods inherited from Object because they are all taken care of.
+
+##### Serialization
+
+Native support for Java serialization:
 ```java
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     new ObjectOutputStream(out).writeObject(order);
@@ -134,14 +70,11 @@ And Java serialization is supported natively:
 
     System.out.println(obj instanceof OrderGrain);  // prints: true
     System.out.println(obj);                        // prints: {product=apples, quantity=13}
-    System.out.println(order.equals(obj));          // prints: true
 ```
 
-[Jackson](http://wiki.fasterxml.com/JacksonHome) data types are available by adding the `grains-jackson` dependency.
-These data types can be used for all Jackson supported data formats, such as JSON, Smile, etc.
-Example use:
+[Jackson](http://wiki.fasterxml.com/JacksonHome) support allows serialization to JSON, Smile, YAML, etc.:
 ```java
-    ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
+    ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();  // in grains-jackson module
 
     String json = mapper.writeValueAsString(order);
     OrderGrain obj = mapper.readValue(json, OrderGrain.class);
@@ -150,20 +83,21 @@ Example use:
     System.out.println(order.equals(obj));  // prints: true
 ```
 
-[MessagePack](http://msgpack.org) serialization is available by adding the `grains-msgpack` dependency. Example usage:
+[MessagePack](http://msgpack.org) serialization support:
+ available by adding the _grains-msgpack_ dependency:
 ```java
-    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
+    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();  // in grains-msgpack module
 
     byte[] data = msgpack.write(order);
     Object obj = msgpack.read(data, OrderGrain.class);
 
     System.out.println(obj instanceof OrderGrain);  // prints: true
+    System.out.println(obj);                        // prints: {product=apples, quantity=13}
 ```
 
-[Kryo](http://code.google.com/p/kryo/) serialization is available by adding the `grains-kryo` dependency. Example
-usage:
+[Kryo](http://code.google.com/p/kryo/) serialization support:
 ```java
-    Kryo kryo = KryoTools.newGrainsKryo();
+    Kryo kryo = KryoTools.newGrainsKryo();  // in grains-kryo module
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     Output output = new Output(out);

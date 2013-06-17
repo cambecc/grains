@@ -1,4 +1,9 @@
 
+@GrainSchema is currently required, but extend TypePolicy to allow other ways of discovering grain schemas without
+   having to rely on the annotation. Doing so would allow object model authors to not need a dependency on grains-core.
+   Unfortunately, this means utility functions that currently rely on the annotation would need to be parameterized
+   with the customized TypePolicy, which may not be easily available, particularly in a serialization context.
+
 consider adding options to allow:
 - setters return void or chaining
 - generate WITH methods or don't
@@ -26,3 +31,89 @@ Add appendTo(Appendable a) on the GrainImpls, maybe even the builders?
 need a way to get the original GrainSchema class from a grain or builder impl.
 need a way to get the factory from any GrainSchema.
 need a way to get getter/setter/wither name from a GrainProperty.
+
+
+
+===================================
+
+The Grains Maven plugin processes anything annotated with `@GrainSchema` to generate source for both a builder...
+```java
+    public interface OrderBuilder implements Order, GrainBuilder {
+
+        OrderBuilder setProduct(String product);
+
+        OrderBuilder setQuantity(int quantity);
+
+        OrderGrain build();
+    }
+```
+... and an immutable version, called a _grain_:
+```java
+    public interface OrderGrain implements Order, Grain {
+
+        OrderGrain withProduct(String product);
+
+        OrderGrain withQuantity(int quantity);
+    }
+```
+
+Once built, a grain can be modified using _with_ methods, creating new grains while leaving the original unchanged:
+```java
+    OrderGrain more = order.withQuantity(23);
+    System.out.println(more.getQuantity());   // prints: 32
+    System.out.println(order.getQuantity());  // prints: 13
+```
+
+Grains and their builders are maps:
+```java
+    System.out.println(order instanceof Map);    // prints: true
+    System.out.println(order.get("product"));    // prints: apples
+    System.out.println(order.get("quantity"));   // prints: 13
+
+    System.out.println(order);                   // prints: {product=apples, quantity=13}
+    System.out.println(order.keySet());          // prints: {product, quantity}
+    System.out.println(order.values());          // prints: {apples, 13}
+
+    System.out.println(builder instanceof Map);  // prints: true
+```
+
+They are _extensible_ if necessary:
+```java
+    builder.put("buyer", "bob");
+    System.out.println(builder);         // prints: {product=apples, quantity=13, buyer=bob}
+    builder.remove("buyer");
+    System.out.println(builder);         // prints: {product=apples, quantity=13}
+
+    order = order.with("buyer", "bob");
+    System.out.println(order);           // prints: {product=apples, quantity=13, buyer=bob}
+    order = order.without("buyer");
+    System.out.println(order);           // prints: {product=apples, quantity=13}
+```
+
+But they perform like plain old Java objects, using fields to store properties defined by the original interface:
+```java
+    private static final class OrderGrainImpl implements OrderGrain, Serializable {
+        private final String product;
+        private final int quantity;
+
+        public String getProduct() { return this.product; }
+        public int getQuantity() { return this.quantity; }
+
+        ...
+    }
+```
+
+The _equals_ and _hashCode_ methods are well defined by the Map contract. All maps, including grains, are equal if
+they have the same keys and values:
+```java
+    Map<String, Object> map = new HashMap<>();
+    map.put("product", "apples");
+    map.put("quantity", 13);
+    System.out.println(map.equals(order));                  // prints: true
+    System.out.println(map.hashCode() == order.hashCode()); // prints: true
+
+    System.out.println(builder.equals(order));              // prints: true
+    builder.setQuantity(3);
+    System.out.println(builder.equals(order));              // prints: false
+```
+

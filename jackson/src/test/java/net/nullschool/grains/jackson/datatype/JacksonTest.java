@@ -2,9 +2,12 @@ package net.nullschool.grains.jackson.datatype;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
+import com.fasterxml.jackson.dataformat.xml.XmlFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import net.nullschool.collect.basic.BasicToolsTest;
 import net.nullschool.grains.generate.model.*;
 import net.nullschool.grains.jackson.JacksonTools;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -28,7 +31,7 @@ public class JacksonTest {
         assertEquals(27, expected.size());
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
-        byte[] data = mapper.writeValueAsBytes(expected);
+        String data = mapper.writeValueAsString(expected);
 
         assertEquals(
             "{'a':true,'b':1,'c':2,'d':2,'e':3,'f':1,'g':1.0,'h':-1.0,'i':10,'j':'a','k':'hello','l':" +
@@ -36,7 +39,7 @@ public class JacksonTest {
                 "{'id':1},'q':[1,2],'r':[{'id':1},{'id':2}],'s':[2,3],'t':[{'id':2},{'id':3}],'u':['a','b'],'v':" +
                 "[{'id':4},{'id':5}],'w':{'a':1,'b':2},'x':{'a':{'id':6},'b':{'id':7}},'y':['x','y'],'z':{'1':" +
                 "{'id':8},'2':{'id':9}},'za':{'a':[[{'id':1},{'id':2}]]},'zb':[['a','b'],['c','d']]}",
-            BasicToolsTest.asReadableString(data).replace('\"', '\''));  // replace quotes for sanity
+            data.replace('\"', '\''));  // replace quotes for sanity
 
         CompleteGrain actual = mapper.readValue(data, CompleteGrain.class);
 
@@ -70,16 +73,59 @@ public class JacksonTest {
             BasicToolsTest.asTypeHierarchy(actual));
     }
 
+    @Ignore @Test
+    public void test_complete_serialization_xml() throws IOException {
+        // UNDONE: xml support
+        CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
+        assertEquals(27, expected.size());
+
+        ObjectMapper mapper = JacksonTools.newGrainsObjectMapper(new XmlFactory());
+        String data = mapper.writeValueAsString(expected);
+
+        assertEquals(
+            "",
+            data);
+
+        CompleteGrain actual = mapper.readValue(data, CompleteGrain.class);
+
+        assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
+    }
+
+    @Test
+    public void test_complete_serialization_yaml() throws IOException {
+        CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
+        assertEquals(27, expected.size());
+
+        ObjectMapper mapper = JacksonTools.newGrainsObjectMapper(new YAMLFactory());
+        String data = mapper.writeValueAsString(expected);
+
+        assertEquals(
+            "---|a: true|b: 1|c: 2|d: 2|e: 3|f: 1|g: 1.0|h: -1.0|i: 10|j: 'a'|k: 'hello'|l: '1bd31d66-eda2-43" +
+                "95-a2a7-510bd581e3ab'|m: 'http://nullschool.net'|o: 'green'|p:|  id: 1|q:|- 1|- 2|r:|- id: 1" +
+                "|- id: 2|s:|- 2|- 3|t:|- id: 2|- id: 3|u:|- 'a'|- 'b'|v:|- id: 4|- id: 5|w:|  a: 1|  b: 2|x:" +
+                "|  a:|    id: 6|  b:|    id: 7|y:|- 'x'|- 'y'|z:|  1:|    id: 8|  2:|    id: 9|za:|  a:|  - " +
+                "- id: 1|    - id: 2|zb:|- - 'a'|  - 'b'|- - 'c'|  - 'd'|",
+            data.replace('\"', '\'').replace('\n', '|'));  // replace quotes and line breaks for sanity
+
+        CompleteGrain actual = mapper.readValue(data, CompleteGrain.class);
+
+        assertEquals(expected, actual);
+        assertEquals(
+            BasicToolsTest.asTypeHierarchy(expected),
+            BasicToolsTest.asTypeHierarchy(actual));
+    }
+
     @Test
     public void test_sparse_serialization_json() throws IOException {
         CompleteGrain expected = CompleteFactory.defaultValue();
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
-        byte[] data = mapper.writeValueAsBytes(expected);
+        String data = mapper.writeValueAsString(expected);
 
-        assertEquals(
-            "{}",
-            BasicToolsTest.asReadableString(data).replace('\"', '\''));
+        assertEquals("{}", data);
 
         CompleteGrain actual = mapper.readValue(data, CompleteGrain.class);
 
@@ -100,11 +146,11 @@ public class JacksonTest {
         expected = expected.with("extraList", listOf(1, 2));
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
-        byte[] data = mapper.writeValueAsBytes(expected);
+        String data = mapper.writeValueAsString(expected);
 
         assertEquals(
             "{'id':10,'extraList':[1,2],'extraMap':{'a':1,'b':2},'x':1,'y':2}",
-            BasicToolsTest.asReadableString(data).replace('\"', '\''));
+            data.replace('\"', '\''));
 
         NodeGrain actual = mapper.readValue(data, NodeGrain.class);
 
