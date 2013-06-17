@@ -1,4 +1,4 @@
-#### _Grains_
+### _Grains_
 ... is a small Java framework for generating immutable, extensible objects.
 
 1. Create an interface with getters:
@@ -36,29 +36,51 @@
     System.out.println(changed);                 // prints: {product=apples, quantity=9, notes=shipped}
 ```
 
-[See the wiki for documentation](https://github.com/cambecc/grains/wiki), or continue reading the quickstart...
+[See the wiki for documentation](https://github.com/cambecc/grains/wiki), or continue reading the
+quickstart...
 
----
+-------------------------------------------------------------------------------------------------------------
 
-##### Something
+#### Serialization
 
-A _grain_ is an immutable _Map<String, Object>_ that implements an interface of getters like the one shown
-above. Because grains are maps, the _.equals_ and _.hashCode_ methods are well defined:
-
+[Jackson](http://wiki.fasterxml.com/JacksonHome) serialization to JSON, Smile, YAML, etc. (with
+the _grains-jackson_ library):
 ```java
-    Map<String, Object> map = new HashMap<>();
-    map.put("product", "apples");
-    map.put("quantity", 13);
-    System.out.println(order.equals(map));                  // prints: true
-    System.out.println(order.hashCode() == map.hashCode()); // prints: true
+    ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
+
+    String json = mapper.writeValueAsString(order);
+    OrderGrain restored = mapper.readValue(json, OrderGrain.class);
+
+    System.out.println(json);                    // prints: {"product":"apples","quantity":13}
+    System.out.println(restored.equals(order));  // prints: true
 ```
 
-Because grains are immutable, thread synchronization is not required when changing values, and the _.clone_ method
-becomes superfluous.
+[MessagePack](http://msgpack.org) serialization (with the _grains-msgpack_ library):
+```java
+    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
 
-In fact, using grains means not having to deal with methods inherited from Object because they are all taken care of.
+    byte[] data = msgpack.write(order);
+    OrderGrain unpacked = msgpack.read(data, OrderGrain.class);
 
-##### Serialization
+    System.out.println(unpacked.equals(order));  // prints: true
+```
+
+[Kryo](http://code.google.com/p/kryo/) serialization (with the _grains-kryo_ library):
+```java
+    Kryo kryo = KryoTools.newGrainsKryo();
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    Output output = new Output(baos);
+    kryo.writeClassAndObject(output, order);
+    output.close();
+
+    byte[] bytes = baos.toByteArray();
+    Input input = new Input(new ByteArrayInputStream(bytes));
+    Object thawed = kryo.readClassAndObject(input);
+    input.close();
+
+    System.out.println(thawed.equals(order));  // prints: true
+```
 
 Native support for Java serialization:
 ```java
@@ -66,76 +88,20 @@ Native support for Java serialization:
     new ObjectOutputStream(out).writeObject(order);
 
     ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-    Object obj = new ObjectInputStream(in).readObject();
+    Object read = new ObjectInputStream(in).readObject();
 
-    System.out.println(obj instanceof OrderGrain);  // prints: true
-    System.out.println(obj);                        // prints: {product=apples, quantity=13}
+    System.out.println(read.equals(order));  // prints: true
 ```
 
-[Jackson](http://wiki.fasterxml.com/JacksonHome) support allows serialization to JSON, Smile, YAML, etc.:
-```java
-    ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();  // in grains-jackson module
+-------------------------------------------------------------------------------------------------------------
 
-    String json = mapper.writeValueAsString(order);
-    OrderGrain obj = mapper.readValue(json, OrderGrain.class);
-    
-    System.out.println(json);               // prints: {"product":"apples","quantity":13}
-    System.out.println(order.equals(obj));  // prints: true
-```
+#### Setup
 
-[MessagePack](http://msgpack.org) serialization support:
- available by adding the _grains-msgpack_ dependency:
-```java
-    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();  // in grains-msgpack module
+_The Grains framework requires Java 7 or greater, and Maven 2.2.1 or greater._
 
-    byte[] data = msgpack.write(order);
-    Object obj = msgpack.read(data, OrderGrain.class);
+1. Create a new package that will contain your object model, for example: _com.acme.model_
 
-    System.out.println(obj instanceof OrderGrain);  // prints: true
-    System.out.println(obj);                        // prints: {product=apples, quantity=13}
-```
-
-[Kryo](http://code.google.com/p/kryo/) serialization support:
-```java
-    Kryo kryo = KryoTools.newGrainsKryo();  // in grains-kryo module
-
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    Output output = new Output(out);
-    kryo.writeClassAndObject(output, order);
-    output.close();
-
-    Input input = new Input(new ByteArrayInputStream(out.toByteArray()));
-    Object obj = kryo.readClassAndObject(input);
-    input.close();
-
-    System.out.println(obj instanceof OrderGrain);  // prints: true
-```
-
-Motivation
-----------
-
-The Grains framework is built around three key principles:
-
-1. Java developers want to define their object model with Java rather than some esoteric DSL in a text file.
-2. Java developers want generated code to be both _visible_ and _readable_.
-3. Immutability is a "best practice".
-
-You write your object model as a set of Java interfaces and the Grains framework generates all the monotonous,
-otherwise manual coding of getters, setters, equals, hashCode, builders, factories, serialization, etc.
-
-Requirements
-------------
-* Java 7
-* Maven 3
-
-Usage
------
-
-1. Clone the project and run _mvn install_ (required because artifacts are not yet deployed to maven central).
-
-2. Decide in which package your hand-written grain schema interfaces will reside, something like _com.acme.model_.
-
-3. Configure Maven to pre-compile this package and all sub-packages during the _generate-sources_ phase:
+2. Configure your POM to pre-compile this package during the _generate-sources_ phase:
 
     ```xml
     <plugin>
@@ -152,7 +118,7 @@ Usage
                 <goals><goal>compile</goal></goals>
                 <configuration>
                     <includes>
-                        <include>com/acme/model/**</include>  <!-- SPECIFY PACKAGE HERE -->
+                        <include>com/acme/model/**</include>
                     </includes>
                 </configuration>
             </execution>
@@ -160,13 +126,13 @@ Usage
     </plugin>
     ```
 
-3. Enable the _grains-plugin_ and bind it to the _generate-sources_ phase:
+3. Configure the _grains-plugin_ to run during the _generate-sources_ phase:
 
     ```xml
     <plugin>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-plugin</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.1</version>
         <executions>
             <execution>
                 <phase>generate-sources</phase>
@@ -175,17 +141,29 @@ Usage
         </executions>
     </plugin>
     ```
-    
-4. Finally, add the _grains-core_ dependency to your project:
+
+4. Add a dependency on _grains-core_.
 
     ```xml
     <dependency>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-core</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.1</version>
     </dependency>
     ```
 
-Done. Now any interface located under _com.acme.model_ and annotated with `@GrainSchema` will have a grain implementation
-generated when _mvn compile_  is invoked. By default, all generated sources appear
-in the _target/generated-sources/grains/com/acme/model_ directory.
+5. _(optional)_ Add a dependency on the serialization library of your choice, such as:
+
+    ```xml
+    <dependency>
+        <groupId>net.nullschool</groupId>
+        <artifactId>grains-jackson</artifactId>
+        <version>0.9.1</version>
+    </dependency>
+    ```
+
+Done! Any interface in _com.acme.model_ annotated with _@GrainSchema_ will have a grain implementation
+generated when _mvn compile_ is invoked. By default, all generated sources appear in the
+_target/generated-sources/grains/com/acme/model_ directory.
+
+[See the wiki for more details](https://github.com/cambecc/grains/wiki).
