@@ -36,9 +36,6 @@
     System.out.println(changed);                 // prints: {product=apples, quantity=9, notes=shipped}
 ```
 
-[See the wiki for documentation](https://github.com/cambecc/grains/wiki), or continue reading the
-quickstart...
-
 -------------------------------------------------------------------------------------------------------------
 
 #### Serialization
