@@ -20,7 +20,7 @@ package com.acme.model;
 /**
  * 2013-06-16<p/>
  *
- * An example showing how generic types can be used to compose grain data models.
+ * An example showing how generic types can be used to compose grain object models.
  *
  * @author Cameron Beccario
  */

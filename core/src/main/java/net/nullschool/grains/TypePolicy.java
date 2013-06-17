@@ -30,9 +30,8 @@ import java.util.UUID;
 /**
  * 2013-05-08<p/>
  *
- * A contract that describes the behavior of types used with Grains. Specifically, instances of this interface
- * a) define which types are considered immutable, and b) construct operators for converting instances of a type to
- * another type.<p/>
+ * A contract that describes the behavior of types used with Grains. Instances of this interface a) define which
+ * types are considered immutable, and b) construct operators for converting instances of a type to another type.<p/>
  *
  * NOTE: a TypePolicy is used by the grain generator during code generation. See the generator plugin's "typePolicy"
  * configuration for details.
@@ -114,9 +113,9 @@ public interface TypePolicy {
      */
     public static final ConstSet<Class<?>> ANCILLARY_TYPES =
         BasicCollections.<Class<?>>setOf(
+            String.class,
             BigInteger.class,
             BigDecimal.class,
-            String.class,
             UUID.class,
             URI.class);
 }

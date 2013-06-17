@@ -12,7 +12,7 @@
     }
 ```
 
-2. Run the Grains maven plugin.
+2. Run the Grains Maven plugin.
 
 3. Use the generated _Factory_, _Builder_, and _Grain_ classes:
 ```java
@@ -182,11 +182,11 @@ Motivation
 
 The Grains framework is built around three key principles:
 
-1. Java developers want to define their data model with Java.
+1. Java developers want to define their object model with Java rather than some esoteric DSL in a text file.
 2. Java developers want generated code to be both _visible_ and _readable_.
 3. Immutability is a "best practice".
 
-You write your data model as a set of Java interfaces and the Grains framework generates all the monotonous,
+You write your object model as a set of Java interfaces and the Grains framework generates all the monotonous,
 otherwise manual coding of getters, setters, equals, hashCode, builders, factories, serialization, etc.
 
 Requirements

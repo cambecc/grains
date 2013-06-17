@@ -1,0 +1,28 @@
+
+consider adding options to allow:
+- setters return void or chaining
+- generate WITH methods or don't
+- generator should be told what nullable, notnullable annotations to use during setup. same for validation annotations?
+- cached hashcodes or not
+- brackets on next line or same line
+- all collections should default to empty versions, rather than null.
+- create observer/observable pattern to hook into building via the builders
+    -- what would this mean for the with* methods?
+- include type name in .toString:  "Foo{id=234}"
+- assert vs. actual type check in the type transformers
+
+any method that is not a getter on the schema can have the implementation injected into it, via the factory.
+
+a plugin to detect backwards and forwards compatibility issues with schema changes, like clirr
+
+$KEYS array should probably be sorted for binary lookup. makes containsKey faster. this would work except for
+the special case where the id prop occurs first.
+
+override containsKey in each GrainImpl to improve performance. Implement containsKey, containsValue, and containsEntry
+ on each Grain and Builder?
+
+Add appendTo(Appendable a) on the GrainImpls, maybe even the builders?
+
+need a way to get the original GrainSchema class from a grain or builder impl.
+need a way to get the factory from any GrainSchema.
+need a way to get getter/setter/wither name from a GrainProperty.

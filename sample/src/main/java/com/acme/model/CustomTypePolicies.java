@@ -28,7 +28,7 @@ import java.util.*;
  *
  * Changing the type policy configuration from STANDARD_JODA to STANDARD_JODA_GUAVA will cause the generated code to
  * use Guava's immutable collections rather than the const collections natively available from the Grains framework.
- * Make sure to update the {@link com.acme.Driver} class as well to use these different collection types.
+ * Make sure to update the {@link com.acme.Sample} class as well to use these different collection types.
  *
  * @author Cameron Beccario
  */

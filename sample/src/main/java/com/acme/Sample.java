@@ -18,13 +18,13 @@ import static net.nullschool.collect.basic.BasicCollections.*;
 /**
  * 2013-02-14<p/>
  *
- * This sample shows how to generate grain implementations for a simple data model. The data model is located in the
- * {@code com.acme.model} package and makes use of immutable types available from common open source libraries. The
- * {@link CustomTypePolicies} class shows how to register these immutable types so they can be used by the Maven
- * <i>grains-plugin</i> during code generation.<p/>
+ * This sample shows how to generate grain implementations for a simple object model comprised of interfaces. The
+ * interfaces are located in the {@code com.acme.model} package and makes use of immutable types available from
+ * common open source libraries. The {@link CustomTypePolicies} class shows how to register these immutable types
+ * so they can be used by the Maven <i>grains-plugin</i> during code generation.<p/>
  *
  * The POM file for this sample shows how to configure the project for code generation. To generate code, simply
- * invoke the maven 'compile' goal. After making changes to the data model, re-run the 'compile' goal for the
+ * invoke the maven 'compile' goal. After making changes to the object model, re-run the 'compile' goal for the
  * generator to pick up the changes and regenerate new code.<p/>
  *
  * See the {@link CustomTypePolicies} class for a description of how to configure the generator to use Guava's
@@ -35,7 +35,7 @@ import static net.nullschool.collect.basic.BasicCollections.*;
  *
  * @author Cameron Beccario
  */
-public class Driver {
+public class Sample {
 
     static PhoneNumberGrain samplePhone() {
         PhoneNumberBuilder builder = PhoneNumberFactory.newBuilder();
@@ -50,9 +50,11 @@ public class Driver {
         builder.setName("Foo");
         builder.setEmail("foo@foo.com");
         builder.setBirthday(new LocalDate(1969, 7, 20));
+
+        // Uncomment the second line if using Guava's immutable collections (see javadoc above):
         builder.setPhones(listOf(samplePhone()));
-        // Uncomment this line if using Guava's immutable collections (see javadoc above):
         // builder.setPhones(ImmutableList.of(samplePhone()));
+
         return builder.build();
     }
 
