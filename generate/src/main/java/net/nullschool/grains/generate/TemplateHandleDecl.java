@@ -28,23 +28,40 @@ import java.util.Map;
 /**
  * 2013-02-17<p/>
  *
+ * Represents a StringTemplate template that can be invoked with a set of arguments.
+ *
  * @author Cameron Beccario
  */
-final class TemplateDecl implements Template {
+final class TemplateHandleDecl implements TemplateHandle {
 
+    // The template files are encoded in UTF-8.
     private static final String TEMPLATE_ENCODING = "UTF-8";
 
 
-    private final String name;
-    private final String[] resources;
+    private final String name;  // the name of the template to load from the template group file (.stg)
+    private final String[] resources;  // the other template group files (.stg) that are used by this template
     private final Configuration config;
 
-    TemplateDecl(Configuration config, String name, String... resources) {
+    /**
+     * Builds a new template handle.
+     *
+     * @param config the generator configuration.
+     * @param name the name of the StringTemplate template to load.
+     * @param resources the StringTemplate files (embedded as resources in the JAR) needed to invoke this template.
+     */
+    TemplateHandleDecl(Configuration config, String name, String... resources) {
         this.config = config;
         this.name = name;
         this.resources = resources.clone();
     }
 
+    /**
+     * Load a JAR resource as a StringTemplate group.
+     *
+     * @param resourceName the name of the resource to load.
+     * @param errorCollector the error listener.
+     * @return the loaded resource as a StringTemplate group.
+     */
     private static STGroup newGroupFromResource(String resourceName, ErrorCollector errorCollector) {
         URL resource = GrainGeneratorDriver.class.getResource(resourceName);
         if (resource == null) {
@@ -56,7 +73,15 @@ final class TemplateDecl implements Template {
         return result;
     }
 
+    /**
+     * Loads a set of JAR resources as a StringTemplate group.
+     *
+     * @param resourceNames the names of the resources to load.
+     * @param errorCollector the error listener.
+     * @return the loaded resources imported into one StringTemplate group.
+     */
     private static STGroup newGroupFromResources(String[] resourceNames, ErrorCollector errorCollector) {
+        // CONSIDER: do this operation once and remember the result. Invariant for all schemas being generated.
         STGroup result = newGroupFromResource(resourceNames[0], errorCollector);
         for (int i = 1; i < resourceNames.length; i++) {
             STGroup dependency = newGroupFromResource(resourceNames[i], errorCollector);
@@ -65,6 +90,9 @@ final class TemplateDecl implements Template {
         return result;
     }
 
+    /**
+     * Invokes StringTemplate and collects the output as a String.
+     */
     private String write(ST template) {
         try {
             StringWriter sw = new StringWriter(4096);
@@ -78,11 +106,12 @@ final class TemplateDecl implements Template {
         }
     }
 
-    @Override
-    public GenerationResult invoke(Map<String, Object> arguments) {
+    @Override public GenerationResult invoke(Map<String, Object> arguments) {
+        // Load the StringTemplates from the JAR.
         ErrorCollector errorCollector = new ErrorCollector();
         STGroup group = newGroupFromResources(resources, errorCollector);
 
+        // Create an instance of the template we want to invoke.
         ST template = group.getInstanceOf(name);
         if (template == null) {
             if (errorCollector.getErrors().isEmpty()) {
@@ -93,10 +122,12 @@ final class TemplateDecl implements Template {
                 String.format("Errors getting template '%s': %s", name, errorCollector.getErrors()));
         }
 
+        // Add all the arguments.
         for (Map.Entry<String, Object> argument : arguments.entrySet()) {
             template.add(argument.getKey(), argument.getValue());
         }
 
-        return new GenerationResult(write(template), errorCollector.getErrors());
+        String output = write(template);
+        return new GenerationResult(output, errorCollector.getErrors());
     }
 }

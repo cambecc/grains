@@ -22,9 +22,11 @@ import java.util.Map;
 /**
  * 2013-02-17<p/>
  *
+ * Represents a code generation template that can be invoked with a set of arguments.
+ *
  * @author Cameron Beccario
  */
-interface Template {
+interface TemplateHandle {
 
     GenerationResult invoke(Map<String, Object> arguments);
 }

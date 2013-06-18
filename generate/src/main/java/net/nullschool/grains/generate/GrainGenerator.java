@@ -36,6 +36,9 @@ import static net.nullschool.collect.basic.BasicCollections.*;
 /**
  * 2013-02-13<p/>
  *
+ * The grain generator. Searches for schemas and generates grain/builder/factory implementations for them. This
+ * class uses an executor to generate these files concurrently on multiple threads.
+ *
  * @author Cameron Beccario
  */
 public class GrainGenerator implements Callable<Void> {
@@ -46,43 +49,66 @@ public class GrainGenerator implements Callable<Void> {
     private final Configuration config;
     private final NamingPolicy namingPolicy;
 
+    /**
+     * An executor task that generates the contents of one file.
+     */
     private class GenerateTask implements Callable<Boolean> {
 
         private final GrainGeneratorDriver generator;
         private final Class<?> schema;
-        private final Template template;
+        private final TemplateHandle handle;
         private final Path out;
 
-        private GenerateTask(GrainGeneratorDriver generator, Class<?> schema, Template template, Path out) {
+        private GenerateTask(GrainGeneratorDriver generator, Class<?> schema, TemplateHandle handle, Path out) {
             this.generator = generator;
             this.schema = schema;
-            this.template = template;
+            this.handle = handle;
             this.out = out;
         }
 
-        private boolean write(GenerationResult result, Path out) throws IOException {
+        private boolean contentsIdentical(byte[] bytes, Path filename) throws IOException {
+            return
+                Files.exists(filename) &&
+                    Files.size(filename) == bytes.length &&
+                    Arrays.equals(Files.readAllBytes(filename), bytes);
+        }
+
+        /**
+         * Writes the result of code generation to disk as a file with the specified name.
+         *
+         * @param result the generated code.
+         * @param filename the file to create.
+         * @return true if file write succeeded.
+         * @throws IOException if a filesystem error occurs.
+         */
+        private boolean write(GenerationResult result, Path filename) throws IOException {
             if (!result.getErrors().isEmpty()) {
-                log.error("[{}] While generating {}:", Thread.currentThread().getName(), out);
+                // Code generation did not succeed, so would be incorrect to write the result to disk.
+                log.error("[{}] While generating {}:", Thread.currentThread().getName(), filename);
                 for (String error : result.getErrors()) {
                     log.error("[{}]    {}", Thread.currentThread().getName(), error);
                 }
-                throw new RuntimeException("Failed to write: " + out);
+                throw new RuntimeException("Failed to write: " + filename);
             }
 
+            // Encode the result with the requested charset.
             byte[] bytes = result.getText().getBytes(config.getCharset());
-            if (Files.exists(out) && Files.size(out) == bytes.length && Arrays.equals(Files.readAllBytes(out), bytes)) {
-                log.debug("[{}] Unchanged: {}", Thread.currentThread().getName(), out);
+
+            // Compare with what's already on disk, if anything. Let's not rewrite the file if its contents are
+            // identical. This avoids sending noise to file system listeners.
+            if (contentsIdentical(bytes, filename)) {
+                log.debug("[{}] Unchanged: {}", Thread.currentThread().getName(), filename);
                 return false;
             }
             else {
-                log.debug("[{}] Generating {}", Thread.currentThread().getName(), out);
-                Files.write(out, bytes);
+                log.debug("[{}] Generating {}", Thread.currentThread().getName(), filename);
+                Files.write(filename, bytes);
                 return true;
             }
         }
 
         @Override public Boolean call() throws IOException {
-            GenerationResult result = generator.generate(schema, template);
+            GenerationResult result = generator.generate(schema, handle);
             return write(result, out);
         }
     }
@@ -94,13 +120,29 @@ public class GrainGenerator implements Callable<Void> {
     private List<GenerateTask> configureTasks(Class<?> schema, GrainGeneratorDriver generator)
         throws ClassNotFoundException, IOException, IntrospectionException {
 
-        Path target = config.getOutput().resolve(GrainTools.targetPackageOf(schema).replace('.', '/'));
-        Files.createDirectories(target);
+        Path outputDirectory = config.getOutput().resolve(GrainTools.targetPackageOf(schema).replace('.', '/'));
+        Files.createDirectories(outputDirectory);
         List<GenerateTask> tasks = new ArrayList<>();
 
-        tasks.add(new GenerateTask(generator, schema, Templates.newFactoryEnumTemplate(config), target.resolve(filename(schema, Name.factory))));
-        tasks.add(new GenerateTask(generator, schema, Templates.newGrainInterfaceTemplate(config), target.resolve(filename(schema, Name.grain))));
-        tasks.add(new GenerateTask(generator, schema, Templates.newBuilderInterfaceTemplate(config), target.resolve(filename(schema, Name.builder))));
+        // Create a task for each of the three files to generate.
+        tasks.add(
+            new GenerateTask(
+                generator,
+                schema,
+                TemplateHandles.newFactoryEnumTemplate(config),
+                outputDirectory.resolve(filename(schema, Name.factory))));  // FooFactory.java
+        tasks.add(
+            new GenerateTask(
+                generator,
+                schema,
+                TemplateHandles.newGrainInterfaceTemplate(config),
+                outputDirectory.resolve(filename(schema, Name.grain))));  // FooGrain.java
+        tasks.add(
+            new GenerateTask(
+                generator,
+                schema,
+                TemplateHandles.newBuilderInterfaceTemplate(config),
+                outputDirectory.resolve(filename(schema, Name.builder))));  // FooBuilder.java
         return tasks;
     }
 
@@ -112,6 +154,7 @@ public class GrainGenerator implements Callable<Void> {
     @Override public Void call() throws Exception {
         long start = System.currentTimeMillis();
 
+        // Create an executor.
         ExecutorService executor =
             Executors.newFixedThreadPool(
                 Runtime.getRuntime().availableProcessors(),
@@ -120,16 +163,19 @@ public class GrainGenerator implements Callable<Void> {
         GrainGeneratorDriver generator = new GrainGeneratorDriver(config, namingPolicy);
         List<GenerateTask> tasks = new ArrayList<>();
 
+        // Search for grain schemas.
         Set<Class<?>> schemas = new HashSet<>();
         for (String searchPackage : config.getSearchPackages()) {
             schemas.addAll(
                 new Reflector(searchPackage).findClassesAnnotatedWith(GrainSchema.class, config.getSearchLoader()));
         }
 
+        // For each schema found, create a bunch of generate tasks and submit them to the executor.
         for (Class<?> schema : schemas) {
             tasks.addAll(configureTasks(schema, generator));
         }
 
+        // Wait for all tasks to finish.
         int count = 0;
         for (Future<Boolean> future : executor.invokeAll(tasks)) {
             if (future.get()) {
@@ -137,6 +183,7 @@ public class GrainGenerator implements Callable<Void> {
             }
         }
 
+        // Done!
         log.info(
             "Generation took {} ms.{}",
             System.currentTimeMillis() - start,
@@ -145,6 +192,9 @@ public class GrainGenerator implements Callable<Void> {
         return null;
     }
 
+    /**
+     * Used only for testing.
+     */
     public static void main(String[] args) throws Exception {
         Thread.currentThread().setName("main");
         Configuration config = new Configuration();

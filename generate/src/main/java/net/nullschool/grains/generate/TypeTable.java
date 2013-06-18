@@ -25,7 +25,6 @@ import net.nullschool.collect.*;
 import net.nullschool.grains.*;
 import net.nullschool.grains.generate.NamingPolicy.Name;
 import net.nullschool.reflect.*;
-import net.nullschool.util.MemoizedHashCode;
 import net.nullschool.util.ObjectTools;
 
 import javax.annotation.Generated;
@@ -80,7 +79,7 @@ final class TypeTable {
         iteratorTools               (IteratorTools.class),
         linkedHashSet               (LinkedHashSet.class),
         mapTools                    (MapTools.class),
-        memoizedHashCode            (MemoizedHashCode.class),
+        // memoizedHashCode            (MemoizedHashCode.class),
         noSuchElementException      (NoSuchElementException.class),
         object                      (Object.class),
         objectInputStream           (ObjectInputStream.class),
