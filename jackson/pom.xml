@@ -20,13 +20,13 @@
     <parent>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-master</artifactId>
-        <version>0.9.1-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
         <relativePath>../master/pom.xml</relativePath>
     </parent>
 
     <groupId>net.nullschool</groupId>
     <artifactId>grains-jackson</artifactId>
-    <version>0.9.1-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>jackson</name>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <version>0.8.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -77,14 +77,14 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <version>0.8.0-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-generate</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <version>0.8.0-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

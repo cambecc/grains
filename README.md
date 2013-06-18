@@ -129,7 +129,7 @@ _The Grains framework requires Java 7 or greater, and Maven 2.2.1 or greater._
     <plugin>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-plugin</artifactId>
-        <version>0.9.1</version>
+        <version>0.8.0</version>
         <executions>
             <execution>
                 <phase>generate-sources</phase>
@@ -145,7 +145,7 @@ _The Grains framework requires Java 7 or greater, and Maven 2.2.1 or greater._
     <dependency>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-core</artifactId>
-        <version>0.9.1</version>
+        <version>0.8.0</version>
     </dependency>
     ```
 
@@ -155,7 +155,7 @@ _The Grains framework requires Java 7 or greater, and Maven 2.2.1 or greater._
     <dependency>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-jackson</artifactId>
-        <version>0.9.1</version>
+        <version>0.8.0</version>
     </dependency>
     ```
 

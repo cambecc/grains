@@ -24,13 +24,13 @@
     <parent>
         <groupId>net.nullschool</groupId>
         <artifactId>grains-master</artifactId>
-        <version>0.9.1-SNAPSHOT</version>
+        <version>0.8.0-SNAPSHOT</version>
         <relativePath>../master/pom.xml</relativePath>
     </parent>
 
     <groupId>net.nullschool</groupId>
     <artifactId>grains-plugin</artifactId>
-    <version>0.9.1-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>plugin</name>
@@ -80,7 +80,7 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-generate</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <version>0.8.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
