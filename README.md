@@ -32,7 +32,7 @@
     System.out.println(changed);                 // prints: {product=apples, quantity=9}
     System.out.println(order);                   // prints: {product=apples, quantity=13}
     
-    changed = changed.with("notes", "shipped");  // extensible :)
+    changed = changed.with("RA#", "99288");      // extensible :)
     System.out.println(changed);                 // prints: {product=apples, quantity=9, notes=shipped}
 ```
 
