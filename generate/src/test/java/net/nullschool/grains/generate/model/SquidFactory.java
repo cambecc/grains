@@ -24,151 +24,125 @@ import net.nullschool.grains.SimpleGrainProperty;
 import net.nullschool.reflect.PublicInterfaceRef;
 
 /**
- * Factory for constructing Grain instances of Composed.
+ * Factory for constructing Grain instances of Animal.Squid.
  */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
-public enum ComposedFactory implements GrainFactory {
+public enum SquidFactory implements GrainFactory {
     INSTANCE;
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("id", String.class),
-        new SimpleGrainProperty("age", int.class),
         new SimpleGrainProperty("giant", boolean.class, GrainProperty.Flag.IS_PROPERTY),
-        new SimpleGrainProperty("legCount", int.class),
-        new SimpleGrainProperty("name", String.class));
+        new SimpleGrainProperty("legCount", int.class));
 
-    private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[5]);
-    private static final ComposedGrain $DEFAULT = newBuilder().build();
-    public static ComposedGrain defaultValue() { return $DEFAULT; }
-    public static ComposedBuilder newBuilder() { return new ComposedBuilderImpl(); }
+    private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[3]);
+    private static final SquidGrain $DEFAULT = newBuilder().build();
+    public static SquidGrain defaultValue() { return $DEFAULT; }
+    public static SquidBuilder newBuilder() { return new SquidBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
-    public ComposedGrain getDefaultValue() { return defaultValue(); }
-    public ComposedBuilder getNewBuilder() { return newBuilder(); }
+    public SquidGrain getDefaultValue() { return defaultValue(); }
+    public SquidBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
     /**
-     * Code generated implementation of ComposedGrain.
+     * Code generated implementation of SquidGrain.
      */
-    @PublicInterfaceRef(ComposedGrain.class)
-    @GrainFactoryRef(ComposedFactory.class)
-    private static final class ComposedGrainImpl
+    @PublicInterfaceRef(SquidGrain.class)
+    @GrainFactoryRef(SquidFactory.class)
+    private static final class SquidGrainImpl
         extends AbstractGrain
-        implements ComposedGrain, Serializable {
+        implements SquidGrain, Serializable {
 
         private final String id;
-        private final int age;
         private final boolean giant;
         private final int legCount;
-        private final String name;
 
         private final ConstSortedMap<String, Object> $extensions;
 
-        private ComposedGrainImpl(
-            String id, int age, boolean giant, int legCount, String name, 
+        private SquidGrainImpl(
+            String id, boolean giant, int legCount, 
             ConstSortedMap<String, Object> $extensions) {
 
             this.id = id;
-            this.age = age;
             this.giant = giant;
             this.legCount = legCount;
-            this.name = name;
             this.$extensions = $extensions;
         }
 
-        public int size() { return 5 + $extensions.size(); }
+        public int size() { return 3 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
             return IteratorTools.chainMapIterators(new BasisIter($KEYS), $extensions.iterator());
         }
 
         public String getId() { return id; }
-        public ComposedGrain withId(String id) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
-                $extensions);
-        }
-
-        public int getAge() { return age; }
-        public ComposedGrain withAge(int age) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+        public SquidGrain withId(String id) {
+            return new SquidGrainImpl(
+                id, giant, legCount, 
                 $extensions);
         }
 
         public boolean isGiant() { return giant; }
-        public ComposedGrain withGiant(boolean giant) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+        public SquidGrain withGiant(boolean giant) {
+            return new SquidGrainImpl(
+                id, giant, legCount, 
                 $extensions);
         }
 
         public int getLegCount() { return legCount; }
-        public ComposedGrain withLegCount(int legCount) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
-                $extensions);
-        }
-
-        public String getName() { return name; }
-        public ComposedGrain withName(String name) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+        public SquidGrain withLegCount(int legCount) {
+            return new SquidGrainImpl(
+                id, giant, legCount, 
                 $extensions);
         }
 
         public Object get(Object $key) {
             switch ((String)$key) {
                 case "id": return getId();
-                case "age": return getAge();
                 case "giant": return isGiant();
                 case "legCount": return getLegCount();
-                case "name": return getName();
                 default: return $extensions.get($key);
             }
         }
 
-        private ComposedGrain with(String $key, Object $value, boolean $dissoc) {
+        private SquidGrain with(String $key, Object $value, boolean $dissoc) {
             switch ($key) {
                 case "id": return withId((String)$value);
-                case "age": return withAge($value == null ? 0 : (int)$value);
                 case "giant": return withGiant($value == null ? false : (boolean)$value);
                 case "legCount": return withLegCount($value == null ? 0 : (int)$value);
-                case "name": return withName((String)$value);
             }
             ConstSortedMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
             if ($newExtensions == $extensions) {
                 return this;
             }
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+            return new SquidGrainImpl(
+                id, giant, legCount, 
                 $newExtensions);
         }
 
-        public ComposedGrain with(String $key, Object $value) {
+        public SquidGrain with(String $key, Object $value) {
             return with($key, $value, false);
         }
 
-        public ComposedGrain withAll(Map<? extends String, ?> $map) {
+        public SquidGrain withAll(Map<? extends String, ?> $map) {
             return $map.isEmpty() ? this : MapTools.putAll(newBuilder(), $map).build();
         }
 
-        public ComposedGrain without(Object $key) {
+        public SquidGrain without(Object $key) {
             return with((String)$key, null, true);
         }
 
-        public ComposedGrain withoutAll(Collection<?> $keys) {
+        public SquidGrain withoutAll(Collection<?> $keys) {
             return $keys.isEmpty() ? this : MapTools.removeAll(newBuilder(), $keys).build();
         }
 
-        public ComposedBuilder newBuilder() {
-            ComposedBuilderImpl $builder = new ComposedBuilderImpl();
+        public SquidBuilder newBuilder() {
+            SquidBuilderImpl $builder = new SquidBuilderImpl();
             $builder.id = this.id;
-            $builder.age = this.age;
             $builder.giant = this.giant;
             $builder.legCount = this.legCount;
-            $builder.name = this.name;
             $builder.$extensions.putAll(this.$extensions);
             return $builder;
         }
@@ -177,80 +151,64 @@ public enum ComposedFactory implements GrainFactory {
             return $extensions;
         }
 
-        private Object writeReplace() { return new ComposedGrainProxy().setPayload(this); }
+        private Object writeReplace() { return new SquidGrainProxy().setPayload(this); }
         private void readObject(ObjectInputStream in) throws InvalidObjectException {
             throw new InvalidObjectException("proxy expected");
         }
     }
 
     /**
-     * Code generated serialization proxy for serializing instances of ComposedGrainImpl.
+     * Code generated serialization proxy for serializing instances of SquidGrainImpl.
      */
-    private static final class ComposedGrainProxy extends AbstractGrainProxy {
+    private static final class SquidGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
-        protected ComposedBuilder newBuilder() { return ComposedFactory.newBuilder(); }
+        protected SquidBuilder newBuilder() { return SquidFactory.newBuilder(); }
     }
 
     /**
-     * Code generated implementation of ComposedBuilder.
+     * Code generated implementation of SquidBuilder.
      */
-    @PublicInterfaceRef(ComposedBuilder.class)
-    @GrainFactoryRef(ComposedFactory.class)
-    private static final class ComposedBuilderImpl
+    @PublicInterfaceRef(SquidBuilder.class)
+    @GrainFactoryRef(SquidFactory.class)
+    private static final class SquidBuilderImpl
         extends AbstractGrainBuilder
-        implements ComposedBuilder {
+        implements SquidBuilder {
 
         private String id;
-        private int age;
         private boolean giant;
         private int legCount;
-        private String name;
 
         private final TreeMap<String, Object> $extensions = new TreeMap<>();
 
-        public int size() { return 5 + $extensions.size(); }
+        public int size() { return 3 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
             return IteratorTools.chainMapIterators(new BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
         }
 
         public String getId() { return id; }
-        public ComposedBuilder setId(String id) {
+        public SquidBuilder setId(String id) {
             this.id = id;
             return this;
         }
 
-        public int getAge() { return age; }
-        public ComposedBuilder setAge(int age) {
-            this.age = age;
-            return this;
-        }
-
         public boolean isGiant() { return giant; }
-        public ComposedBuilder setGiant(boolean giant) {
+        public SquidBuilder setGiant(boolean giant) {
             this.giant = giant;
             return this;
         }
 
         public int getLegCount() { return legCount; }
-        public ComposedBuilder setLegCount(int legCount) {
+        public SquidBuilder setLegCount(int legCount) {
             this.legCount = legCount;
-            return this;
-        }
-
-        public String getName() { return name; }
-        public ComposedBuilder setName(String name) {
-            this.name = name;
             return this;
         }
 
         public Object get(Object $key) {
             switch ((String)$key) {
                 case "id": return getId();
-                case "age": return getAge();
                 case "giant": return isGiant();
                 case "legCount": return getLegCount();
-                case "name": return getName();
                 default: return $extensions.get($key);
             }
         }
@@ -262,10 +220,6 @@ public enum ComposedFactory implements GrainFactory {
                     $original = getId();
                     setId((String)$value);
                     return $original;
-                case "age":
-                    $original = getAge();
-                    setAge($value == null ? 0 : (int)$value);
-                    return $original;
                 case "giant":
                     $original = isGiant();
                     setGiant($value == null ? false : (boolean)$value);
@@ -273,10 +227,6 @@ public enum ComposedFactory implements GrainFactory {
                 case "legCount":
                     $original = getLegCount();
                     setLegCount($value == null ? 0 : (int)$value);
-                    return $original;
-                case "name":
-                    $original = getName();
-                    setName((String)$value);
                     return $original;
                 default:
                     return $dissoc ? $extensions.remove($key) : $extensions.put($key, $value);
@@ -291,9 +241,9 @@ public enum ComposedFactory implements GrainFactory {
             return put((String)$key, null, true);
         }
 
-        public ComposedGrain build() {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+        public SquidGrain build() {
+            return new SquidGrainImpl(
+                id, giant, legCount, 
                 BasicCollections.asSortedMap($extensions));
         }
     }

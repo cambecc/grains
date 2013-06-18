@@ -17,9 +17,8 @@
 package net.nullschool.grains.generate;
 
 import net.nullschool.collect.basic.BasicCollections;
-import net.nullschool.grains.GrainProperty;
+import net.nullschool.grains.*;
 import net.nullschool.grains.GrainProperty.Flag;
-import net.nullschool.grains.SimpleGrainProperty;
 import net.nullschool.reflect.LateParameterizedType;
 
 import java.beans.*;
@@ -175,6 +174,10 @@ final class SymbolTable {
     }
 
     GrainSymbol buildGrainSymbol() throws IntrospectionException {
+        if (schema.getTypeParameters().length > 0) {
+            throw new IllegalArgumentException("Generic type grain generation is not supported.");
+        }
+
         int typeTokenIndex = 0;
 
         Map<Type, TypeTokenSymbol> typeTokens = new LinkedHashMap<>();
@@ -214,7 +217,17 @@ final class SymbolTable {
                 typePolicyLoadExpression = new StaticFieldLoadExpression((Field)typePolicyMember, printerFactory);
             }
         }
-        return new GrainSymbol(symbols, typeTokens.values(), typePolicyLoadExpression);
+
+        List<TypeSymbol> superGrains = new ArrayList<>();
+        List<TypeSymbol> superBuilders = new ArrayList<>();
+        for (Class<?> superType : schema.getInterfaces()) {
+            if (superType.isAnnotationPresent(GrainSchema.class)) {
+                superGrains.add(new TypeSymbol(typeTable.getGrainClass(superType), printerFactory));
+                superBuilders.add(new TypeSymbol(typeTable.getGrainBuilderClass(superType), printerFactory));
+            }
+        }
+
+        return new GrainSymbol(superGrains, superBuilders, symbols, typeTokens.values(), typePolicyLoadExpression);
     }
 
     Map<String, Symbol> buildTypeSymbols() {

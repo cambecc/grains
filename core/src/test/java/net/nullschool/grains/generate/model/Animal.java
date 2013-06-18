@@ -16,18 +16,45 @@
 
 package net.nullschool.grains.generate.model;
 
+
 import net.nullschool.grains.GrainSchema;
 
 
 /**
  * 2013-03-05<p/>
  *
- * A grain that is a composition of several interfaces.
+ *        Animal
+ *       /      \
+ *  Cephalopod   \
+ *     /          \
+ *  Squid        Hydra
+ *     \          /
+ *      \        /
+ *       Composed
  *
  * @author Cameron Beccario
  */
-@GrainSchema
-public interface Composed extends Animal.Squid, Animal.Hydra {
+public interface Animal<T> {
 
-    String getName();
+    T getId();
+
+    @GrainSchema
+    interface Cephalopod extends Animal<String> {
+
+        int getLegCount();
+    }
+
+    @GrainSchema
+    interface Squid extends Cephalopod {
+
+        boolean isGiant();
+    }
+
+    @GrainSchema
+    interface Hydra extends Animal<String> {
+
+        int getAge();
+
+        int getLegCount();
+    }
 }

@@ -12,7 +12,8 @@ import net.nullschool.grains.GrainFactoryRef;
  */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(CompoundFactory.class)
-public interface CompoundBuilder extends Compound, GrainBuilder {
+public interface CompoundBuilder
+    extends Compound, GrainBuilder {
 
     //
     // Compound Accessors

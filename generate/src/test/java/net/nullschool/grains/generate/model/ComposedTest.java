@@ -16,32 +16,32 @@
 
 package net.nullschool.grains.generate.model;
 
-
-import java.util.List;
-
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * 2013-03-05<p/>
+ * 2013-06-18<p/>
  *
  * @author Cameron Beccario
  */
-public interface Top<T> {
+public class ComposedTest {
 
-    interface Left<T> extends Top<T> {
+    @Test
+    public void test_composed() {
+        ComposedGrain composed = ComposedFactory.defaultValue();
 
-        String getLeft();
+        SquidGrain squid = composed;
+        squid = squid.withGiant(true);
 
-        List<T> getLeftIds();
+        CephalopodGrain cephalopod = squid;
+        cephalopod = cephalopod.withId("abc").withLegCount(5);
+
+        HydraGrain hydra = (HydraGrain)cephalopod;
+        hydra = hydra.withAge(200);
+
+        composed = (ComposedGrain)hydra;
+        composed = composed.withName("barney");
+
+        assertEquals("{id=abc, age=200, giant=true, legCount=5, name=barney}", composed.toString());
     }
-
-    interface Right<T> extends Top<T> {
-
-        String getRight();
-
-        List<T> getRightIds();
-    }
-
-    String getTop();
-
-    T getId();
 }

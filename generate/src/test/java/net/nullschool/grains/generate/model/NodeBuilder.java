@@ -9,7 +9,8 @@ import net.nullschool.grains.GrainFactoryRef;
  */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(NodeFactory.class)
-public interface NodeBuilder extends Complete.Node, GrainBuilder {
+public interface NodeBuilder
+    extends Complete.Node, GrainBuilder {
 
     //
     // Complete.Node Accessors

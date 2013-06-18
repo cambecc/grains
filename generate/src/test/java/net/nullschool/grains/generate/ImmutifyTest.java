@@ -81,7 +81,7 @@ public class ImmutifyTest {
 
     @Test
     public void test_immutify_enum() {
-        assertEquals(new TypeToken<Enum<? extends Enum>>(){}.asType(), immutify(Enum.class));  // kinda weird.
+        assertEquals(new TypeToken<Enum>(){}.asType(), immutify(Enum.class));
         assertSame(Color.class, immutify(Color.class));
     }
 
@@ -94,7 +94,7 @@ public class ImmutifyTest {
         assertSame(Grain.class, immutify(Grain.class));
         assertSame(PartGrain.class, immutify(Compound.Part.class));
         assertSame(PartGrain.class, immutify(PartGrain.class));
-        assertEquals("class net.nullschool.grains.generate.FooGrain", immutify(Foo.class).toString());
+        assertEquals("interface net.nullschool.grains.generate.FooGrain", immutify(Foo.class).toString());
     }
 
     @Test

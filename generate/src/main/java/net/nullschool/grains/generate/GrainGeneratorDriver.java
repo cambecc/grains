@@ -110,7 +110,7 @@ final class GrainGeneratorDriver {
             return new GenerationResult(importsBlock.getText() + body.getText(), body.getErrors());
         }
         catch (Exception | Error e) {
-            throw new RuntimeException("Unexpected while generating schema " + schema.getName(), e);
+            throw new RuntimeException(String.format("Unexpected while generating schema '%s'", schema.getName()), e);
         }
     }
 }

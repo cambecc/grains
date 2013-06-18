@@ -12,7 +12,8 @@ builder_interface(grain, type) ::= <<
  */
 @<type.generated>("<type.grainGenerator.fullName>")
 @<type.grainFactoryRef>(<type.targetFactory>.class)
-public interface <type.targetBuilder.simpleName> extends <type.targetSchema>, <type.grainBuilder> {
+public interface <type.targetBuilder.simpleName>
+    extends <type.targetSchema>, <type.grainBuilder><grain.superBuilders:{superType|, <superType>}> {
 
     //
     // <type.targetSchema> Accessors
