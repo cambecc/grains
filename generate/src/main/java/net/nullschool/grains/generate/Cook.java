@@ -55,6 +55,9 @@ class Cook extends AbstractTypeOperator<Type> {
                 return new LateGenericArrayType(componentType);
             }
         }
+        else if (clazz == Enum.class) {
+            return Enum.class;  // Special case: don't cook Enum class itself. Enum<Enum> is silly.
+        }
         else {
             // Cook generic classes (i.e., any class that has, or whose owner has, type parameters).
             Type ownerType = isInnerClass(clazz) ? apply(clazz.getEnclosingClass()) : clazz.getEnclosingClass();

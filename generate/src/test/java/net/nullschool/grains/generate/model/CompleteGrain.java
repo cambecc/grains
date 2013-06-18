@@ -21,7 +21,8 @@ import net.nullschool.grains.GrainFactoryRef;
  */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(CompleteFactory.class)
-public interface CompleteGrain extends Complete, Grain {
+public interface CompleteGrain
+    extends Complete, Grain {
 
     //
     // Complete Accessors

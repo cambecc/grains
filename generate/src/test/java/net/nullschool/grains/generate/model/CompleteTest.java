@@ -24,6 +24,7 @@ import java.net.URI;
 import java.util.UUID;
 
 import static net.nullschool.collect.basic.BasicCollections.*;
+import static org.junit.Assert.*;
 
 
 /**
@@ -74,6 +75,7 @@ public class CompleteTest {
     }
 
     @Test
-    public void test_foo() {
+    public void test_size() {
+        assertEquals(27, newCompleteBuilderWithSampleValues().size());
     }
 }

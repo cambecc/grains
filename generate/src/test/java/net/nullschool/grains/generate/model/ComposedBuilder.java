@@ -1,8 +1,6 @@
 package net.nullschool.grains.generate.model;
 
-import java.util.UUID;
 import javax.annotation.Generated;
-import net.nullschool.collect.ConstList;
 import net.nullschool.grains.GrainBuilder;
 import net.nullschool.grains.GrainFactoryRef;
 
@@ -11,39 +9,32 @@ import net.nullschool.grains.GrainFactoryRef;
  */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(ComposedFactory.class)
-public interface ComposedBuilder extends Composed, GrainBuilder {
+public interface ComposedBuilder
+    extends Composed, GrainBuilder, SquidBuilder, HydraBuilder {
 
     //
     // Composed Accessors
     //
 
-    UUID getId();
+    String getId();
 
-    ComposedBuilder setId(UUID id);
+    ComposedBuilder setId(String id);
 
-    String getLeft();
+    int getAge();
 
-    ComposedBuilder setLeft(String left);
+    ComposedBuilder setAge(int age);
 
-    ConstList<UUID> getLeftIds();
+    boolean isGiant();
 
-    ComposedBuilder setLeftIds(ConstList<UUID> leftIds);
+    ComposedBuilder setGiant(boolean giant);
+
+    int getLegCount();
+
+    ComposedBuilder setLegCount(int legCount);
 
     String getName();
 
     ComposedBuilder setName(String name);
-
-    String getRight();
-
-    ComposedBuilder setRight(String right);
-
-    ConstList<UUID> getRightIds();
-
-    ComposedBuilder setRightIds(ConstList<UUID> rightIds);
-
-    String getTop();
-
-    ComposedBuilder setTop(String top);
 
 
     //

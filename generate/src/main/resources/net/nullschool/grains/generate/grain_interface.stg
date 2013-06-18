@@ -12,7 +12,8 @@ grain_interface(grain, type) ::= <<
  */
 @<type.generated>("<type.grainGenerator.fullName>")
 @<type.grainFactoryRef>(<type.targetFactory>.class)
-public interface <type.targetGrain.simpleName> extends <type.targetSchema>, <type.grain> {
+public interface <type.targetGrain.simpleName>
+    extends <type.targetSchema>, <type.grain><grain.superGrains:{superType|, <superType>}> {
 
     //
     // <type.targetSchema> Accessors

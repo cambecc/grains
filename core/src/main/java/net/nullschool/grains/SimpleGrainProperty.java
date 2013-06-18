@@ -25,6 +25,8 @@ import static net.nullschool.collect.basic.BasicCollections.*;
 /**
  * 2013-04-10<p/>
  *
+ * A simple implementation of {@link GrainProperty}.
+ *
  * @author Cameron Beccario
  */
 public class SimpleGrainProperty implements GrainProperty {

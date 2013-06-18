@@ -16,7 +16,8 @@ import net.nullschool.grains.GrainFactoryRef;
  */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(IntrinsicsFactory.class)
-public interface IntrinsicsGrain extends Intrinsics, Grain {
+public interface IntrinsicsGrain
+    extends Intrinsics, Grain {
 
     //
     // Intrinsics Accessors

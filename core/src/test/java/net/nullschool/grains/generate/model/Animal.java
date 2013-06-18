@@ -14,17 +14,47 @@
  * limitations under the License.
  */
 
-package net.nullschool.grains.generate;
+package net.nullschool.grains.generate.model;
 
-import java.util.Map;
+
+import net.nullschool.grains.GrainSchema;
 
 
 /**
- * 2013-02-17<p/>
+ * 2013-03-05<p/>
+ *
+ *        Animal
+ *       /      \
+ *  Cephalopod   \
+ *     /          \
+ *  Squid        Hydra
+ *     \          /
+ *      \        /
+ *       Composed
  *
  * @author Cameron Beccario
  */
-interface Template {
+public interface Animal<T> {
 
-    GenerationResult invoke(Map<String, Object> arguments);
+    T getId();
+
+    @GrainSchema
+    interface Cephalopod extends Animal<String> {
+
+        int getLegCount();
+    }
+
+    @GrainSchema
+    interface Squid extends Cephalopod {
+
+        boolean isGiant();
+    }
+
+    @GrainSchema
+    interface Hydra extends Animal<String> {
+
+        int getAge();
+
+        int getLegCount();
+    }
 }

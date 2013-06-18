@@ -22,6 +22,9 @@ import java.util.*;
 /**
  * 2013-02-12<p/>
  *
+ * Converts fully qualified names to simple names, collecting a block of "import" statements in the process.
+ *
+ * @see ImportingPrinterFactory
  * @author Cameron Beccario
  */
 final class Importer {

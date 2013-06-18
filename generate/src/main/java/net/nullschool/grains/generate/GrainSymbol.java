@@ -26,19 +26,33 @@ import java.util.*;
  * @author Cameron Beccario
  */
 final class GrainSymbol implements Symbol {
-    
+
+    private final List<? extends TypeSymbol> superGrains;
+    private final List<? extends TypeSymbol> superBuilders;
     private final List<? extends PropertySymbol> properties;
     private final List<? extends TypeTokenSymbol> typeTokens;
     private final Symbol typePolicyLoadExpression;
 
     GrainSymbol(
+        List<? extends TypeSymbol> superGrains,
+        List<? extends TypeSymbol> superBuilders,
         List<? extends PropertySymbol> properties,
         Collection<? extends TypeTokenSymbol> typeTokens,
         Symbol typePolicyLoadExpression) {
 
+        this.superGrains = Collections.unmodifiableList(new ArrayList<>(superGrains));
+        this.superBuilders = Collections.unmodifiableList(new ArrayList<>(superBuilders));
         this.properties = Collections.unmodifiableList(new ArrayList<>(properties));
         this.typeTokens = Collections.unmodifiableList(new ArrayList<>(typeTokens));
         this.typePolicyLoadExpression = typePolicyLoadExpression;
+    }
+
+    public List<? extends TypeSymbol> getSuperGrains() {
+        return superGrains;
+    }
+
+    public List<? extends TypeSymbol> getSuperBuilders() {
+        return superBuilders;
     }
 
     public List<? extends PropertySymbol> getProperties() {

@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package net.nullschool.grains.generate.model;
+package net.nullschool.grains.generate;
 
-import net.nullschool.grains.GrainSchema;
+import java.util.Map;
 
 
 /**
- * 2013-03-05<p/>
+ * 2013-02-17<p/>
  *
- * A grain that is a composition of several interfaces.
+ * Represents a code generation template that can be invoked with a set of arguments.
  *
  * @author Cameron Beccario
  */
-@GrainSchema
-public interface Composed extends Animal.Squid, Animal.Hydra {
+interface TemplateHandle {
 
-    String getName();
+    GenerationResult invoke(Map<String, Object> arguments);
 }

@@ -97,14 +97,14 @@ public interface ConstMap<K, V> extends IterableMap<K, V> {
 
     /**
      * Returns a ConstMap containing the associations of this map minus all the mappings for the specified
-     * keys. No visible change in this map occurs. In this way, the {@code withoutAll} method may be considered a
+     * keys. No visible change to this map occurs. In this way, the {@code withoutAll} method may be considered a
      * factory method for creating new instances of ConstMap.<p/>
      *
      * The effect of this call is equivalent to invoking {@link #without} for each key in the specified
      * collection. If this map does not contain any of the keys, i.e., if the resulting map R would otherwise
      * equal this map, {@code R.equals(this)}, then the method may simply return this map, unchanged.
      *
-     * @param keys the keys to de-associate from this map
+     * @param keys the keys to de-associate from this map.
      * @return a ConstMap containing this map's associations disjoined from the keys in the provided collection.
      * @throws ClassCastException if a key in the specified collection is of a type not suitable for this or
      *                            the resulting map.

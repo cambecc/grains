@@ -92,7 +92,7 @@ public class CookTest {
             new TypeToken<Map<?, ?>>(){}.asType(),
             cook.apply(new TypeToken<Map>(){}.asType()));
         assertEquals(
-            new TypeToken<Enum<? extends Enum>>(){}.asType(),
+            new TypeToken<Enum>(){}.asType(),
             cook.apply(new TypeToken<Enum>(){}.asType()));
         assertEquals(
             new TypeToken<EnumSet<? extends Enum>>(){}.asType(),

@@ -25,7 +25,6 @@ import net.nullschool.collect.*;
 import net.nullschool.grains.*;
 import net.nullschool.grains.generate.NamingPolicy.Name;
 import net.nullschool.reflect.*;
-import net.nullschool.util.MemoizedHashCode;
 import net.nullschool.util.ObjectTools;
 
 import javax.annotation.Generated;
@@ -80,7 +79,7 @@ final class TypeTable {
         iteratorTools               (IteratorTools.class),
         linkedHashSet               (LinkedHashSet.class),
         mapTools                    (MapTools.class),
-        memoizedHashCode            (MemoizedHashCode.class),
+        // memoizedHashCode            (MemoizedHashCode.class),
         noSuchElementException      (NoSuchElementException.class),
         object                      (Object.class),
         objectInputStream           (ObjectInputStream.class),
@@ -147,16 +146,18 @@ final class TypeTable {
     /**
      * An object to hold both the Java Class object and its associated Javassist CtClass object together in one unit.
      */
-    private class ClassHandle {
+    class ClassHandle {
 
         private final String name;
-        private final CtClass ctClass;
         private Class<?> clazz;
+        private final CtClass ctClass;
+        private final boolean isCreated;
 
-        ClassHandle(String name, Class<?> clazz, CtClass ctClass) {
+        private ClassHandle(String name, Class<?> clazz, CtClass ctClass) {
             this.name = name;
             this.clazz = clazz;
             this.ctClass = ctClass;
+            this.isCreated = clazz == null && ctClass != null;
         }
 
         /**
@@ -167,7 +168,7 @@ final class TypeTable {
         /**
          * Returns true if the class was dynamically created using Javassist.
          */
-        boolean isDynamicallyCreated() { return clazz == null && ctClass != null; }
+        boolean isDynamicallyCreated() { return isCreated; }
 
         /**
          * Returns the Class object associated with this handle. If this handle refers to a dynamically created class,
@@ -216,11 +217,19 @@ final class TypeTable {
             TypeParameter tp = params[i];
             args[i] = new TypeArgument(new TypeVariable(tp.getName()));
         }
-        ClassSignature cs =
-            new ClassSignature(
+        ClassSignature cs;
+        if (baseClass.isInterface()) {
+            cs = new ClassSignature(
+                baseSignature.getParameters(),
+                null,
+                new ClassType[] {new ClassType(baseClass.getName(), args)});
+        }
+        else {
+            cs = new ClassSignature(
                 baseSignature.getParameters(),
                 new ClassType(baseClass.getName(), args),
                 null);
+        }
         newClass.setGenericSignature(cs.encode());
     }
 
@@ -232,19 +241,31 @@ final class TypeTable {
      * @param inherits the base class.
      * @return the class handle.
      */
-    private ClassHandle createClass(String name, Class<?> inherits) {
+    ClassHandle createClass(String name, Class<?> inherits) {
         try {
-            CtClass newClass = classPool.makeClass(name);
-            CtClass baseClass = classPool.get(inherits.getName());
-            ClassSignature baseSignature =
-                baseClass.getGenericSignature() != null ? toClassSignature(baseClass.getGenericSignature()) : null;
-            TypeParameter[] params = baseSignature != null ? baseSignature.getParameters() : new TypeParameter[0];
-            if (params.length > 0) {
-                // The base class is generic. Create equivalent type parameters on the new class.
-                assignGenericSignature(newClass, baseClass, baseSignature);
-            }
-            else {
-                newClass.setSuperclass(baseClass);
+            CtClass newClass = inherits == null || inherits.isInterface() ?
+                classPool.makeInterface(name) :
+                classPool.makeClass(name);
+            newClass.setModifiers(Modifier.setPublic(newClass.getModifiers()));
+
+            if (inherits != null) {
+                CtClass baseClass = classPool.get(inherits.getName());
+                ClassSignature baseSignature =
+                    baseClass.getGenericSignature() != null ? toClassSignature(baseClass.getGenericSignature()) : null;
+                TypeParameter[] params = baseSignature != null ? baseSignature.getParameters() : new TypeParameter[0];
+                if (params.length > 0) {
+                    // The base class is generic. Create equivalent type parameters on the new class.
+                    assignGenericSignature(newClass, baseClass, baseSignature);
+                }
+                if (inherits.isInterface()) {
+                    newClass.setInterfaces(new CtClass[] {baseClass});
+                }
+                else {
+                    newClass.setSuperclass(baseClass);
+                    if (inherits == Enum.class) {
+                        newClass.setModifiers(newClass.getModifiers() | Modifier.ENUM);
+                    }
+                }
             }
             return new ClassHandle(name, null, newClass);
         }
@@ -313,6 +334,14 @@ final class TypeTable {
         return new ClassHandle(name, null, enclosing.ctClass.makeNestedClass(simpleName, true));
     }
 
+    synchronized Class<?> getGrainClass(Class<?> schema) {
+        return loadOrCreateClass(namingPolicy.getName(schema, Name.grain), Grain.class).toClass();
+    }
+
+    synchronized Class<?> getGrainBuilderClass(Class<?> schema) {
+        return loadOrCreateClass(namingPolicy.getName(schema, Name.builder), GrainBuilder.class).toClass();
+    }
+
     /**
      * Returns a map containing all of the types that the specified schema produces during code generation. The map
      * keys are identifiers to be used in the string templates. If any of the types do not currently exist, stub
@@ -323,8 +352,13 @@ final class TypeTable {
         Map<Name, String> names = namingPolicy.getNames(schema);
         Map<Name, String> simpleNames = namingPolicy.getSimpleNames(schema);
 
-        ClassHandle targetGrain = loadOrCreateClass(names.get(Name.grain), AbstractGrain.class);
-        ClassHandle targetBuilder = loadOrCreateClass(names.get(Name.builder), AbstractGrainBuilder.class);
+        Class<?> targetGrain = getGrainClass(schema); // loadOrCreateClass(names.get(Name.grain), AbstractGrain.class);
+        Class<?> targetBuilder = getGrainBuilderClass(schema);  // loadOrCreateClass(names.get(Name.builder), AbstractGrainBuilder.class);
+
+        map.put("targetSchema", schema);
+        map.put("targetGrain", targetGrain);
+        map.put("targetBuilder", targetBuilder);
+
         ClassHandle targetFactory = loadOrCreateClass(names.get(Name.factory), Enum.class);
         ClassHandle targetGrainImpl =
             loadOrCreateNested(names.get(Name.grainImpl), simpleNames.get(Name.grainImpl), targetFactory);
@@ -334,9 +368,6 @@ final class TypeTable {
             loadOrCreateNested(names.get(Name.builderImpl), simpleNames.get(Name.builderImpl), targetFactory);
 
         // All types are loaded/created, so we can now "freeze" them into proper Java Class objects.
-        map.put("targetSchema", schema);
-        map.put("targetGrain", targetGrain.toClass());
-        map.put("targetBuilder", targetBuilder.toClass());
         map.put("targetFactory", targetFactory.toClass());
         map.put("targetGrainImpl", targetGrainImpl.toClass());
         map.put("targetGrainProxy", targetGrainProxy.toClass());
@@ -357,8 +388,8 @@ final class TypeTable {
 
         // Next, map a GrainSchema to its associated Grain implementation. This may require dynamic class construction
         // if the Grain implementation does not yet exist (because we haven't generated it yet).
-        if (result.getAnnotation(GrainSchema.class) != null) {
-            result = loadOrCreateClass(namingPolicy.getName(result, Name.grain), AbstractGrain.class).toClass();
+        if (result.isAnnotationPresent(GrainSchema.class)) {
+            result = getGrainClass(result); // loadOrCreateClass(namingPolicy.getName(result, Name.grain), AbstractGrain.class).toClass();
         }
 
         // Finally, the TypePolicy must agree that the resulting type is immutable.

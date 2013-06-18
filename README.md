@@ -32,11 +32,11 @@
     System.out.println(changed);                 // prints: {product=apples, quantity=9}
     System.out.println(order);                   // prints: {product=apples, quantity=13}
     
-    changed = changed.with("notes", "shipped");  // extensible :)
-    System.out.println(changed);                 // prints: {product=apples, quantity=9, notes=shipped}
+    changed = changed.with("RMA", "9928");       // extensible :)
+    System.out.println(changed);                 // prints: {product=apples, quantity=9, RMA=9928}
 ```
 
--------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 
 #### Serialization
 
@@ -90,7 +90,7 @@ Native support for Java serialization:
     System.out.println(read.equals(order));  // prints: true
 ```
 
--------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 
 #### Setup
 

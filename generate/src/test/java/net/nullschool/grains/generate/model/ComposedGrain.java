@@ -2,9 +2,7 @@ package net.nullschool.grains.generate.model;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.UUID;
 import javax.annotation.Generated;
-import net.nullschool.collect.ConstList;
 import net.nullschool.collect.ConstMap;
 import net.nullschool.grains.Grain;
 import net.nullschool.grains.GrainFactoryRef;
@@ -14,39 +12,32 @@ import net.nullschool.grains.GrainFactoryRef;
  */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
 @GrainFactoryRef(ComposedFactory.class)
-public interface ComposedGrain extends Composed, Grain {
+public interface ComposedGrain
+    extends Composed, Grain, SquidGrain, HydraGrain {
 
     //
     // Composed Accessors
     //
 
-    UUID getId();
+    String getId();
 
-    ComposedGrain withId(UUID id);
+    ComposedGrain withId(String id);
 
-    String getLeft();
+    int getAge();
 
-    ComposedGrain withLeft(String left);
+    ComposedGrain withAge(int age);
 
-    ConstList<UUID> getLeftIds();
+    boolean isGiant();
 
-    ComposedGrain withLeftIds(ConstList<UUID> leftIds);
+    ComposedGrain withGiant(boolean giant);
+
+    int getLegCount();
+
+    ComposedGrain withLegCount(int legCount);
 
     String getName();
 
     ComposedGrain withName(String name);
-
-    String getRight();
-
-    ComposedGrain withRight(String right);
-
-    ConstList<UUID> getRightIds();
-
-    ComposedGrain withRightIds(ConstList<UUID> rightIds);
-
-    String getTop();
-
-    ComposedGrain withTop(String top);
 
 
     //

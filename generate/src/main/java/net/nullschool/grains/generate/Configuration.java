@@ -26,6 +26,8 @@ import static net.nullschool.collect.basic.BasicCollections.*;
 /**
  * 2013-02-16<p/>
  *
+ * An object that holds options to control generator behavior.
+ *
  * @author Cameron Beccario
  */
 public final class Configuration {

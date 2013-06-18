@@ -24,96 +24,76 @@ import net.nullschool.grains.SimpleGrainProperty;
 import net.nullschool.reflect.PublicInterfaceRef;
 
 /**
- * Factory for constructing Grain instances of Composed.
+ * Factory for constructing Grain instances of Animal.Hydra.
  */
 @Generated("net.nullschool.grains.generate.GrainGenerator")
-public enum ComposedFactory implements GrainFactory {
+public enum HydraFactory implements GrainFactory {
     INSTANCE;
 
     private static final ConstMap<String, GrainProperty> $PROPERTIES = GrainTools.asPropertyMap(
         new SimpleGrainProperty("id", String.class),
         new SimpleGrainProperty("age", int.class),
-        new SimpleGrainProperty("giant", boolean.class, GrainProperty.Flag.IS_PROPERTY),
-        new SimpleGrainProperty("legCount", int.class),
-        new SimpleGrainProperty("name", String.class));
+        new SimpleGrainProperty("legCount", int.class));
 
-    private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[5]);
-    private static final ComposedGrain $DEFAULT = newBuilder().build();
-    public static ComposedGrain defaultValue() { return $DEFAULT; }
-    public static ComposedBuilder newBuilder() { return new ComposedBuilderImpl(); }
+    private static final String[] $KEYS = $PROPERTIES.keySet().toArray(new String[3]);
+    private static final HydraGrain $DEFAULT = newBuilder().build();
+    public static HydraGrain defaultValue() { return $DEFAULT; }
+    public static HydraBuilder newBuilder() { return new HydraBuilderImpl(); }
 
     public ConstMap<String, GrainProperty> getBasisProperties() { return $PROPERTIES; }
-    public ComposedGrain getDefaultValue() { return defaultValue(); }
-    public ComposedBuilder getNewBuilder() { return newBuilder(); }
+    public HydraGrain getDefaultValue() { return defaultValue(); }
+    public HydraBuilder getNewBuilder() { return newBuilder(); }
     public String toString() { return getClass().getName(); }
 
     /**
-     * Code generated implementation of ComposedGrain.
+     * Code generated implementation of HydraGrain.
      */
-    @PublicInterfaceRef(ComposedGrain.class)
-    @GrainFactoryRef(ComposedFactory.class)
-    private static final class ComposedGrainImpl
+    @PublicInterfaceRef(HydraGrain.class)
+    @GrainFactoryRef(HydraFactory.class)
+    private static final class HydraGrainImpl
         extends AbstractGrain
-        implements ComposedGrain, Serializable {
+        implements HydraGrain, Serializable {
 
         private final String id;
         private final int age;
-        private final boolean giant;
         private final int legCount;
-        private final String name;
 
         private final ConstSortedMap<String, Object> $extensions;
 
-        private ComposedGrainImpl(
-            String id, int age, boolean giant, int legCount, String name, 
+        private HydraGrainImpl(
+            String id, int age, int legCount, 
             ConstSortedMap<String, Object> $extensions) {
 
             this.id = id;
             this.age = age;
-            this.giant = giant;
             this.legCount = legCount;
-            this.name = name;
             this.$extensions = $extensions;
         }
 
-        public int size() { return 5 + $extensions.size(); }
+        public int size() { return 3 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
             return IteratorTools.chainMapIterators(new BasisIter($KEYS), $extensions.iterator());
         }
 
         public String getId() { return id; }
-        public ComposedGrain withId(String id) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+        public HydraGrain withId(String id) {
+            return new HydraGrainImpl(
+                id, age, legCount, 
                 $extensions);
         }
 
         public int getAge() { return age; }
-        public ComposedGrain withAge(int age) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
-                $extensions);
-        }
-
-        public boolean isGiant() { return giant; }
-        public ComposedGrain withGiant(boolean giant) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+        public HydraGrain withAge(int age) {
+            return new HydraGrainImpl(
+                id, age, legCount, 
                 $extensions);
         }
 
         public int getLegCount() { return legCount; }
-        public ComposedGrain withLegCount(int legCount) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
-                $extensions);
-        }
-
-        public String getName() { return name; }
-        public ComposedGrain withName(String name) {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+        public HydraGrain withLegCount(int legCount) {
+            return new HydraGrainImpl(
+                id, age, legCount, 
                 $extensions);
         }
 
@@ -121,54 +101,48 @@ public enum ComposedFactory implements GrainFactory {
             switch ((String)$key) {
                 case "id": return getId();
                 case "age": return getAge();
-                case "giant": return isGiant();
                 case "legCount": return getLegCount();
-                case "name": return getName();
                 default: return $extensions.get($key);
             }
         }
 
-        private ComposedGrain with(String $key, Object $value, boolean $dissoc) {
+        private HydraGrain with(String $key, Object $value, boolean $dissoc) {
             switch ($key) {
                 case "id": return withId((String)$value);
                 case "age": return withAge($value == null ? 0 : (int)$value);
-                case "giant": return withGiant($value == null ? false : (boolean)$value);
                 case "legCount": return withLegCount($value == null ? 0 : (int)$value);
-                case "name": return withName((String)$value);
             }
             ConstSortedMap<String, Object> $newExtensions =
                 $dissoc ? $extensions.without($key) : $extensions.with($key, $value);
             if ($newExtensions == $extensions) {
                 return this;
             }
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+            return new HydraGrainImpl(
+                id, age, legCount, 
                 $newExtensions);
         }
 
-        public ComposedGrain with(String $key, Object $value) {
+        public HydraGrain with(String $key, Object $value) {
             return with($key, $value, false);
         }
 
-        public ComposedGrain withAll(Map<? extends String, ?> $map) {
+        public HydraGrain withAll(Map<? extends String, ?> $map) {
             return $map.isEmpty() ? this : MapTools.putAll(newBuilder(), $map).build();
         }
 
-        public ComposedGrain without(Object $key) {
+        public HydraGrain without(Object $key) {
             return with((String)$key, null, true);
         }
 
-        public ComposedGrain withoutAll(Collection<?> $keys) {
+        public HydraGrain withoutAll(Collection<?> $keys) {
             return $keys.isEmpty() ? this : MapTools.removeAll(newBuilder(), $keys).build();
         }
 
-        public ComposedBuilder newBuilder() {
-            ComposedBuilderImpl $builder = new ComposedBuilderImpl();
+        public HydraBuilder newBuilder() {
+            HydraBuilderImpl $builder = new HydraBuilderImpl();
             $builder.id = this.id;
             $builder.age = this.age;
-            $builder.giant = this.giant;
             $builder.legCount = this.legCount;
-            $builder.name = this.name;
             $builder.$extensions.putAll(this.$extensions);
             return $builder;
         }
@@ -177,70 +151,56 @@ public enum ComposedFactory implements GrainFactory {
             return $extensions;
         }
 
-        private Object writeReplace() { return new ComposedGrainProxy().setPayload(this); }
+        private Object writeReplace() { return new HydraGrainProxy().setPayload(this); }
         private void readObject(ObjectInputStream in) throws InvalidObjectException {
             throw new InvalidObjectException("proxy expected");
         }
     }
 
     /**
-     * Code generated serialization proxy for serializing instances of ComposedGrainImpl.
+     * Code generated serialization proxy for serializing instances of HydraGrainImpl.
      */
-    private static final class ComposedGrainProxy extends AbstractGrainProxy {
+    private static final class HydraGrainProxy extends AbstractGrainProxy {
         private static final long serialVersionUID = 1;
-        protected ComposedBuilder newBuilder() { return ComposedFactory.newBuilder(); }
+        protected HydraBuilder newBuilder() { return HydraFactory.newBuilder(); }
     }
 
     /**
-     * Code generated implementation of ComposedBuilder.
+     * Code generated implementation of HydraBuilder.
      */
-    @PublicInterfaceRef(ComposedBuilder.class)
-    @GrainFactoryRef(ComposedFactory.class)
-    private static final class ComposedBuilderImpl
+    @PublicInterfaceRef(HydraBuilder.class)
+    @GrainFactoryRef(HydraFactory.class)
+    private static final class HydraBuilderImpl
         extends AbstractGrainBuilder
-        implements ComposedBuilder {
+        implements HydraBuilder {
 
         private String id;
         private int age;
-        private boolean giant;
         private int legCount;
-        private String name;
 
         private final TreeMap<String, Object> $extensions = new TreeMap<>();
 
-        public int size() { return 5 + $extensions.size(); }
+        public int size() { return 3 + $extensions.size(); }
 
         public MapIterator<String, Object> iterator() {
             return IteratorTools.chainMapIterators(new BasisIter($KEYS), IteratorTools.newMapIterator($extensions));
         }
 
         public String getId() { return id; }
-        public ComposedBuilder setId(String id) {
+        public HydraBuilder setId(String id) {
             this.id = id;
             return this;
         }
 
         public int getAge() { return age; }
-        public ComposedBuilder setAge(int age) {
+        public HydraBuilder setAge(int age) {
             this.age = age;
             return this;
         }
 
-        public boolean isGiant() { return giant; }
-        public ComposedBuilder setGiant(boolean giant) {
-            this.giant = giant;
-            return this;
-        }
-
         public int getLegCount() { return legCount; }
-        public ComposedBuilder setLegCount(int legCount) {
+        public HydraBuilder setLegCount(int legCount) {
             this.legCount = legCount;
-            return this;
-        }
-
-        public String getName() { return name; }
-        public ComposedBuilder setName(String name) {
-            this.name = name;
             return this;
         }
 
@@ -248,9 +208,7 @@ public enum ComposedFactory implements GrainFactory {
             switch ((String)$key) {
                 case "id": return getId();
                 case "age": return getAge();
-                case "giant": return isGiant();
                 case "legCount": return getLegCount();
-                case "name": return getName();
                 default: return $extensions.get($key);
             }
         }
@@ -266,17 +224,9 @@ public enum ComposedFactory implements GrainFactory {
                     $original = getAge();
                     setAge($value == null ? 0 : (int)$value);
                     return $original;
-                case "giant":
-                    $original = isGiant();
-                    setGiant($value == null ? false : (boolean)$value);
-                    return $original;
                 case "legCount":
                     $original = getLegCount();
                     setLegCount($value == null ? 0 : (int)$value);
-                    return $original;
-                case "name":
-                    $original = getName();
-                    setName((String)$value);
                     return $original;
                 default:
                     return $dissoc ? $extensions.remove($key) : $extensions.put($key, $value);
@@ -291,9 +241,9 @@ public enum ComposedFactory implements GrainFactory {
             return put((String)$key, null, true);
         }
 
-        public ComposedGrain build() {
-            return new ComposedGrainImpl(
-                id, age, giant, legCount, name, 
+        public HydraGrain build() {
+            return new HydraGrainImpl(
+                id, age, legCount, 
                 BasicCollections.asSortedMap($extensions));
         }
     }

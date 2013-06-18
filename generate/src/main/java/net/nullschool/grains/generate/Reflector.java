@@ -38,6 +38,7 @@ final class Reflector {
 
     private static final Logger log = LoggerFactory.getLogger(Reflector.class);
 
+
     private final String packageName;
 
     /**
@@ -205,7 +206,7 @@ final class Reflector {
             log.debug("Inspecting: {}", name);
             try {
                 Class<?> clazz = inspectLoader.loadClass(name);
-                if (clazz.getAnnotation(annotation) != null) {
+                if (clazz.isAnnotationPresent(annotation)) {
                     log.debug("Found: " + clazz);
                     results.add(clazz);
                 }
