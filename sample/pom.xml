@@ -9,7 +9,7 @@
 
     <groupId>com.acme</groupId>
     <artifactId>grains-sample</artifactId>
-    <version>0.8.0</version>
+    <version>0.8.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>sample</name>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-core</artifactId>
-            <version>0.8.0</version>
+            <version>0.8.1-SNAPSHOT</version>
         </dependency>
 
         <!-- Add dependencies that contain the additional immutable types we want to use. -->
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>net.nullschool</groupId>
             <artifactId>grains-jackson</artifactId>
-            <version>0.8.0</version>
+            <version>0.8.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -101,7 +101,7 @@
             <plugin>
                 <groupId>net.nullschool</groupId>
                 <artifactId>grains-plugin</artifactId>
-                <version>0.8.0</version>
+                <version>0.8.1-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
