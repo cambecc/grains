@@ -68,6 +68,8 @@ public interface Complete {
 
     URI getM();
 
+    Void getN();
+
     Color getO();
 
     Node getP();

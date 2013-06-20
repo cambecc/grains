@@ -41,7 +41,7 @@ public class KryoTest {
     @Test
     public void test_intrinsic_serialization() {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(27, expected.size());
+        assertEquals(28, expected.size());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Object actual = roundTrip(expected, baos);

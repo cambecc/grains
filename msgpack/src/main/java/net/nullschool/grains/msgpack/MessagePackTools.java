@@ -59,6 +59,7 @@ public final class MessagePackTools {
         registry.register(Object.class, new LateTemplate());
         registry.register(URI.class, new URITemplate());
         registry.register(UUID.class, new UUIDTemplate());
+        registry.register(Void.class, new VoidTemplate());
         return registry;
     }
 

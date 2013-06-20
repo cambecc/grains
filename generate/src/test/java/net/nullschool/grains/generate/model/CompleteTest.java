@@ -56,6 +56,7 @@ public class CompleteTest {
         builder.setK("hello");
         builder.setL(UUID.fromString("1bd31d66-eda2-4395-a2a7-510bd581e3ab"));
         builder.setM(URI.create("http://nullschool.net"));
+        builder.setN(null);
         builder.setO(Complete.Color.green);
         builder.setP(newNode(1));
         builder.setQ(listOf(1, 2));
@@ -76,6 +77,6 @@ public class CompleteTest {
 
     @Test
     public void test_size() {
-        assertEquals(27, newCompleteBuilderWithSampleValues().size());
+        assertEquals(28, newCompleteBuilderWithSampleValues().size());
     }
 }

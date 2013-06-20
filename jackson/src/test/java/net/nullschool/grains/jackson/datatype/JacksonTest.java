@@ -28,7 +28,7 @@ public class JacksonTest {
     @Test
     public void test_complete_serialization_json() throws IOException {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(27, expected.size());
+        assertEquals(28, expected.size());
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
         String data = mapper.writeValueAsString(expected);
@@ -52,7 +52,7 @@ public class JacksonTest {
     @Test
     public void test_complete_serialization_smile() throws IOException {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(27, expected.size());
+        assertEquals(28, expected.size());
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper(new SmileFactory());
         byte[] data = mapper.writeValueAsBytes(expected);
@@ -77,7 +77,7 @@ public class JacksonTest {
     public void test_complete_serialization_xml() throws IOException {
         // UNDONE: xml support
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(27, expected.size());
+        assertEquals(28, expected.size());
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper(new XmlFactory());
         String data = mapper.writeValueAsString(expected);
@@ -97,7 +97,7 @@ public class JacksonTest {
     @Test
     public void test_complete_serialization_yaml() throws IOException {
         CompleteGrain expected = newCompleteBuilderWithSampleValues().build();
-        assertEquals(27, expected.size());
+        assertEquals(28, expected.size());
 
         ObjectMapper mapper = JacksonTools.newGrainsObjectMapper(new YAMLFactory());
         String data = mapper.writeValueAsString(expected);

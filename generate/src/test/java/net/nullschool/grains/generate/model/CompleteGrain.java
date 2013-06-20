@@ -80,6 +80,10 @@ public interface CompleteGrain
 
     CompleteGrain withM(URI m);
 
+    Void getN();
+
+    CompleteGrain withN(Void n);
+
     Complete.Color getO();
 
     CompleteGrain withO(Complete.Color o);

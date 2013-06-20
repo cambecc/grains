@@ -78,6 +78,10 @@ public interface CompleteBuilder
 
     CompleteBuilder setM(URI m);
 
+    Void getN();
+
+    CompleteBuilder setN(Void n);
+
     Complete.Color getO();
 
     CompleteBuilder setO(Complete.Color o);
