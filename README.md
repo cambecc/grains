@@ -1,5 +1,7 @@
 ### _Grains_
-... is a small Java framework for generating immutable, extensible objects.
+
+... is a small Java framework that helps you make immutable, thread-safe, versionable objects. Spend less time on
+boring boilerplate code and more time solving problems.
 
 1. Create an interface with getters:
 ```java
@@ -32,7 +34,7 @@
     System.out.println(changed);                 // prints: {product=apples, quantity=9}
     System.out.println(order);                   // prints: {product=apples, quantity=13}
     
-    changed = changed.with("RMA", "9928");       // extensible :)
+    changed = changed.with("RMA", "9928");       // extensible and versionable :)
     System.out.println(changed);                 // prints: {product=apples, quantity=9, RMA=9928}
 ```
 
