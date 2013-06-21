@@ -168,4 +168,8 @@ _target/generated-sources/grains/com/acme/model_ directory.
 
 [See the wiki for more details](https://github.com/cambecc/grains/wiki).
 
+#### Acknowledgements
+
+[Clojure's defrecord macro](http://clojure.org/datatypes) provided the main inspiration for grains.
+
 _Grains uses [Semantic Versioning](http://semver.org/)_

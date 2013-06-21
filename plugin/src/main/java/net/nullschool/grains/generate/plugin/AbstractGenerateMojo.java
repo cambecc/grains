@@ -78,7 +78,7 @@ abstract class AbstractGenerateMojo extends AbstractMojo {
 
     /**
      * Set to "true" if project dependencies are to be searched for annotated grains. Otherwise, only classes defined
-     * by the project are searched.
+     * by the module are searched.
      */
     @Parameter(property = "searchProjectDependencies", defaultValue = "false")
     private boolean searchProjectDependencies;
