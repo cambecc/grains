@@ -42,7 +42,8 @@ boring boilerplate code and more time solving problems.
 
 #### Serialization
 
-[Jackson](http://wiki.fasterxml.com/JacksonHome) serialization to JSON, Smile, YAML, etc. (with
+[Jackson](http://wiki.fasterxml.com/JacksonHome) support provides serialization to a large number
+of formats: JSON, Smile, YAML, etc. (with
 the _grains-jackson_ library):
 ```java
     ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
@@ -52,33 +53,6 @@ the _grains-jackson_ library):
 
     System.out.println(json);                    // prints: {"product":"apples","quantity":13}
     System.out.println(restored.equals(order));  // prints: true
-```
-
-[MessagePack](http://msgpack.org) serialization (with the _grains-msgpack_ library):
-```java
-    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
-
-    byte[] data = msgpack.write(order);
-    OrderGrain unpacked = msgpack.read(data, OrderGrain.class);
-
-    System.out.println(unpacked.equals(order));  // prints: true
-```
-
-[Kryo](http://code.google.com/p/kryo/) serialization (with the _grains-kryo_ library):
-```java
-    Kryo kryo = KryoTools.newGrainsKryo();
-
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    Output output = new Output(baos);
-    kryo.writeClassAndObject(output, order);
-    output.close();
-
-    byte[] bytes = baos.toByteArray();
-    Input input = new Input(new ByteArrayInputStream(bytes));
-    Object thawed = kryo.readClassAndObject(input);
-    input.close();
-
-    System.out.println(thawed.equals(order));  // prints: true
 ```
 
 Native support for Java serialization:
