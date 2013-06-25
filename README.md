@@ -1,7 +1,7 @@
 ### _Grains_
 
-... is a small Java framework that helps you make immutable, thread-safe, versionable objects. Spend less time on
-boring boilerplate code and more time solving problems.
+... is a small Java framework that helps you make immutable, thread-safe, versionable objects.
+Spend less time on boring boilerplate code and more time solving problems.
 
 1. Create an interface with getters:
 ```java
@@ -133,9 +133,9 @@ requires Java 7 or greater, and Maven 2.2.1 or greater._
     </dependency>
     ```
 
-Done! Any interface in _com.acme.model_ annotated with _@GrainSchema_ will have a grain implementation
-generated when _mvn compile_ is invoked. By default, all generated sources appear in the
-_target/generated-sources/grains/com/acme/model_ directory.
+Done! Any interface in _com.acme.model_ annotated with _@GrainSchema_ will have a grain
+implementation generated when _mvn compile_ is invoked. By default, all generated sources appear in
+the _target/generated-sources/grains/com/acme/model_ directory.
 
 [See the wiki for more details](https://github.com/cambecc/grains/wiki).
 
