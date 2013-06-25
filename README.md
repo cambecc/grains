@@ -42,17 +42,14 @@ boring boilerplate code and more time solving problems.
 
 #### Serialization
 
-[Jackson](http://wiki.fasterxml.com/JacksonHome) support provides serialization to a large number
-of formats: JSON, Smile, YAML, etc. (with
-the _grains-jackson_ library):
+[MessagePack](http://msgpack.org) serialization (with the _grains-msgpack_ library):
 ```java
-    ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
+    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
 
-    String json = mapper.writeValueAsString(order);
-    OrderGrain restored = mapper.readValue(json, OrderGrain.class);
+    byte[] data = msgpack.write(order);
+    OrderGrain unpacked = msgpack.read(data, OrderGrain.class);
 
-    System.out.println(json);                    // prints: {"product":"apples","quantity":13}
-    System.out.println(restored.equals(order));  // prints: true
+    System.out.println(unpacked.equals(order));  // prints: true
 ```
 
 Native support for Java serialization:
@@ -131,7 +128,7 @@ requires Java 7 or greater, and Maven 2.2.1 or greater._
     ```xml
     <dependency>
         <groupId>net.nullschool</groupId>
-        <artifactId>grains-jackson</artifactId>
+        <artifactId>grains-msgpack</artifactId>
         <version>0.8.0</version>
     </dependency>
     ```
