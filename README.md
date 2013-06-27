@@ -77,7 +77,7 @@ Native support for Java serialization:
 _The Grains framework ([published on Maven Central](http://search.maven.org/#search|ga|1|g%3A%22net.nullschool%22%20grains))
 requires Java 7 or greater, and Maven 2.2.1 or greater._
 
-1. Create a new package that will contain your object model, for example: _com.acme.model_
+1. Create a new package to contain your object model, for example: _com.acme.model_
 
 2. Configure your POM to pre-compile this package during the _generate-sources_ phase:
 
