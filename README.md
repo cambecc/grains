@@ -42,14 +42,21 @@ Spend less time on boring boilerplate code and more time solving problems.
 
 #### Serialization
 
-[MessagePack](http://msgpack.org) serialization (with the _grains-msgpack_ library):
+[Kryo](http://code.google.com/p/kryo/) serialization (with the _grains-kryo_ library):
 ```java
-    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
+    Kryo kryo = KryoTools.newGrainsKryo();
 
-    byte[] data = msgpack.write(order);
-    OrderGrain unpacked = msgpack.read(data, OrderGrain.class);
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    Output output = new Output(baos);
+    kryo.writeClassAndObject(output, order);
+    output.close();
 
-    System.out.println(unpacked.equals(order));  // prints: true
+    byte[] bytes = baos.toByteArray();
+    Input input = new Input(new ByteArrayInputStream(bytes));
+    Object thawed = kryo.readClassAndObject(input);
+    input.close();
+
+    System.out.println(thawed.equals(order));  // prints: true
 ```
 
 Native support for Java serialization:
@@ -128,7 +135,7 @@ requires Java 7 or greater, and Maven 2.2.1 or greater._
     ```xml
     <dependency>
         <groupId>net.nullschool</groupId>
-        <artifactId>grains-msgpack</artifactId>
+        <artifactId>grains-kryo</artifactId>
         <version>0.8.0</version>
     </dependency>
     ```
