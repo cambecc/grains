@@ -46,15 +46,12 @@ Spend less time on boring boilerplate code and more time solving problems.
 ```java
     Kryo kryo = KryoTools.newGrainsKryo();
 
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    Output output = new Output(baos);
+    Output output = new Output(1024);
     kryo.writeClassAndObject(output, order);
     output.close();
 
-    byte[] bytes = baos.toByteArray();
-    Input input = new Input(new ByteArrayInputStream(bytes));
+    Input input = new Input(output.getBuffer(), 0, output.total());
     Object thawed = kryo.readClassAndObject(input);
-    input.close();
 
     System.out.println(thawed.equals(order));  // prints: true
 ```
