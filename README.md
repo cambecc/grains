@@ -42,6 +42,18 @@ Spend less time on boring boilerplate code and more time solving problems.
 
 #### Serialization
 
+[Jackson](http://wiki.fasterxml.com/JacksonHome) serialization to JSON, Smile, YAML, etc. (with
+the _grains-jackson_ library):
+```java
+    ObjectMapper mapper = JacksonTools.newGrainsObjectMapper();
+
+    String json = mapper.writeValueAsString(order);
+    OrderGrain restored = mapper.readValue(json, OrderGrain.class);
+
+    System.out.println(json);                    // prints: {"product":"apples","quantity":13}
+    System.out.println(restored.equals(order));  // prints: true
+```
+
 [Kryo](http://code.google.com/p/kryo/) serialization (with the _grains-kryo_ library):
 ```java
     Kryo kryo = KryoTools.newGrainsKryo();
@@ -54,6 +66,16 @@ Spend less time on boring boilerplate code and more time solving problems.
     Object thawed = kryo.readClassAndObject(input);
 
     System.out.println(thawed.equals(order));  // prints: true
+```
+
+[MessagePack](http://msgpack.org) serialization (with the _grains-msgpack_ library):
+```java
+    MessagePack msgpack = MessagePackTools.newGrainsMessagePack();
+
+    byte[] data = msgpack.write(order);
+    OrderGrain unpacked = msgpack.read(data, OrderGrain.class);
+
+    System.out.println(unpacked.equals(order));  // prints: true
 ```
 
 Native support for Java serialization:
@@ -132,7 +154,7 @@ requires Java 7 or greater, and Maven 2.2.1 or greater._
     ```xml
     <dependency>
         <groupId>net.nullschool</groupId>
-        <artifactId>grains-kryo</artifactId>
+        <artifactId>grains-jackson</artifactId>
         <version>0.8.0</version>
     </dependency>
     ```
