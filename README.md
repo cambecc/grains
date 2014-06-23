@@ -4,39 +4,39 @@
 Spend less time on boring boilerplate code and more time solving problems.
 
 1. Create an interface with getters:
-```java
+    ```java
     @GrainSchema
     public interface Order {
-
+    
         String getProduct();
-
+    
         int getQuantity();
     }
-```
+    ```
 
 2. Run the Grains Maven plugin.
 
 3. Use the generated _Factory_, _Builder_, and _Grain_ classes:
-```java
+    ```java
     OrderBuilder builder = OrderFactory.newBuilder();
     builder.setProduct("apples");
     builder.setQuantity(13);
     OrderGrain order = builder.build();
-    
+        
     System.out.println(order instanceof Order);  // prints: true
     System.out.println(order.getProduct());      // prints: apples
-    
+        
     System.out.println(order instanceof Map);    // prints: true
     System.out.println(order.get("quantity"));   // prints: 13
     System.out.println(order.entrySet());        // prints: [product=apples, quantity=13]
-    
+        
     OrderGrain changed = order.withQuantity(9);  // immutable :)
     System.out.println(changed);                 // prints: {product=apples, quantity=9}
     System.out.println(order);                   // prints: {product=apples, quantity=13}
-    
+        
     changed = changed.with("RMA", "9928");       // extensible and versionable :)
     System.out.println(changed);                 // prints: {product=apples, quantity=9, RMA=9928}
-```
+    ```
 
 ---------------------------------------------------------------------------------------------------
 
