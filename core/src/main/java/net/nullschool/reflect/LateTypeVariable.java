@@ -18,6 +18,7 @@ package net.nullschool.reflect;
 
 import net.nullschool.util.ArrayTools;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 
 import static java.util.Objects.requireNonNull;
@@ -151,5 +152,25 @@ public final class LateTypeVariable<D extends GenericDeclaration> implements Typ
      */
     @Override public String toString() {
         return name;
+    }
+
+    @Override
+    public AnnotatedType[] getAnnotatedBounds() {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public Annotation[] getAnnotations() {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public Annotation[] getDeclaredAnnotations() {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }

@@ -130,7 +130,7 @@ final class BasicSortedMapN<K, V> extends BasicConstSortedMap<K, V> {
             if (Objects.equals(value, values[index])) {
                 return this;
             }
-            return new BasicSortedMapN<>(comparator, keys, replace(values, index, value));
+            return new BasicSortedMapN<>(comparator, keys, BasicTools.replace(values, index, value));
         }
         index = flip(index);
         return new BasicSortedMapN<>(comparator, insert(keys, index, key), insert(values, index, value));

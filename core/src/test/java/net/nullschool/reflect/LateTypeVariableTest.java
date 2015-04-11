@@ -69,7 +69,7 @@ public final class LateTypeVariableTest {
             assertEquals(expected.getName(), tv.getName());
             assertEquals(expected.getGenericDeclaration(), tv.getGenericDeclaration());
             assertArrayEquals(expected.getBounds(), tv.getBounds());
-            assertTrue(expected.equals(tv));
+            // assertTrue(expected.equals(tv)); this can never be true because the default Sun/Oracle implementation of TypeVariable.equals() checks .class()
             assertTrue(tv.equals(expected));
             assertEquals(expected.hashCode(), tv.hashCode());
             assertEquals(expected.toString(), tv.toString());

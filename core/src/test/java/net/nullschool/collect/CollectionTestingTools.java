@@ -18,7 +18,6 @@ package net.nullschool.collect;
 
 import java.util.*;
 
-import static java.util.Collections.reverseOrder;
 import static org.junit.Assert.*;
 
 
@@ -44,7 +43,7 @@ public class CollectionTestingTools {
             if (left == null) {
                 return right == null ? 0 : 1;
             }
-            return right == null ? -1 : reverseOrder().compare(left, right);
+            return right == null ? -1 : Collections.reverseOrder().compare(left, right);
         }
         @Override public boolean equals(Object obj) { return obj instanceof NullSafeReverseComparator; }
         @Override public int hashCode() { return 1; }
@@ -402,8 +401,8 @@ public class CollectionTestingTools {
     }
 
     @SafeVarargs
-    public static <X, E> void compare_sorted_sets(SortedSet<X> expectedSet, SortedSet<E> actual, E... rangePoints) {
-        @SuppressWarnings("unchecked") SortedSet<E> expected = (SortedSet<E>)expectedSet;
+    public static <X> void compare_sorted_sets(SortedSet<X> expectedSet, SortedSet<X> actual, X... rangePoints) {
+        SortedSet<X> expected = expectedSet;
         compare_sets(expected, actual);
         assertEquals(expected.comparator(), actual.comparator());
 
@@ -422,7 +421,7 @@ public class CollectionTestingTools {
 
             if (expected.size() > 1) {
                 // Compare the tail sets of everything from the second item onwards.
-                E from = nth(expected, 1);
+                X from = nth(expected, 1);
                 compare_sorted_sets(expected.tailSet(from), actual.tailSet(from));
             }
         }
@@ -548,9 +547,8 @@ public class CollectionTestingTools {
         }
     }
 
-    @SafeVarargs
-    public static <XK, XV, K, V> void compare_sorted_maps(
-        SortedMap<XK, XV> expectedMap,
+    public static <K, V> void compare_sorted_maps(
+        SortedMap<K, V> expectedMap,
         SortedMap<K, V> actual,
         K... rangePoints) {
 

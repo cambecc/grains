@@ -186,7 +186,7 @@ public class BasicConstSortedSetTest {
 
         Comparator<Object> reverse = reverseOrder();
 
-        compare_sorted_sets(emptySortedSet(reverse), asSortedSet(reverse, new Integer[] {}));
+        compare_sorted_sets(BasicCollections.<Integer>emptySortedSet(reverse), asSortedSet(reverse, new Integer[] {}));
         compare_sorted_sets(newSortedSet(reverse, 1), asSortedSet(reverse, new Integer[] {1}));
         compare_sorted_sets(newSortedSet(reverse, 1, 2), asSortedSet(reverse, new Integer[] {1, 2}));
         compare_sorted_sets(newSortedSet(reverse, 1, 2, 3), asSortedSet(reverse, new Integer[] {1, 2, 3}));

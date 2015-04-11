@@ -112,7 +112,7 @@ final class BasicMapN<K, V> extends BasicConstMap<K, V>  {
             if (Objects.equals(value, values[index])) {
                 return this;
             }
-            return new BasicMapN<>(keys, replace(values, index, value));
+            return new BasicMapN<>(keys, BasicTools.replace(values, index, value));
         }
         final int length = keys.length;
         return new BasicMapN<>(insert(keys, length, key), insert(values, length, value));

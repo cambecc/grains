@@ -16,6 +16,7 @@
 
 package net.nullschool.collect.basic;
 
+import net.nullschool.collect.CollectionTestingTools;
 import net.nullschool.collect.ConstSortedMap;
 import net.nullschool.reflect.PublicInterfaceRef;
 import org.junit.Test;
@@ -126,27 +127,27 @@ public class BasicConstSortedMapTest {
 
     @Test
     public void test_sortedMapOf() {
-        compare_sorted_maps(newSortedMap(null, "a", 1), sortedMapOf(null, "a", 1));
-        compare_sorted_maps(newSortedMap(null, "a", 1, "b", 2), sortedMapOf(null, "a", 1, "b", 2));
-        compare_sorted_maps(newSortedMap(null, "a", 1, "b", 2, "c", 3), sortedMapOf(null, "a", 1, "b", 2, "c", 3));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>newSortedMap(null, "a", 1), BasicCollections.sortedMapOf(null, "a", 1));
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>newSortedMap(null, "a", 1, "b", 2), sortedMapOf(null, "a", 1, "b", 2));
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>newSortedMap(null, "a", 1, "b", 2, "c", 3), sortedMapOf(null, "a", 1, "b", 2, "c", 3));
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>
             newSortedMap(null, "a", 1, "b", 2, "c", 3, "d", 4),
             sortedMapOf(null, "a", 1, "b", 2, "c", 3, "d", 4));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>
             newSortedMap(null, "a", 1, "b", 2, "c", 3, "d", 4, "e", 5),
             sortedMapOf(null, "a", 1, "b", 2, "c", 3, "d", 4, "e", 5));
 
         Comparator<Object> reverse = new NullSafeReverseComparator<>();
 
-        compare_sorted_maps(newSortedMap(reverse, "a", 1), sortedMapOf(reverse, "a", 1));
-        compare_sorted_maps(newSortedMap(reverse, "a", 1, "b", 2), sortedMapOf(reverse, "a", 1, "b", 2));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>newSortedMap(reverse, "a", 1), sortedMapOf(reverse, "a", 1));
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>newSortedMap(reverse, "a", 1, "b", 2), sortedMapOf(reverse, "a", 1, "b", 2));
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>
             newSortedMap(reverse, "a", 1, "b", 2, "c", 3),
             sortedMapOf(reverse, "a", 1, "b", 2, "c", 3));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>
             newSortedMap(reverse, "a", 1, "b", 2, "c", 3, "d", 4),
             sortedMapOf(reverse, "a", 1, "b", 2, "c", 3, "d", 4));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>
             newSortedMap(reverse, "a", 1, "b", 2, "c", 3, "d", 4, "e", 5),
             sortedMapOf(reverse, "a", 1, "b", 2, "c", 3, "d", 4, "e", 5));
 
@@ -178,48 +179,48 @@ public class BasicConstSortedMapTest {
     public void test_asSortedMap_array() {
         Integer[] a;
         assertSame(emptySortedMap(null), asSortedMap(null, a = new Integer[] {}, a));
-        compare_sorted_maps(newSortedMap(null, 1, 1), asSortedMap(null, a = new Integer[] {1}, a));
-        compare_sorted_maps(newSortedMap(null, 1, 1, 2, 2), asSortedMap(null, a = new Integer[] {1, 2}, a));
-        compare_sorted_maps(newSortedMap(null, 1, 1, 2, 2, 3, 3), asSortedMap(null, a = new Integer[] {1, 2, 3}, a));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>newSortedMap(null, 1, 1), asSortedMap(null, a = new Integer[] {1}, a));
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>newSortedMap(null, 1, 1, 2, 2), asSortedMap(null, a = new Integer[] {1, 2}, a));
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>newSortedMap(null, 1, 1, 2, 2, 3, 3), asSortedMap(null, a = new Integer[] {1, 2, 3}, a));
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(null, 1, 1, 2, 2, 3, 3, 4, 4),
             asSortedMap(null, a = new Integer[] {1, 2, 3, 4}, a));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(null, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5),
             asSortedMap(null, a = new Integer[] {1, 2, 3, 4, 5}, a));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(null, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6),
             asSortedMap(null, a = new Integer[] {1, 2, 3, 4, 5, 6}, a));
 
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(null, 1, 1, 2, 2),
             asSortedMap(null, new Integer[] {1, 2}, new Integer[] {1, 2, 3}));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(null, 1, 1, 2, 2),
             asSortedMap(null, new Integer[] {1, 2, 3}, new Integer[] {1, 2}));
 
         Comparator<Object> reverse = reverseOrder();
 
-        compare_sorted_maps(emptySortedMap(reverse), asSortedMap(reverse, a = new Integer[] {}, a));
-        compare_sorted_maps(newSortedMap(reverse, 1, 1), asSortedMap(reverse, a = new Integer[] {1}, a));
-        compare_sorted_maps(newSortedMap(reverse, 1, 1, 2, 2), asSortedMap(reverse, a = new Integer[] {1, 2}, a));
-        compare_sorted_maps(
+        compare_sorted_maps(BasicCollections.<Integer, Integer>emptySortedMap(reverse), BasicCollections.asSortedMap(reverse, a = new Integer[]{}, a));
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>newSortedMap(reverse, 1, 1), asSortedMap(reverse, a = new Integer[] {1}, a));
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>newSortedMap(reverse, 1, 1, 2, 2), asSortedMap(reverse, a = new Integer[] {1, 2}, a));
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(reverse, 1, 1, 2, 2, 3, 3),
             asSortedMap(reverse, a = new Integer[] {1, 2, 3}, a));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(reverse, 1, 1, 2, 2, 3, 3, 4, 4),
             asSortedMap(reverse, a = new Integer[] {1, 2, 3, 4}, a));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(reverse, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5),
             asSortedMap(reverse, a = new Integer[] {1, 2, 3, 4, 5}, a));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(reverse, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6),
             asSortedMap(reverse, a = new Integer[] {1, 2, 3, 4, 5, 6}, a));
 
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(reverse, 1, 1, 2, 2),
             asSortedMap(reverse, new Integer[] {1, 2}, new Integer[] {1, 2, 3}));
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<Integer, Integer>
             newSortedMap(reverse, 1, 1, 2, 2),
             asSortedMap(reverse, new Integer[] {1, 2, 3}, new Integer[] {1, 2}));
     }
@@ -326,10 +327,10 @@ public class BasicConstSortedMapTest {
 
         // Calling asSortedMap with a sorted map but different comparator should change the order, and even the size.
         ConstSortedMap<String, Integer> names = sortedMapOf(reverse, "a", 1, "B", 2, "b", 3, "c", 4, "C", 5);
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>
             newSortedMap(reverse, "c", 4, "b", 3, "a", 1, "C", 5, "B", 2),  // before
             names);
-        compare_sorted_maps(
+        compare_sorted_maps(CollectionTestingTools.<String, Integer>
             newSortedMap(CASE_INSENSITIVE_ORDER, "a", 1, "b", 2, "c", 5), // after
             asSortedMap(CASE_INSENSITIVE_ORDER, names));
     }

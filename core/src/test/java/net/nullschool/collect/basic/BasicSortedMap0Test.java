@@ -129,7 +129,7 @@ public class BasicSortedMap0Test {
 
         ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data));
 
-        ConstSortedMap<?, ?> read = (ConstSortedMap)in.readObject();
+        ConstSortedMap<Object, Object> read = (ConstSortedMap)in.readObject();
         compare_sorted_maps(map, read);
         assertSame(map.getClass(), read.getClass());
     }

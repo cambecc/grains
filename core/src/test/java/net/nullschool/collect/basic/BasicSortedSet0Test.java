@@ -16,6 +16,7 @@
 
 package net.nullschool.collect.basic;
 
+import net.nullschool.collect.CollectionTestingTools;
 import net.nullschool.collect.ConstSortedSet;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class BasicSortedSet0Test {
 
     @Test
     public void test_comparison() {
-        compare_sorted_sets(newSortedSet(null), BasicSortedSet0.instance(null), -1, 0, 1, 0);
+        compare_sorted_sets(CollectionTestingTools.<Integer>newSortedSet(null), BasicSortedSet0.<Integer>instance(null), -1, 0, 1, 0);
         compare_sorted_sets(newSortedSet(reverseOrder()), BasicSortedSet0.instance(reverseOrder()), 1, 0, -1, 0);
     }
 
@@ -50,8 +51,8 @@ public class BasicSortedSet0Test {
 
     @Test
     public void test_with() {
-        compare_sorted_sets(newSortedSet(null, 1), BasicSortedSet0.instance(null).with(1));
-        compare_sorted_sets(newSortedSet(reverseOrder(), 1), BasicSortedSet0.instance(reverseOrder()).with(1));
+        compare_sorted_sets(newSortedSet(null, 1), BasicSortedSet0.<Integer>instance(null).with(1));
+        compare_sorted_sets(newSortedSet(reverseOrder(), 1), BasicSortedSet0.<Integer>instance(reverseOrder()).with(1));
     }
 
     @Test
@@ -128,7 +129,7 @@ public class BasicSortedSet0Test {
 
         ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data));
 
-        ConstSortedSet<?> read = (ConstSortedSet)in.readObject();
+        ConstSortedSet<Object> read = (ConstSortedSet)in.readObject();
         compare_sorted_sets(set, read);
         assertSame(set.getClass(), read.getClass());
     }
