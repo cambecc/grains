@@ -32,7 +32,8 @@ final class JacksonGrainProperty implements BeanProperty {  // UNDONE: Serializa
         try {
             String getterName = (prop.getFlags().contains(IS_PROPERTY) ? "is" : "get") + capitalize(prop.getName());
             // UNDONE: annotations
-            this.member = new AnnotatedMethod(grainClass.getMethod(getterName), new AnnotationMap(), EMPTY);
+            AnnotatedClass annotatedClass = AnnotatedClass.construct(grainClass, new GrainsAnnotationIntrospector(), null);
+            this.member = new AnnotatedMethod(annotatedClass, grainClass.getMethod(getterName), new AnnotationMap(), EMPTY);
         }
         catch (NoSuchMethodException e) {
             throw new IllegalArgumentException(e);
@@ -43,12 +44,22 @@ final class JacksonGrainProperty implements BeanProperty {  // UNDONE: Serializa
         return name;
     }
 
+    @Override
+    public PropertyName getFullName() {
+        return new PropertyName(name);
+    }
+
     @Override public JavaType getType() {
         return type;
     }
 
     @Override public PropertyName getWrapperName() {
         return null;
+    }
+
+    @Override
+    public PropertyMetadata getMetadata() {
+        return PropertyMetadata.STD_REQUIRED_OR_OPTIONAL;
     }
 
     @Override public boolean isRequired() {
