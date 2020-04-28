@@ -58,11 +58,7 @@ public class JacksonTest {
         byte[] data = mapper.writeValueAsBytes(expected);
 
         assertEquals(
-            ":)a1fa80a#80bc280cc480dc480ec680f&810180g(3|00080h)1?x000000080i*80815080j@a80kDhello80lc1bd31d6" +
-                "6-eda2-4395-a2a7-510bd581e3ab80mThttp://nullschool.net80oDgreen80pfa81idc2fb80qf8c2c4f980rf8" +
-                "faOc2fbfaOc4fbf980sf8c4c6f980tf8faOc4fbfaOc6fbf980uf8@a@bf980vf8faOc8fbfaOcafbf980wfa@c2Ac4f" +
-                "b80xfa@faOccfbAfaOcefbfb80yf8@x@yf980zfa801faOd0fb802faOd2fbfb81zafa@f8f8faOc2fbfaOc4fbf9f9f" +
-                "b81zbf8f8@a@bf9f8@c@df9f9fb",
+            ":)a1fa80a#80bc280cc480dc480ec680f&810180g(3|00080h)1?x000000080i*80815080j@a80kDhello80le890dtcV76DCJhTu8/+1qj380mThttp://nullschool.net80oDgreen80pfa81idc2fb80qf8c2c4f980rf8faOc2fbfaOc4fbf980sf8c4c6f980tf8faOc4fbfaOc6fbf980uf8@a@bf980vf8faOc8fbfaOcafbf980wfa@c2Ac4fb80xfa@faOccfbAfaOcefbfb80yf8@x@yf980zfa801faOd0fb802faOd2fbfb81zafa@f8f8faOc2fbfaOc4fbf9f9fb81zbf8f8@a@bf9f8@c@df9f9fb",
             BasicToolsTest.asReadableString(data));
 
         CompleteGrain actual = mapper.readValue(data, CompleteGrain.class);

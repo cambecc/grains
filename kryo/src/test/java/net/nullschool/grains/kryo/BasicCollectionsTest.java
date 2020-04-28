@@ -53,7 +53,7 @@ public class BasicCollectionsTest {
             kryo.addDefaultSerializer(Comparator.class, new ComparatorSerializer());
             Object obj = roundTrip(set, baos, kryo, kryo);
             assertTrue(obj instanceof ConstSortedSet);
-            CollectionTestingTools.compare_sorted_sets(set, (ConstSortedSet<?>)obj);
+            CollectionTestingTools.compare_sorted_sets(set, (ConstSortedSet<Integer>)obj);
             set = set.with(i);
         }
 
@@ -64,7 +64,7 @@ public class BasicCollectionsTest {
             kryo.addDefaultSerializer(Comparator.class, new ComparatorSerializer());
             Object obj = roundTrip(set, baos, kryo, kryo);
             assertTrue(obj instanceof ConstSortedSet);
-            CollectionTestingTools.compare_sorted_sets(set, (ConstSortedSet<?>)obj);
+            CollectionTestingTools.compare_sorted_sets(set, (ConstSortedSet<Integer>)obj);
             set = set.with(i);
         }
     }
@@ -90,7 +90,7 @@ public class BasicCollectionsTest {
             kryo.addDefaultSerializer(Comparator.class, new ComparatorSerializer());
             Object obj = roundTrip(map, baos, kryo, kryo);
             assertTrue(obj instanceof ConstSortedMap);
-            CollectionTestingTools.compare_sorted_maps(map, (ConstSortedMap<?, ?>)obj);
+            CollectionTestingTools.compare_sorted_maps(map, (ConstSortedMap<Integer, Integer>)obj);
             map = map.with(i, i);
         }
 
@@ -101,7 +101,7 @@ public class BasicCollectionsTest {
             kryo.addDefaultSerializer(Comparator.class, new ComparatorSerializer());
             Object obj = roundTrip(map, baos, kryo, kryo);
             assertTrue(obj instanceof ConstSortedMap);
-            CollectionTestingTools.compare_sorted_maps(map, (ConstSortedMap<?, ?>)obj);
+            CollectionTestingTools.compare_sorted_maps(map, (ConstSortedMap<Integer, Integer>)obj);
             map = map.with(i, i);
         }
     }

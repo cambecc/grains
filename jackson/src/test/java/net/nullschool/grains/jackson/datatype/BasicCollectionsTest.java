@@ -64,7 +64,7 @@ public class BasicCollectionsTest {
         for (int i = 0; i < 10; i++) {
             ObjectMapper mapper = newGrainsObjectMapper();
             byte[] data = mapper.writeValueAsBytes(set);
-            ConstSortedSet<?> actual = mapper.readValue(data, new TypeReference<ConstSortedSet<Integer>>(){});
+            ConstSortedSet<Integer> actual = mapper.readValue(data, new TypeReference<ConstSortedSet<Integer>>(){});
             CollectionTestingTools.compare_sorted_sets(set, actual);
             set = set.with(i);
         }
@@ -88,7 +88,7 @@ public class BasicCollectionsTest {
         for (int i = 0; i < 5; i++) {
             ObjectMapper mapper = newGrainsObjectMapper();
             byte[] data = mapper.writeValueAsBytes(map);
-            ConstSortedMap<?, ?> actual =
+            ConstSortedMap<String, Integer> actual =
                 mapper.readValue(data, new TypeReference<ConstSortedMap<String, Integer>>(){});
             CollectionTestingTools.compare_sorted_maps(map, actual);
             map = map.with(String.valueOf(i), i);

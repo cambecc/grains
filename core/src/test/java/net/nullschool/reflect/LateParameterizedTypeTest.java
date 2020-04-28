@@ -83,14 +83,14 @@ public final class LateParameterizedTypeTest {
             new JavaToken<Outer<Byte>.Inner0>(){}.asParameterizedType(),
             new LateParameterizedType(
                 Outer.Inner0.class,
-                new LateParameterizedType(Outer.class, null, Byte.class)));
+                new LateParameterizedType(Outer.class, null, Byte.class)), IgnoreFlag.ToString);
 
         compare(
             new JavaToken<Outer<Byte>.Inner1<Long>>(){}.asParameterizedType(),
             new LateParameterizedType(
                 Outer.Inner1.class,
                 new LateParameterizedType(Outer.class, null, Byte.class),
-                Long.class));
+                Long.class), IgnoreFlag.ToString);
     }
 
     @Test

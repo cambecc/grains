@@ -64,7 +64,7 @@ public class BasicCollectionsTest {
         for (int i = 0; i < 10; i++) {
             MessagePack msgpack = newGrainsMessagePack();
             byte[] data = msgpack.write(set);
-            ConstSortedSet<?> actual = msgpack.read(data, ConstSortedSet.class);
+            ConstSortedSet<Integer> actual = msgpack.read(data, ConstSortedSet.class);
             CollectionTestingTools.compare_sorted_sets(set, actual);
             set = set.with(i);
         }
@@ -88,7 +88,7 @@ public class BasicCollectionsTest {
         for (int i = 0; i < 5; i++) {
             MessagePack msgpack = newGrainsMessagePack();
             byte[] data = msgpack.write(map);
-            ConstSortedMap<?, ?> actual = msgpack.read(data, ConstSortedMap.class);
+            ConstSortedMap<Integer, Integer> actual = msgpack.read(data, ConstSortedMap.class);
             CollectionTestingTools.compare_sorted_maps(map, actual);
             map = map.with(i, i);
         }

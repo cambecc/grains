@@ -72,7 +72,7 @@ class GrainSerializer extends StdSerializer<Grain> implements ResolvableSerializ
         }
         List<PropertyWriter> writers = new ArrayList<>();
         for (GrainProperty gp : factory.getBasisProperties().values()) {
-            JacksonGrainProperty prop = new JacksonGrainProperty(gp, provider.getTypeFactory(), handledType());
+            JacksonGrainProperty prop = new JacksonGrainProperty(gp, provider.getTypeFactory(), handledType(), provider.getConfig());
             JsonSerializer<Object> serializer = provider.findValueSerializer(prop.getType(), prop);
 
             writers.add(new PropertyWriter(prop.getName(), serializer));

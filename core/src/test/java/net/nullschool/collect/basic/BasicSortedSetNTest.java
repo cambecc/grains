@@ -26,9 +26,9 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
+import static java.util.Collections.reverseOrder;
 import static net.nullschool.collect.CollectionTestingTools.*;
-import static java.util.Collections.*;
+import static org.junit.Assert.*;
 
 
 /**
@@ -42,11 +42,11 @@ public class BasicSortedSetNTest {
     public void test_comparison() {
         compare_sorted_sets(
             newSortedSet(null, 1, 2, 3, 5, 6, 7),
-            new BasicSortedSetN<>(null, new Object[] {1, 2, 3, 5, 6, 7}),
+            new BasicSortedSetN<Integer>(null, new Object[] {1, 2, 3, 5, 6, 7}),
             0, 2, 4, 6, 8, 1, 7);
         compare_sorted_sets(
             newSortedSet(reverseOrder(), 7, 6, 5, 3, 2, 1),
-            new BasicSortedSetN<>(reverseOrder(), new Object[] {7, 6, 5, 3, 2, 1}),
+            new BasicSortedSetN<Integer>(reverseOrder(), new Object[] {7, 6, 5, 3, 2, 1}),
             8, 6, 4, 2, 0, 7, 1);
     }
 
@@ -154,7 +154,7 @@ public class BasicSortedSetNTest {
 
         ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data));
 
-        ConstSortedSet<?> read = (ConstSortedSet)in.readObject();
+        ConstSortedSet<String> read = (ConstSortedSet)in.readObject();
         compare_sorted_sets(set, read);
         assertSame(set.getClass(), read.getClass());
     }
@@ -175,7 +175,7 @@ public class BasicSortedSetNTest {
 
         ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data));
 
-        ConstSortedSet<?> read = (ConstSortedSet)in.readObject();
+        ConstSortedSet<String> read = (ConstSortedSet)in.readObject();
         compare_sorted_sets(set, read);
         assertSame(set.getClass(), read.getClass());
     }

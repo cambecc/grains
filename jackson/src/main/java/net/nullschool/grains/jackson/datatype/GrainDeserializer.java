@@ -65,7 +65,7 @@ class GrainDeserializer extends StdDeserializer<Grain> implements ResolvableDese
 
     @Override public void resolve(DeserializationContext ctxt) throws JsonMappingException {
         for (GrainProperty gp : factory.getBasisProperties().values()) {
-            JacksonGrainProperty prop = new JacksonGrainProperty(gp, ctxt.getTypeFactory(), getValueClass());
+            JacksonGrainProperty prop = new JacksonGrainProperty(gp, ctxt.getTypeFactory(), getValueClass(), ctxt.getConfig());
             JsonDeserializer<?> deserializer = ctxt.findContextualValueDeserializer(prop.getType(), prop);
 
             readers.put(prop.getName(), new PropertyReader(deserializer));

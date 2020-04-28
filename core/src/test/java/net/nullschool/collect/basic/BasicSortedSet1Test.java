@@ -26,9 +26,9 @@ import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
+import static java.util.Collections.reverseOrder;
 import static net.nullschool.collect.CollectionTestingTools.*;
-import static java.util.Collections.*;
+import static org.junit.Assert.*;
 
 /**
  * 2013-04-25<p/>
@@ -39,8 +39,8 @@ public class BasicSortedSet1Test {
 
     @Test
     public void test_comparison() {
-        compare_sorted_sets(newSortedSet(null, 1), new BasicSortedSet1<>(null, 1), 0, 1, 1, 2, 0);
-        compare_sorted_sets(newSortedSet(reverseOrder(), 1), new BasicSortedSet1<>(reverseOrder(), 1), 2, 1, 1, 0, 2);
+        compare_sorted_sets(newSortedSet(null, 1), new BasicSortedSet1<Integer>(null, 1), 0, 1, 1, 2, 0);
+        compare_sorted_sets(newSortedSet(reverseOrder(), 1), new BasicSortedSet1<Integer>(reverseOrder(), 1), 2, 1, 1, 0, 2);
     }
 
     @Test
@@ -86,11 +86,11 @@ public class BasicSortedSet1Test {
         ConstSortedSet<Integer> set;
 
         set = new BasicSortedSet1<>(null, 1);
-        compare_sorted_sets(BasicSortedSet0.instance(null), set.without(1));
+        compare_sorted_sets(BasicSortedSet0.<Integer>instance(null), set.without(1));
         assertSame(set, set.without(2));
 
         set = new BasicSortedSet1<>(reverseOrder(), 1);
-        compare_sorted_sets(BasicSortedSet0.instance(reverseOrder()), set.without(1));
+        compare_sorted_sets(BasicSortedSet0.<Integer>instance(reverseOrder()), set.without(1));
         assertSame(set, set.without(2));
     }
 
@@ -99,14 +99,14 @@ public class BasicSortedSet1Test {
         ConstSortedSet<Integer> set;
 
         set = new BasicSortedSet1<>(null, 1);
-        compare_sorted_sets(BasicSortedSet0.instance(null), set.withoutAll(Arrays.asList(1)));
-        compare_sorted_sets(BasicSortedSet0.instance(null), set.withoutAll(Arrays.asList(2, 1)));
+        compare_sorted_sets(BasicSortedSet0.<Integer>instance(null), set.withoutAll(Arrays.asList(1)));
+        compare_sorted_sets(BasicSortedSet0.<Integer>instance(null), set.withoutAll(Arrays.asList(2, 1)));
         assertSame(set, set.withoutAll(Arrays.asList(2)));
         assertSame(set, set.withoutAll(Arrays.asList()));
 
         set = new BasicSortedSet1<>(reverseOrder(), 1);
-        compare_sorted_sets(BasicSortedSet0.instance(reverseOrder()), set.withoutAll(Arrays.asList(1)));
-        compare_sorted_sets(BasicSortedSet0.instance(reverseOrder()), set.withoutAll(Arrays.asList(2, 1)));
+        compare_sorted_sets(BasicSortedSet0.<Integer>instance(reverseOrder()), set.withoutAll(Arrays.asList(1)));
+        compare_sorted_sets(BasicSortedSet0.<Integer>instance(reverseOrder()), set.withoutAll(Arrays.asList(2, 1)));
         assertSame(set, set.withoutAll(Arrays.asList(2)));
         assertSame(set, set.withoutAll(Arrays.asList()));
     }
@@ -131,7 +131,7 @@ public class BasicSortedSet1Test {
 
         ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data));
 
-        ConstSortedSet<?> read = (ConstSortedSet)in.readObject();
+        ConstSortedSet<Integer> read = (ConstSortedSet)in.readObject();
         compare_sorted_sets(set, read);
         assertSame(set.getClass(), read.getClass());
     }
@@ -152,7 +152,7 @@ public class BasicSortedSet1Test {
 
         ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data));
 
-        ConstSortedSet<?> read = (ConstSortedSet)in.readObject();
+        ConstSortedSet<Integer> read = (ConstSortedSet)in.readObject();
         compare_sorted_sets(set, read);
         assertSame(set.getClass(), read.getClass());
     }
